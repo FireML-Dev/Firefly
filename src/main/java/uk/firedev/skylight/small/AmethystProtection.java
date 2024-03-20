@@ -40,7 +40,7 @@ public class AmethystProtection implements ICommand, Listener {
             return false;
         }
         PersistentDataContainer pdc = player.getPersistentDataContainer();
-        if (pdc.getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false)) {
+        if (isDisabled(player)) {
             pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
             MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.enabled");
         } else {
@@ -73,6 +73,10 @@ public class AmethystProtection implements ICommand, Listener {
                 MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.protected");
             }
         }
+    }
+
+    public boolean isDisabled(Player player) {
+        return player.getPersistentDataContainer().getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
     }
 
 }

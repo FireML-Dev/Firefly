@@ -5,6 +5,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.skylight.chat.titles.TitleManager;
+import uk.firedev.skylight.small.AmethystProtection;
 
 public class PlaceholderReceiver extends PlaceholderExpansion {
 
@@ -31,6 +32,7 @@ public class PlaceholderReceiver extends PlaceholderExpansion {
         return switch (identifier) {
             case "player_prefix" -> TitleManager.getInstance().getPlayerPrefixLegacy(player);
             case "player_suffix" -> TitleManager.getInstance().getPlayerSuffixLegacy(player);
+            case "amethyst_protected" -> String.valueOf(!AmethystProtection.getInstance().isDisabled(player));
             default -> null;
         };
     }
