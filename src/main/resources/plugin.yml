@@ -15,4 +15,5 @@ commands:
     permission: skylight.command.elevator
   title:
     description: "Manage Titles"
-    permission: skylight.command.title
+  amethystprotect:
+    description: "Protects Amethyst"

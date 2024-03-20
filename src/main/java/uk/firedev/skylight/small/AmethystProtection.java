@@ -1,5 +1,6 @@
 package uk.firedev.skylight.small;
 
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -41,10 +42,10 @@ public class AmethystProtection implements ICommand, Listener {
         PersistentDataContainer pdc = player.getPersistentDataContainer();
         if (pdc.getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false)) {
             pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.disabled");
+            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.enabled");
         } else {
             pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.enabled");
+            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.disabled");
         }
         return true;
     }
@@ -60,9 +61,12 @@ public class AmethystProtection implements ICommand, Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
+        if (event.getBlock().getType() != Material.BUDDING_AMETHYST) {
+            return;
+        }
         Player player = event.getPlayer();
         PersistentDataContainer pdc = player.getPersistentDataContainer();
-        if (pdc.getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false)) {
+        if (!pdc.getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false)) {
             event.setCancelled(true);
             if (!warned.contains(player.getUniqueId())) {
                 warned.add(player.getUniqueId());
