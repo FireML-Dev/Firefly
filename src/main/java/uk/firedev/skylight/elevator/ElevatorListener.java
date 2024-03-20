@@ -58,6 +58,9 @@ public class ElevatorListener implements Listener {
 
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent event) {
+        if (event.isSneaking()) {
+            return;
+        }
         Player player = event.getPlayer();
         Location stepLoc = event.getPlayer().getLocation().add(0D, -1D, 0D);
         Elevator elevator = new Elevator(stepLoc);
