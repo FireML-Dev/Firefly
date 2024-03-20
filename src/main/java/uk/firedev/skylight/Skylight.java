@@ -5,6 +5,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import uk.firedev.skylight.chat.titles.TitleManager;
+import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.config.ModuleConfig;
@@ -27,11 +28,14 @@ public final class Skylight extends JavaPlugin {
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         ModuleConfig.getInstance().reload();
+        GUIConfig.getInstance().reload();
 
         // Load Vault - Stop loading if VaultManager has an issue
         if (!VaultManager.getInstance().reload()) {
             return;
         }
+
+        new SkylightCommand().registerCommand("skylight", this);
 
         SmallManager.getInstance().load();
 
@@ -55,6 +59,17 @@ public final class Skylight extends JavaPlugin {
 
     @Override
     public void onDisable() {}
+
+    public void reload() {
+        MainConfig.getInstance().reload();
+        MessageConfig.getInstance().reload();
+        ModuleConfig.getInstance().reload();
+        GUIConfig.getInstance().reload();
+        VaultManager.getInstance().reload();
+        ElevatorManager.getInstance().reload();
+        TitleManager.getInstance().reload();
+        SmallManager.getInstance().reload();
+    }
 
     public static Skylight getInstance() { return instance; }
 

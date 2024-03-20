@@ -10,10 +10,17 @@ softdepend:
   - PlaceholderAPI
   - CMI
 commands:
+  skylight:
+    description: "Manage the Plugin"
+    permission: skylight.command.main
   elevator:
     description: "Manage Elevators"
     permission: skylight.command.elevator
-  title:
-    description: "Manage Titles"
+  prefix:
+    description: "Manage Prefix"
+    permission: skylight.command.prefix
+  suffix:
+    description: "Manage Suffix"
+    permission: skylight.command.suffix
   amethystprotect:
     description: "Protects Amethyst"

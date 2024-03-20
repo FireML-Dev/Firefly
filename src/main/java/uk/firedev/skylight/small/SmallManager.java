@@ -11,6 +11,7 @@ public class SmallManager {
     private static SmallManager instance = null;
 
     private final Skylight plugin;
+    private boolean loaded = false;
 
     private SmallManager() {
         plugin = Skylight.getInstance();
@@ -23,12 +24,19 @@ public class SmallManager {
         return instance;
     }
 
+    public void reload() {
+        if (!loaded) {
+            return;
+        }
+    }
+
     public void load() {
         if (ModuleConfig.getInstance().amethystProtectionModuleEnabled()) {
             AmethystProtection.getInstance().registerCommand("amethystprotect", plugin);
             plugin.getServer().getPluginManager().registerEvents(AmethystProtection.getInstance(), plugin);
             Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Amethyst Protection Module.");
         }
+        loaded = true;
     }
 
 }

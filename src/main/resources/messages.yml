@@ -1,11 +1,18 @@
 messages:
+  prefix: "<gray>[Skylight]</gray> "
+  reloaded: "<color:#F0E68C>Successfully reloaded the plugin"
+  title:
+    prefix-set: "<color:#F0E68C>Applied Prefix {prefix}.</color>"
+    prefix-removed: "<red>Removed Current Prefix.</red>"
+    suffix-set: "<color:#F0E68C>Applied Suffix {suffix}.</color>"
+    suffix-removed: "<red>Removed Current Suffix.</red>"
   elevator:
     command:
       block-given: "<color:#F0E68C>Given you an Elevator Block!</color>"
       unregistered-elevator: "<color:#F0E68C>Successfully removed elevator data from this block.</color>"
       not-an-elevator: "<red>This block is not an elevator!</red>"
-    unsafe-location: "<red>The target elevator is unsafe!"
-    teleport-fail: "<red>Failed to teleport. Please try again!"
+    unsafe-location: "<red>The target elevator is unsafe!</red>"
+    teleport-fail: "<red>Failed to teleport. Please try again!</red>"
   amethyst-protection:
     enabled: "<color:#F0E68C>Enabled Amethyst Protection</color>"
     disabled: "<color:#F0E68C>Disabled Amethyst Protection</color>"

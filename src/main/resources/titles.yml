@@ -1,0 +1,11 @@
+titles:
+  prefixes:
+    example:
+      display: "<rainbow>Example</rainbow>"
+      permission: "skylight.prefix.example"
+      icon:
+        material: ENDER_EYE
+        display: "<yellow>Equip Prefix</yellow> {display}"
+        lore:
+          - "<color:#F0E68C>Unlocked by coding this plugin</color>"
+  suffixes: []

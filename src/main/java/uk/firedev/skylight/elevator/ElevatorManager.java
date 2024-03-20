@@ -33,6 +33,7 @@ public class ElevatorManager {
 
     private static ElevatorManager instance;
     private final Skylight plugin;
+    private boolean loaded = false;
 
     private ElevatorManager() {
         plugin = Skylight.getInstance();
@@ -50,6 +51,13 @@ public class ElevatorManager {
         pm.registerEvents(new ElevatorListener(), this.plugin);
         new ElevatorCommand().registerCommand("elevator", this.plugin);
         registerRecipe();
+        loaded = true;
+    }
+
+    public void reload() {
+        if (!loaded) {
+            return;
+        }
     }
 
     public Component getBossBarTitle(Elevator elevator) {

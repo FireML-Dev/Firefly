@@ -6,27 +6,20 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.ICommand;
+import uk.firedev.skylight.chat.titles.gui.PrefixGUI;
+import uk.firedev.skylight.chat.titles.gui.SuffixGUI;
 
 import java.util.List;
 
-public class TitleCommand implements ICommand {
+public class SuffixCommand implements ICommand {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
             return false;
         }
-        switch (args.length) {
-            case 1 -> {
-                switch (args[0]) {
-                    case "apply" -> {
-                        TitleManager.getInstance().setPlayerPrefix(player, "<rainbow>Your Fancy Prefix</rainbow>");
-                        player.sendMessage("Title Updated");
-                    }
-                }
-            }
-        }
-        return false;
+        new SuffixGUI(player).open();
+        return true;
     }
 
     @Override
