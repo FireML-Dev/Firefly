@@ -168,14 +168,4 @@ public class ElevatorManager {
         }
     }
 
-    public void migrateElevators(Block source, List<Block> blocks, BlockFace direction) {
-        List<Block> sortedBlocks = new ArrayList<>(blocks);
-        sortedBlocks.sort(Comparator.comparingDouble(block -> block.getLocation().distance(source.getLocation())));
-        Collections.reverse(sortedBlocks);
-        sortedBlocks.forEach(block -> {
-            Block relative = block.getRelative(direction);
-            ElevatorManager.getInstance().migrateElevator(block, relative);
-        });
-    }
-
 }

@@ -99,10 +99,20 @@ public class ElevatorListener implements Listener {
     // BLOCK HANDLING
 
     @EventHandler
-    public void onPistonExtend(BlockPistonExtendEvent event) { ElevatorManager.getInstance().migrateElevators(event.getBlock(), event.getBlocks(), event.getDirection()); }
+    public void onPistonExtend(BlockPistonExtendEvent event) {
+        List<Elevator> elevators = event.getBlocks().stream().map(Elevator::new).filter(Elevator::isElevator).toList();
+        if (!elevators.isEmpty()) {
+            event.setCancelled(true);
+        }
+    }
 
     @EventHandler
-    public void onPistonRetract(BlockPistonRetractEvent event) { ElevatorManager.getInstance().migrateElevators(event.getBlock(), event.getBlocks(), event.getDirection()); }
+    public void onPistonRetract(BlockPistonRetractEvent event) {
+        List<Elevator> elevators = event.getBlocks().stream().map(Elevator::new).filter(Elevator::isElevator).toList();
+        if (!elevators.isEmpty()) {
+            event.setCancelled(true);
+        }
+    }
 
     @EventHandler
     public void onFall(EntityChangeBlockEvent event) {
