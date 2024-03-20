@@ -94,7 +94,7 @@ public class ElevatorManager {
             System.out.println("Elevator is null");
             return;
         }
-        Location location = elevator.getTPLocation().toCenterLocation();
+        Location location = elevator.getTPLocation();
         location.setYaw(player.getYaw());
         location.setPitch(player.getPitch());
         if (!location.getBlock().isPassable()) {

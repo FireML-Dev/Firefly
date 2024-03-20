@@ -46,7 +46,7 @@ public class Elevator {
         return location;
     }
 
-    public Location getTPLocation() { return location.add(0D, 1D, 0D); }
+    public Location getTPLocation() { return location.toCenterLocation().add(0D, 0.5D, 0D); }
 
     public boolean isElevator() {
         return getStack().contains(String.valueOf(location.getBlock().getY()));
