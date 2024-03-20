@@ -5,10 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import uk.firedev.daisylib.builders.ItemBuilder;
-import uk.firedev.daisylib.libs.themoep.inventorygui.DynamicGuiElement;
-import uk.firedev.daisylib.libs.themoep.inventorygui.GuiElementGroup;
-import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
-import uk.firedev.daisylib.libs.themoep.inventorygui.StaticGuiElement;
+import uk.firedev.daisylib.libs.themoep.inventorygui.*;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.chat.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
@@ -65,6 +62,26 @@ public class PrefixGUI implements GUIBase {
                     gui.close();
                     return true;
                 })
+        );
+
+        gui.addElement(new GuiPageElement('f',
+                GUIConfig.getInstance().getFirstPageButton(),
+                GuiPageElement.PageAction.FIRST)
+        );
+
+        gui.addElement(new GuiPageElement('p',
+                GUIConfig.getInstance().getPreviousPageButton(),
+                GuiPageElement.PageAction.PREVIOUS)
+        );
+
+        gui.addElement(new GuiPageElement('n',
+                GUIConfig.getInstance().getNextPageButton(),
+                GuiPageElement.PageAction.NEXT)
+        );
+
+        gui.addElement(new GuiPageElement('l',
+                GUIConfig.getInstance().getLastPageButton(),
+                GuiPageElement.PageAction.LAST)
         );
 
     }
