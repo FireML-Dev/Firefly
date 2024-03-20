@@ -1,0 +1,4 @@
+modules:
+  elevator: true
+  titles: true
+  amethyst-protect: true
