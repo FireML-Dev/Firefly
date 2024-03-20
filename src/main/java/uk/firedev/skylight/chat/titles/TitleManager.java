@@ -97,7 +97,7 @@ public class TitleManager extends Config {
     }
 
     public String getPlayerPrefixLegacy(@NotNull Player player) {
-        return LegacyComponentSerializer.legacySection().serialize(getPlayerPrefix(player));
+        return LegacyComponentSerializer.legacySection().serialize(getPlayerPrefix(player)).replace('&', '§');
     }
 
     public void setPlayerSuffix(@NotNull Player player, Suffix suffix) {
@@ -134,7 +134,7 @@ public class TitleManager extends Config {
     }
 
     public String getPlayerSuffixLegacy(@NotNull Player player) {
-        return LegacyComponentSerializer.legacySection().serialize(getPlayerSuffix(player));
+        return LegacyComponentSerializer.legacySection().serialize(getPlayerSuffix(player)).replace('&', '§');
     }
 
     public List<Prefix> getPrefixesFromFile() {
