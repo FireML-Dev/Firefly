@@ -31,7 +31,7 @@ public final class Skylight extends JavaPlugin {
         GUIConfig.getInstance().reload();
 
         // Load Vault - Stop loading if VaultManager has an issue
-        if (!VaultManager.getInstance().reload()) {
+        if (!VaultManager.getInstance().load()) {
             return;
         }
 
@@ -65,7 +65,6 @@ public final class Skylight extends JavaPlugin {
         MessageConfig.getInstance().reload();
         ModuleConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
-        VaultManager.getInstance().reload();
         ElevatorManager.getInstance().reload();
         TitleManager.getInstance().reload();
         SmallManager.getInstance().reload();

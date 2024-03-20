@@ -34,7 +34,7 @@ public class VaultManager {
 
     public static Chat getChat() { return chat; }
 
-    public boolean reload() {
+    public boolean load() {
         if (!setupEconomy()) {
             Loggers.log(Level.WARNING, plugin.getLogger(), "Vault Economy not found. Disabling Skylight.");
             plugin.getServer().getPluginManager().disablePlugin(plugin);
