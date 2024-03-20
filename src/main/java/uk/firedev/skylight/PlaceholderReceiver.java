@@ -29,8 +29,8 @@ public class PlaceholderReceiver extends PlaceholderExpansion {
             return null;
         }
         return switch (identifier) {
-            case "player_prefix" -> TitleManager.getInstance().getPlayerPrefix(player);
-            case "player_suffix" -> TitleManager.getInstance().getPlayerSuffix(player);
+            case "player_prefix" -> TitleManager.getInstance().getPlayerPrefixLegacy(player);
+            case "player_suffix" -> TitleManager.getInstance().getPlayerSuffixLegacy(player);
             default -> null;
         };
     }

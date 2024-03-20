@@ -1,10 +1,13 @@
 package uk.firedev.skylight.chat.titles;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.VaultManager;
@@ -31,7 +34,7 @@ public class TitleManager {
     }
 
     public NamespacedKey getSuffixKey() {
-        return ObjectUtils.createNamespacedKey("player-prefix", Skylight.getInstance());
+        return ObjectUtils.createNamespacedKey("player-suffix", Skylight.getInstance());
     }
 
     public void setPlayerPrefix(@NotNull Player player, String prefix) {
@@ -42,10 +45,15 @@ public class TitleManager {
         }
     }
 
-    public String getPlayerPrefix(@NotNull Player player) {
-        return player.getPersistentDataContainer().getOrDefault(
+    public Component getPlayerPrefix(@NotNull Player player) {
+        String prefix = player.getPersistentDataContainer().getOrDefault(
                 getPrefixKey(), PersistentDataType.STRING, VaultManager.getChat().getPlayerPrefix(player)
         );
+        return ComponentUtils.parseComponent(prefix);
+    }
+
+    public String getPlayerPrefixLegacy(@NotNull Player player) {
+        return LegacyComponentSerializer.legacySection().serialize(getPlayerPrefix(player));
     }
 
     public void setPlayerSuffix(@NotNull Player player, String suffix) {
@@ -56,10 +64,15 @@ public class TitleManager {
         }
     }
 
-    public String getPlayerSuffix(@NotNull Player player) {
-        return player.getPersistentDataContainer().getOrDefault(
+    public Component getPlayerSuffix(@NotNull Player player) {
+        String suffix = player.getPersistentDataContainer().getOrDefault(
                 getSuffixKey(), PersistentDataType.STRING, VaultManager.getChat().getPlayerSuffix(player)
         );
+        return ComponentUtils.parseComponent(suffix);
+    }
+
+    public String getPlayerSuffixLegacy(@NotNull Player player) {
+        return LegacyComponentSerializer.legacySection().serialize(getPlayerSuffix(player));
     }
 
 }
