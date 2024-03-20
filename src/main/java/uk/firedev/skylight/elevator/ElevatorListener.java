@@ -3,7 +3,6 @@ package uk.firedev.skylight.elevator;
 import com.Zrips.CMI.Containers.CMIUser;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -12,7 +11,6 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.*;
-import org.checkerframework.checker.index.qual.PolyUpperBound;
 import uk.firedev.skylight.Skylight;
 
 import java.util.ArrayList;

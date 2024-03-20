@@ -1,4 +1,5 @@
 modules:
+  chat:
+    title: true
   elevator: true
-  titles: true
   amethyst-protect: true

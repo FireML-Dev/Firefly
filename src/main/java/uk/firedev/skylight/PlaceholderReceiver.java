@@ -1,7 +1,6 @@
 package uk.firedev.skylight;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.skylight.chat.titles.TitleManager;
@@ -30,9 +29,27 @@ public class PlaceholderReceiver extends PlaceholderExpansion {
             return null;
         }
         return switch (identifier) {
-            case "player_prefix" -> TitleManager.getInstance().getPlayerPrefixLegacy(player);
-            case "player_suffix" -> TitleManager.getInstance().getPlayerSuffixLegacy(player);
-            case "amethyst_protected" -> String.valueOf(!AmethystProtection.getInstance().isDisabled(player));
+            case "player_prefix" -> {
+                if (TitleManager.getInstance().isLoaded()) {
+                    yield TitleManager.getInstance().getPlayerPrefixLegacy(player);
+                } else {
+                    yield null;
+                }
+            }
+            case "player_suffix" -> {
+                if (TitleManager.getInstance().isLoaded()) {
+                    yield TitleManager.getInstance().getPlayerSuffixLegacy(player);
+                } else {
+                    yield null;
+                }
+            }
+            case "amethyst_protected" -> {
+                if (AmethystProtection.getInstance().isLoaded()) {
+                    yield String.valueOf(!AmethystProtection.getInstance().isDisabled(player));
+                } else {
+                    yield null;
+                }
+            }
             default -> null;
         };
     }

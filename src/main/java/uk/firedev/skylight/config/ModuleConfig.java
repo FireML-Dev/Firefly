@@ -9,7 +9,7 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
     }
 
     public boolean titleModuleEnabled() {
-        return getConfig().getBoolean("modules.titles");
+        return getConfig().getBoolean("modules.chat.title");
     }
 
     public boolean amethystProtectionModuleEnabled() {

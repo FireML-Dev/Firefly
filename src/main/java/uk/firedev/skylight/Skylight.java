@@ -52,7 +52,7 @@ public final class Skylight extends JavaPlugin {
         }
         if (ModuleConfig.getInstance().titleModuleEnabled()) {
             TitleManager.getInstance().load();
-            Loggers.log(Level.INFO, getLogger(), "Loaded Titles Module.");
+            Loggers.log(Level.INFO, getLogger(), "Loaded Title Module.");
         }
 
     }

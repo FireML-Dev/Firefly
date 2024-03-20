@@ -29,6 +29,7 @@ public class TitleManager extends Config {
 
     private List<Prefix> prefixes = new ArrayList<>();
     private List<Suffix> suffixes = new ArrayList<>();
+    private boolean loaded = false;
 
     private TitleManager() {
         super("titles.yml", Skylight.getInstance(), false);
@@ -46,6 +47,7 @@ public class TitleManager extends Config {
         new SuffixCommand().registerCommand("suffix", Skylight.getInstance());
         getPrefixesFromFile();
         getSuffixesFromFile();
+        loaded = true;
     }
 
     @Override
@@ -54,6 +56,8 @@ public class TitleManager extends Config {
         getPrefixesFromFile();
         getSuffixesFromFile();
     }
+
+    public boolean isLoaded() { return loaded; }
 
     public NamespacedKey getPrefixKey() {
         return ObjectUtils.createNamespacedKey("player-prefix", Skylight.getInstance());

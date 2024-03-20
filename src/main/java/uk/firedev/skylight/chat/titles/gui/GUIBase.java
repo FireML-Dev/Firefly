@@ -1,8 +1,6 @@
 package uk.firedev.skylight.chat.titles.gui;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 import uk.firedev.daisylib.builders.ItemBuilder;
 

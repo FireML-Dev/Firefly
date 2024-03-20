@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.ICommand;
-import uk.firedev.skylight.chat.titles.gui.PrefixGUI;
 import uk.firedev.skylight.chat.titles.gui.SuffixGUI;
 
 import java.util.List;

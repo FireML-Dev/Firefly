@@ -24,8 +24,9 @@ import java.util.UUID;
 public class AmethystProtection implements ICommand, Listener {
 
     private static AmethystProtection instance = null;
-
     private static final List<UUID> warned = new ArrayList<>();
+
+    private boolean loaded = false;
 
     public static AmethystProtection getInstance() {
         if (instance == null) {
@@ -77,6 +78,14 @@ public class AmethystProtection implements ICommand, Listener {
 
     public boolean isDisabled(Player player) {
         return player.getPersistentDataContainer().getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
+    }
+
+    public void setLoaded() {
+        loaded = true;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
     }
 
 }
