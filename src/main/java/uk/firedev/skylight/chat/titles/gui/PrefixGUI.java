@@ -12,7 +12,7 @@ import uk.firedev.skylight.config.GUIConfig;
 
 import java.util.List;
 
-public class PrefixGUI implements GUIBase {
+public class PrefixGUI {
 
     private final InventoryGui gui;
     private final Player player;
@@ -31,7 +31,10 @@ public class PrefixGUI implements GUIBase {
         this.player = player;
         gui = new InventoryGui(Skylight.getInstance(), config.getString("gui.prefixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
-        gui.setFiller(getFiller(config.getString("gui.prefixes.filler")));
+        gui.setFiller(new ItemBuilder(config.getString("gui.prefixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
+                .withStringDisplay("")
+                .build()
+        );
 
         DynamicGuiElement prefixesGroup = new DynamicGuiElement('i', who -> {
             GuiElementGroup group = new GuiElementGroup('i');

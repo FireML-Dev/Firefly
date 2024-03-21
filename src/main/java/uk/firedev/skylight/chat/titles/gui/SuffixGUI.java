@@ -12,7 +12,7 @@ import uk.firedev.skylight.config.GUIConfig;
 
 import java.util.List;
 
-public class SuffixGUI implements GUIBase {
+public class SuffixGUI {
 
     private final InventoryGui gui;
     private final Player player;
@@ -31,7 +31,10 @@ public class SuffixGUI implements GUIBase {
         this.player = player;
         gui = new InventoryGui(Skylight.getInstance(), config.getString("gui.suffixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
-        gui.setFiller(getFiller(config.getString("gui.suffixes.filler")));
+        gui.setFiller(new ItemBuilder(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
+                .withStringDisplay("")
+                .build()
+        );
 
         DynamicGuiElement suffixesGroup = new DynamicGuiElement('s', who -> {
             GuiElementGroup group = new GuiElementGroup('s');
