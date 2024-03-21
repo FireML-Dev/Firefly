@@ -13,13 +13,17 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
     }
 
     public boolean amethystProtectionModuleEnabled() {
-        return getConfig().getBoolean("modules.amethyst-protect");
+        return getConfig().getBoolean("modules.small-features.amethyst-protect");
+    }
+
+    public boolean lootChestProtectionModuleEnabled() {
+        return getConfig().getBoolean("modules.small-features.loot-chest-protection");
     }
 
     private static ModuleConfig instance = null;
 
     private ModuleConfig() {
-        super("modules.yml", Skylight.getInstance());
+        super("modules.yml", Skylight.getInstance(), true);
     }
 
     public static ModuleConfig getInstance() {

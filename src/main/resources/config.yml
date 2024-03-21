@@ -21,3 +21,9 @@ elevator:
       - air
       - bone_block
       - air
+
+loot-chest-protection:
+  protected-worlds:
+    - Resource
+    - Resource_nether
+    - Resource_the_end

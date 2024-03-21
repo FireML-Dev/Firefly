@@ -8,7 +8,6 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
@@ -23,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class TitleManager extends Config {
+public class TitleManager extends uk.firedev.daisylib.Config {
 
     private static TitleManager instance = null;
 
