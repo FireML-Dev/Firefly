@@ -1,7 +1,0 @@
-modules:
-  chat:
-    title: true
-  small-features:
-    amethyst-protect: true
-    loot-chest-protection: true
-  elevator: true

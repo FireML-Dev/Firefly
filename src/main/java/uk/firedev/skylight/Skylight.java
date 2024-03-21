@@ -8,7 +8,6 @@ import uk.firedev.skylight.chat.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
-import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.elevator.ElevatorManager;
 import uk.firedev.skylight.small.SmallManager;
 
@@ -27,7 +26,6 @@ public final class Skylight extends JavaPlugin {
         // Load configs
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
-        ModuleConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
         // Load Vault - Stop loading if VaultManager has an issue
@@ -46,11 +44,11 @@ public final class Skylight extends JavaPlugin {
         }
 
         // Load modules
-        if (ModuleConfig.getInstance().elevatorModuleEnabled()) {
+        if (Modules.getInstance().elevatorModuleEnabled()) {
             ElevatorManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Elevator Module.");
         }
-        if (ModuleConfig.getInstance().titleModuleEnabled()) {
+        if (Modules.getInstance().titleModuleEnabled()) {
             TitleManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Title Module.");
         }
@@ -63,7 +61,6 @@ public final class Skylight extends JavaPlugin {
     public void reload() {
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
-        ModuleConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
         ElevatorManager.getInstance().reload();
         TitleManager.getInstance().reload();
