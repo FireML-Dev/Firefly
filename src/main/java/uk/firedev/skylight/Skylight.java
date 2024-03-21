@@ -44,11 +44,11 @@ public final class Skylight extends JavaPlugin {
         }
 
         // Load modules
-        if (Modules.getInstance().elevatorModuleEnabled()) {
+        if (Modules.elevatorModuleEnabled()) {
             ElevatorManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Elevator Module.");
         }
-        if (Modules.getInstance().titleModuleEnabled()) {
+        if (Modules.titleModuleEnabled()) {
             TitleManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Title Module.");
         }

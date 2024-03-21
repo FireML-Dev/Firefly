@@ -33,13 +33,13 @@ public class SmallManager {
 
     public void load() {
         PluginManager pluginManager = plugin.getServer().getPluginManager();
-        if (Modules.getInstance().amethystProtectionModuleEnabled()) {
+        if (Modules.amethystProtectionModuleEnabled()) {
             AmethystProtection.getInstance().setLoaded();
             AmethystProtection.getInstance().registerCommand("amethystprotect", plugin);
             pluginManager.registerEvents(AmethystProtection.getInstance(), plugin);
             Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Amethyst Protection Module.");
         }
-        if (Modules.getInstance().lootChestProtectionModuleEnabled()) {
+        if (Modules.lootChestProtectionModuleEnabled()) {
             pluginManager.registerEvents(LootChestProtection.getInstance(), plugin);
             Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Loot Chest Protection Module.");
         }
