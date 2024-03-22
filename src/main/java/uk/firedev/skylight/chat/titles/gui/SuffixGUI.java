@@ -22,9 +22,11 @@ public class SuffixGUI {
         List<String> setupTemp = config.getStringList("gui.suffixes.format");
         if (setupTemp.isEmpty()) {
             setupTemp = List.of(
-                    "         ",
-                    "  i   s  ",
-                    "    x    "
+                "         ",
+                " sssssss ",
+                " sssssss ",
+                " sssssss ",
+                "fp x r nl"
             );
         }
         String[] setup = setupTemp.toArray(String[]::new);

@@ -22,9 +22,11 @@ public class PrefixGUI {
         List<String> setupTemp = config.getStringList("gui.prefixes.format");
         if (setupTemp.isEmpty()) {
             setupTemp = List.of(
-                    "         ",
-                    "  i   s  ",
-                    "    x    "
+                "         ",
+                " iiiiiii ",
+                " iiiiiii ",
+                " iiiiiii ",
+                "fp x r nl"
             );
         }
         String[] setup = setupTemp.toArray(String[]::new);
