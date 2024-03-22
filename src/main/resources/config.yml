@@ -35,3 +35,6 @@ loot-chest-protection:
     - Resource
     - Resource_nether
     - Resource_the_end
+
+kits:
+  enabled: true

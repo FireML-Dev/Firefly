@@ -20,4 +20,8 @@ public class Modules {
         return MainConfig.getInstance().getConfig().getBoolean("loot-chest-protection.enabled");
     }
 
+    public static boolean kitsModuleEnabled() {
+        return MainConfig.getInstance().getConfig().getBoolean("kits.enabled");
+    }
+
 }

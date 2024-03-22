@@ -9,6 +9,7 @@ import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.elevator.ElevatorManager;
+import uk.firedev.skylight.kit.KitManager;
 import uk.firedev.skylight.small.SmallManager;
 
 import java.util.logging.Level;
@@ -28,14 +29,7 @@ public final class Skylight extends JavaPlugin {
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
-        // Load Vault - Stop loading if VaultManager has an issue
-        if (!VaultManager.getInstance().load()) {
-            return;
-        }
-
         new SkylightCommand().registerCommand("skylight", this);
-
-        SmallManager.getInstance().load();
 
         // Load Placeholder Hook
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -44,6 +38,7 @@ public final class Skylight extends JavaPlugin {
         }
 
         // Load modules
+        SmallManager.getInstance().load();
         if (Modules.elevatorModuleEnabled()) {
             ElevatorManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Elevator Module.");
@@ -51,6 +46,10 @@ public final class Skylight extends JavaPlugin {
         if (Modules.titleModuleEnabled()) {
             TitleManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Title Module.");
+        }
+        if (Modules.kitsModuleEnabled()) {
+            KitManager.getInstance().load();
+            Loggers.log(Level.INFO, getLogger(), "Loaded Kits Module.");
         }
 
     }
@@ -62,8 +61,15 @@ public final class Skylight extends JavaPlugin {
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
-        ElevatorManager.getInstance().reload();
-        TitleManager.getInstance().reload();
+        if (ElevatorManager.getInstance().isLoaded()) {
+            ElevatorManager.getInstance().reload();
+        }
+        if (TitleManager.getInstance().isLoaded()) {
+            TitleManager.getInstance().reload();
+        }
+        if (KitManager.getInstance().isLoaded()) {
+            KitManager.getInstance().reload();
+        }
         SmallManager.getInstance().reload();
     }
 

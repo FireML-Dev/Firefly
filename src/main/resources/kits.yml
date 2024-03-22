@@ -1,0 +1,15 @@
+kits:
+  example:
+    material: SHULKER_BOX
+    display: "<gold><bold>Example Kit"
+    lore:
+      - "<yellow>Example Kit"
+      - ""
+      - "<green>Right Click to Claim"
+    # Should this kit only award a single item from its contents?
+    single-random-reward: false
+    contents:
+      - "denizen:example_item"
+      - "stone"
+      - "netherite_sword"
+      - "command:kill {player}"

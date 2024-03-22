@@ -51,6 +51,8 @@ public class ElevatorManager {
         loaded = true;
     }
 
+    public boolean isLoaded() { return loaded; }
+
     public void reload() {
         if (!loaded) {
             return;
@@ -96,7 +98,6 @@ public class ElevatorManager {
 
     public void teleportPlayer(Player player, Elevator elevator) {
         if (elevator == null || !elevator.isElevator()) {
-            System.out.println("Elevator is null");
             return;
         }
         Location location = elevator.getTPLocation();
@@ -106,7 +107,6 @@ public class ElevatorManager {
             MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.unsafe-location");
             return;
         }
-        System.out.println("preparing teleport");
         player.teleportAsync(location).thenAccept(aBoolean -> {
             if (!aBoolean) {
                 MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.teleport-fail");

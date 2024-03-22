@@ -28,8 +28,7 @@ public class SmallManager {
         return instance;
     }
 
-    public void reload() {
-    }
+    public void reload() {}
 
     public void load() {
         PluginManager pluginManager = plugin.getServer().getPluginManager();

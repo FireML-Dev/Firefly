@@ -59,3 +59,13 @@ gui:
     remove:
       material: flint_and_steel
       display: "<yellow>Remove Suffix</yellow>"
+  kits:
+    # k = kit
+    format:
+      - "         "
+      - " kkkkkkk "
+      - " kkkkkkk "
+      - " kkkkkkk "
+      - "fp x r nl"
+    title: "Kits"
+    filler: gray_stained_glass_pane
