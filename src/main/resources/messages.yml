@@ -16,6 +16,7 @@ messages:
     suffix-removed: "<red>Removed Current Suffix.</red>"
   elevator:
     command:
+      usage: "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator"
       block-given: "<color:#F0E68C>Given you an Elevator Block!</color>"
       unregistered-elevator: "<color:#F0E68C>Successfully removed elevator data from this block.</color>"
       not-an-elevator: "<red>This block is not an elevator!</red>"

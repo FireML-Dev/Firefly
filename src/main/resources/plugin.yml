@@ -10,9 +10,6 @@ softdepend:
   - PlaceholderAPI
   - CMI
 commands:
-  elevator:
-    description: "Manage Elevators"
-    permission: skylight.command.elevator
   prefix:
     description: "Manage Prefix"
     permission: skylight.command.prefix

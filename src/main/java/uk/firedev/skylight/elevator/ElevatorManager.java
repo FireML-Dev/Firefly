@@ -46,7 +46,7 @@ public class ElevatorManager {
     public void load() {
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new ElevatorListener(), this.plugin);
-        new ElevatorCommand().registerCommand("elevator", this.plugin);
+        ElevatorCommand.getInstance().register();
         registerRecipe();
         loaded = true;
     }

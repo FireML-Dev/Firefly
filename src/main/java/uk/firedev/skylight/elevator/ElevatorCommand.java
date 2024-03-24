@@ -8,59 +8,58 @@ import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.ICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.skylight.config.MessageConfig;
 
 import java.util.List;
 
-public class ElevatorCommand implements ICommand {
+public class ElevatorCommand extends CommandAPICommand {
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            return false;
-        }
-        switch (args.length) {
-            case 1 -> {
-                switch (args[0]) {
-                    case "giveBlock" -> {
-                        ItemUtils.giveItem(ElevatorManager.getInstance().getElevatorBlock(), player);
-                        MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.block-given");
-                        return true;
-                    }
-                    case "unsetElevator" -> {
-                        RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);
-                        if (traced == null || traced.getHitBlock() == null) {
-                            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.not-an-elevator");
-                            return true;
-                        }
-                        Elevator elevator = new Elevator(traced.getHitBlock());
-                        if (!elevator.isElevator()) {
-                            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.not-an-elevator");
-                            return true;
-                        }
-                        elevator.setElevator(false);
-                        MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.unregistered-elevator");
-                        return true;
-                    }
-                }
-            }
-            default -> {
-                return false;
-            }
-        }
-        return false;
+    private static ElevatorCommand instance = null;
+
+    private ElevatorCommand() {
+        super("elevator");
+        withPermission("skylight.command.elevator");
+        withShortDescription("Manage Elevators");
+        withFullDescription("Manage Elevators");
+        withSubcommands(getGiveBlockCommand(), getUnsetElevatorCommand());
+        executes((sender, arguments) -> {
+            MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.elevator.command.usage");
+        });
     }
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
-            return List.of();
+    public static ElevatorCommand getInstance() {
+        if (instance == null) {
+            instance = new ElevatorCommand();
         }
-        return switch (args.length) {
-            case 1 -> processTabCompletions(args[0], List.of("giveBlock"));
-            default -> List.of();
-        };
+        return instance;
+    }
+
+    private CommandAPICommand getGiveBlockCommand() {
+        return new CommandAPICommand("giveBlock")
+                .executesPlayer((player, arguments) -> {
+                    ItemUtils.giveItem(ElevatorManager.getInstance().getElevatorBlock(), player);
+                    MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.command.block-given");
+                });
+    }
+
+    private CommandAPICommand getUnsetElevatorCommand() {
+        return new CommandAPICommand("unsetElevator")
+                .executesPlayer((player, arguments) -> {
+                    RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);
+                    if (traced == null || traced.getHitBlock() == null) {
+                        MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.command.not-an-elevator");
+                        return;
+                    }
+                    Elevator elevator = new Elevator(traced.getHitBlock());
+                    if (!elevator.isElevator()) {
+                        MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.command.not-an-elevator");
+                        return;
+                    }
+                    elevator.setElevator(false);
+                    MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.command.unregistered-elevator");
+                });
     }
 
 }

@@ -6,7 +6,7 @@ import uk.firedev.skylight.config.MessageConfig;
 
 public class SkylightCommand extends CommandAPICommand {
 
-    private static SkylightCommand instance;
+    private static SkylightCommand instance = null;
 
     private SkylightCommand() {
         super("skylight");
