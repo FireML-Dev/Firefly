@@ -13,6 +13,8 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.ICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.config.MessageConfig;
@@ -21,39 +23,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AmethystProtection implements ICommand, Listener {
+public class AmethystProtection extends CommandAPICommand implements Listener {
 
     private static AmethystProtection instance = null;
     private static final List<UUID> warned = new ArrayList<>();
 
     private boolean loaded = false;
 
+    private AmethystProtection() {
+        super("amethystprotect");
+        setPermission(CommandPermission.fromString("skylight.command.amethystprotect"));
+        withShortDescription("Protects Amethyst");
+        withFullDescription("Protects Amethyst");
+        executesPlayer((player, arguments) -> {
+            PersistentDataContainer pdc = player.getPersistentDataContainer();
+            if (isDisabled(player)) {
+                pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
+                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.enabled");
+            } else {
+                pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
+                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.disabled");
+            }
+        });
+    }
+
     public static AmethystProtection getInstance() {
         if (instance == null) {
             instance = new AmethystProtection();
         }
         return instance;
-    }
-
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            return false;
-        }
-        PersistentDataContainer pdc = player.getPersistentDataContainer();
-        if (isDisabled(player)) {
-            pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.enabled");
-        } else {
-            pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.disabled");
-        }
-        return true;
-    }
-
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        return null;
     }
 
     private NamespacedKey getAmethystProtectKey() {

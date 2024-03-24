@@ -34,7 +34,7 @@ public class SmallManager {
         PluginManager pluginManager = plugin.getServer().getPluginManager();
         if (Modules.amethystProtectionModuleEnabled()) {
             AmethystProtection.getInstance().setLoaded();
-            AmethystProtection.getInstance().registerCommand("amethystprotect", plugin);
+            AmethystProtection.getInstance().register();
             pluginManager.registerEvents(AmethystProtection.getInstance(), plugin);
             Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Amethyst Protection Module.");
         }

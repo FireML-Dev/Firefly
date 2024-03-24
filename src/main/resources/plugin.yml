@@ -19,8 +19,6 @@ commands:
   suffix:
     description: "Manage Suffix"
     permission: skylight.command.suffix
-  amethystprotect:
-    description: "Protects Amethyst"
   awardkit:
     description: "Give kits to people"
     permission: skylight.command.awardkit
