@@ -64,7 +64,6 @@ public class AwardKitCommand extends CommandAPICommand {
     }
 
     private Argument<?> getPlayerArgument() {
-        System.out.println(Arrays.toString(Bukkit.getOnlinePlayers().stream().map(Player::getName).toArray(String[]::new)));
         return new StringArgument("player").includeSuggestions(ArgumentSuggestions.stringsAsync(info ->
                 CompletableFuture.supplyAsync(() ->
                         Bukkit.getOnlinePlayers().stream().map(Player::getName).toArray(String[]::new))));

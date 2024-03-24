@@ -1,16 +1,8 @@
 package uk.firedev.skylight.chat.titles;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.command.ICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.skylight.chat.titles.gui.PrefixGUI;
-
-import java.util.List;
 
 public class PrefixCommand extends CommandAPICommand {
 
