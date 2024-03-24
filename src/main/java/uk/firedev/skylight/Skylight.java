@@ -29,7 +29,7 @@ public final class Skylight extends JavaPlugin {
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
-        new SkylightCommand().registerCommand("skylight", this);
+        SkylightCommand.getInstance().register();
 
         // Load Placeholder Hook
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {

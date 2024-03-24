@@ -1,6 +1,8 @@
 messages:
   prefix: "<gray>[Skylight]</gray> "
-  reloaded: "<color:#F0E68C>Successfully reloaded the plugin"
+  main-command:
+    reloaded: "<color:#F0E68C>Successfully reloaded the plugin"
+    help: "<color:#F0E68C>Usage: <aqua>/skylight reload"
   player-not-found: "<red>Player not found."
   kits:
     usage: "<color:#F0E68C>Usage: <green>/awardkit <player> <kit>"

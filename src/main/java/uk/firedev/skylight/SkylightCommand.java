@@ -1,43 +1,37 @@
 package uk.firedev.skylight;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.command.ICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.skylight.config.MessageConfig;
 
-import java.util.List;
+public class SkylightCommand extends CommandAPICommand {
 
-public class SkylightCommand implements ICommand {
+    private static SkylightCommand instance;
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (args.length >= 1) {
-            switch (args[0]) {
-                case "reload" -> {
-                    Skylight.getInstance().reload();
-                    MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.reloaded");
-                }
-            }
-            return true;
-        }
-        return false;
+    private SkylightCommand() {
+        super("skylight");
+        setPermission(CommandPermission.fromString("skylight.command.main"));
+        withShortDescription("Manage the Plugin");
+        withFullDescription("Manage the Plugin");
+        withSubcommands(getReloadCommand());
+        executes((sender, arguments) -> {
+            MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.main-command.help");
+        });
     }
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (!(sender instanceof Player)) {
-            return List.of();
+    public static SkylightCommand getInstance() {
+        if (instance == null) {
+            instance = new SkylightCommand();
         }
+        return instance;
+    }
 
-        return switch (args.length) {
-            case 1 -> processTabCompletions(args[0], List.of(
-                    "reload"
-            ));
-            default -> List.of();
-        };
+    private CommandAPICommand getReloadCommand() {
+        return new CommandAPICommand("reload")
+                .executes(((sender, arguments) -> {
+                    Skylight.getInstance().reload();
+                    MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.main-command.reloaded");
+                }));
     }
 
 }
