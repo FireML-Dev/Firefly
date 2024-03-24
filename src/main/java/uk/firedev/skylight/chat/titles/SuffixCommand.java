@@ -1,29 +1,28 @@
 package uk.firedev.skylight.chat.titles;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.command.ICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.skylight.chat.titles.gui.SuffixGUI;
 
-import java.util.List;
+public class SuffixCommand extends CommandAPICommand {
 
-public class SuffixCommand implements ICommand {
+    private static SuffixCommand instance = null;
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            return false;
-        }
-        new SuffixGUI(player).open();
-        return true;
+    private SuffixCommand() {
+        super("suffix");
+        setPermission(CommandPermission.fromString("skylight.command.suffix"));
+        withShortDescription("Manage Suffix");
+        withFullDescription("Manage Suffix");
+        executesPlayer((player, arguments) -> {
+            new SuffixGUI(player).open();
+        });
     }
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        return null;
+    public static SuffixCommand getInstance() {
+        if (instance == null) {
+            instance = new SuffixCommand();
+        }
+        return instance;
     }
 
 }

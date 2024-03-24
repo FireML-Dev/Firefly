@@ -9,7 +9,3 @@ depend:
 softdepend:
   - PlaceholderAPI
   - CMI
-commands:
-  suffix:
-    description: "Manage Suffix"
-    permission: skylight.command.suffix
