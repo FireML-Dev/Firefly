@@ -6,24 +6,31 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.ICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.skylight.chat.titles.gui.PrefixGUI;
 
 import java.util.List;
 
-public class PrefixCommand implements ICommand {
+public class PrefixCommand extends CommandAPICommand {
 
-    @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (!(sender instanceof Player player)) {
-            return false;
-        }
-        new PrefixGUI(player).open();
-        return true;
+    private static PrefixCommand instance = null;
+
+    private PrefixCommand() {
+        super("prefix");
+        setPermission(CommandPermission.fromString("skylight.command.prefix"));
+        withShortDescription("Manage Prefix");
+        withFullDescription("Manage Prefix");
+        executesPlayer((player, arguments) -> {
+            new PrefixGUI(player).open();
+        });
     }
 
-    @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        return null;
+    public static PrefixCommand getInstance() {
+        if (instance == null) {
+            instance = new PrefixCommand();
+        }
+        return instance;
     }
 
 }

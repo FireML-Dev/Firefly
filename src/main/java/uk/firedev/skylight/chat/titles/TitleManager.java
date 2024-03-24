@@ -42,7 +42,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     }
 
     public void load() {
-        new PrefixCommand().registerCommand("prefix", Skylight.getInstance());
+        PrefixCommand.getInstance().register();
         new SuffixCommand().registerCommand("suffix", Skylight.getInstance());
         getPrefixesFromFile();
         getSuffixesFromFile();
