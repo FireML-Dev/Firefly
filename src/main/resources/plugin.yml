@@ -19,6 +19,3 @@ commands:
   suffix:
     description: "Manage Suffix"
     permission: skylight.command.suffix
-  awardkit:
-    description: "Give kits to people"
-    permission: skylight.command.awardkit

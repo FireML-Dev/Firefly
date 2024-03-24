@@ -33,7 +33,7 @@ public class KitManager extends uk.firedev.daisylib.Config {
     public void load() {
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new KitListener(), plugin);
-        new AwardKitCommand().registerCommand("awardkit", plugin);
+        AwardKitCommand.getInstance().register();
         loaded = true;
     }
 
