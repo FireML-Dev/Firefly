@@ -42,6 +42,10 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     }
 
     public void load() {
+        if (VaultManager.getChat() == null) {
+            Loggers.warning(Skylight.getInstance().getLogger(), "The Title Module cannot load when vault is disabled in DaisyLib's config. Please enable it to use this module!");
+            return;
+        }
         PrefixCommand.getInstance().register();
         SuffixCommand.getInstance().register();
         getPrefixesFromFile();
