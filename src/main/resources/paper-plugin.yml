@@ -13,5 +13,7 @@ dependencies:
       load: BEFORE
     CMI:
       required: false
+      load: BEFORE
     PlaceholderAPI:
       required: false
+      load: BEFORE
