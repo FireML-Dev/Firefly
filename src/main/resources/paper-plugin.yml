@@ -7,8 +7,10 @@ dependencies:
   server:
     Vault:
       required: true
+      load: BEFORE
     DaisyLib:
       required: true
+      load: BEFORE
     CMI:
       required: false
     PlaceholderAPI:
