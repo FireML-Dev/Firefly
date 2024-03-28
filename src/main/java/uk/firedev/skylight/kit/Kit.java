@@ -97,7 +97,11 @@ public class Kit {
         if (this.permission.isEmpty()) {
             return true;
         }
-        return VaultManager.getPermissions().has(player, this.permission);
+        if (VaultManager.getPermissions() == null) {
+            return player.hasPermission(this.permission);
+        } else {
+            return VaultManager.getPermissions().has(player, this.permission);
+        }
     }
 
     public ItemStack buildItem() {
