@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.local.VaultManager;
+import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.daisylib.utils.ItemUtils;
