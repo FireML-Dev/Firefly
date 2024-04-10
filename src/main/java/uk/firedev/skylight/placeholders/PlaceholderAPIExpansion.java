@@ -1,4 +1,4 @@
-package uk.firedev.skylight;
+package uk.firedev.skylight.placeholders;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.skylight.chat.titles.TitleManager;
 import uk.firedev.skylight.small.AmethystProtection;
 
-public class PlaceholderReceiver extends PlaceholderExpansion {
+public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
     @Override
     public boolean persist() { return true; }

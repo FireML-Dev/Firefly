@@ -10,6 +10,8 @@ import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.elevator.ElevatorManager;
 import uk.firedev.skylight.kit.KitManager;
+import uk.firedev.skylight.placeholders.MiniPlaceholdersExpansion;
+import uk.firedev.skylight.placeholders.PlaceholderAPIExpansion;
 import uk.firedev.skylight.small.SmallManager;
 
 import java.util.logging.Level;
@@ -31,10 +33,14 @@ public final class Skylight extends JavaPlugin {
 
         SkylightCommand.getInstance().register();
 
-        // Load Placeholder Hook
+        // Load Placeholder Hooks
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlaceholderReceiver().register();
+            new PlaceholderAPIExpansion().register();
             Loggers.log(Level.INFO, getLogger(), "Loaded PlaceholderAPI Hook.");
+        }
+        if (getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
+            new MiniPlaceholdersExpansion().register();
+            Loggers.log(Level.INFO, getLogger(), "Loaded MiniPlaceholders Hook.");
         }
 
         // Load modules
