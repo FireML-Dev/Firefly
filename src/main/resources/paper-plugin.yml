@@ -14,6 +14,9 @@ dependencies:
     CMI:
       required: false
       load: BEFORE
+    CMILib:
+      required: false
+      load: BEFORE
     PlaceholderAPI:
       required: false
       load: BEFORE
