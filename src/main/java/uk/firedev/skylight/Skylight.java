@@ -4,15 +4,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
-import uk.firedev.skylight.chat.titles.TitleManager;
+import uk.firedev.skylight.modules.Modules;
+import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
-import uk.firedev.skylight.elevator.ElevatorManager;
-import uk.firedev.skylight.kit.KitManager;
+import uk.firedev.skylight.modules.elevator.ElevatorManager;
+import uk.firedev.skylight.modules.kit.KitManager;
 import uk.firedev.skylight.placeholders.MiniPlaceholdersExpansion;
 import uk.firedev.skylight.placeholders.PlaceholderAPIExpansion;
-import uk.firedev.skylight.small.SmallManager;
+import uk.firedev.skylight.modules.small.SmallManager;
 
 import java.util.logging.Level;
 

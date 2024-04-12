@@ -1,4 +1,4 @@
-package uk.firedev.skylight.chat.titles.gui;
+package uk.firedev.skylight.modules.titles.gui;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.libs.themoep.inventorygui.*;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.chat.titles.TitleManager;
+import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package uk.firedev.skylight.elevator;
+package uk.firedev.skylight.modules.elevator;
 
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;

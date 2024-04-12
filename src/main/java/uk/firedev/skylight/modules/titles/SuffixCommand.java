@@ -1,8 +1,8 @@
-package uk.firedev.skylight.chat.titles;
+package uk.firedev.skylight.modules.titles;
 
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.skylight.chat.titles.gui.SuffixGUI;
+import uk.firedev.skylight.modules.titles.gui.SuffixGUI;
 
 public class SuffixCommand extends CommandAPICommand {
 

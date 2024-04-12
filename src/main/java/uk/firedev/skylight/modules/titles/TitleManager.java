@@ -1,4 +1,4 @@
-package uk.firedev.skylight.chat.titles;
+package uk.firedev.skylight.modules.titles;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -13,8 +13,8 @@ import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.chat.titles.objects.Prefix;
-import uk.firedev.skylight.chat.titles.objects.Suffix;
+import uk.firedev.skylight.modules.titles.objects.Prefix;
+import uk.firedev.skylight.modules.titles.objects.Suffix;
 import uk.firedev.skylight.config.MessageConfig;
 
 import java.util.ArrayList;

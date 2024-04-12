@@ -3,8 +3,8 @@ package uk.firedev.skylight.placeholders;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.skylight.chat.titles.TitleManager;
-import uk.firedev.skylight.small.AmethystProtection;
+import uk.firedev.skylight.modules.titles.TitleManager;
+import uk.firedev.skylight.modules.small.AmethystProtection;
 
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 

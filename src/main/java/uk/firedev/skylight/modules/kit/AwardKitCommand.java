@@ -1,4 +1,4 @@
-package uk.firedev.skylight.kit;
+package uk.firedev.skylight.modules.kit;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -11,7 +11,6 @@ import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.skylight.config.MessageConfig;
 
-import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class AwardKitCommand extends CommandAPICommand {

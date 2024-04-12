@@ -1,4 +1,4 @@
-package uk.firedev.skylight.elevator;
+package uk.firedev.skylight.modules.elevator;
 
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.util.RayTraceResult;

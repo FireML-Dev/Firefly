@@ -1,4 +1,4 @@
-package uk.firedev.skylight.chat.titles.objects;
+package uk.firedev.skylight.modules.titles.objects;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.chat.titles.TitleManager;
+import uk.firedev.skylight.modules.titles.TitleManager;
 
 import java.util.logging.Level;
 

@@ -1,4 +1,4 @@
-package uk.firedev.skylight.chat.titles.objects;
+package uk.firedev.skylight.modules.titles.objects;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;

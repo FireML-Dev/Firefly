@@ -1,8 +1,8 @@
-package uk.firedev.skylight.chat.titles;
+package uk.firedev.skylight.modules.titles;
 
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.skylight.chat.titles.gui.PrefixGUI;
+import uk.firedev.skylight.modules.titles.gui.PrefixGUI;
 
 public class PrefixCommand extends CommandAPICommand {
 

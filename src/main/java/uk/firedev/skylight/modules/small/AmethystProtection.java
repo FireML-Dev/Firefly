@@ -1,4 +1,4 @@
-package uk.firedev.skylight.small;
+package uk.firedev.skylight.modules.small;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

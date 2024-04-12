@@ -1,4 +1,4 @@
-package uk.firedev.skylight.kit;
+package uk.firedev.skylight.modules.kit;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

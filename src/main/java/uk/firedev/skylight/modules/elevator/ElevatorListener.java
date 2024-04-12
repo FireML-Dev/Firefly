@@ -1,4 +1,4 @@
-package uk.firedev.skylight.elevator;
+package uk.firedev.skylight.modules.elevator;
 
 import com.Zrips.CMI.Containers.CMIUser;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;

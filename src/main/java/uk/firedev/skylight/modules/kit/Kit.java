@@ -1,4 +1,4 @@
-package uk.firedev.skylight.kit;
+package uk.firedev.skylight.modules.kit;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;

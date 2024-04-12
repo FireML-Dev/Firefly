@@ -1,4 +1,4 @@
-package uk.firedev.skylight;
+package uk.firedev.skylight.modules;
 
 import uk.firedev.skylight.config.MainConfig;
 
