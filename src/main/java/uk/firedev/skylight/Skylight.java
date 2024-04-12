@@ -4,7 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
-import uk.firedev.skylight.modules.Modules;
+import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MainConfig;
@@ -46,15 +46,15 @@ public final class Skylight extends JavaPlugin {
 
         // Load modules
         SmallManager.getInstance().load();
-        if (Modules.elevatorModuleEnabled()) {
+        if (ModuleConfig.getInstance().elevatorModuleEnabled()) {
             ElevatorManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Elevator Module.");
         }
-        if (Modules.titleModuleEnabled()) {
+        if (ModuleConfig.getInstance().titleModuleEnabled()) {
             TitleManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Title Module.");
         }
-        if (Modules.kitsModuleEnabled()) {
+        if (ModuleConfig.getInstance().kitsModuleEnabled()) {
             KitManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Kits Module.");
         }

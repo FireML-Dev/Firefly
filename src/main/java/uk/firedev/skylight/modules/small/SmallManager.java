@@ -2,7 +2,7 @@ package uk.firedev.skylight.modules.small;
 
 import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.skylight.modules.Modules;
+import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.Skylight;
 
 import java.util.logging.Level;
@@ -32,13 +32,13 @@ public class SmallManager {
 
     public void load() {
         PluginManager pluginManager = plugin.getServer().getPluginManager();
-        if (Modules.amethystProtectionModuleEnabled()) {
+        if (ModuleConfig.getInstance().amethystProtectionModuleEnabled()) {
             AmethystProtection.getInstance().setLoaded();
             AmethystProtection.getInstance().register();
             pluginManager.registerEvents(AmethystProtection.getInstance(), plugin);
             Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Amethyst Protection Module.");
         }
-        if (Modules.lootChestProtectionModuleEnabled()) {
+        if (ModuleConfig.getInstance().lootChestProtectionModuleEnabled()) {
             pluginManager.registerEvents(LootChestProtection.getInstance(), plugin);
             Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Loot Chest Protection Module.");
         }

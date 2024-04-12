@@ -1,5 +1,4 @@
 elevator:
-  enabled: true
   bossbar:
     title: "<yellow>Floor {current} of {all}</yellow>"
     # https://javadoc.io/doc/net.kyori/adventure-api/latest/net/kyori/adventure/bossbar/BossBar.Color.html
@@ -23,18 +22,8 @@ elevator:
       - bone_block
       - air
 
-title:
-  enabled: true
-
-amethyst-protection:
-  enabled: true
-
 loot-chest-protection:
-  enabled: true
   protected-worlds:
     - Resource
     - Resource_nether
     - Resource_the_end
-
-kits:
-  enabled: true
