@@ -6,7 +6,6 @@ import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
-import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
@@ -40,17 +39,20 @@ public class NicknameCommand extends CommandAPICommand {
                 MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.removed-nickname");
                 return;
             }
-            Component nickname = StringUtils.convertLegacyToAdventure(args[0].replace(" ", "_"));
+            String[] splitValue = args[0].split(" ");
+            Component nickname = StringUtils.convertLegacyToAdventure(splitValue[0]);
             String cleanString = ComponentUtils.toUncoloredString(nickname);
+            boolean hasBypassLengthPermission = player.hasPermission("skylight.command.nickname.bypass.length");
+            boolean hasBypassBlacklistPermission = player.hasPermission("skylight.command.nickname.bypass.blacklist");
             int maxLength = MainConfig.getInstance().getConfig().getInt("nicknames.max-length");
             int minLength = MainConfig.getInstance().getConfig().getInt("nicknames.min-length");
-            if (cleanString.length() > maxLength) {
+            if (cleanString.length() > maxLength && !hasBypassLengthPermission) {
                 MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.too-long", "max-length", String.valueOf(maxLength));
                 return;
-            } else if (cleanString.length() < minLength) {
+            } else if (cleanString.length() < minLength && !hasBypassLengthPermission) {
                 MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.too-short", "min-length", String.valueOf(minLength));
                 return;
-            } else if (MainConfig.getInstance().getConfig().getStringList("nicknames.blacklisted-names").contains(cleanString)) {
+            } else if (MainConfig.getInstance().getConfig().getStringList("nicknames.blacklisted-names").contains(cleanString) && !hasBypassBlacklistPermission) {
                 MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.blacklisted");
                 return;
             }

@@ -1,5 +1,8 @@
 package uk.firedev.skylight;
 
+import org.bukkit.Bukkit;
+import org.bukkit.permissions.Permission;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
@@ -16,6 +19,7 @@ import uk.firedev.skylight.placeholders.MiniPlaceholdersExpansion;
 import uk.firedev.skylight.placeholders.PlaceholderAPIExpansion;
 import uk.firedev.skylight.modules.small.SmallManager;
 
+import java.util.List;
 import java.util.logging.Level;
 
 public final class Skylight extends JavaPlugin {
@@ -32,6 +36,8 @@ public final class Skylight extends JavaPlugin {
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
+
+        registerPermissions();
 
         SkylightCommand.getInstance().register();
 
@@ -91,6 +97,14 @@ public final class Skylight extends JavaPlugin {
 
     public boolean isPluginEnabled(String plugin) {
         return getServer().getPluginManager().isPluginEnabled(plugin);
+    }
+
+    private void registerPermissions() {
+        List<Permission> permissions = List.of(
+                new Permission("skylight.command.nickname.bypass.blacklist"),
+                new Permission("skylight.command.nickname.bypass.length")
+        );
+        permissions.forEach(getServer().getPluginManager()::addPermission);
     }
 
 }
