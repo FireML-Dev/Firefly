@@ -6,6 +6,7 @@ import net.kyori.adventure.text.minimessage.tag.Tag;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
 import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.modules.small.AmethystProtection;
 
@@ -28,6 +29,14 @@ public class MiniPlaceholdersExpansion {
                         return Tag.selfClosingInserting(TitleManager.getInstance().getPlayerSuffix(player));
                     } else {
                         return Tag.selfClosingInserting(ComponentUtils.parseComponent(VaultManager.getChat().getPlayerSuffix(player)));
+                    }
+                }))
+                .audiencePlaceholder("player_nickname", ((audience, argumentQueue, context) -> {
+                    Player player = (Player) audience;
+                    if (NicknameManager.getInstance().isLoaded()) {
+                        return Tag.selfClosingInserting(NicknameManager.getInstance().getNickname(player));
+                    } else {
+                        return Tag.selfClosingInserting(ComponentUtils.parseComponent(player.getName()));
                     }
                 }))
                 .audiencePlaceholder("amethyst_protected", ((audience, argumentQueue, context) -> {

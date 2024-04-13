@@ -3,6 +3,7 @@ package uk.firedev.skylight.placeholders;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
 import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.modules.small.AmethystProtection;
 
@@ -49,6 +50,12 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                 } else {
                     yield null;
                 }
+            }
+            case "player_nickname" -> {
+                if (NicknameManager.getInstance().isLoaded()) {
+                    yield NicknameManager.getInstance().getStringNickname(player);
+                }
+                yield player.getName();
             }
             default -> null;
         };

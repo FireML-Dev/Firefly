@@ -5,6 +5,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import uk.firedev.skylight.config.ModuleConfig;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
 import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MainConfig;
@@ -57,6 +58,10 @@ public final class Skylight extends JavaPlugin {
         if (ModuleConfig.getInstance().kitsModuleEnabled()) {
             KitManager.getInstance().load();
             Loggers.log(Level.INFO, getLogger(), "Loaded Kits Module.");
+        }
+        if (ModuleConfig.getInstance().nicknamesModuleEnabled()) {
+            NicknameManager.getInstance().load();
+            Loggers.info(getLogger(), "Loaded Nicknames Module.");
         }
 
     }

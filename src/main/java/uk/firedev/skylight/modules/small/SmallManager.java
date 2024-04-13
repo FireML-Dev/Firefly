@@ -15,11 +15,7 @@ public class SmallManager {
 
     private static SmallManager instance = null;
 
-    private final Skylight plugin;
-
-    private SmallManager() {
-        plugin = Skylight.getInstance();
-    }
+    private SmallManager() {}
 
     public static SmallManager getInstance() {
         if (instance == null) {
@@ -31,16 +27,16 @@ public class SmallManager {
     public void reload() {}
 
     public void load() {
-        PluginManager pluginManager = plugin.getServer().getPluginManager();
+        PluginManager pluginManager = Skylight.getInstance().getServer().getPluginManager();
         if (ModuleConfig.getInstance().amethystProtectionModuleEnabled()) {
             AmethystProtection.getInstance().setLoaded();
             AmethystProtection.getInstance().register();
-            pluginManager.registerEvents(AmethystProtection.getInstance(), plugin);
-            Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Amethyst Protection Module.");
+            pluginManager.registerEvents(AmethystProtection.getInstance(), Skylight.getInstance());
+            Loggers.log(Level.INFO, Skylight.getInstance().getLogger(), "Loaded Amethyst Protection Module.");
         }
         if (ModuleConfig.getInstance().lootChestProtectionModuleEnabled()) {
-            pluginManager.registerEvents(LootChestProtection.getInstance(), plugin);
-            Loggers.log(Level.INFO, plugin.getLogger(), "Loaded Loot Chest Protection Module.");
+            pluginManager.registerEvents(LootChestProtection.getInstance(), Skylight.getInstance());
+            Loggers.log(Level.INFO, Skylight.getInstance().getLogger(), "Loaded Loot Chest Protection Module.");
         }
     }
 

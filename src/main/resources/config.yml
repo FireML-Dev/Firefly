@@ -27,3 +27,16 @@ loot-chest-protection:
     - Resource
     - Resource_nether
     - Resource_the_end
+
+nicknames:
+  max-length: 16
+  min-length: 3
+  blacklisted-names:
+    - admin
+    - administrator
+    - server
+    - staff
+    - helper
+    - owner
+    - moderator
+    - mod
