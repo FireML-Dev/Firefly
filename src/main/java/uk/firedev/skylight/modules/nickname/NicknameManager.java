@@ -124,10 +124,8 @@ public class NicknameManager {
 
     public void populateNicknameMap() {
         if (isLoaded()) {
-            System.out.println(nicknameMap);
             Database.getInstance().getNicknames().thenAccept(map -> {
                 nicknameMap = new HashMap<>(map);
-                System.out.println(nicknameMap);
             });
         }
     }
