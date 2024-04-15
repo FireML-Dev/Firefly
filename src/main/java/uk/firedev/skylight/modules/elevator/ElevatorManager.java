@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
 import uk.firedev.daisylib.utils.ComponentUtils;
@@ -144,8 +145,7 @@ public class ElevatorManager {
         item.setItemMeta(meta);
         return item;
     }
-
-    //TODO no worky. come back later
+    
     private void registerRecipe() {
         List<ItemStack> stackList = new ArrayList<>();
         MainConfig.getInstance().getConfig().getStringList("elevator.item.recipe").forEach(itemName -> {
@@ -158,9 +158,10 @@ public class ElevatorManager {
             stackList.add(new ItemStack(material));
         });
         ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);
-        System.out.println(stackList);
-        if (!recipe.register()) {
-            System.out.println("Recipe did not register");
+        if (recipe.register()) {
+            Loggers.info(Skylight.getInstance().getLogger(), "Registered Elevator Recipe");
+        } else {
+            Loggers.warning(Skylight.getInstance().getLogger(), "Elevator Recipe failed to register.");
         }
     }
 
