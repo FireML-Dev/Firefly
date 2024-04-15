@@ -42,8 +42,13 @@ public class NicknameAdminCommand extends CommandAPICommand {
                 return;
             }
             if (args[1].equals("remove") || args[1].equals("off")) {
-                NicknameManager.getInstance().removeNickname(player);
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.removed-nickname");
+                NicknameManager.getInstance().removeNickname(targetPlayer);
+                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.admin.removed-others-nickname",
+                        "player", targetPlayer.getName()
+                );
+                if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {
+                    MessageConfig.getInstance().sendMessageFromConfig(targetPlayer.getPlayer(), "messages.nicknames.command.removed-nickname");
+                }
                 return;
             }
             String[] splitValue = args[1].split(" ");

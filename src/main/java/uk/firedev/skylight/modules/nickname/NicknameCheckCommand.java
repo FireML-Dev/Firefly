@@ -18,7 +18,7 @@ public class NicknameCheckCommand extends CommandAPICommand {
     private NicknameCheckCommand() {
         super("nicknamecheck");
         withAliases("nickcheck");
-        withArguments(NicknameCommand.getPlayersArgument());
+        withArguments(NicknameCommand.getPlayersArgument().setOptional(true));
         setPermission(CommandPermission.fromString("skylight.command.nickname.check"));
         withShortDescription("Check a player's nickname");
         withFullDescription("Check a player's nickname");

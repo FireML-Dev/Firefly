@@ -38,5 +38,6 @@ messages:
       admin:
         usage: "<red>Usage: /nicknameadmin <player> <nickname>"
         set-others-nickname: "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>"
+        removed-others-nickname: "<color:#F0E68C>Removed {player}'s nickname.</color>"
       check:
         check-info: "<color:#F0E68C>{player}'s Nickname:</color> <white>{nickname}</white>"
