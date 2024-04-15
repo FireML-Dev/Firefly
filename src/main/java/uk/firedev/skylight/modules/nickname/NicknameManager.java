@@ -98,7 +98,7 @@ public class NicknameManager {
      * @param player The player to set
      * @param nickname The nickname to set, as an Adventure Component
      */
-    public CompletableFuture<Void> setNickname(@NotNull Player player, @NotNull Component nickname) {
+    public CompletableFuture<Void> setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
         return setStringNickname(player, LegacyComponentSerializer.legacySection().serialize(nickname));
     }
 
@@ -107,7 +107,7 @@ public class NicknameManager {
      * @param player The player to set
      * @param nickname The nickname to set, as a Legacy String
      */
-    public CompletableFuture<Void> setStringNickname(@NotNull Player player, @NotNull String nickname) {
+    public CompletableFuture<Void> setStringNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
         return Database.getInstance().setNickname(player.getUniqueId(), nickname);
     }
 
@@ -115,8 +115,8 @@ public class NicknameManager {
      * Removes a player's custom nickname.
      * @param player The player whose nickname to remove.
      */
-    public void removeNickname(@NotNull Player player) {
-        player.getPersistentDataContainer().remove(getNicknameKey());
+    public void removeNickname(@NotNull OfflinePlayer player) {
+        Database.getInstance().setNickname(player.getUniqueId(), "");
     }
 
     public void populateNicknameMap() {
