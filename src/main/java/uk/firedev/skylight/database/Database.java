@@ -2,9 +2,7 @@ package uk.firedev.skylight.database;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.VisibleForTesting;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.database.SQLiteDatabase;
 import uk.firedev.skylight.Skylight;
@@ -49,8 +47,6 @@ public class Database extends SQLiteDatabase {
     }
 
     public void unload() {
-        // Final save just to be safe
-        NicknameManager.getInstance().getNicknameMap().forEach(this::setNickname);
         closeConnection();
     }
 

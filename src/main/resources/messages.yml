@@ -1,9 +1,9 @@
 messages:
   prefix: "<gray>[Skylight]</gray> "
+  player-not-found: "<red>Player not found."
   main-command:
     reloaded: "<color:#F0E68C>Successfully reloaded the plugin"
     help: "<color:#F0E68C>Usage: <aqua>/skylight reload"
-  player-not-found: "<red>Player not found."
   kits:
     usage: "<color:#F0E68C>Usage: <green>/awardkit <player> <kit>"
     kit-not-found: "<red>Kit not found."
@@ -33,5 +33,10 @@ messages:
       too-long: "<red>That nickname is too long! Maximum length {max-length}</red>"
       too-short: "<red>That nickname is too short! Minimum length {min-length}</red>"
       blacklisted: "<red>That name is blacklisted! Please try something else.</red>"
-      set-nickname: "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>"
+      set-own-nickname: "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>"
       removed-nickname: "<color:#F0E68C>Removed your nickname.</color>"
+      admin:
+        usage: "<red>Usage: /nicknameadmin <player> <nickname>"
+        set-others-nickname: "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>"
+      check:
+        check-info: "<color:#F0E68C>{player}'s Nickname:</color> <white>{nickname}</white>"

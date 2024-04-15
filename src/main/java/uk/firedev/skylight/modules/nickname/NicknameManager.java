@@ -16,6 +16,7 @@ import uk.firedev.skylight.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -28,7 +29,7 @@ public class NicknameManager {
 
     private NicknameManager() {}
 
-    public static synchronized NicknameManager getInstance() {
+    public static NicknameManager getInstance() {
         if (instance == null) {
             instance = new NicknameManager();
         }
@@ -41,6 +42,8 @@ public class NicknameManager {
         }
         loaded = true;
         NicknameCommand.getInstance().register();
+        NicknameAdminCommand.getInstance().register();
+        NicknameCheckCommand.getInstance().register();
         populateNicknameMap();
     }
 
@@ -69,7 +72,7 @@ public class NicknameManager {
     public Component getNickname(@NotNull OfflinePlayer player) {
         String savedName = getNicknameMap().get(player.getUniqueId());
         if (savedName == null || savedName.isEmpty()) {
-            savedName = player.getName();
+            savedName = Objects.requireNonNull(player.getName());
         }
         Component component = StringUtils.convertLegacyToAdventure(savedName);
         if (!ComponentUtils.toUncoloredString(component).equals(player.getName())) {

@@ -108,7 +108,7 @@ public final class Skylight extends JavaPlugin {
                 new Permission("skylight.command.nickname.bypass.blacklist"),
                 new Permission("skylight.command.nickname.bypass.length"),
                 new Permission("skylight.command.nickname.colors"),
-                new Permission("skylight.command.nickname.other")
+                new Permission("skylight.command.nickname.unique")
         );
         permissions.forEach(getServer().getPluginManager()::addPermission);
     }
