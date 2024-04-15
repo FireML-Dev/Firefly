@@ -8,6 +8,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import uk.firedev.skylight.config.ModuleConfig;
+import uk.firedev.skylight.database.Database;
 import uk.firedev.skylight.modules.nickname.NicknameManager;
 import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
@@ -39,6 +40,7 @@ public final class Skylight extends JavaPlugin {
 
         registerPermissions();
 
+        Database.getInstance().load();
         SkylightCommand.getInstance().register();
 
         // Load Placeholder Hooks
@@ -73,7 +75,9 @@ public final class Skylight extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+        Database.getInstance().unload();
+    }
 
     public void reload() {
         MainConfig.getInstance().reload();
@@ -102,7 +106,9 @@ public final class Skylight extends JavaPlugin {
     private void registerPermissions() {
         List<Permission> permissions = List.of(
                 new Permission("skylight.command.nickname.bypass.blacklist"),
-                new Permission("skylight.command.nickname.bypass.length")
+                new Permission("skylight.command.nickname.bypass.length"),
+                new Permission("skylight.command.nickname.colors"),
+                new Permission("skylight.command.nickname.other")
         );
         permissions.forEach(getServer().getPluginManager()::addPermission);
     }
