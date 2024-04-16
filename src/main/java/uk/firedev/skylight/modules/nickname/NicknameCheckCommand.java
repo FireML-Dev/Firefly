@@ -35,7 +35,7 @@ public class NicknameCheckCommand extends CommandAPICommand {
                 target = player;
             }
             message = ComponentUtils.parsePlaceholders(message, Map.of(
-                    "player", ComponentUtils.parseComponent(target.getName()),
+                    "player", ComponentUtils.deserializeString(target.getName()),
                     "nickname", NicknameManager.getInstance().getNickname(target)
             ));
             player.sendMessage(message);

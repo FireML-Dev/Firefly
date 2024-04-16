@@ -61,7 +61,7 @@ public class ElevatorManager {
     }
 
     public Component getBossBarTitle(Elevator elevator) {
-        return ComponentUtils.parseComponent(
+        return ComponentUtils.deserializeString(
                 MainConfig.getInstance().getConfig().getString(
                     "elevator.bossbar.title",
                     "<yellow>Floor {current} of {all}</yellow>"

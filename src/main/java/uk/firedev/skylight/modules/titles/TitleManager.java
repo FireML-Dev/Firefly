@@ -72,8 +72,8 @@ public class TitleManager extends uk.firedev.daisylib.Config {
 
     public void setPlayerPrefix(@NotNull Player player, Prefix prefix) {
         Component prefixComponent = prefix.getDisplay();
-        player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, ComponentUtils.toString(prefixComponent));
-        Component component = ComponentUtils.parseComponent(MessageConfig.getInstance().fromConfig("messages.title.prefix-set"),
+        player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(prefixComponent));
+        Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.prefix-set"),
                 Map.of("prefix", prefixComponent)
         );
         player.sendMessage(component);
@@ -83,8 +83,8 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         if (prefix == null) {
             removePlayerPrefix(player);
         } else {
-            player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, ComponentUtils.toString(prefix));
-            Component component = ComponentUtils.parseComponent(MessageConfig.getInstance().fromConfig("messages.title.prefix-set"),
+            player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(prefix));
+            Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.prefix-set"),
                     Map.of("prefix", prefix)
             );
             player.sendMessage(component);
@@ -100,7 +100,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         String prefix = player.getPersistentDataContainer().getOrDefault(
                 getPrefixKey(), PersistentDataType.STRING, VaultManager.getChat().getPlayerPrefix(player)
         );
-        return ComponentUtils.parseComponent(prefix);
+        return ComponentUtils.deserializeString(prefix);
     }
 
     public String getPlayerPrefixLegacy(@NotNull Player player) {
@@ -109,8 +109,8 @@ public class TitleManager extends uk.firedev.daisylib.Config {
 
     public void setPlayerSuffix(@NotNull Player player, Suffix suffix) {
         Component suffixComponent = suffix.getDisplay();
-        player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, ComponentUtils.toString(suffixComponent));
-        Component component = ComponentUtils.parseComponent(MessageConfig.getInstance().fromConfig("messages.title.suffix-set"),
+        player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(suffixComponent));
+        Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.suffix-set"),
                 Map.of("suffix", suffixComponent)
         );
         player.sendMessage(component);
@@ -120,8 +120,8 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         if (suffix == null) {
             removePlayerSuffix(player);
         } else {
-            player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, ComponentUtils.toString(suffix));
-            Component component = ComponentUtils.parseComponent(MessageConfig.getInstance().fromConfig("messages.title.suffix-set"),
+            player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(suffix));
+            Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.suffix-set"),
                     Map.of("suffix", suffix)
             );
             player.sendMessage(component);
@@ -137,7 +137,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         String suffix = player.getPersistentDataContainer().getOrDefault(
                 getSuffixKey(), PersistentDataType.STRING, VaultManager.getChat().getPlayerSuffix(player)
         );
-        return ComponentUtils.parseComponent(suffix);
+        return ComponentUtils.deserializeString(suffix);
     }
 
     public String getPlayerSuffixLegacy(@NotNull Player player) {

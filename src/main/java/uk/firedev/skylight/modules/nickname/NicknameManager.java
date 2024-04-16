@@ -75,12 +75,12 @@ public class NicknameManager {
             savedName = Objects.requireNonNull(player.getName());
         }
         Component component = StringUtils.convertLegacyToAdventure(savedName);
-        if (!ComponentUtils.toUncoloredString(component).equals(player.getName())) {
+        if (!ComponentUtils.matchesString(component, player.getName())) {
             String message = MessageConfig.getInstance().getConfig().getString("messages.nicknames.real-name-hover", "<color:#F0E68C>Real Username:</color> <white>{username}</white>");
             component = component.hoverEvent(
                     HoverEvent.hoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
-                            ComponentUtils.parseComponent(message, "username", player.getName())
+                            ComponentUtils.deserializeString(message, "username", player.getName())
                     )
             );
         }

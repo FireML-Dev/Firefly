@@ -34,12 +34,12 @@ public interface TitlePart {
         Component display = getDisplay();
         String displayString = getConfigurationSection().getString("icon.display");
         if (displayString != null) {
-            display = ComponentUtils.parseComponent(displayString);
+            display = ComponentUtils.deserializeString(displayString);
             display = ComponentUtils.parsePlaceholders(display,
                     Map.of("display", getDisplay())
             );
         }
-        meta.lore(ComponentUtils.parseComponentList(getConfigurationSection().getStringList("icon.lore")));
+        meta.lore(ComponentUtils.deserializeStringList(getConfigurationSection().getStringList("icon.lore")));
         meta.displayName(display);
         item.setItemMeta(meta);
         return item;

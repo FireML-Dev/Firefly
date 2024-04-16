@@ -48,14 +48,14 @@ public class Kit {
         this.name = section.getName();
         this.permission = section.getString("permission", "");
         this.material = ItemUtils.getMaterial(section.getString("material", ""), Material.SHULKER_BOX);
-        this.display = ComponentUtils.parseComponent(Objects.requireNonNullElse(section.getString("display"), "<gold><bold>Kit"));
+        this.display = ComponentUtils.deserializeString(Objects.requireNonNullElse(section.getString("display"), "<gold><bold>Kit"));
         List<String> loreStrings = section.getStringList("lore");
         if (loreStrings.isEmpty()) {
-            this.lore = ComponentUtils.parseComponentList(List.of(
+            this.lore = ComponentUtils.deserializeStringList(List.of(
                     "<green>Right Click to Claim"
             ));
         } else {
-            this.lore = ComponentUtils.parseComponentList(loreStrings);
+            this.lore = ComponentUtils.deserializeStringList(loreStrings);
         }
         this.singleRandomReward = section.getBoolean("single-random-reward", false);
 

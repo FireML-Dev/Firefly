@@ -32,7 +32,7 @@ public class Suffix implements TitlePart {
             permission = defaultPermission;
         }
         this.section = section;
-        this.display = ComponentUtils.parseComponent(displayString);
+        this.display = ComponentUtils.deserializeString(displayString);
         this.permission = permission;
     }
 

@@ -20,7 +20,7 @@ public class MiniPlaceholdersExpansion {
                     if (TitleManager.getInstance().isLoaded()) {
                         return Tag.selfClosingInserting(TitleManager.getInstance().getPlayerPrefix(player));
                     } else {
-                        return Tag.selfClosingInserting(ComponentUtils.parseComponent(VaultManager.getChat().getPlayerPrefix(player)));
+                        return Tag.selfClosingInserting(ComponentUtils.deserializeString(VaultManager.getChat().getPlayerPrefix(player)));
                     }
                 }))
                 .audiencePlaceholder("player_suffix", ((audience, argumentQueue, context) -> {
@@ -28,7 +28,7 @@ public class MiniPlaceholdersExpansion {
                     if (TitleManager.getInstance().isLoaded()) {
                         return Tag.selfClosingInserting(TitleManager.getInstance().getPlayerSuffix(player));
                     } else {
-                        return Tag.selfClosingInserting(ComponentUtils.parseComponent(VaultManager.getChat().getPlayerSuffix(player)));
+                        return Tag.selfClosingInserting(ComponentUtils.deserializeString(VaultManager.getChat().getPlayerSuffix(player)));
                     }
                 }))
                 .audiencePlaceholder("player_nickname", ((audience, argumentQueue, context) -> {
@@ -36,7 +36,7 @@ public class MiniPlaceholdersExpansion {
                     if (NicknameManager.getInstance().isLoaded()) {
                         return Tag.selfClosingInserting(NicknameManager.getInstance().getNickname(player));
                     } else {
-                        return Tag.selfClosingInserting(ComponentUtils.parseComponent(player.getName()));
+                        return Tag.selfClosingInserting(ComponentUtils.deserializeString(player.getName()));
                     }
                 }))
                 .audiencePlaceholder("amethyst_protected", ((audience, argumentQueue, context) -> {
