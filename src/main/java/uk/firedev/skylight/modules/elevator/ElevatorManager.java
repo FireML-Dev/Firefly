@@ -108,11 +108,11 @@ public class ElevatorManager {
             MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.unsafe-location");
             return;
         }
-        player.teleportAsync(location).thenAccept(aBoolean -> {
-            if (!aBoolean) {
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.teleport-fail");
-            } else {
+        player.teleportAsync(location).thenAccept(success -> {
+            if (success) {
                 elevator.handleBossBar(player);
+            } else {
+                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.teleport-fail");
             }
         });
     }
