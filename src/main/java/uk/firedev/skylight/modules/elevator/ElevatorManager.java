@@ -112,7 +112,6 @@ public class ElevatorManager {
             if (!aBoolean) {
                 MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.teleport-fail");
             } else {
-                MessageConfig.getInstance().sendMessage(player, "You teleported. Congrats");
                 elevator.handleBossBar(player);
             }
         });
