@@ -5,7 +5,6 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
@@ -124,9 +123,7 @@ public class NicknameManager {
 
     public void populateNicknameMap() {
         if (isLoaded()) {
-            Database.getInstance().getNicknames().thenAccept(map -> {
-                nicknameMap = new HashMap<>(map);
-            });
+            Database.getInstance().getNicknames().thenAccept(map -> nicknameMap = new HashMap<>(map));
         }
     }
 

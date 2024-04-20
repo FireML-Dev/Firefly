@@ -7,8 +7,8 @@ import org.bukkit.inventory.ItemStack;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.libs.themoep.inventorygui.*;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
+import uk.firedev.skylight.modules.titles.TitleManager;
 
 import java.util.List;
 

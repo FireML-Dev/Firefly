@@ -2,8 +2,8 @@ package uk.firedev.skylight.modules.small;
 
 import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.Skylight;
+import uk.firedev.skylight.config.ModuleConfig;
 
 import java.util.logging.Level;
 

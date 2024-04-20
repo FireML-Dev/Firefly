@@ -4,8 +4,8 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.skylight.modules.nickname.NicknameManager;
-import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.modules.small.AmethystProtection;
+import uk.firedev.skylight.modules.titles.TitleManager;
 
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 

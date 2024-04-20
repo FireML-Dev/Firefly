@@ -1,24 +1,22 @@
 package uk.firedev.skylight;
 
-import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
-import uk.firedev.skylight.config.ModuleConfig;
-import uk.firedev.skylight.database.Database;
-import uk.firedev.skylight.modules.nickname.NicknameManager;
-import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
+import uk.firedev.skylight.config.ModuleConfig;
+import uk.firedev.skylight.database.Database;
 import uk.firedev.skylight.modules.elevator.ElevatorManager;
 import uk.firedev.skylight.modules.kit.KitManager;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
+import uk.firedev.skylight.modules.small.SmallManager;
+import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.placeholders.MiniPlaceholdersExpansion;
 import uk.firedev.skylight.placeholders.PlaceholderAPIExpansion;
-import uk.firedev.skylight.modules.small.SmallManager;
 
 import java.util.List;
 import java.util.logging.Level;

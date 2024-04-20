@@ -3,17 +3,12 @@ package uk.firedev.skylight.modules.nickname;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
-import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.utils.StringUtils;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class NicknameAdminCommand extends CommandAPICommand {
 

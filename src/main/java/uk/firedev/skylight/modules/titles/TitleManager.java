@@ -13,9 +13,9 @@ import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
+import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.modules.titles.objects.Prefix;
 import uk.firedev.skylight.modules.titles.objects.Suffix;
-import uk.firedev.skylight.config.MessageConfig;
 
 import java.util.ArrayList;
 import java.util.List;

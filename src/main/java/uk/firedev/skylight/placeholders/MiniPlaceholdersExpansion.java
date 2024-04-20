@@ -7,8 +7,8 @@ import org.bukkit.entity.Player;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.skylight.modules.nickname.NicknameManager;
-import uk.firedev.skylight.modules.titles.TitleManager;
 import uk.firedev.skylight.modules.small.AmethystProtection;
+import uk.firedev.skylight.modules.titles.TitleManager;
 
 public class MiniPlaceholdersExpansion {
 
