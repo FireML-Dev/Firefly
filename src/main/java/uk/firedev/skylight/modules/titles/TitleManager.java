@@ -97,9 +97,16 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     }
 
     public Component getPlayerPrefix(@NotNull Player player) {
-        String prefix = player.getPersistentDataContainer().getOrDefault(
-                getPrefixKey(), PersistentDataType.STRING, VaultManager.getChat().getPlayerPrefix(player)
+        String prefix = player.getPersistentDataContainer().get(
+                getPrefixKey(), PersistentDataType.STRING
         );
+        if (prefix == null) {
+            if (VaultManager.getChat() == null) {
+                return Component.empty();
+            } else {
+                return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerPrefix(player).replace('§', '&'));
+            }
+        }
         return ComponentUtils.deserializeString(prefix);
     }
 
@@ -134,9 +141,16 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     }
 
     public Component getPlayerSuffix(@NotNull Player player) {
-        String suffix = player.getPersistentDataContainer().getOrDefault(
-                getSuffixKey(), PersistentDataType.STRING, VaultManager.getChat().getPlayerSuffix(player)
+        String suffix = player.getPersistentDataContainer().get(
+                getSuffixKey(), PersistentDataType.STRING
         );
+        if (suffix == null) {
+            if (VaultManager.getChat() == null) {
+                return Component.empty();
+            } else {
+                return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerSuffix(player).replace('§', '&'));
+            }
+        }
         return ComponentUtils.deserializeString(suffix);
     }
 
