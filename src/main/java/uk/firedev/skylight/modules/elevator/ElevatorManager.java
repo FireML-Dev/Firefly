@@ -19,6 +19,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
 import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.config.MainConfig;
@@ -135,7 +136,7 @@ public class ElevatorManager {
         ItemStack item = new ItemBuilder(material)
                 .withStringDisplay(config.getString("elevator.item.display", "<aqua>Elevator Block</aqua>"))
                 .withStringLore(config.getStringList("elevator.item.lore"))
-                .addEnchantment(Enchantment.DURABILITY, 10)
+                .addEnchantment(Enchantment.UNBREAKING, 10)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .build();
         ItemMeta meta = item.getItemMeta();
@@ -147,15 +148,9 @@ public class ElevatorManager {
     
     private void registerRecipe() {
         List<ItemStack> stackList = new ArrayList<>();
-        MainConfig.getInstance().getConfig().getStringList("elevator.item.recipe").forEach(itemName -> {
-            Material material;
-            try {
-                material = Material.valueOf(itemName.toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                material = Material.AIR;
-            }
-            stackList.add(new ItemStack(material));
-        });
+        MainConfig.getInstance().getConfig().getStringList("elevator.item.recipe").forEach(itemName ->
+                stackList.add(new ItemStack(ItemUtils.getMaterial(itemName, Material.AIR)))
+        );
         ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);
         if (recipe.register()) {
             Loggers.info(Skylight.getInstance().getLogger(), "Registered Elevator Recipe");
