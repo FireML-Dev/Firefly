@@ -35,7 +35,8 @@ public class NicknameCommand extends CommandAPICommand {
             String[] args = arguments.rawArgs();
             Component currentNickname = NicknameManager.getInstance().getNickname(player);
             if (args.length == 0) {
-                Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.nicknames.command.check-nickname-command.own-nickname");
+                String stringMessage = MessageConfig.getInstance().getConfig().getString("messages.nicknames.command.own-nickname", "<color:#F0E68C>Your Current Nickname is:</color> <white>{nickname}</white>");
+                Component message = ComponentUtils.deserializeString(stringMessage);
                 player.sendMessage(ComponentUtils.parsePlaceholders(message,
                         Map.of("nickname", currentNickname)
                 ));
