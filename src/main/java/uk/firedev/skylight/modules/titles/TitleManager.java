@@ -8,9 +8,12 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.utils.ComponentUtils;
+
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.config.MessageConfig;
@@ -70,30 +73,24 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         return ObjectUtils.createNamespacedKey("player-suffix", Skylight.getInstance());
     }
 
-    public void setPlayerPrefix(@NotNull Player player, Prefix prefix) {
-        Component prefixComponent = prefix.getDisplay();
-        player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(prefixComponent));
-        Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.prefix-set"),
-                Map.of("prefix", prefixComponent)
-        );
-        player.sendMessage(component);
+    public void setPlayerPrefix(@NotNull Player player, @NotNull String prefix) {
+        setPlayerPrefix(player, new ComponentMessage(prefix).getMessage());
     }
 
-    public void setPlayerPrefix(@NotNull Player player, Component prefix) {
-        if (prefix == null) {
-            removePlayerPrefix(player);
-        } else {
-            player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(prefix));
-            Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.prefix-set"),
-                    Map.of("prefix", prefix)
-            );
-            player.sendMessage(component);
-        }
+    public void setPlayerPrefix(@NotNull Player player, @NotNull Prefix prefix) {
+        setPlayerPrefix(player, prefix.getDisplay());
+    }
+
+    public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
+        String stringPrefix = new ComponentMessage(prefix).toStringMessage().getMessage();
+        player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
+        ComponentReplacer replacer = new ComponentReplacer().addReplacement("prefix", prefix);
+        MessageConfig.getInstance().getTitlePrefixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
     public void removePlayerPrefix(@NotNull Player player) {
         player.getPersistentDataContainer().remove(getPrefixKey());
-        MessageConfig.getInstance().sendMessageFromConfig(player, "messages.title.prefix-removed");
+        MessageConfig.getInstance().getTitlePrefixRemovedMessage().sendMessage(player);
     }
 
     public Component getPlayerPrefix(@NotNull Player player) {
@@ -107,37 +104,31 @@ public class TitleManager extends uk.firedev.daisylib.Config {
                 return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerPrefix(player).replace('§', '&'));
             }
         }
-        return ComponentUtils.deserializeString(prefix);
+        return new ComponentMessage(prefix).getMessage();
     }
 
     public String getPlayerPrefixLegacy(@NotNull Player player) {
         return LegacyComponentSerializer.legacySection().serialize(getPlayerPrefix(player)).replace('&', '§');
     }
 
-    public void setPlayerSuffix(@NotNull Player player, Suffix suffix) {
-        Component suffixComponent = suffix.getDisplay();
-        player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(suffixComponent));
-        Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.suffix-set"),
-                Map.of("suffix", suffixComponent)
-        );
-        player.sendMessage(component);
+    public void setPlayerSuffix(@NotNull Player player, @NotNull String suffix) {
+        setPlayerSuffix(player, new ComponentMessage(suffix).getMessage());
     }
 
-    public void setPlayerSuffix(@NotNull Player player, Component suffix) {
-        if (suffix == null) {
-            removePlayerSuffix(player);
-        } else {
-            player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, ComponentUtils.serializeComponent(suffix));
-            Component component = ComponentUtils.deserializeString(MessageConfig.getInstance().fromConfig("messages.title.suffix-set"),
-                    Map.of("suffix", suffix)
-            );
-            player.sendMessage(component);
-        }
+    public void setPlayerSuffix(@NotNull Player player, @NotNull Suffix suffix) {
+        setPlayerSuffix(player, suffix.getDisplay());
+    }
+
+    public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {
+        String stringSuffix = new ComponentMessage(suffix).toStringMessage().getMessage();
+        player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
+        ComponentReplacer replacer = new ComponentReplacer().addReplacement("suffix", suffix);
+        MessageConfig.getInstance().getTitleSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
     public void removePlayerSuffix(@NotNull Player player) {
         player.getPersistentDataContainer().remove(getSuffixKey());
-        MessageConfig.getInstance().sendMessageFromConfig(player, "messages.title.suffix-removed");
+        MessageConfig.getInstance().getTitleSuffixRemovedMessage().sendMessage(player);
     }
 
     public Component getPlayerSuffix(@NotNull Player player) {
@@ -151,7 +142,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
                 return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerSuffix(player).replace('§', '&'));
             }
         }
-        return ComponentUtils.deserializeString(suffix);
+        return new ComponentMessage(suffix).getMessage();
     }
 
     public String getPlayerSuffixLegacy(@NotNull Player player) {

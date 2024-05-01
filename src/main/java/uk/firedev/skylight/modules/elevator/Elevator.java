@@ -70,7 +70,7 @@ public class Elevator {
             progress = (float) (getCurrentPosition() + 1) / getStack().size();
         }
         BossBar bossBar = new BossBarBuilder()
-                .withTitle(ElevatorManager.getInstance().getBossBarTitle(this))
+                .withTitle(ElevatorManager.getInstance().getBossBarTitle(this), null)
                 .withColor(ElevatorManager.getInstance().getBossBarColor())
                 .withOverlay(ElevatorManager.getInstance().getBossBarOverlay())
                 .withProgress(progress)

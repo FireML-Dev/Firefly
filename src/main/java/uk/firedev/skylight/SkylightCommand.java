@@ -15,7 +15,7 @@ public class SkylightCommand extends CommandAPICommand {
         withFullDescription("Manage the Plugin");
         withSubcommands(getReloadCommand());
         executes((sender, arguments) -> {
-            MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.main-command.help");
+            MessageConfig.getInstance().getMainCommandUsageMessage().sendMessage(sender);
         });
     }
 
@@ -30,7 +30,7 @@ public class SkylightCommand extends CommandAPICommand {
         return new CommandAPICommand("reload")
                 .executes(((sender, arguments) -> {
                     Skylight.getInstance().reload();
-                    MessageConfig.getInstance().sendPrefixedMessageFromConfig(sender, "messages.main-command.reloaded");
+                    MessageConfig.getInstance().getMainCommandReloadedMessage().sendMessage(sender);
                 }));
     }
 

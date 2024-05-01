@@ -18,7 +18,8 @@ import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
@@ -63,14 +64,11 @@ public class ElevatorManager {
     }
 
     public Component getBossBarTitle(Elevator elevator) {
-        return ComponentUtils.deserializeString(
-                MainConfig.getInstance().getConfig().getString(
-                    "elevator.bossbar.title",
-                    "<yellow>Floor {current} of {all}</yellow>"
-                ),
+        ComponentReplacer replacer = new ComponentReplacer().addReplacements(
                 "current", String.valueOf(elevator.getCurrentPosition() + 1),
                 "all", String.valueOf(elevator.getStack().size())
         );
+        return new ComponentMessage(MainConfig.getInstance().getConfig(), "elevator.bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
     }
 
     public BossBar.Color getBossBarColor() {
@@ -107,14 +105,14 @@ public class ElevatorManager {
         location.setYaw(player.getYaw());
         location.setPitch(player.getPitch());
         if (!location.getBlock().isPassable()) {
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.unsafe-location");
+            MessageConfig.getInstance().getElevatorUnsafeLocationMessage().sendMessage(player);
             return;
         }
         player.teleportAsync(location).thenAccept(success -> {
             if (success) {
                 elevator.handleBossBar(player);
             } else {
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.teleport-fail");
+                MessageConfig.getInstance().getElevatorTeleportFailMessage().sendMessage(player);
             }
         });
     }
@@ -135,8 +133,8 @@ public class ElevatorManager {
             material = Material.IRON_BLOCK;
         }
         ItemStack item = new ItemBuilder(material)
-                .withStringDisplay(config.getString("elevator.item.display", "<aqua>Elevator Block</aqua>"))
-                .withStringLore(config.getStringList("elevator.item.lore"))
+                .withStringDisplay(config.getString("elevator.item.display", "<aqua>Elevator Block</aqua>"), null)
+                .withStringLore(config.getStringList("elevator.item.lore"), null)
                 .addEnchantment(Enchantment.UNBREAKING, 10)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .build();

@@ -7,7 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
+
 
 import java.util.Map;
 
@@ -34,12 +36,10 @@ public interface TitlePart {
         Component display = getDisplay();
         String displayString = getConfigurationSection().getString("icon.display");
         if (displayString != null) {
-            display = ComponentUtils.deserializeString(displayString);
-            display = ComponentUtils.parsePlaceholders(display,
-                    Map.of("display", getDisplay())
-            );
+            ComponentReplacer replacer = new ComponentReplacer().addReplacement("display", getDisplay());
+            display = new ComponentMessage(displayString).applyReplacer(replacer).getMessage();
         }
-        meta.lore(ComponentUtils.deserializeStringList(getConfigurationSection().getStringList("icon.lore")));
+        meta.lore(getConfigurationSection().getStringList("icon.lore").stream().map(s -> new ComponentMessage(s).getMessage()).toList());
         meta.displayName(display);
         item.setItemMeta(meta);
         return item;

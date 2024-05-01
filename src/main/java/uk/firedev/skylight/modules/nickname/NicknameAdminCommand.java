@@ -4,7 +4,9 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.utils.ComponentUtils;
+
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.utils.StringUtils;
 
@@ -25,24 +27,25 @@ public class NicknameAdminCommand extends CommandAPICommand {
             String[] args = arguments.rawArgs();
             Component currentNickname = NicknameManager.getInstance().getNickname(player);
             if (args.length < 2) {
-                Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.nicknames.command.admin-command.usage");
-                player.sendMessage(ComponentUtils.parsePlaceholders(message,
-                        Map.of("nickname", currentNickname)
-                ));
+                MessageConfig.getInstance().getNicknameCommandAdminUsageMessage().sendMessage(player);
                 return;
             }
             OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
             if (!targetPlayer.hasPlayedBefore()) {
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.player-not-found");
+                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
+                return;
+            }
+            String targetName = targetPlayer.getName();
+            if (targetName == null) {
+                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
                 return;
             }
             if (args[1].equals("remove") || args[1].equals("off")) {
                 NicknameManager.getInstance().removeNickname(targetPlayer);
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.admin.removed-others-nickname",
-                        "player", targetPlayer.getName()
-                );
+                ComponentReplacer replacer = new ComponentReplacer().addReplacements("player", targetName);
+                MessageConfig.getInstance().getNicknameCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
                 if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {
-                    MessageConfig.getInstance().sendMessageFromConfig(targetPlayer.getPlayer(), "messages.nicknames.command.removed-nickname");
+                    MessageConfig.getInstance().getNicknameCommandRemovedNicknameMessage().sendMessage(targetPlayer.getPlayer());
                 }
                 return;
             }
