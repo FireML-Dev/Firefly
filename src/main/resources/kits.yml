@@ -10,6 +10,6 @@ kits:
     single-random-reward: false
     contents:
       - "denizen:example_item"
-      - "stone"
-      - "netherite_sword"
+      - "item:stone"
+      - "item:netherite_sword"
       - "command:kill {player}"
