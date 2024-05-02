@@ -84,7 +84,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
         String stringPrefix = new ComponentMessage(prefix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacement("prefix", prefix);
+        ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-prefix", prefix);
         MessageConfig.getInstance().getTitlePrefixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
@@ -122,7 +122,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {
         String stringSuffix = new ComponentMessage(suffix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacement("suffix", suffix);
+        ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-suffix", suffix);
         MessageConfig.getInstance().getTitleSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 

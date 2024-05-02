@@ -10,9 +10,9 @@ messages:
     awarded-command: "<color:#F0E68C>Given {player} the kit {kit}.</color>"
     awarded-receive: "<color:#F0E68C>You have been given the kit {kit}.</color>"
   title:
-    prefix-set: "<color:#F0E68C>Applied Prefix {prefix}.</color>"
+    prefix-set: "<color:#F0E68C>Applied Prefix {new-prefix}.</color>"
     prefix-removed: "<red>Removed Current Prefix.</red>"
-    suffix-set: "<color:#F0E68C>Applied Suffix {suffix}.</color>"
+    suffix-set: "<color:#F0E68C>Applied Suffix {new-suffix}.</color>"
     suffix-removed: "<red>Removed Current Suffix.</red>"
   elevator:
     command:
