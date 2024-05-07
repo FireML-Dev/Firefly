@@ -1,8 +1,12 @@
 package uk.firedev.skylight.config;
 
+import net.kyori.adventure.text.Component;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.Skylight;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MessageConfig extends uk.firedev.daisylib.Config {
 
@@ -44,7 +48,25 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     }
 
     public ComponentMessage getMainCommandUsageMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.main-command.usage", "<color:#F0E68C>Usage: <aqua>/skylight reload");
+        Map<String, String> commandMap = Map.of(
+                "/skylight reload", "Reloads the plugin.",
+                "/skylight modules", "Are modules enabled?"
+        );
+        ComponentMessage message = new ComponentMessage(getConfig(), "messages.main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
+        ComponentMessage command = new ComponentMessage(getConfig(), "messages.main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
+        // Add command values to message
+        for (String key : commandMap.keySet()) {
+            String value = commandMap.get(key);
+            ComponentReplacer replacer = new ComponentReplacer().addReplacements(
+                    "command", key,
+                    "description", value
+            );
+            message = message.append(Component.newline()).append(command.duplicate().applyReplacer(replacer));
+        }
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
     public ComponentMessage getMainCommandModulesMessage() {
         ComponentMessage message = new ComponentMessage(
                 """

@@ -3,7 +3,9 @@ messages:
   player-not-found: "<red>Player not found."
   main-command:
     reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
-    usage: "{prefix}<color:#F0E68C>Usage: <aqua>/skylight reload"
+    usage:
+      header: "{prefix}<color:#F0E68C>Command Usage:"
+      command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
   kits:
     usage: "{prefix}<color:#F0E68C>Usage: <green>/awardkit <player> <kit>"
     kit-not-found: "<red>Kit not found."
