@@ -2,7 +2,14 @@ package uk.firedev.skylight;
 
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.config.MessageConfig;
+import uk.firedev.skylight.modules.elevator.ElevatorManager;
+import uk.firedev.skylight.modules.kit.KitManager;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
+import uk.firedev.skylight.modules.small.AmethystProtection;
+import uk.firedev.skylight.modules.small.LootChestProtection;
+import uk.firedev.skylight.modules.titles.TitleManager;
 
 public class SkylightCommand extends CommandAPICommand {
 
@@ -13,7 +20,7 @@ public class SkylightCommand extends CommandAPICommand {
         setPermission(CommandPermission.fromString("skylight.command.main"));
         withShortDescription("Manage the Plugin");
         withFullDescription("Manage the Plugin");
-        withSubcommands(getReloadCommand());
+        withSubcommands(getReloadCommand(), getModulesCommand());
         executes((sender, arguments) -> {
             MessageConfig.getInstance().getMainCommandUsageMessage().sendMessage(sender);
         });
@@ -32,6 +39,24 @@ public class SkylightCommand extends CommandAPICommand {
                     Skylight.getInstance().reload();
                     MessageConfig.getInstance().getMainCommandReloadedMessage().sendMessage(sender);
                 }));
+    }
+
+    private CommandAPICommand getModulesCommand() {
+        return new CommandAPICommand("modules")
+                .executes((sender, arguments) -> {
+                    MessageConfig.getInstance().getMainCommandModulesMessage().applyReplacer(getModulesReplacer()).sendMessage(sender);
+                });
+    }
+
+    private ComponentReplacer getModulesReplacer() {
+        return new ComponentReplacer().addReplacements(
+                "kitsEnabled", KitManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "apEnabled", AmethystProtection.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "lcpEnabled", LootChestProtection.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "elevatorsEnabled", ElevatorManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "titlesEnabled", TitleManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "nicknamesEnabled", NicknameManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled"
+        );
     }
 
 }

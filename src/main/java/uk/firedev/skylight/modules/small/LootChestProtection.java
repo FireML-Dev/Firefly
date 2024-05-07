@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
+import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.config.MainConfig;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public class LootChestProtection implements Listener {
 
     private static LootChestProtection instance = null;
 
+    private boolean loaded = false;
+
     private LootChestProtection() {}
 
     public static LootChestProtection getInstance() {
@@ -27,6 +30,15 @@ public class LootChestProtection implements Listener {
             instance = new LootChestProtection();
         }
         return instance;
+    }
+
+    public void load() {
+        Bukkit.getPluginManager().registerEvents(this, Skylight.getInstance());
+        loaded = true;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
     }
 
     @EventHandler
