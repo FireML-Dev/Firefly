@@ -36,7 +36,7 @@ public class ElevatorCommand extends CommandAPICommand {
     }
 
     private CommandAPICommand getUnsetElevatorCommand() {
-        return new CommandAPICommand("unsetElevator")
+        return new CommandAPICommand("remove")
                 .executesPlayer((player, arguments) -> {
                     RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);
                     if (traced == null || traced.getHitBlock() == null) {
