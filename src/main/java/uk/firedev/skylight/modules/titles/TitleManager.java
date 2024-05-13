@@ -40,7 +40,7 @@ public class TitleManager {
             return;
         }
         if (VaultManager.getChat() == null) {
-            Loggers.warning(Skylight.getInstance().getLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please enable it to use this module!");
+            Loggers.warning(Skylight.getInstance().getLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please register one to use this module! (Something like LuckPerms should be fine)");
             return;
         }
         TitleConfig.getInstance().reload();
