@@ -42,7 +42,7 @@ public class NicknameCheckCommand extends CommandAPICommand {
             ComponentReplacer replacer = new ComponentReplacer()
                     .addReplacement("player", new ComponentMessage(targetName).getMessage())
                     .addReplacement("nickname", NicknameManager.getInstance().getNickname(target));
-            MessageConfig.getInstance().getNicknameCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
+            NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
         });
     }
 

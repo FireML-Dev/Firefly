@@ -5,12 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 
-import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.utils.StringUtils;
-
-import java.util.Map;
 
 public class NicknameAdminCommand extends CommandAPICommand {
 
@@ -27,7 +24,7 @@ public class NicknameAdminCommand extends CommandAPICommand {
             String[] args = arguments.rawArgs();
             Component currentNickname = NicknameManager.getInstance().getNickname(player);
             if (args.length < 2) {
-                MessageConfig.getInstance().getNicknameCommandAdminUsageMessage().sendMessage(player);
+                NicknameConfig.getInstance().getCommandAdminUsageMessage().sendMessage(player);
                 return;
             }
             OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
@@ -43,9 +40,9 @@ public class NicknameAdminCommand extends CommandAPICommand {
             if (args[1].equals("remove") || args[1].equals("off")) {
                 NicknameManager.getInstance().removeNickname(targetPlayer);
                 ComponentReplacer replacer = new ComponentReplacer().addReplacements("player", targetName);
-                MessageConfig.getInstance().getNicknameCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
+                NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
                 if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {
-                    MessageConfig.getInstance().getNicknameCommandRemovedNicknameMessage().sendMessage(targetPlayer.getPlayer());
+                    NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(targetPlayer.getPlayer());
                 }
                 return;
             }
