@@ -81,32 +81,6 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         return message;
     }
 
-    // KITS MESSAGES
-
-    public ComponentMessage getKitsUsageMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.kits.usage", "<color:#F0E68C>Usage: <green>/awardkit <player> <kit>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getKitNotFoundMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.kits.kit-not-found", "<red>Kit not found.");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getKitAwardedCommandMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.kits.awarded-command", "<color:#F0E68C>Given {player} the kit {kit}.</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getKitAwardedReceiverMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.kits.awarded-receive", "<color:#F0E68C>You have been given the kit {kit}.</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
     // TITLE MESSAGES
 
     public ComponentMessage getTitlePrefixSetMessage() {

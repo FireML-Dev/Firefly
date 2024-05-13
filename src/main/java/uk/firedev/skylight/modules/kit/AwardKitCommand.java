@@ -28,7 +28,7 @@ public class AwardKitCommand extends CommandAPICommand {
         executes((sender, arguments) -> {
             String[] args = arguments.rawArgs();
             if (args.length < 2) {
-                MessageConfig.getInstance().getKitsUsageMessage().sendMessage(sender);
+                KitConfig.getInstance().getUsageMessage().sendMessage(sender);
             } else {
                 String playerName = args[0];
                 Player player = Bukkit.getPlayer(playerName);
@@ -41,14 +41,14 @@ public class AwardKitCommand extends CommandAPICommand {
                 try {
                     kit = new Kit(kitName);
                 } catch (InvalidConfigurationException ex) {
-                    MessageConfig.getInstance().getKitNotFoundMessage().sendMessage(sender);
+                    KitConfig.getInstance().getNotFoundMessage().sendMessage(sender);
                     return;
                 }
                 ItemUtils.giveItem(kit.buildItem(), player);
                 ComponentReplacer replacer = new ComponentReplacer().addReplacements("kit", kit.getName());
-                MessageConfig.getInstance().getKitAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
+                KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
                 replacer.addReplacements("player", player.getName());
-                MessageConfig.getInstance().getKitAwardedCommandMessage().applyReplacer(replacer).sendMessage(sender);
+                KitConfig.getInstance().getAwardedCommandMessage().applyReplacer(replacer).sendMessage(sender);
             }
         });
     }

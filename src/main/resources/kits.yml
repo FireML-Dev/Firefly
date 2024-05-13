@@ -13,3 +13,10 @@ kits:
       - "item:stone"
       - "item:netherite_sword"
       - "command:kill {player}"
+
+messages:
+  command:
+     usage: "{prefix}<color:#F0E68C>Usage: <green>/awardkit <player> <kit>"
+     kit-not-found: "<red>Kit not found."
+     awarded-command: "<color:#F0E68C>Given {player} the kit {kit}.</color>"
+     awarded-receive: "<color:#F0E68C>You have been given the kit {kit}.</color>"

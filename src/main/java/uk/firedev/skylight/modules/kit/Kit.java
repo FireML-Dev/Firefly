@@ -18,12 +18,12 @@ import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.skylight.Skylight;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class Kit {
 
-    private Random random;
+    private static final Random random = new Random();
+
     private String name;
     private Material material;
     private Component display;
@@ -37,7 +37,7 @@ public class Kit {
     }
 
     public Kit(@NotNull String name) throws InvalidConfigurationException {
-        ConfigurationSection section = KitManager.getInstance().getConfig().getConfigurationSection("kits." + name);
+        ConfigurationSection section = KitConfig.getInstance().getConfig().getConfigurationSection("kits." + name);
         if (section == null) {
             throw new InvalidConfigurationException();
         }
@@ -45,7 +45,6 @@ public class Kit {
     }
 
     private void construct(@NotNull ConfigurationSection section) {
-        random = new Random();
         this.name = section.getName();
         this.permission = section.getString("permission", "");
         this.material = ItemUtils.getMaterial(section.getString("material", ""), Material.SHULKER_BOX);
