@@ -17,7 +17,7 @@ public class ElevatorCommand extends CommandAPICommand {
         withFullDescription("Manage Elevators");
         withSubcommands(getGiveBlockCommand(), getUnsetElevatorCommand());
         executes((sender, arguments) -> {
-            MessageConfig.getInstance().getElevatorCommandUsageMessage().sendMessage(sender);
+            ElevatorConfig.getInstance().getCommandUsageMessage().sendMessage(sender);
         });
     }
 
@@ -32,7 +32,7 @@ public class ElevatorCommand extends CommandAPICommand {
         return new CommandAPICommand("giveBlock")
                 .executesPlayer((player, arguments) -> {
                     ItemUtils.giveItem(ElevatorManager.getInstance().getElevatorBlock(), player);
-                    MessageConfig.getInstance().getElevatorCommandGivenMessage().sendMessage(player);
+                    ElevatorConfig.getInstance().getCommandGivenMessage().sendMessage(player);
                 });
     }
 
@@ -41,16 +41,16 @@ public class ElevatorCommand extends CommandAPICommand {
                 .executesPlayer((player, arguments) -> {
                     RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);
                     if (traced == null || traced.getHitBlock() == null) {
-                        MessageConfig.getInstance().getElevatorCommandInvalidMessage().sendMessage(player);
+                        ElevatorConfig.getInstance().getCommandInvalidMessage().sendMessage(player);
                         return;
                     }
                     Elevator elevator = new Elevator(traced.getHitBlock());
                     if (!elevator.isElevator()) {
-                        MessageConfig.getInstance().getElevatorCommandInvalidMessage().sendMessage(player);
+                        ElevatorConfig.getInstance().getCommandInvalidMessage().sendMessage(player);
                         return;
                     }
                     elevator.setElevator(false);
-                    MessageConfig.getInstance().getElevatorCommandUnregisterMessage().sendMessage(player);
+                    ElevatorConfig.getInstance().getCommandUnregisterMessage().sendMessage(player);
                 });
     }
 

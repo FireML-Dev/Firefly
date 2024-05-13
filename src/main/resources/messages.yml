@@ -16,14 +16,6 @@ messages:
     prefix-removed: "<red>Removed Current Prefix.</red>"
     suffix-set: "<color:#F0E68C>Applied Suffix {new-suffix}.</color>"
     suffix-removed: "<red>Removed Current Suffix.</red>"
-  elevator:
-    command:
-      usage: "{prefix}<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator"
-      block-given: "<color:#F0E68C>Given you an Elevator Block!</color>"
-      unregistered-elevator: "<color:#F0E68C>Successfully removed elevator data from this block.</color>"
-      not-an-elevator: "<red>This block is not an elevator!</red>"
-    unsafe-location: "<red>The target elevator is unsafe!</red>"
-    teleport-fail: "<red>Failed to teleport. Please try again!</red>"
   amethyst-protection:
     enabled: "<color:#F0E68C>Enabled Amethyst Protection</color>"
     disabled: "<color:#F0E68C>Disabled Amethyst Protection</color>"

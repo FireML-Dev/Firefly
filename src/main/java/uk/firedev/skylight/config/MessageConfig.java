@@ -133,44 +133,6 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         return message;
     }
 
-    // ELEVATOR MESSAGES
-
-    public ComponentMessage getElevatorCommandUsageMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.elevator.command.usage", "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getElevatorCommandGivenMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.elevator.command.block-given", "<color:#F0E68C>Given you an Elevator Block!</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getElevatorCommandUnregisterMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.elevator.command.unregistered-elevator", "<color:#F0E68C>Successfully removed elevator data from this block.</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getElevatorCommandInvalidMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.elevator.command.not-an-elevator", "<red>This block is not an elevator!</red>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getElevatorUnsafeLocationMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.elevator.unsafe-location", "<red>The target elevator is unsafe!</red>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getElevatorTeleportFailMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.elevator.teleport-fail", "<red>Failed to teleport. Please try again!</red>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
     // AMETHYST PROTECTION MESSAGES
 
     public ComponentMessage getAmethystProtectEnabledMessage() {

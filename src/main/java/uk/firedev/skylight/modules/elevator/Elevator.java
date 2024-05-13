@@ -63,18 +63,7 @@ public class Elevator {
     }
 
     public void showBossBar(Player player) {
-        float progress;
-        if (getCurrentPosition() == -1 || getStack().isEmpty()) {
-            progress = 1F;
-        } else {
-            progress = (float) (getCurrentPosition() + 1) / getStack().size();
-        }
-        BossBar bossBar = new BossBarBuilder()
-                .withTitle(ElevatorManager.getInstance().getBossBarTitle(this), null)
-                .withColor(ElevatorManager.getInstance().getBossBarColor())
-                .withOverlay(ElevatorManager.getInstance().getBossBarOverlay())
-                .withProgress(progress)
-                .build();
+        BossBar bossBar = ElevatorConfig.getInstance().getBossBar(this);
         BossBar existing = bossBars.get(player);
         if (existing != null) {
             bossBars.remove(player);

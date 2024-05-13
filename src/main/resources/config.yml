@@ -1,27 +1,3 @@
-elevator:
-  bossbar:
-    title: "<yellow>Floor {current} of {all}</yellow>"
-    # https://javadoc.io/doc/net.kyori/adventure-api/latest/net/kyori/adventure/bossbar/BossBar.Color.html
-    color: RED
-    # https://javadoc.io/doc/net.kyori/adventure-api/latest/net/kyori/adventure/bossbar/BossBar.Overlay.html
-    overlay: PROGRESS
-  item:
-    material: iron_block
-    display: "<yellow>Elevator Block</yellow>"
-    lore:
-      - "<color:#F0E68C>Place multiple of these in a vertical</color>"
-      - "<color:#F0E68C>line to teleport between them.</color>"
-    recipe:
-      - air
-      - bone_block
-      - air
-      - bone_block
-      - ender_pearl
-      - bone_block
-      - air
-      - bone_block
-      - air
-
 loot-chest-protection:
   protected-worlds:
     - Resource

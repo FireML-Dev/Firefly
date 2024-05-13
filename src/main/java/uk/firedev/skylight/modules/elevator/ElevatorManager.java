@@ -49,6 +49,7 @@ public class ElevatorManager {
     public void load() {
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new ElevatorListener(), this.plugin);
+        ElevatorConfig.getInstance().reload();
         ElevatorCommand.getInstance().register();
         // TODO uncomment when 1.20.6 is stable
         //registerRecipe();
@@ -61,40 +62,7 @@ public class ElevatorManager {
         if (!loaded) {
             return;
         }
-    }
-
-    public Component getBossBarTitle(Elevator elevator) {
-        ComponentReplacer replacer = new ComponentReplacer().addReplacements(
-                "current", String.valueOf(elevator.getCurrentPosition() + 1),
-                "all", String.valueOf(elevator.getStack().size())
-        );
-        return new ComponentMessage(MainConfig.getInstance().getConfig(), "elevator.bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
-    }
-
-    public BossBar.Color getBossBarColor() {
-        try {
-            return BossBar.Color.valueOf(
-                    MainConfig.getInstance().getConfig().getString(
-                            "elevator.bossbar.color",
-                            "RED"
-                    ).toUpperCase()
-            );
-        } catch (IllegalArgumentException ex) {
-            return BossBar.Color.RED;
-        }
-    }
-
-    public BossBar.Overlay getBossBarOverlay() {
-        try {
-            return BossBar.Overlay.valueOf(
-                    MainConfig.getInstance().getConfig().getString(
-                            "elevator.bossbar.overlay",
-                            "PROGRESS"
-                    ).toUpperCase()
-            );
-        } catch (IllegalArgumentException ex) {
-            return BossBar.Overlay.PROGRESS;
-        }
+        ElevatorConfig.getInstance().reload();
     }
 
     public void teleportPlayer(Player player, Elevator elevator) {
@@ -105,14 +73,14 @@ public class ElevatorManager {
         location.setYaw(player.getYaw());
         location.setPitch(player.getPitch());
         if (!location.getBlock().isPassable()) {
-            MessageConfig.getInstance().getElevatorUnsafeLocationMessage().sendMessage(player);
+            ElevatorConfig.getInstance().getUnsafeLocationMessage().sendMessage(player);
             return;
         }
         player.teleportAsync(location).thenAccept(success -> {
             if (success) {
                 elevator.handleBossBar(player);
             } else {
-                MessageConfig.getInstance().getElevatorTeleportFailMessage().sendMessage(player);
+                ElevatorConfig.getInstance().getTeleportFailMessage().sendMessage(player);
             }
         });
     }
@@ -127,14 +95,11 @@ public class ElevatorManager {
     }
 
     public ItemStack getElevatorBlock() {
-        FileConfiguration config = MainConfig.getInstance().getConfig();
-        Material material = Material.getMaterial(config.getString("elevator.item.material", ""));
-        if (material == null) {
-            material = Material.IRON_BLOCK;
-        }
-        ItemStack item = new ItemBuilder(material)
-                .withStringDisplay(config.getString("elevator.item.display", "<aqua>Elevator Block</aqua>"), null)
-                .withStringLore(config.getStringList("elevator.item.lore"), null)
+        FileConfiguration config = ElevatorConfig.getInstance().getConfig();
+        String material = config.getString("item.material", "IRON_BLOCK");
+        ItemStack item = new ItemBuilder(material, Material.IRON_BLOCK)
+                .withStringDisplay(config.getString("item.display", "<aqua>Elevator Block</aqua>"), null)
+                .withStringLore(config.getStringList("item.lore"), null)
                 .addEnchantment(Enchantment.UNBREAKING, 10)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .build();
