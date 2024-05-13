@@ -4,7 +4,6 @@ import org.bukkit.FluidCollisionMode;
 import org.bukkit.util.RayTraceResult;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.skylight.config.MessageConfig;
 
 public class ElevatorCommand extends CommandAPICommand {
 

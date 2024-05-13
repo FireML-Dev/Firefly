@@ -12,7 +12,6 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.config.MessageConfig;
 
 import java.util.ArrayList;
 import java.util.List;

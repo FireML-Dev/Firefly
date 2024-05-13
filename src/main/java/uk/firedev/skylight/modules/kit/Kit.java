@@ -12,7 +12,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.skylight.Skylight;

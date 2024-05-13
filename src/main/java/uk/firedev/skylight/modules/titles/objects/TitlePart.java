@@ -10,9 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 
-
-import java.util.Map;
-
 public interface TitlePart {
 
     void apply(@NotNull Player player);

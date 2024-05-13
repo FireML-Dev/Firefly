@@ -10,7 +10,6 @@ import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 
 import java.util.List;
-import java.util.Objects;
 
 public class KitManager {
 

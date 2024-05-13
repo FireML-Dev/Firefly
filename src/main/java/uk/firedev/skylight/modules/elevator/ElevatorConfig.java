@@ -15,7 +15,7 @@ public class ElevatorConfig extends Config {
     private static ElevatorConfig instance;
 
     private ElevatorConfig() {
-        super("elevators.yml", Skylight.getInstance(), true);
+        super("elevators.yml", Skylight.getInstance(), true, true);
     }
 
     public static ElevatorConfig getInstance() {

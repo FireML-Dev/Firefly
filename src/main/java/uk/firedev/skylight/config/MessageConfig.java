@@ -5,7 +5,6 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.Skylight;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MessageConfig extends uk.firedev.daisylib.Config {
@@ -13,7 +12,7 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     private static MessageConfig instance = null;
 
     private MessageConfig() {
-        super("messages.yml", Skylight.getInstance(), true);
+        super("messages.yml", Skylight.getInstance(), true, true);
     }
 
     public static MessageConfig getInstance() {

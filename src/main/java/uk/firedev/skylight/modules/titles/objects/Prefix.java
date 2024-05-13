@@ -3,11 +3,9 @@ package uk.firedev.skylight.modules.titles.objects;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
-
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.modules.titles.TitleManager;
