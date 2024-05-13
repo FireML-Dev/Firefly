@@ -6,11 +6,6 @@ messages:
     usage:
       header: "{prefix}<color:#F0E68C>Command Usage:"
       command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
-  title:
-    prefix-set: "<color:#F0E68C>Applied Prefix {new-prefix}.</color>"
-    prefix-removed: "<red>Removed Current Prefix.</red>"
-    suffix-set: "<color:#F0E68C>Applied Suffix {new-suffix}.</color>"
-    suffix-removed: "<red>Removed Current Suffix.</red>"
   amethyst-protection:
     enabled: "<color:#F0E68C>Enabled Amethyst Protection</color>"
     disabled: "<color:#F0E68C>Disabled Amethyst Protection</color>"

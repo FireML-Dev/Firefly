@@ -1,11 +1,24 @@
-titles:
-  prefixes:
-    example:
-      display: "<rainbow>Example</rainbow>"
-      permission: "skylight.prefix.example"
-      icon:
-        material: ENDER_EYE
-        display: "<yellow>Equip Prefix</yellow> {display}"
-        lore:
-          - "<color:#F0E68C>Unlocked by coding this plugin</color>"
-  suffixes: []
+prefixes:
+  example:
+    display: "<rainbow>Example</rainbow>"
+    permission: "skylight.prefix.example"
+    icon:
+      material: ENDER_EYE
+      display: "<yellow>Equip Prefix</yellow> {display}"
+      lore:
+        - "<color:#F0E68C>Unlocked by coding this plugin</color>"
+suffixes:
+  example:
+    display: "<aqua><hover:show_text:'<yellow>Suffix Hover!'>■</hover></aqua>"
+    permission: "skylight.suffix.example"
+    icon:
+      material: ITEM_FRAME
+      display: "<yellow>Equip Suffix</yellow> {display}"
+      lore:
+        - "<color:#F0E68C>Unlocked by coding this plugin</color>"
+
+messages:
+  prefix-set: "<color:#F0E68C>Applied Prefix {new-prefix}.</color>"
+  prefix-removed: "<red>Removed Current Prefix.</red>"
+  suffix-set: "<color:#F0E68C>Applied Suffix {new-suffix}.</color>"
+  suffix-removed: "<red>Removed Current Suffix.</red>"

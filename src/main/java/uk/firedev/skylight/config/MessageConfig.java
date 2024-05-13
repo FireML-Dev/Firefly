@@ -81,32 +81,6 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         return message;
     }
 
-    // TITLE MESSAGES
-
-    public ComponentMessage getTitlePrefixSetMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.title.prefix-set", "<color:#F0E68C>Applied Prefix {prefix}.</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getTitlePrefixRemovedMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.title.prefix-removed", "<red>Removed Current Prefix.</red>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getTitleSuffixSetMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.title.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getTitleSuffixRemovedMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.title.suffix-removed", "<red>Removed Current Suffix.</red>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
     // AMETHYST PROTECTION MESSAGES
 
     public ComponentMessage getAmethystProtectEnabledMessage() {

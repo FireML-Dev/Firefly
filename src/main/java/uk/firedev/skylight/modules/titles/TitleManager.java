@@ -34,7 +34,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     private boolean loaded = false;
 
     private TitleManager() {
-        super("titles.yml", Skylight.getInstance(), false);
+        super("titles.yml", Skylight.getInstance(), true, false);
     }
 
     public static TitleManager getInstance() {
@@ -51,16 +51,16 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         }
         PrefixCommand.getInstance().register();
         SuffixCommand.getInstance().register();
-        getPrefixesFromFile();
-        getSuffixesFromFile();
+        this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
+        this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         loaded = true;
     }
 
     @Override
     public void reload() {
         super.reload();
-        getPrefixesFromFile();
-        getSuffixesFromFile();
+        this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
+        this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
     }
 
     public boolean isLoaded() { return loaded; }
@@ -85,12 +85,12 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         String stringPrefix = new ComponentMessage(prefix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
         ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-prefix", prefix);
-        MessageConfig.getInstance().getTitlePrefixSetMessage().applyReplacer(replacer).sendMessage(player);
+        TitleConfig.getInstance().getPrefixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
     public void removePlayerPrefix(@NotNull Player player) {
         player.getPersistentDataContainer().remove(getPrefixKey());
-        MessageConfig.getInstance().getTitlePrefixRemovedMessage().sendMessage(player);
+        TitleConfig.getInstance().getPrefixRemovedMessage().sendMessage(player);
     }
 
     public Component getPlayerPrefix(@NotNull Player player) {
@@ -123,12 +123,12 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         String stringSuffix = new ComponentMessage(suffix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
         ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-suffix", suffix);
-        MessageConfig.getInstance().getTitleSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
+        TitleConfig.getInstance().getSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
     public void removePlayerSuffix(@NotNull Player player) {
         player.getPersistentDataContainer().remove(getSuffixKey());
-        MessageConfig.getInstance().getTitleSuffixRemovedMessage().sendMessage(player);
+        TitleConfig.getInstance().getSuffixRemovedMessage().sendMessage(player);
     }
 
     public Component getPlayerSuffix(@NotNull Player player) {
@@ -149,50 +149,16 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         return LegacyComponentSerializer.legacySection().serialize(getPlayerSuffix(player)).replace('&', '§');
     }
 
-    public List<Prefix> getPrefixesFromFile() {
-        ConfigurationSection section = getConfig().getConfigurationSection("titles.prefixes");
-        if (section == null) {
-            return List.of();
-        }
-        List<Prefix> prefixes = new ArrayList<>();
-        section.getKeys(false).stream().map(section::getConfigurationSection).filter(Objects::nonNull).forEach(prefixSection -> {
-            try {
-                prefixes.add(new Prefix(prefixSection));
-            } catch (InvalidConfigurationException ex) {
-                Loggers.logException(ex, Skylight.getInstance().getLogger());
-            }
-        });
-        this.prefixes = prefixes;
-        return prefixes;
-    }
-
     public List<Prefix> getPrefixes() {
-        if (prefixes.isEmpty()) {
-            return getPrefixesFromFile();
+        if (prefixes == null || prefixes.isEmpty()) {
+            this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         }
         return prefixes;
-    }
-
-    public List<Suffix> getSuffixesFromFile() {
-        ConfigurationSection section = getConfig().getConfigurationSection("titles.suffixes");
-        if (section == null) {
-            return List.of();
-        }
-        List<Suffix> suffixes = new ArrayList<>();
-        section.getKeys(false).stream().map(section::getConfigurationSection).filter(Objects::nonNull).forEach(prefixSection -> {
-            try {
-                suffixes.add(new Suffix(prefixSection));
-            } catch (InvalidConfigurationException ex) {
-                Loggers.logException(ex, Skylight.getInstance().getLogger());
-            }
-        });
-        this.suffixes = suffixes;
-        return suffixes;
     }
 
     public List<Suffix> getSuffixes() {
-        if (suffixes.isEmpty()) {
-            return getSuffixesFromFile();
+        if (suffixes == null || suffixes.isEmpty()) {
+            this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         }
         return suffixes;
     }
