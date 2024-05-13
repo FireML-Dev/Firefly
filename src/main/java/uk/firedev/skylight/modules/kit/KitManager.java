@@ -25,6 +25,9 @@ public class KitManager {
     }
 
     public void load() {
+        if (isLoaded()) {
+            return;
+        }
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new KitListener(), Skylight.getInstance());
         KitConfig.getInstance().reload();

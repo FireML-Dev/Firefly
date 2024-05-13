@@ -41,6 +41,9 @@ public class ElevatorManager {
     }
 
     public void load() {
+        if (isLoaded()) {
+            return;
+        }
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new ElevatorListener(), this.plugin);
         ElevatorConfig.getInstance().reload();

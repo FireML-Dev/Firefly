@@ -18,7 +18,7 @@ import uk.firedev.skylight.modules.titles.objects.Suffix;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TitleManager extends uk.firedev.daisylib.Config {
+public class TitleManager {
 
     private static TitleManager instance = null;
 
@@ -26,9 +26,7 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     private List<Suffix> suffixes = new ArrayList<>();
     private boolean loaded = false;
 
-    private TitleManager() {
-        super("titles.yml", Skylight.getInstance(), true, false);
-    }
+    private TitleManager() {}
 
     public static TitleManager getInstance() {
         if (instance == null) {
@@ -38,10 +36,14 @@ public class TitleManager extends uk.firedev.daisylib.Config {
     }
 
     public void load() {
+        if (isLoaded()) {
+            return;
+        }
         if (VaultManager.getChat() == null) {
             Loggers.warning(Skylight.getInstance().getLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please enable it to use this module!");
             return;
         }
+        TitleConfig.getInstance().reload();
         PrefixCommand.getInstance().register();
         SuffixCommand.getInstance().register();
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
@@ -49,9 +51,8 @@ public class TitleManager extends uk.firedev.daisylib.Config {
         loaded = true;
     }
 
-    @Override
     public void reload() {
-        super.reload();
+        TitleConfig.getInstance().reload();
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
     }

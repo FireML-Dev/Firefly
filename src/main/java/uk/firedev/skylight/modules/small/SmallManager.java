@@ -15,6 +15,8 @@ public class SmallManager {
 
     private static SmallManager instance = null;
 
+    private boolean loaded = false;
+
     private SmallManager() {}
 
     public static SmallManager getInstance() {
@@ -24,9 +26,18 @@ public class SmallManager {
         return instance;
     }
 
-    public void reload() {}
+    public void reload() {
+        if (!loaded) {
+            return;
+        }
+        SmallConfig.getInstance().reload();
+    }
 
     public void load() {
+        if (isLoaded()) {
+            return;
+        }
+        SmallConfig.getInstance().reload();
         PluginManager pluginManager = Skylight.getInstance().getServer().getPluginManager();
         if (ModuleConfig.getInstance().amethystProtectionModuleEnabled()) {
             AmethystProtection.getInstance().setLoaded();
@@ -38,6 +49,11 @@ public class SmallManager {
             LootChestProtection.getInstance().load();
             Loggers.log(Level.INFO, Skylight.getInstance().getLogger(), "Loaded Loot Chest Protection Module.");
         }
+        loaded = true;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
     }
 
 }

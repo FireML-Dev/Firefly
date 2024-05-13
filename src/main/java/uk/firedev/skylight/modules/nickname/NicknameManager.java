@@ -39,11 +39,20 @@ public class NicknameManager {
         if (isLoaded()) {
             return;
         }
-        loaded = true;
+        NicknameConfig.getInstance().reload();
         NicknameCommand.getInstance().register();
         NicknameAdminCommand.getInstance().register();
         NicknameCheckCommand.getInstance().register();
+        // Don't change the order of these. populateNicknameMap() requires loaded to be true.
+        loaded = true;
         populateNicknameMap();
+    }
+
+    public void reload() {
+        if (!loaded) {
+            return;
+        }
+        NicknameConfig.getInstance().reload();
     }
 
     public void unload() {
