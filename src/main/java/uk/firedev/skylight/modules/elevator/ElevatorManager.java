@@ -1,7 +1,5 @@
 package uk.firedev.skylight.modules.elevator;
 
-import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,13 +16,9 @@ import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
-import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.config.MainConfig;
-import uk.firedev.skylight.config.MessageConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +105,7 @@ public class ElevatorManager {
     
     private void registerRecipe() {
         List<ItemStack> stackList = new ArrayList<>();
-        MainConfig.getInstance().getConfig().getStringList("elevator.item.recipe").forEach(itemName ->
+        ElevatorConfig.getInstance().getConfig().getStringList("item.recipe").forEach(itemName ->
                 stackList.add(new ItemStack(ItemUtils.getMaterial(itemName, Material.AIR)))
         );
         ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);

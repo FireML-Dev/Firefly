@@ -6,7 +6,6 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import uk.firedev.skylight.config.GUIConfig;
-import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.database.Database;
@@ -32,7 +31,6 @@ public final class Skylight extends JavaPlugin {
         scheduler = UniversalScheduler.getScheduler(this);
 
         // Load configs
-        MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
@@ -78,7 +76,6 @@ public final class Skylight extends JavaPlugin {
     }
 
     public void reload() {
-        MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
         if (ElevatorManager.getInstance().isLoaded()) {

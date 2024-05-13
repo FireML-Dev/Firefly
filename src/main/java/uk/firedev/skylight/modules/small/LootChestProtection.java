@@ -12,7 +12,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.config.MainConfig;
 
 import java.util.List;
 import java.util.Objects;
@@ -72,7 +71,7 @@ public class LootChestProtection implements Listener {
     }
 
     private List<World> getProtectedWorlds() {
-        return MainConfig.getInstance().getConfig().getStringList("loot-chest-protection.protected-worlds").stream()
+        return SmallConfig.getInstance().getConfig().getStringList("loot-chest-protection.settings.protected-worlds").stream()
                 .map(Bukkit::getWorld)
                 .filter(Objects::nonNull)
                 .toList();

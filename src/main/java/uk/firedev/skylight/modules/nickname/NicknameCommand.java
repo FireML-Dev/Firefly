@@ -14,11 +14,8 @@ import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
-import uk.firedev.skylight.config.MainConfig;
-import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.utils.StringUtils;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 

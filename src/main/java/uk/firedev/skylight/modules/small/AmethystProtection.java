@@ -34,10 +34,10 @@ public class AmethystProtection extends CommandAPICommand implements Listener {
             PersistentDataContainer pdc = player.getPersistentDataContainer();
             if (isDisabled(player)) {
                 pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-                MessageConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
+                SmallConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
             } else {
                 pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-                MessageConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
+                SmallConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
             }
         });
     }
@@ -64,7 +64,7 @@ public class AmethystProtection extends CommandAPICommand implements Listener {
             event.setCancelled(true);
             if (!warned.contains(player.getUniqueId())) {
                 warned.add(player.getUniqueId());
-                MessageConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
+                SmallConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
             }
         }
     }

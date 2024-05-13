@@ -81,24 +81,4 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         return message;
     }
 
-    // AMETHYST PROTECTION MESSAGES
-
-    public ComponentMessage getAmethystProtectEnabledMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.amethyst-protection.enabled", "<color:#F0E68C>Enabled Amethyst Protection</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getAmethystProtectDisabledMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.amethyst-protection.disabled", "<color:#F0E68C>Disabled Amethyst Protection</color>");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getAmethystProtectProtectedMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.amethyst-protection.protected", "\n<color:#F0E68C>AmethystProtect has protected this block.</color>\n<red>You can disable this with <click:run_command:'/amethystprotect'><u>/amethystprotect</u></click></red>\n");
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
 }

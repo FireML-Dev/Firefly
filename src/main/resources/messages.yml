@@ -6,7 +6,3 @@ messages:
     usage:
       header: "{prefix}<color:#F0E68C>Command Usage:"
       command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
-  amethyst-protection:
-    enabled: "<color:#F0E68C>Enabled Amethyst Protection</color>"
-    disabled: "<color:#F0E68C>Disabled Amethyst Protection</color>"
-    protected: "\n<color:#F0E68C>AmethystProtect has protected this block.</color>\n<red>You can disable this with <click:run_command:'/amethystprotect'><u>/amethystprotect</u></click></red>\n"
