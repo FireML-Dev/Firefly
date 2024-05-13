@@ -51,8 +51,7 @@ public class ElevatorManager {
         pm.registerEvents(new ElevatorListener(), this.plugin);
         ElevatorConfig.getInstance().reload();
         ElevatorCommand.getInstance().register();
-        // TODO uncomment when 1.20.6 is stable
-        //registerRecipe();
+        registerRecipe();
         loaded = true;
     }
 
