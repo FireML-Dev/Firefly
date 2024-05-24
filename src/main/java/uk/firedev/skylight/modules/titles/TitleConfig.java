@@ -39,7 +39,7 @@ public class TitleConfig extends Config {
             try {
                 prefixes.add(new Prefix(prefixSection));
             } catch (InvalidConfigurationException ex) {
-                Loggers.logException(ex, Skylight.getInstance().getLogger());
+                Loggers.logException(Skylight.getInstance().getComponentLogger(), ex);
             }
         });
         return prefixes;
@@ -55,7 +55,7 @@ public class TitleConfig extends Config {
             try {
                 suffixes.add(new Suffix(prefixSection));
             } catch (InvalidConfigurationException ex) {
-                Loggers.logException(ex, Skylight.getInstance().getLogger());
+                Loggers.logException(Skylight.getInstance().getComponentLogger(), ex);
             }
         });
         return suffixes;

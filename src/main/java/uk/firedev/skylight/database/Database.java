@@ -55,7 +55,7 @@ public class Database extends SQLiteDatabase {
         try (Statement statement = getConnection().createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS skylight_players(uuid varchar primary key)");
         } catch (SQLException e) {
-            Loggers.log(Level.SEVERE, Skylight.getInstance().getLogger(), "Failed to initialize the database. Disabling Skylight.", e);
+            Loggers.error(Skylight.getInstance().getComponentLogger(), "Failed to initialize the database. Disabling Skylight.", e);
             Bukkit.getPluginManager().disablePlugin(Skylight.getInstance());
         }
 
@@ -67,7 +67,7 @@ public class Database extends SQLiteDatabase {
         addColumns.forEach(s -> {
             try (Statement statement = getConnection().createStatement()) {
                 statement.execute(s);
-                Loggers.info(Skylight.getInstance().getLogger(), "Created new database column.");
+                Loggers.info(Skylight.getInstance().getComponentLogger(), "Created new database column.");
             } catch (SQLException ignored) { }
         });
 
@@ -80,7 +80,7 @@ public class Database extends SQLiteDatabase {
                 statement.executeUpdate();
                 return true;
             } catch (SQLException ex) {
-                Loggers.log(Level.SEVERE, Skylight.getInstance().getLogger(), "Failed to add user to Database.", ex);
+                Loggers.error(Skylight.getInstance().getComponentLogger(), "Failed to add user to Database.", ex);
                 return false;
             }
         });
@@ -101,7 +101,7 @@ public class Database extends SQLiteDatabase {
                 }
                 return nicknameMap;
             } catch (SQLException ex) {
-                Loggers.log(Level.SEVERE, Skylight.getInstance().getLogger(), "Failed to fetch user nicknames from Database.", ex);
+                Loggers.error(Skylight.getInstance().getComponentLogger(), "Failed to fetch user nicknames from Database.", ex);
                 return Map.of();
             }
         });
@@ -120,10 +120,10 @@ public class Database extends SQLiteDatabase {
                             statement.setString(2, playerUUID.toString());
                             statement.executeUpdate();
                         } catch (SQLException ex) {
-                            Loggers.log(Level.SEVERE, Skylight.getInstance().getLogger(), "Failed to set username for player " + playerUUID, ex);
+                            Loggers.error(Skylight.getInstance().getComponentLogger(), "Failed to set username for player " + playerUUID, ex);
                         }
                     } else {
-                        Loggers.severe(Skylight.getInstance().getLogger(), "Player is not in the database. Not setting their nickname.");
+                        Loggers.error(Skylight.getInstance().getComponentLogger(), "Player is not in the database. Not setting their nickname.");
                     }
                 }));
         combinedFuture.thenRun(NicknameManager.getInstance()::populateNicknameMap);

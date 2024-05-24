@@ -43,11 +43,11 @@ public class SmallManager {
             AmethystProtection.getInstance().setLoaded();
             AmethystProtection.getInstance().register();
             pluginManager.registerEvents(AmethystProtection.getInstance(), Skylight.getInstance());
-            Loggers.log(Level.INFO, Skylight.getInstance().getLogger(), "Loaded Amethyst Protection Module.");
+            Loggers.info(Skylight.getInstance().getComponentLogger(), "Loaded Amethyst Protection Module.");
         }
         if (ModuleConfig.getInstance().lootChestProtectionModuleEnabled()) {
             LootChestProtection.getInstance().load();
-            Loggers.log(Level.INFO, Skylight.getInstance().getLogger(), "Loaded Loot Chest Protection Module.");
+            Loggers.info(Skylight.getInstance().getComponentLogger(), "Loaded Loot Chest Protection Module.");
         }
         loaded = true;
     }

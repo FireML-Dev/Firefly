@@ -26,7 +26,7 @@ public class Prefix implements TitlePart {
         String permission = section.getString("permission");
         if (permission == null) {
             String defaultPermission = "skylight.prefix." + section.getName();
-            Loggers.log(Level.WARNING, Skylight.getInstance().getLogger(),
+            Loggers.warn(Skylight.getInstance().getComponentLogger(),
                     "No permission found for prefix " + section.getCurrentPath() + ". Defaulting to " + defaultPermission
             );
             permission = defaultPermission;

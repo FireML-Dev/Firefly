@@ -26,7 +26,7 @@ public class Suffix implements TitlePart {
         String permission = section.getString("permission");
         if (permission == null) {
             String defaultPermission = "skylight.suffix." + section.getName();
-            Loggers.log(Level.WARNING, Skylight.getInstance().getLogger(),
+            Loggers.warn(Skylight.getInstance().getComponentLogger(),
                     "No permission found for suffix " + section.getCurrentPath() + ". Defaulting to " + defaultPermission
             );
             permission = defaultPermission;

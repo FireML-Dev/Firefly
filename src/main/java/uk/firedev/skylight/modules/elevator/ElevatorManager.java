@@ -113,9 +113,9 @@ public class ElevatorManager {
         );
         ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);
         if (recipe.register()) {
-            Loggers.info(Skylight.getInstance().getLogger(), "Registered Elevator Recipe");
+            Loggers.info(Skylight.getInstance().getComponentLogger(), "Registered Elevator Recipe");
         } else {
-            Loggers.warning(Skylight.getInstance().getLogger(), "Elevator Recipe failed to register.");
+            Loggers.warn(Skylight.getInstance().getComponentLogger(), "Elevator Recipe failed to register.");
         }
     }
 
