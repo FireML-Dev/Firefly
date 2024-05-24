@@ -1,0 +1,27 @@
+settings:
+  max-length: 16
+  min-length: 3
+  blacklisted-names:
+    - admin
+    - administrator
+    - server
+    - staff
+    - helper
+    - owner
+    - moderator
+    - mod
+
+messages:
+  real-name-hover: "<color:#F0E68C>Real Username:</color> <white>{username}</white>"
+  command:
+    check-info: "<color:#F0E68C>{player}'s Nickname:</color> <white>{nickname}</white>"
+    too-long: "<red>That nickname is too long! Maximum length {max-length}</red>"
+    too-short: "<red>That nickname is too short! Minimum length {min-length}</red>"
+    blacklisted: "<red>That name is blacklisted! Please try something else.</red>"
+    no-unique-name: "<red>You don't have permission to set a unique nickname!</red>"
+    set-own-nickname: "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>"
+    removed-nickname: "<color:#F0E68C>Removed your nickname.</color>"
+    admin:
+      usage: "{prefix}<red>Usage: /nicknameadmin <player> <nickname>"
+      set-others-nickname: "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>"
+      removed-others-nickname: "<color:#F0E68C>Removed {player}'s nickname.</color>"

@@ -1,5 +1,6 @@
 package uk.firedev.skylight.modules.kit;
 
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -9,19 +10,12 @@ import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 
 import java.util.List;
-import java.util.Objects;
 
-public class KitManager extends uk.firedev.daisylib.Config {
+public class KitManager {
 
     private static KitManager instance = null;
 
     private boolean loaded = false;
-    private final Skylight plugin;
-
-    private KitManager() {
-        super("kits.yml", Skylight.getInstance(), false);
-        plugin = Skylight.getInstance();
-    }
 
     public static KitManager getInstance() {
         if (instance == null) {
@@ -31,10 +25,21 @@ public class KitManager extends uk.firedev.daisylib.Config {
     }
 
     public void load() {
-        PluginManager pm = this.plugin.getServer().getPluginManager();
-        pm.registerEvents(new KitListener(), plugin);
+        if (isLoaded()) {
+            return;
+        }
+        PluginManager pm = Bukkit.getPluginManager();
+        pm.registerEvents(new KitListener(), Skylight.getInstance());
+        KitConfig.getInstance().reload();
         AwardKitCommand.getInstance().register();
         loaded = true;
+    }
+
+    public void reload() {
+        if (!loaded) {
+            return;
+        }
+        KitConfig.getInstance().reload();
     }
 
     public boolean isLoaded() { return loaded; }
@@ -51,28 +56,21 @@ public class KitManager extends uk.firedev.daisylib.Config {
         if (!isKit(item)) {
             return null;
         }
-        ConfigurationSection section = getConfig().getConfigurationSection(
-                item.getItemMeta().getPersistentDataContainer().getOrDefault(getKitKey(), PersistentDataType.STRING, "")
-        );
+
+        ConfigurationSection section = null;
+        String kitName = item.getItemMeta().getPersistentDataContainer().get(getKitKey(), PersistentDataType.STRING);
+        if (kitName != null) {
+            section = KitConfig.getInstance().getConfig().getConfigurationSection(kitName);
+        }
+
         if (section == null) {
             return null;
         }
         return new Kit(section);
     }
 
-    public List<ConfigurationSection> getKitConfigs() {
-        ConfigurationSection kitsSection = getConfig().getConfigurationSection("kits");
-        if (kitsSection == null) {
-            return List.of();
-        }
-        return kitsSection.getKeys(false).stream()
-                .map(kitsSection::getConfigurationSection)
-                .filter(Objects::nonNull)
-                .toList();
-    }
-
     public List<Kit> getKits() {
-        return getKitConfigs().stream()
+        return KitConfig.getInstance().getKitConfigs().stream()
                 .map(Kit::new)
                 .toList();
     }

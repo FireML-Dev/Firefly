@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.builders.BossBarBuilder;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 
@@ -63,18 +62,7 @@ public class Elevator {
     }
 
     public void showBossBar(Player player) {
-        float progress;
-        if (getCurrentPosition() == -1 || getStack().isEmpty()) {
-            progress = 1F;
-        } else {
-            progress = (float) (getCurrentPosition() + 1) / getStack().size();
-        }
-        BossBar bossBar = new BossBarBuilder()
-                .withTitle(ElevatorManager.getInstance().getBossBarTitle(this))
-                .withColor(ElevatorManager.getInstance().getBossBarColor())
-                .withOverlay(ElevatorManager.getInstance().getBossBarOverlay())
-                .withProgress(progress)
-                .build();
+        BossBar bossBar = ElevatorConfig.getInstance().getBossBar(this);
         BossBar existing = bossBars.get(player);
         if (existing != null) {
             bossBars.remove(player);

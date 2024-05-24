@@ -12,7 +12,6 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.config.MessageConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +33,10 @@ public class AmethystProtection extends CommandAPICommand implements Listener {
             PersistentDataContainer pdc = player.getPersistentDataContainer();
             if (isDisabled(player)) {
                 pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.enabled");
+                SmallConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
             } else {
                 pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.disabled");
+                SmallConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
             }
         });
     }
@@ -64,7 +63,7 @@ public class AmethystProtection extends CommandAPICommand implements Listener {
             event.setCancelled(true);
             if (!warned.contains(player.getUniqueId())) {
                 warned.add(player.getUniqueId());
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.amethyst-protection.protected");
+                SmallConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
             }
         }
     }

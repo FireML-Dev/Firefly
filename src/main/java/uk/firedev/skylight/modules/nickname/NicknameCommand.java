@@ -11,12 +11,10 @@ import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
-import uk.firedev.daisylib.utils.ComponentUtils;
-import uk.firedev.skylight.config.MainConfig;
-import uk.firedev.skylight.config.MessageConfig;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.utils.StringUtils;
 
-import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
@@ -35,15 +33,15 @@ public class NicknameCommand extends CommandAPICommand {
             String[] args = arguments.rawArgs();
             Component currentNickname = NicknameManager.getInstance().getNickname(player);
             if (args.length == 0) {
-                Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.nicknames.command.check-nickname-command.own-nickname");
-                player.sendMessage(ComponentUtils.parsePlaceholders(message,
-                        Map.of("nickname", currentNickname)
-                ));
+                ComponentReplacer replacer = new ComponentReplacer()
+                        .addReplacement("nickname", currentNickname)
+                        .addReplacement("player", player.getName());
+                NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
                 return;
             }
             if (args[0].equals("remove") || args[0].equals("off")) {
                 NicknameManager.getInstance().removeNickname(player);
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.removed-nickname");
+                NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(player);
                 return;
             }
             String[] splitValue = args[0].split(" ");
@@ -71,50 +69,40 @@ public class NicknameCommand extends CommandAPICommand {
 
     public void executeCommand(@NotNull Player player, @NotNull OfflinePlayer target, @NotNull Component nickname) {
         // No color permission
+        ComponentMessage nicknameMessage = new ComponentMessage(nickname);
         if (!player.hasPermission("skylight.command.nickname.colors")) {
-            nickname = ComponentUtils.stripStyling(nickname);
+            nicknameMessage = nicknameMessage.stripStyling();
         }
-        final Component finalNickname = nickname;
-        String cleanString = ComponentUtils.toPlainText(finalNickname);
-        int maxLength = MainConfig.getInstance().getConfig().getInt("nicknames.max-length");
-        int minLength = MainConfig.getInstance().getConfig().getInt("nicknames.min-length");
+        final ComponentMessage finalNicknameMessage = nicknameMessage;
+        String cleanString = finalNicknameMessage.toPlainText();
         String targetName = Objects.requireNonNullElse(target.getName(), "Error");
         // Too long and no bypass
-        if (!player.hasPermission("skylight.command.nickname.bypass.length") && cleanString.length() > maxLength) {
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.too-long", "max-length", String.valueOf(maxLength));
+        if (!player.hasPermission("skylight.command.nickname.bypass.length") && cleanString.length() > NicknameConfig.getInstance().getMaxLength()) {
+            ComponentReplacer replacer = new ComponentReplacer().addReplacements("max-length", String.valueOf(NicknameConfig.getInstance().getMaxLength()));
+            NicknameConfig.getInstance().getCommandTooLongMessage().applyReplacer(replacer).sendMessage(player);
             return;
         // Too short and no bypass
-        } else if (!player.hasPermission("skylight.command.nickname.bypass.length") && cleanString.length() < minLength) {
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.too-short", "min-length", String.valueOf(minLength));
+        } else if (!player.hasPermission("skylight.command.nickname.bypass.length") && cleanString.length() < NicknameConfig.getInstance().getMinLength()) {
+            ComponentReplacer replacer = new ComponentReplacer().addReplacements("min-length", String.valueOf(NicknameConfig.getInstance().getMinLength()));
+            NicknameConfig.getInstance().getCommandTooShortMessage().applyReplacer(replacer).sendMessage(player);
             return;
         // Blacklisted and no bypass
-        } else if (!player.hasPermission("skylight.command.nickname.bypass.blacklist") && MainConfig.getInstance().getConfig().getStringList("nicknames.blacklisted-names").contains(cleanString)) {
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.blacklisted");
+        } else if (!player.hasPermission("skylight.command.nickname.bypass.blacklist") && NicknameConfig.getInstance().getBlacklistedNames().contains(cleanString)) {
+            NicknameConfig.getInstance().getCommandBlacklistedMessage().sendMessage(player);
             return;
         // Different name and no bypass
-        } else if (!player.hasPermission("skylight.command.nickname.unique") && !ComponentUtils.matchesString(finalNickname, targetName)) {
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.nicknames.command.no-unique-name");
+        } else if (!player.hasPermission("skylight.command.nickname.unique") && !finalNicknameMessage.matchesString(targetName)) {
+            NicknameConfig.getInstance().getCommandNoUniqueMessage().sendMessage(player);
             return;
         }
-        NicknameManager.getInstance().setNickname(target, finalNickname).thenRun(() -> {
+        NicknameManager.getInstance().setNickname(target, finalNicknameMessage.getMessage()).thenRun(() -> {
+            ComponentReplacer replacer = new ComponentReplacer().addReplacement("nickname", finalNicknameMessage.getMessage());
             if (target.getPlayer() != null) {
-                Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.nicknames.command.set-own-nickname");
-                if (message != null) {
-                    target.getPlayer().sendMessage(ComponentUtils.parsePlaceholders(message,
-                            Map.of("nickname", finalNickname)
-                    ));
-                }
+                NicknameConfig.getInstance().getCommandSetOwnNicknameMessage().applyReplacer(replacer).sendMessage(target.getPlayer());
             }
             if (target.getUniqueId() != player.getUniqueId()) {
-                Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.nicknames.command.admin.set-others-nickname");
-                if (message != null) {
-                    player.sendMessage(ComponentUtils.parsePlaceholders(message,
-                            Map.of(
-                                    "nickname", finalNickname,
-                                    "target", ComponentUtils.deserializeString(targetName)
-                            )
-                    ));
-                }
+                replacer.addReplacements("target", targetName);
+                NicknameConfig.getInstance().getCommandAdminSetNicknameMessage().applyReplacer(replacer).sendMessage(player);
             }
         });
     }

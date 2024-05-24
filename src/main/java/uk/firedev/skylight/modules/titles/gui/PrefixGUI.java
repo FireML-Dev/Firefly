@@ -34,7 +34,7 @@ public class PrefixGUI {
         gui = new InventoryGui(Skylight.getInstance(), config.getString("gui.prefixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
         gui.setFiller(new ItemBuilder(config.getString("gui.prefixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
-                .withStringDisplay("")
+                .withStringDisplay("", null)
                 .build()
         );
 
@@ -101,8 +101,8 @@ public class PrefixGUI {
             material = Material.valueOf(config.getString("gui.prefixes.remove.material", ""));
         } catch (IllegalArgumentException ignored) {}
         return new ItemBuilder(material)
-                .withStringDisplay(config.getString("gui.prefixes.remove.display", "<yellow>Remove Prefix</yellow>"))
-                .withStringLore(config.getStringList("gui.prefixes.remove.lore"))
+                .withStringDisplay(config.getString("gui.prefixes.remove.display", "<yellow>Remove Prefix</yellow>"), null)
+                .withStringLore(config.getStringList("gui.prefixes.remove.lore"), null)
                 .build();
     }
     

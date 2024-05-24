@@ -2,42 +2,7 @@ messages:
   prefix: "<gray>[Skylight]</gray> "
   player-not-found: "<red>Player not found."
   main-command:
-    reloaded: "<color:#F0E68C>Successfully reloaded the plugin"
-    help: "<color:#F0E68C>Usage: <aqua>/skylight reload"
-  kits:
-    usage: "<color:#F0E68C>Usage: <green>/awardkit <player> <kit>"
-    kit-not-found: "<red>Kit not found."
-    awarded-command: "<color:#F0E68C>Given {player} the kit {kit}.</color>"
-    awarded-receive: "<color:#F0E68C>You have been given the kit {kit}.</color>"
-  title:
-    prefix-set: "<color:#F0E68C>Applied Prefix {prefix}.</color>"
-    prefix-removed: "<red>Removed Current Prefix.</red>"
-    suffix-set: "<color:#F0E68C>Applied Suffix {suffix}.</color>"
-    suffix-removed: "<red>Removed Current Suffix.</red>"
-  elevator:
-    command:
-      usage: "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator"
-      block-given: "<color:#F0E68C>Given you an Elevator Block!</color>"
-      unregistered-elevator: "<color:#F0E68C>Successfully removed elevator data from this block.</color>"
-      not-an-elevator: "<red>This block is not an elevator!</red>"
-    unsafe-location: "<red>The target elevator is unsafe!</red>"
-    teleport-fail: "<red>Failed to teleport. Please try again!</red>"
-  amethyst-protection:
-    enabled: "<color:#F0E68C>Enabled Amethyst Protection</color>"
-    disabled: "<color:#F0E68C>Disabled Amethyst Protection</color>"
-    protected: "\n<color:#F0E68C>AmethystProtect has protected this block.</color>\n<red>You can disable this with <click:run_command:'/amethystprotect'><u>/amethystprotect</u></click></red>\n"
-  nicknames:
-    real-name-hover: "<color:#F0E68C>Real Username:</color> <white>{username}</white>"
-    command:
-      own-nickname: "<color:#F0E68C>Your Current Nickname is:</color> <white>{nickname}</white>"
-      too-long: "<red>That nickname is too long! Maximum length {max-length}</red>"
-      too-short: "<red>That nickname is too short! Minimum length {min-length}</red>"
-      blacklisted: "<red>That name is blacklisted! Please try something else.</red>"
-      set-own-nickname: "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>"
-      removed-nickname: "<color:#F0E68C>Removed your nickname.</color>"
-      admin:
-        usage: "<red>Usage: /nicknameadmin <player> <nickname>"
-        set-others-nickname: "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>"
-        removed-others-nickname: "<color:#F0E68C>Removed {player}'s nickname.</color>"
-      check:
-        check-info: "<color:#F0E68C>{player}'s Nickname:</color> <white>{nickname}</white>"
+    reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
+    usage:
+      header: "{prefix}<color:#F0E68C>Command Usage:"
+      command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"

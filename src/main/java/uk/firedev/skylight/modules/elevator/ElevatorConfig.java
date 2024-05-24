@@ -1,0 +1,105 @@
+package uk.firedev.skylight.modules.elevator;
+
+import net.kyori.adventure.bossbar.BossBar;
+import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.builders.BossBarBuilder;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.skylight.Skylight;
+import uk.firedev.skylight.config.MessageConfig;
+
+public class ElevatorConfig extends Config {
+
+    private static ElevatorConfig instance;
+
+    private ElevatorConfig() {
+        super("elevators.yml", Skylight.getInstance(), true, true);
+    }
+
+    public static ElevatorConfig getInstance() {
+        if (instance == null) {
+            instance = new ElevatorConfig();
+        }
+        return instance;
+    }
+
+    public ComponentMessage getCommandUsageMessage() {
+        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.usage", "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getCommandGivenMessage() {
+        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.block-given", "<color:#F0E68C>Given you an Elevator Block!</color>");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getCommandUnregisterMessage() {
+        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.unregistered-elevator", "<color:#F0E68C>Successfully removed elevator data from this block.</color>");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getCommandInvalidMessage() {
+        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.not-an-elevator", "<red>This block is not an elevator!</red>");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getUnsafeLocationMessage() {
+        ComponentMessage message = new ComponentMessage(getConfig(), "messages.unsafe-location", "<red>The target elevator is unsafe!</red>");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getTeleportFailMessage() {
+        ComponentMessage message = new ComponentMessage(getConfig(), "messages.teleport-fail", "<red>Failed to teleport. Please try again!</red>");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public Component getBossBarTitle(@NotNull Elevator elevator) {
+        ComponentReplacer replacer = new ComponentReplacer().addReplacements(
+                "current", String.valueOf(elevator.getCurrentPosition() + 1),
+                "all", String.valueOf(elevator.getStack().size())
+        );
+        return new ComponentMessage(getConfig(), "bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
+    }
+
+    public BossBar.Color getBossBarColor() {
+        try {
+            return BossBar.Color.valueOf(getConfig().getString("bossbar.color", "RED").toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return BossBar.Color.RED;
+        }
+    }
+
+    public BossBar.Overlay getBossBarOverlay() {
+        try {
+            return BossBar.Overlay.valueOf(getConfig().getString("bossbar.overlay", "PROGRESS").toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            return BossBar.Overlay.PROGRESS;
+        }
+    }
+
+    public BossBar getBossBar(@NotNull Elevator elevator) {
+
+        float progress;
+        if (elevator.getCurrentPosition() == -1 || elevator.getStack().isEmpty()) {
+            progress = 1F;
+        } else {
+            progress = (float) (elevator.getCurrentPosition() + 1) / elevator.getStack().size();
+        }
+
+        return new BossBarBuilder()
+                .withTitle(getBossBarTitle(elevator), null)
+                .withColor(getBossBarColor())
+                .withOverlay(getBossBarOverlay())
+                .withProgress(progress)
+                .build();
+    }
+
+}

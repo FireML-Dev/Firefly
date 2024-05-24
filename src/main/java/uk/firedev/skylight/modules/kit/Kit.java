@@ -11,18 +11,18 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.reward.Reward;
-import uk.firedev.daisylib.utils.ComponentUtils;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.skylight.Skylight;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class Kit {
 
-    private Random random;
+    private static final Random random = new Random();
+
     private String name;
     private Material material;
     private Component display;
@@ -36,26 +36,25 @@ public class Kit {
     }
 
     public Kit(@NotNull String name) throws InvalidConfigurationException {
-        ConfigurationSection section = KitManager.getInstance().getConfig().getConfigurationSection("kits." + name);
+        ConfigurationSection section = KitConfig.getInstance().getConfig().getConfigurationSection("kits." + name);
         if (section == null) {
             throw new InvalidConfigurationException();
         }
         construct(section);
     }
 
-    private void construct(ConfigurationSection section) {
-        random = new Random();
+    private void construct(@NotNull ConfigurationSection section) {
         this.name = section.getName();
         this.permission = section.getString("permission", "");
         this.material = ItemUtils.getMaterial(section.getString("material", ""), Material.SHULKER_BOX);
-        this.display = ComponentUtils.deserializeString(Objects.requireNonNullElse(section.getString("display"), "<gold><bold>Kit"));
+        this.display = new ComponentMessage(section.getString("display", "<gold><bold>Kit")).getMessage();
         List<String> loreStrings = section.getStringList("lore");
         if (loreStrings.isEmpty()) {
-            this.lore = ComponentUtils.deserializeStringList(List.of(
-                    "<green>Right Click to Claim"
-            ));
+            this.lore = List.of(
+                new ComponentMessage("<green>Right Click to Claim</green>").getMessage()
+            );
         } else {
-            this.lore = ComponentUtils.deserializeStringList(loreStrings);
+            this.lore = loreStrings.stream().map(s -> new ComponentMessage(s).getMessage()).toList();
         }
         this.singleRandomReward = section.getBoolean("single-random-reward", false);
 

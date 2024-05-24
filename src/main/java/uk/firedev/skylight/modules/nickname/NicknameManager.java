@@ -6,10 +6,10 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.database.Database;
 import uk.firedev.skylight.utils.StringUtils;
 
@@ -39,11 +39,20 @@ public class NicknameManager {
         if (isLoaded()) {
             return;
         }
-        loaded = true;
+        NicknameConfig.getInstance().reload();
         NicknameCommand.getInstance().register();
         NicknameAdminCommand.getInstance().register();
         NicknameCheckCommand.getInstance().register();
+        // Don't change the order of these. populateNicknameMap() requires loaded to be true.
+        loaded = true;
         populateNicknameMap();
+    }
+
+    public void reload() {
+        if (!loaded) {
+            return;
+        }
+        NicknameConfig.getInstance().reload();
     }
 
     public void unload() {
@@ -74,12 +83,13 @@ public class NicknameManager {
             savedName = Objects.requireNonNull(player.getName());
         }
         Component component = StringUtils.convertLegacyToAdventure(savedName);
-        if (!ComponentUtils.matchesString(component, player.getName())) {
-            String message = MessageConfig.getInstance().getConfig().getString("messages.nicknames.real-name-hover", "<color:#F0E68C>Real Username:</color> <white>{username}</white>");
+        ComponentMessage componentMessage = new ComponentMessage(component);
+        if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
+            ComponentReplacer replacer = new ComponentReplacer().addReplacements("username", player.getName());
             component = component.hoverEvent(
                     HoverEvent.hoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
-                            ComponentUtils.deserializeString(message, "username", player.getName())
+                            NicknameConfig.getInstance().getRealHoverMessage().applyReplacer(replacer).getMessage()
                     )
             );
         }

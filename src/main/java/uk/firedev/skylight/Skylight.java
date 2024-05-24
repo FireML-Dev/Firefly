@@ -6,7 +6,6 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import uk.firedev.skylight.config.GUIConfig;
-import uk.firedev.skylight.config.MainConfig;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.database.Database;
@@ -32,7 +31,6 @@ public final class Skylight extends JavaPlugin {
         scheduler = UniversalScheduler.getScheduler(this);
 
         // Load configs
-        MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
@@ -44,30 +42,30 @@ public final class Skylight extends JavaPlugin {
         // Load Placeholder Hooks
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new PlaceholderAPIExpansion().register();
-            Loggers.log(Level.INFO, getLogger(), "Loaded PlaceholderAPI Hook.");
+            Loggers.info(getComponentLogger(), "Loaded PlaceholderAPI Hook.");
         }
         if (getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
             new MiniPlaceholdersExpansion().register();
-            Loggers.log(Level.INFO, getLogger(), "Loaded MiniPlaceholders Hook.");
+            Loggers.info(getComponentLogger(), "Loaded MiniPlaceholders Hook.");
         }
 
         // Load modules
         SmallManager.getInstance().load();
         if (ModuleConfig.getInstance().elevatorModuleEnabled()) {
             ElevatorManager.getInstance().load();
-            Loggers.log(Level.INFO, getLogger(), "Loaded Elevator Module.");
+            Loggers.info(getComponentLogger(), "Loaded Elevator Module.");
         }
         if (ModuleConfig.getInstance().titleModuleEnabled()) {
             TitleManager.getInstance().load();
-            Loggers.log(Level.INFO, getLogger(), "Loaded Title Module.");
+            Loggers.info(getComponentLogger(), "Loaded Title Module.");
         }
         if (ModuleConfig.getInstance().kitsModuleEnabled()) {
             KitManager.getInstance().load();
-            Loggers.log(Level.INFO, getLogger(), "Loaded Kits Module.");
+            Loggers.info(getComponentLogger(), "Loaded Kits Module.");
         }
         if (ModuleConfig.getInstance().nicknamesModuleEnabled()) {
             NicknameManager.getInstance().load();
-            Loggers.info(getLogger(), "Loaded Nicknames Module.");
+            Loggers.info(getComponentLogger(), "Loaded Nicknames Module.");
         }
 
     }
@@ -78,7 +76,6 @@ public final class Skylight extends JavaPlugin {
     }
 
     public void reload() {
-        MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
         if (ElevatorManager.getInstance().isLoaded()) {
@@ -89,6 +86,9 @@ public final class Skylight extends JavaPlugin {
         }
         if (KitManager.getInstance().isLoaded()) {
             KitManager.getInstance().reload();
+        }
+        if (NicknameManager.getInstance().isLoaded()) {
+            NicknameManager.getInstance().reload();
         }
         SmallManager.getInstance().reload();
     }

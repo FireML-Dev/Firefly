@@ -7,7 +7,7 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
     private static ModuleConfig instance = null;
 
     private ModuleConfig() {
-        super("modules.yml", Skylight.getInstance(), true);
+        super("modules.yml", Skylight.getInstance(), true, true);
     }
 
     public static ModuleConfig getInstance() {

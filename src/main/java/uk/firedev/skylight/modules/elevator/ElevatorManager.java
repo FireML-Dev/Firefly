@@ -1,7 +1,5 @@
 package uk.firedev.skylight.modules.elevator;
 
-import net.kyori.adventure.bossbar.BossBar;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -18,11 +16,9 @@ import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
-import uk.firedev.skylight.config.MainConfig;
-import uk.firedev.skylight.config.MessageConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +41,12 @@ public class ElevatorManager {
     }
 
     public void load() {
+        if (isLoaded()) {
+            return;
+        }
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new ElevatorListener(), this.plugin);
+        ElevatorConfig.getInstance().reload();
         ElevatorCommand.getInstance().register();
         registerRecipe();
         loaded = true;
@@ -58,43 +58,7 @@ public class ElevatorManager {
         if (!loaded) {
             return;
         }
-    }
-
-    public Component getBossBarTitle(Elevator elevator) {
-        return ComponentUtils.deserializeString(
-                MainConfig.getInstance().getConfig().getString(
-                    "elevator.bossbar.title",
-                    "<yellow>Floor {current} of {all}</yellow>"
-                ),
-                "current", String.valueOf(elevator.getCurrentPosition() + 1),
-                "all", String.valueOf(elevator.getStack().size())
-        );
-    }
-
-    public BossBar.Color getBossBarColor() {
-        try {
-            return BossBar.Color.valueOf(
-                    MainConfig.getInstance().getConfig().getString(
-                            "elevator.bossbar.color",
-                            "RED"
-                    ).toUpperCase()
-            );
-        } catch (IllegalArgumentException ex) {
-            return BossBar.Color.RED;
-        }
-    }
-
-    public BossBar.Overlay getBossBarOverlay() {
-        try {
-            return BossBar.Overlay.valueOf(
-                    MainConfig.getInstance().getConfig().getString(
-                            "elevator.bossbar.overlay",
-                            "PROGRESS"
-                    ).toUpperCase()
-            );
-        } catch (IllegalArgumentException ex) {
-            return BossBar.Overlay.PROGRESS;
-        }
+        ElevatorConfig.getInstance().reload();
     }
 
     public void teleportPlayer(Player player, Elevator elevator) {
@@ -105,14 +69,14 @@ public class ElevatorManager {
         location.setYaw(player.getYaw());
         location.setPitch(player.getPitch());
         if (!location.getBlock().isPassable()) {
-            MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.unsafe-location");
+            ElevatorConfig.getInstance().getUnsafeLocationMessage().sendMessage(player);
             return;
         }
         player.teleportAsync(location).thenAccept(success -> {
             if (success) {
                 elevator.handleBossBar(player);
             } else {
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.elevator.teleport-fail");
+                ElevatorConfig.getInstance().getTeleportFailMessage().sendMessage(player);
             }
         });
     }
@@ -127,15 +91,12 @@ public class ElevatorManager {
     }
 
     public ItemStack getElevatorBlock() {
-        FileConfiguration config = MainConfig.getInstance().getConfig();
-        Material material = Material.getMaterial(config.getString("elevator.item.material", ""));
-        if (material == null) {
-            material = Material.IRON_BLOCK;
-        }
-        ItemStack item = new ItemBuilder(material)
-                .withStringDisplay(config.getString("elevator.item.display", "<aqua>Elevator Block</aqua>"))
-                .withStringLore(config.getStringList("elevator.item.lore"))
-                .addEnchantment(Enchantment.DURABILITY, 10)
+        FileConfiguration config = ElevatorConfig.getInstance().getConfig();
+        String material = config.getString("item.material", "IRON_BLOCK");
+        ItemStack item = new ItemBuilder(material, Material.IRON_BLOCK)
+                .withStringDisplay(config.getString("item.display", "<aqua>Elevator Block</aqua>"), null)
+                .withStringLore(config.getStringList("item.lore"), null)
+                .addEnchantment(Enchantment.UNBREAKING, 10)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
                 .build();
         ItemMeta meta = item.getItemMeta();
@@ -147,20 +108,14 @@ public class ElevatorManager {
     
     private void registerRecipe() {
         List<ItemStack> stackList = new ArrayList<>();
-        MainConfig.getInstance().getConfig().getStringList("elevator.item.recipe").forEach(itemName -> {
-            Material material;
-            try {
-                material = Material.valueOf(itemName.toUpperCase());
-            } catch (IllegalArgumentException ex) {
-                material = Material.AIR;
-            }
-            stackList.add(new ItemStack(material));
-        });
+        ElevatorConfig.getInstance().getConfig().getStringList("item.recipe").forEach(itemName ->
+                stackList.add(new ItemStack(ItemUtils.getMaterial(itemName, Material.AIR)))
+        );
         ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);
         if (recipe.register()) {
-            Loggers.info(Skylight.getInstance().getLogger(), "Registered Elevator Recipe");
+            Loggers.info(Skylight.getInstance().getComponentLogger(), "Registered Elevator Recipe");
         } else {
-            Loggers.warning(Skylight.getInstance().getLogger(), "Elevator Recipe failed to register.");
+            Loggers.warn(Skylight.getInstance().getComponentLogger(), "Elevator Recipe failed to register.");
         }
     }
 

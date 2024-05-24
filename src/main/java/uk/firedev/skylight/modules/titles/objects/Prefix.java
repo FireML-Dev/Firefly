@@ -6,7 +6,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.modules.titles.TitleManager;
 
@@ -26,13 +26,13 @@ public class Prefix implements TitlePart {
         String permission = section.getString("permission");
         if (permission == null) {
             String defaultPermission = "skylight.prefix." + section.getName();
-            Loggers.log(Level.WARNING, Skylight.getInstance().getLogger(),
+            Loggers.warn(Skylight.getInstance().getComponentLogger(),
                     "No permission found for prefix " + section.getCurrentPath() + ". Defaulting to " + defaultPermission
             );
             permission = defaultPermission;
         }
         this.section = section;
-        this.display = ComponentUtils.deserializeString(displayString);
+        this.display = new ComponentMessage(displayString).getMessage();
         this.permission = permission;
     }
 

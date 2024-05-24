@@ -8,6 +8,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.skylight.config.MessageConfig;
 
@@ -27,12 +28,12 @@ public class AwardKitCommand extends CommandAPICommand {
         executes((sender, arguments) -> {
             String[] args = arguments.rawArgs();
             if (args.length < 2) {
-                MessageConfig.getInstance().sendMessageFromConfig(sender, "messages.kits.usage");
+                KitConfig.getInstance().getUsageMessage().sendMessage(sender);
             } else {
                 String playerName = args[0];
                 Player player = Bukkit.getPlayer(playerName);
                 if (player == null) {
-                    MessageConfig.getInstance().sendMessageFromConfig(sender, "messages.player-not-found");
+                    MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
                     return;
                 }
                 String kitName = args[1];
@@ -40,17 +41,14 @@ public class AwardKitCommand extends CommandAPICommand {
                 try {
                     kit = new Kit(kitName);
                 } catch (InvalidConfigurationException ex) {
-                    MessageConfig.getInstance().sendMessageFromConfig(sender, "messages.kits.kit-not-found");
+                    KitConfig.getInstance().getNotFoundMessage().sendMessage(sender);
                     return;
                 }
                 ItemUtils.giveItem(kit.buildItem(), player);
-                MessageConfig.getInstance().sendMessageFromConfig(sender, "messages.kits.awarded-command",
-                        "kit", kit.getName(),
-                        "player", player.getName()
-                );
-                MessageConfig.getInstance().sendMessageFromConfig(player, "messages.kits.awarded-receive",
-                        "kit", kit.getName()
-                );
+                ComponentReplacer replacer = new ComponentReplacer().addReplacements("kit", kit.getName());
+                KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
+                replacer.addReplacements("player", player.getName());
+                KitConfig.getInstance().getAwardedCommandMessage().applyReplacer(replacer).sendMessage(sender);
             }
         });
     }

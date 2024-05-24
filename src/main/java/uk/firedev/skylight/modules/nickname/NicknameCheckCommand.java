@@ -1,14 +1,12 @@
 package uk.firedev.skylight.modules.nickname;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.daisylib.utils.ComponentUtils;
+import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.config.MessageConfig;
-
-import java.util.Map;
 
 public class NicknameCheckCommand extends CommandAPICommand {
 
@@ -23,7 +21,6 @@ public class NicknameCheckCommand extends CommandAPICommand {
         withFullDescription("Check a player's nickname");
         executesPlayer((player, arguments) -> {
             String[] args = arguments.rawArgs();
-            Component message = MessageConfig.getInstance().getConfig().getRichMessage("messages.nicknames.command.check.check-info");
             OfflinePlayer target;
             try {
                 target = Bukkit.getOfflinePlayer(args[0]);
@@ -33,11 +30,15 @@ public class NicknameCheckCommand extends CommandAPICommand {
             } catch (IndexOutOfBoundsException ex) {
                 target = player;
             }
-            message = ComponentUtils.parsePlaceholders(message, Map.of(
-                    "player", ComponentUtils.deserializeString(target.getName()),
-                    "nickname", NicknameManager.getInstance().getNickname(target)
-            ));
-            player.sendMessage(message);
+            String targetName = target.getName();
+            if (targetName == null) {
+                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
+                return;
+            }
+            ComponentReplacer replacer = new ComponentReplacer()
+                    .addReplacement("player", new ComponentMessage(targetName).getMessage())
+                    .addReplacement("nickname", NicknameManager.getInstance().getNickname(target));
+            NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
         });
     }
 
