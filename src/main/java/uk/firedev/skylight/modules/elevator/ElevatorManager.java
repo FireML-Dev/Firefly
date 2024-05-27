@@ -19,6 +19,7 @@ import uk.firedev.daisylib.crafting.ShapedRecipe;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
+import uk.firedev.skylight.modules.elevator.command.ElevatorCommand;
 
 import java.util.ArrayList;
 import java.util.List;
