@@ -1,4 +1,4 @@
-package uk.firedev.skylight.modules.titles;
+package uk.firedev.skylight.modules.titles.command;
 
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
