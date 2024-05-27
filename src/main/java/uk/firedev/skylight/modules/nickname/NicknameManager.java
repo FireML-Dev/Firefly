@@ -11,6 +11,9 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.database.Database;
+import uk.firedev.skylight.modules.nickname.command.NicknameAdminCommand;
+import uk.firedev.skylight.modules.nickname.command.NicknameCheckCommand;
+import uk.firedev.skylight.modules.nickname.command.NicknameCommand;
 import uk.firedev.skylight.utils.StringUtils;
 
 import java.util.HashMap;
