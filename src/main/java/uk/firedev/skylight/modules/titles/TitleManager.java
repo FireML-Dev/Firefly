@@ -12,6 +12,8 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
+import uk.firedev.skylight.modules.titles.command.PrefixCommand;
+import uk.firedev.skylight.modules.titles.command.SuffixCommand;
 import uk.firedev.skylight.modules.titles.objects.Prefix;
 import uk.firedev.skylight.modules.titles.objects.Suffix;
 

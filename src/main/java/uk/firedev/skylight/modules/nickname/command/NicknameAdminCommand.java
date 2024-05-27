@@ -1,4 +1,4 @@
-package uk.firedev.skylight.modules.nickname;
+package uk.firedev.skylight.modules.nickname.command;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -6,6 +6,8 @@ import org.bukkit.OfflinePlayer;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.config.MessageConfig;
+import uk.firedev.skylight.modules.nickname.NicknameConfig;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
 import uk.firedev.skylight.utils.StringUtils;
 
 public class NicknameAdminCommand extends CommandAPICommand {

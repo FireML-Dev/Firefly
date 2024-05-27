@@ -1,9 +1,12 @@
-package uk.firedev.skylight.modules.elevator;
+package uk.firedev.skylight.modules.elevator.command;
 
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.util.RayTraceResult;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.utils.ItemUtils;
+import uk.firedev.skylight.modules.elevator.Elevator;
+import uk.firedev.skylight.modules.elevator.ElevatorConfig;
+import uk.firedev.skylight.modules.elevator.ElevatorManager;
 
 public class ElevatorCommand extends CommandAPICommand {
 

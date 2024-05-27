@@ -8,6 +8,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Skylight;
+import uk.firedev.skylight.modules.kit.command.AwardKitCommand;
 
 import java.util.List;
 

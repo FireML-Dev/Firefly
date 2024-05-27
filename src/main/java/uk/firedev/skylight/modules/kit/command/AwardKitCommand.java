@@ -1,4 +1,4 @@
-package uk.firedev.skylight.modules.kit;
+package uk.firedev.skylight.modules.kit.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -11,6 +11,9 @@ import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.skylight.config.MessageConfig;
+import uk.firedev.skylight.modules.kit.Kit;
+import uk.firedev.skylight.modules.kit.KitConfig;
+import uk.firedev.skylight.modules.kit.KitManager;
 
 import java.util.concurrent.CompletableFuture;
 

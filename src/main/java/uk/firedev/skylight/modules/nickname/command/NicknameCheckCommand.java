@@ -1,4 +1,4 @@
-package uk.firedev.skylight.modules.nickname;
+package uk.firedev.skylight.modules.nickname.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -7,6 +7,8 @@ import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.config.MessageConfig;
+import uk.firedev.skylight.modules.nickname.NicknameConfig;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
 
 public class NicknameCheckCommand extends CommandAPICommand {
 

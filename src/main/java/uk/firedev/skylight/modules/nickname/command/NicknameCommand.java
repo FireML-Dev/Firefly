@@ -1,4 +1,4 @@
-package uk.firedev.skylight.modules.nickname;
+package uk.firedev.skylight.modules.nickname.command;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
@@ -13,6 +13,8 @@ import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.skylight.modules.nickname.NicknameConfig;
+import uk.firedev.skylight.modules.nickname.NicknameManager;
 import uk.firedev.skylight.utils.StringUtils;
 
 import java.util.Objects;
