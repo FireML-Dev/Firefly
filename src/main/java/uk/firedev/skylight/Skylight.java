@@ -9,6 +9,7 @@ import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.database.Database;
+import uk.firedev.skylight.modules.elevator.Elevator;
 import uk.firedev.skylight.modules.elevator.ElevatorManager;
 import uk.firedev.skylight.modules.kit.KitManager;
 import uk.firedev.skylight.modules.nickname.NicknameManager;
@@ -72,6 +73,7 @@ public final class Skylight extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        NicknameManager.getInstance().unload();
         Database.getInstance().unload();
     }
 

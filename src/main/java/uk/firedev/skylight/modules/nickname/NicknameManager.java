@@ -69,18 +69,17 @@ public class NicknameManager {
         return loaded;
     }
 
-    public NamespacedKey getNicknameKey() {
-        return ObjectUtils.createNamespacedKey("nickname", Skylight.getInstance());
-    }
-
     // Nickname Management
 
     /**
      * Gets a player's nickname as an Adventure Component
      * @param player The player whose nickname to retrieve
-     * @return The player's nickname as an Adventure Component
+     * @return The player's nickname as an Adventure Component, or null if the manager is not loaded.
      */
     public Component getNickname(@NotNull OfflinePlayer player) {
+        if (!isLoaded()) {
+            return null;
+        }
         String savedName = getNicknameMap().get(player.getUniqueId());
         if (savedName == null || savedName.isEmpty()) {
             savedName = Objects.requireNonNull(player.getName());
@@ -102,18 +101,24 @@ public class NicknameManager {
     /**
      * Gets a player's nickname as a Legacy String
      * @param player The player whose nickname to retrieve
-     * @return The player's nickname as a Legacy String
+     * @return The player's nickname as a Legacy String, or null if the manager is not loaded.
      */
     public String getStringNickname(@NotNull OfflinePlayer player) {
+        if (!isLoaded()) {
+            return null;
+        }
         return LegacyComponentSerializer.legacySection().serialize(getNickname(player));
     }
 
     /**
      * Sets a player's nickname via an Adventure Component
      * @param player The player to set
-     * @param nickname The nickname to set, as an Adventure Component
+     * @param nickname The nickname to set as an Adventure Component
      */
     public CompletableFuture<Void> setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
+        if (!isLoaded()) {
+            return CompletableFuture.completedFuture(null);
+        }
         return setStringNickname(player, LegacyComponentSerializer.legacySection().serialize(nickname));
     }
 
@@ -123,6 +128,9 @@ public class NicknameManager {
      * @param nickname The nickname to set, as a Legacy String
      */
     public CompletableFuture<Void> setStringNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
+        if (!isLoaded()) {
+            return CompletableFuture.completedFuture(null);
+        }
         return NicknameDatabase.getInstance().setNickname(player.getUniqueId(), nickname);
     }
 
@@ -131,6 +139,9 @@ public class NicknameManager {
      * @param player The player whose nickname to remove.
      */
     public void removeNickname(@NotNull OfflinePlayer player) {
+        if (!isLoaded()) {
+            return;
+        }
         NicknameDatabase.getInstance().setNickname(player.getUniqueId(), "");
     }
 
