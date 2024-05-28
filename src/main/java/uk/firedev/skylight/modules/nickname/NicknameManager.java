@@ -46,8 +46,7 @@ public class NicknameManager {
         NicknameCommand.getInstance().register();
         NicknameAdminCommand.getInstance().register();
         NicknameCheckCommand.getInstance().register();
-        // Don't change the order of these. populateNicknameMap() requires loaded to be true.
-        loaded = true;
+        // Marks the manager as loaded once complete.
         populateNicknameMap();
     }
 
@@ -56,6 +55,7 @@ public class NicknameManager {
             return;
         }
         NicknameConfig.getInstance().reload();
+        populateNicknameMap();
     }
 
     public void unload() {
@@ -123,7 +123,7 @@ public class NicknameManager {
      * @param nickname The nickname to set, as a Legacy String
      */
     public CompletableFuture<Void> setStringNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
-        return Database.getInstance().setNickname(player.getUniqueId(), nickname);
+        return NicknameDatabase.getInstance().setNickname(player.getUniqueId(), nickname);
     }
 
     /**
@@ -131,13 +131,17 @@ public class NicknameManager {
      * @param player The player whose nickname to remove.
      */
     public void removeNickname(@NotNull OfflinePlayer player) {
-        Database.getInstance().setNickname(player.getUniqueId(), "");
+        NicknameDatabase.getInstance().setNickname(player.getUniqueId(), "");
     }
 
+    /**
+     * Once this method is complete, the NicknameManager will be marked as loaded.
+     */
     public void populateNicknameMap() {
-        if (isLoaded()) {
-            Database.getInstance().getNicknames().thenAccept(map -> nicknameMap = new HashMap<>(map));
-        }
+        NicknameDatabase.getInstance().getNicknames().thenAccept(map -> {
+            nicknameMap = new HashMap<>(map);
+            loaded = true;
+        });
     }
 
     public @NotNull Map<UUID, String> getNicknameMap() {
