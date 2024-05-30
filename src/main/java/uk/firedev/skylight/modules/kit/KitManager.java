@@ -1,6 +1,6 @@
 package uk.firedev.skylight.modules.kit;
 
-import dev.jorel.commandapi.CommandAPI;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;

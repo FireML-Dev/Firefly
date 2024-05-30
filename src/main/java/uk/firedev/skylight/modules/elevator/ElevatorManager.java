@@ -1,6 +1,6 @@
 package uk.firedev.skylight.modules.elevator;
 
-import dev.jorel.commandapi.CommandAPI;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

@@ -1,6 +1,6 @@
 package uk.firedev.skylight.modules.nickname;
 
-import dev.jorel.commandapi.CommandAPI;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
