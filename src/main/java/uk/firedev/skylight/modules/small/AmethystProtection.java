@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -11,13 +12,14 @@ import org.bukkit.persistence.PersistentDataType;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.skylight.Manager;
 import uk.firedev.skylight.Skylight;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AmethystProtection extends CommandAPICommand implements Listener {
+public class AmethystProtection extends CommandAPICommand implements Listener, Manager {
 
     private static AmethystProtection instance = null;
     private static final List<UUID> warned = new ArrayList<>();
@@ -48,6 +50,37 @@ public class AmethystProtection extends CommandAPICommand implements Listener {
         return instance;
     }
 
+    @Override
+    public void load() {
+        if (isLoaded()) {
+            return;
+        }
+        loaded = true;
+    }
+
+    @Override
+    public void reload() {
+        if (!isLoaded()) {
+            return;
+        }
+        // There is nothing to reload here :)
+    }
+
+    @Override
+    public void unload() {
+        if (!isLoaded()) {
+            return;
+        }
+        // Unregister the event listener
+        HandlerList.unregisterAll(this);
+        loaded = false;
+    }
+
+    @Override
+    public boolean isLoaded() {
+        return loaded;
+    }
+
     private NamespacedKey getAmethystProtectKey() {
         return ObjectUtils.createNamespacedKey("no-amethyst-protect", Skylight.getInstance());
     }
@@ -69,15 +102,10 @@ public class AmethystProtection extends CommandAPICommand implements Listener {
     }
 
     public boolean isDisabled(Player player) {
+        if (!isLoaded()) {
+            return true;
+        }
         return player.getPersistentDataContainer().getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-    }
-
-    public void setLoaded() {
-        loaded = true;
-    }
-
-    public boolean isLoaded() {
-        return loaded;
     }
 
 }

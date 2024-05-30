@@ -13,18 +13,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.skylight.Manager;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.modules.elevator.command.ElevatorCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElevatorManager {
+public class ElevatorManager implements Manager {
 
     private static ElevatorManager instance;
     private final Skylight plugin;
@@ -41,6 +43,7 @@ public class ElevatorManager {
         return instance;
     }
 
+    @Override
     public void load() {
         if (isLoaded()) {
             return;
@@ -53,16 +56,26 @@ public class ElevatorManager {
         loaded = true;
     }
 
-    public boolean isLoaded() { return loaded; }
-
+    @Override
     public void reload() {
-        if (!loaded) {
+        if (!isLoaded()) {
             return;
         }
         ElevatorConfig.getInstance().reload();
     }
 
-    public void teleportPlayer(Player player, Elevator elevator) {
+    @Override
+    public void unload() {
+        if (!isLoaded()) {
+            return;
+        }
+        loaded = false;
+    }
+
+    @Override
+    public boolean isLoaded() { return loaded; }
+
+    public void teleportPlayer(@NotNull Player player, Elevator elevator) {
         if (elevator == null || !elevator.isElevator()) {
             return;
         }

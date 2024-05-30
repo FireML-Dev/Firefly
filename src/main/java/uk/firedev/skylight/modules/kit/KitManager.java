@@ -7,12 +7,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.skylight.Manager;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.modules.kit.command.AwardKitCommand;
 
 import java.util.List;
 
-public class KitManager {
+public class KitManager implements Manager {
 
     private static KitManager instance = null;
 
@@ -25,6 +26,7 @@ public class KitManager {
         return instance;
     }
 
+    @Override
     public void load() {
         if (isLoaded()) {
             return;
@@ -36,13 +38,23 @@ public class KitManager {
         loaded = true;
     }
 
+    @Override
     public void reload() {
-        if (!loaded) {
+        if (!isLoaded()) {
             return;
         }
         KitConfig.getInstance().reload();
     }
 
+    @Override
+    public void unload() {
+        if (!isLoaded()) {
+            return;
+        }
+        loaded = false;
+    }
+
+    @Override
     public boolean isLoaded() { return loaded; }
 
     public NamespacedKey getKitKey() {

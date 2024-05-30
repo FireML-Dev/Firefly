@@ -11,6 +11,7 @@ import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.skylight.Manager;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.modules.titles.command.PrefixCommand;
 import uk.firedev.skylight.modules.titles.command.SuffixCommand;
@@ -20,7 +21,7 @@ import uk.firedev.skylight.modules.titles.objects.Suffix;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TitleManager {
+public class TitleManager implements Manager {
 
     private static TitleManager instance = null;
 
@@ -37,6 +38,7 @@ public class TitleManager {
         return instance;
     }
 
+    @Override
     public void load() {
         if (isLoaded()) {
             return;
@@ -53,12 +55,27 @@ public class TitleManager {
         loaded = true;
     }
 
+    @Override
     public void reload() {
+        if (!isLoaded()) {
+            return;
+        }
         TitleConfig.getInstance().reload();
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
     }
 
+    @Override
+    public void unload() {
+        if (!isLoaded()) {
+            return;
+        }
+        this.prefixes = new ArrayList<>();
+        this.suffixes = new ArrayList<>();
+        loaded = false;
+    }
+
+    @Override
     public boolean isLoaded() { return loaded; }
 
     public NamespacedKey getPrefixKey() {

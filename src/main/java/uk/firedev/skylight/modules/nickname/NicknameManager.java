@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.skylight.Manager;
 import uk.firedev.skylight.Skylight;
 import uk.firedev.skylight.database.Database;
 import uk.firedev.skylight.modules.nickname.command.NicknameAdminCommand;
@@ -22,7 +23,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class NicknameManager {
+public class NicknameManager implements Manager {
 
     private static NicknameManager instance = null;
 
@@ -38,6 +39,7 @@ public class NicknameManager {
         return instance;
     }
 
+    @Override
     public void load() {
         if (isLoaded()) {
             return;
@@ -50,14 +52,16 @@ public class NicknameManager {
         populateNicknameMap();
     }
 
+    @Override
     public void reload() {
-        if (!loaded) {
+        if (!isLoaded()) {
             return;
         }
         NicknameConfig.getInstance().reload();
         populateNicknameMap();
     }
 
+    @Override
     public void unload() {
         if (!isLoaded()) {
             return;
@@ -65,6 +69,7 @@ public class NicknameManager {
         loaded = false;
     }
 
+    @Override
     public boolean isLoaded() {
         return loaded;
     }
