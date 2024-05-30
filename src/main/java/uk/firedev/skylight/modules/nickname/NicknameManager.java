@@ -1,5 +1,6 @@
 package uk.firedev.skylight.modules.nickname;
 
+import dev.jorel.commandapi.CommandAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -57,6 +58,7 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+
         NicknameConfig.getInstance().reload();
         populateNicknameMap();
     }
@@ -66,6 +68,10 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        // Unregister Commands
+        CommandAPI.unregister(NicknameCommand.getInstance().getName());
+        CommandAPI.unregister(NicknameAdminCommand.getInstance().getName());
+        CommandAPI.unregister(NicknameCheckCommand.getInstance().getName());
         loaded = false;
     }
 

@@ -11,6 +11,9 @@ import uk.firedev.skylight.modules.small.AmethystProtection;
 import uk.firedev.skylight.modules.small.LootChestProtection;
 import uk.firedev.skylight.modules.titles.TitleManager;
 
+/**
+ * This command should never be unloaded.
+ */
 public class SkylightCommand extends CommandAPICommand {
 
     private static SkylightCommand instance = null;

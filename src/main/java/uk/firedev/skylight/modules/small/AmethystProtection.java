@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.utils.ObjectUtils;
@@ -73,6 +74,8 @@ public class AmethystProtection extends CommandAPICommand implements Listener, M
         }
         // Unregister the event listener
         HandlerList.unregisterAll(this);
+        // Unregister Commands
+        CommandAPI.unregister(getName());
         loaded = false;
     }
 

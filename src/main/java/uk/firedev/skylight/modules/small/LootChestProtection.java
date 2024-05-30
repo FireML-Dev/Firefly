@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.skylight.Manager;
 import uk.firedev.skylight.Skylight;
 

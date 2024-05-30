@@ -60,6 +60,8 @@ public class SmallManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        AmethystProtection.getInstance().unload();
+        LootChestProtection.getInstance().unload();
         loaded = false;
     }
 

@@ -1,5 +1,6 @@
 package uk.firedev.skylight.modules.kit;
 
+import dev.jorel.commandapi.CommandAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -51,6 +52,7 @@ public class KitManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        CommandAPI.unregister(AwardKitCommand.getInstance().getName());
         loaded = false;
     }
 

@@ -1,5 +1,6 @@
 package uk.firedev.skylight.modules.elevator;
 
+import dev.jorel.commandapi.CommandAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -69,6 +70,7 @@ public class ElevatorManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        CommandAPI.unregister(ElevatorCommand.getInstance().getName());
         loaded = false;
     }
 
