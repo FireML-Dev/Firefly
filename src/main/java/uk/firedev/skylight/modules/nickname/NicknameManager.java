@@ -7,6 +7,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
@@ -46,6 +47,7 @@ public class NicknameManager implements Manager {
             return;
         }
         NicknameConfig.getInstance().reload();
+        Loggers.info(Skylight.getInstance().getComponentLogger(), "Registering Nickname Commands");
         NicknameCommand.getInstance().register();
         NicknameAdminCommand.getInstance().register();
         NicknameCheckCommand.getInstance().register();
@@ -69,6 +71,7 @@ public class NicknameManager implements Manager {
             return;
         }
         // Unregister Commands
+        Loggers.info(Skylight.getInstance().getComponentLogger(), "Unregistering Nickname Commands");
         CommandAPI.unregister(NicknameCommand.getInstance().getName());
         CommandAPI.unregister(NicknameAdminCommand.getInstance().getName());
         CommandAPI.unregister(NicknameCheckCommand.getInstance().getName());

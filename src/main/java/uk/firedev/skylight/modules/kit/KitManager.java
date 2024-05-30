@@ -7,6 +7,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.skylight.Manager;
 import uk.firedev.skylight.Skylight;
@@ -35,6 +36,7 @@ public class KitManager implements Manager {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new KitListener(), Skylight.getInstance());
         KitConfig.getInstance().reload();
+        Loggers.info(Skylight.getInstance().getComponentLogger(), "Registering AwardKit Command");
         AwardKitCommand.getInstance().register();
         loaded = true;
     }
@@ -52,6 +54,7 @@ public class KitManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        Loggers.info(Skylight.getInstance().getComponentLogger(), "Unregistering AwardKit Command");
         CommandAPI.unregister(AwardKitCommand.getInstance().getName());
         loaded = false;
     }

@@ -1,5 +1,6 @@
 package uk.firedev.skylight.modules.titles;
 
+import dev.jorel.commandapi.CommandAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
@@ -48,6 +49,7 @@ public class TitleManager implements Manager {
             return;
         }
         TitleConfig.getInstance().reload();
+        Loggers.info(Skylight.getInstance().getComponentLogger(), "Registering Title Commands");
         PrefixCommand.getInstance().register();
         SuffixCommand.getInstance().register();
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
@@ -70,6 +72,11 @@ public class TitleManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        // Unregister Commands
+        Loggers.info(Skylight.getInstance().getComponentLogger(), "Unregistering Title Commands");
+        CommandAPI.unregister(PrefixCommand.getInstance().getName());
+        CommandAPI.unregister(SuffixCommand.getInstance().getName());
+
         this.prefixes = new ArrayList<>();
         this.suffixes = new ArrayList<>();
         loaded = false;

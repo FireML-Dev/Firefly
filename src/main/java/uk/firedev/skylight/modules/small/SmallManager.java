@@ -44,7 +44,6 @@ public class SmallManager implements Manager {
         PluginManager pluginManager = Skylight.getInstance().getServer().getPluginManager();
         if (ModuleConfig.getInstance().amethystProtectionModuleEnabled()) {
             AmethystProtection.getInstance().load();
-            AmethystProtection.getInstance().register();
             pluginManager.registerEvents(AmethystProtection.getInstance(), Skylight.getInstance());
             Loggers.info(Skylight.getInstance().getComponentLogger(), "Loaded Amethyst Protection Module.");
         }
