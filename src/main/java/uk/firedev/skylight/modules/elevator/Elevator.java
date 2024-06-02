@@ -61,7 +61,7 @@ public class Elevator {
         }
     }
 
-    public void showBossBar(Player player) {
+    public void showBossBar(@NotNull Player player) {
         BossBar bossBar = ElevatorConfig.getInstance().getBossBar(this);
         BossBar existing = bossBars.get(player);
         if (existing != null) {
@@ -72,7 +72,7 @@ public class Elevator {
         player.showBossBar(bossBar);
     }
 
-    public static void hideBossBar(Player player) {
+    public static void hideBossBar(@NotNull Player player) {
         BossBar bossBar = bossBars.get(player);
         if (bossBar == null) {
             return;
@@ -145,7 +145,7 @@ public class Elevator {
         return new Elevator(location);
     }
 
-    public void handleBossBar(Player player) {
+    public void handleBossBar(@NotNull Player player) {
         if (isElevator()) {
             showBossBar(player);
         } else {
