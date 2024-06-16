@@ -41,4 +41,8 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
         return getConfig().getBoolean("modules.nicknames");
     }
 
+    public boolean aliasesModuleEnabled() {
+        return getConfig().getBoolean("modules.aliases");
+    }
+
 }

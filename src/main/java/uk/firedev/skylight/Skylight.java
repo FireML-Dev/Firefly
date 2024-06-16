@@ -9,6 +9,7 @@ import uk.firedev.skylight.config.GUIConfig;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.config.ModuleConfig;
 import uk.firedev.skylight.database.Database;
+import uk.firedev.skylight.modules.alias.AliasManager;
 import uk.firedev.skylight.modules.elevator.Elevator;
 import uk.firedev.skylight.modules.elevator.ElevatorManager;
 import uk.firedev.skylight.modules.kit.KitManager;
@@ -68,6 +69,10 @@ public final class Skylight extends JavaPlugin {
             NicknameManager.getInstance().load();
             Loggers.info(getComponentLogger(), "Loaded Nicknames Module.");
         }
+        if (ModuleConfig.getInstance().aliasesModuleEnabled()) {
+            AliasManager.getInstance().load();
+            Loggers.info(getComponentLogger(), "Loaded Alias Module.");
+        }
 
     }
 
@@ -91,6 +96,9 @@ public final class Skylight extends JavaPlugin {
         }
         if (NicknameManager.getInstance().isLoaded()) {
             NicknameManager.getInstance().reload();
+        }
+        if (AliasManager.getInstance().isLoaded()) {
+            AliasManager.getInstance().reload();
         }
         SmallManager.getInstance().reload();
     }
