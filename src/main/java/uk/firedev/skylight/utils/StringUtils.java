@@ -18,7 +18,7 @@ public class StringUtils {
         if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
             string = CMIChatColor.colorize(string);
         }
-        return LegacyComponentSerializer.legacySection().deserialize(string.replace('&', '§'));
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(string.replace('§', '&'));
     }
 
 }
