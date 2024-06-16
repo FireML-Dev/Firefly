@@ -1,5 +1,6 @@
 package uk.firedev.skylight;
 
+import org.bukkit.Bukkit;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
@@ -66,8 +67,12 @@ public final class Skylight extends JavaPlugin {
             Loggers.info(getComponentLogger(), "Loaded Kits Module.");
         }
         if (ModuleConfig.getInstance().nicknamesModuleEnabled()) {
-            NicknameManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Nicknames Module.");
+            if (!Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
+                Loggers.warn(getComponentLogger(), "The Nickname module requires CMILib to be installed!");
+            } else {
+                NicknameManager.getInstance().load();
+                Loggers.info(getComponentLogger(), "Loaded Nicknames Module.");
+            }
         }
         if (ModuleConfig.getInstance().aliasesModuleEnabled()) {
             AliasManager.getInstance().load();
