@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.modules.nickname.NicknameConfig;
 import uk.firedev.skylight.modules.nickname.NicknameManager;
@@ -28,8 +29,8 @@ public class NicknameAdminCommand extends CommandAPICommand {
                 NicknameConfig.getInstance().getCommandAdminUsageMessage().sendMessage(player);
                 return;
             }
-            OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[0]);
-            if (!targetPlayer.hasPlayedBefore()) {
+            OfflinePlayer targetPlayer = PlayerHelper.getOfflinePlayer(args[0]);
+            if (targetPlayer == null) {
                 MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
                 return;
             }

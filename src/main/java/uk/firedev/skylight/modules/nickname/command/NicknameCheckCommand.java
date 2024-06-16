@@ -6,6 +6,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.skylight.config.MessageConfig;
 import uk.firedev.skylight.modules.nickname.NicknameConfig;
 import uk.firedev.skylight.modules.nickname.NicknameManager;
@@ -25,8 +26,8 @@ public class NicknameCheckCommand extends CommandAPICommand {
             String[] args = arguments.rawArgs();
             OfflinePlayer target;
             try {
-                target = Bukkit.getOfflinePlayer(args[0]);
-                if (!target.hasPlayedBefore() && !target.isOnline()) {
+                target = PlayerHelper.getOfflinePlayer(args[0]);
+                if (target == null) {
                     target = player;
                 }
             } catch (IndexOutOfBoundsException ex) {
