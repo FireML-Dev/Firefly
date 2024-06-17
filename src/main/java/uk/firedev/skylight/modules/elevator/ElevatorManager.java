@@ -130,7 +130,7 @@ public class ElevatorManager implements Manager {
                 stackList.add(new ItemStack(ItemUtils.getMaterial(itemName, Material.AIR)))
         );
         ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);
-        if (recipe.register()) {
+        if (recipe.register(true)) {
             Loggers.info(Skylight.getInstance().getComponentLogger(), "Registered Elevator Recipe");
         } else {
             Loggers.warn(Skylight.getInstance().getComponentLogger(), "Elevator Recipe failed to register.");
