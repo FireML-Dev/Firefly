@@ -8,7 +8,7 @@ kits:
       - "<green>Right Click to Claim"
     # Should this kit only award a single item from its contents?
     single-random-reward: false
-    # The permission to get the kit
+    # The permission to get the kit via GUI
     permission: "example.kit.1"
     # Should the player have the kit's permission to be able to open it?
     permission-open: false
