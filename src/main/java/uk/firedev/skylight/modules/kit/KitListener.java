@@ -24,6 +24,9 @@ public class KitListener implements Listener {
         if (event.getHand() != EquipmentSlot.HAND) {
             return;
         }
+        if (kit.permissionOpen() && !kit.hasPermission(player)) {
+            return;
+        }
         item.setAmount(item.getAmount() - 1);
         player.getInventory().setItem(EquipmentSlot.HAND, item);
         kit.processRewards(player);

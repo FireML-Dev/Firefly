@@ -28,6 +28,7 @@ public class Kit {
     private Component display;
     private List<Component> lore;
     private boolean singleRandomReward;
+    private boolean permissionOpen;
     private List<Reward> rewards;
     private String permission;
 
@@ -57,6 +58,7 @@ public class Kit {
             this.lore = loreStrings.stream().map(s -> new ComponentMessage(s).getMessage()).toList();
         }
         this.singleRandomReward = section.getBoolean("single-random-reward", false);
+        this.permissionOpen = section.getBoolean("permission-open");
 
         List<String> rewardsList = section.getStringList("contents");
         this.rewards = rewardsList.stream()
@@ -79,6 +81,8 @@ public class Kit {
     public boolean singleRandomReward() {
         return this.singleRandomReward;
     }
+
+    public boolean permissionOpen() { return this.permissionOpen; }
 
     public String getConfigKey() {
         return "kits." + getName();
