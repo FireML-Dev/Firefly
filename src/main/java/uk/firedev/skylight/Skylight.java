@@ -40,7 +40,7 @@ public final class Skylight extends JavaPlugin {
         registerPermissions();
 
         Database.getInstance().load();
-        SkylightCommand.getInstance().register();
+        SkylightCommand.getInstance().register(this);
 
         // Load Placeholder Hooks
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {

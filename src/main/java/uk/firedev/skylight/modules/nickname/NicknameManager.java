@@ -48,9 +48,9 @@ public class NicknameManager implements Manager {
         }
         NicknameConfig.getInstance().reload();
         Loggers.info(Skylight.getInstance().getComponentLogger(), "Registering Nickname Commands");
-        NicknameCommand.getInstance().register();
-        NicknameAdminCommand.getInstance().register();
-        NicknameCheckCommand.getInstance().register();
+        NicknameCommand.getInstance().register(Skylight.getInstance());
+        NicknameAdminCommand.getInstance().register(Skylight.getInstance());
+        NicknameCheckCommand.getInstance().register(Skylight.getInstance());
         // Marks the manager as loaded once complete.
         populateNicknameMap();
     }

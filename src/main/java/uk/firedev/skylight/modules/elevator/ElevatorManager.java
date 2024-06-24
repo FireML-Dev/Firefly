@@ -53,7 +53,7 @@ public class ElevatorManager implements Manager {
         pm.registerEvents(new ElevatorListener(), this.plugin);
         ElevatorConfig.getInstance().reload();
         Loggers.info(Skylight.getInstance().getComponentLogger(), "Registering Elevator Command");
-        ElevatorCommand.getInstance().register();
+        ElevatorCommand.getInstance().register(Skylight.getInstance());
         registerRecipe();
         loaded = true;
     }

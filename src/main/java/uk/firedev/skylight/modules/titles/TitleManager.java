@@ -50,8 +50,8 @@ public class TitleManager implements Manager {
         }
         TitleConfig.getInstance().reload();
         Loggers.info(Skylight.getInstance().getComponentLogger(), "Registering Title Commands");
-        PrefixCommand.getInstance().register();
-        SuffixCommand.getInstance().register();
+        PrefixCommand.getInstance().register(Skylight.getInstance());
+        SuffixCommand.getInstance().register(Skylight.getInstance());
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         loaded = true;

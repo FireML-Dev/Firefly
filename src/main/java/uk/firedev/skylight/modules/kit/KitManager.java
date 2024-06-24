@@ -37,7 +37,7 @@ public class KitManager implements Manager {
         pm.registerEvents(new KitListener(), Skylight.getInstance());
         KitConfig.getInstance().reload();
         Loggers.info(Skylight.getInstance().getComponentLogger(), "Registering AwardKit Command");
-        AwardKitCommand.getInstance().register();
+        AwardKitCommand.getInstance().register(Skylight.getInstance());
         loaded = true;
     }
 
