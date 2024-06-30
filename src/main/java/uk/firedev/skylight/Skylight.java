@@ -90,21 +90,11 @@ public final class Skylight extends JavaPlugin {
     public void reload() {
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
-        if (ElevatorManager.getInstance().isLoaded()) {
-            ElevatorManager.getInstance().reload();
-        }
-        if (TitleManager.getInstance().isLoaded()) {
-            TitleManager.getInstance().reload();
-        }
-        if (KitManager.getInstance().isLoaded()) {
-            KitManager.getInstance().reload();
-        }
-        if (NicknameManager.getInstance().isLoaded()) {
-            NicknameManager.getInstance().reload();
-        }
-        if (AliasManager.getInstance().isLoaded()) {
-            AliasManager.getInstance().reload();
-        }
+        ElevatorManager.getInstance().reload();
+        TitleManager.getInstance().reload();
+        KitManager.getInstance().reload();
+        NicknameManager.getInstance().reload();
+        AliasManager.getInstance().reload();
         SmallManager.getInstance().reload();
     }
 
