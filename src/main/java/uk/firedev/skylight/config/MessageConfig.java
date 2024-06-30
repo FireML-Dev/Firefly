@@ -1,6 +1,7 @@
 package uk.firedev.skylight.config;
 
 import net.kyori.adventure.text.Component;
+import uk.firedev.daisylib.command.HelpMessageBuilder;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.skylight.Skylight;
@@ -47,23 +48,17 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     }
 
     public ComponentMessage getMainCommandUsageMessage() {
-        Map<String, String> commandMap = Map.of(
+        Map<String, String> usageMap = Map.of(
                 "/skylight reload", "Reloads the plugin.",
                 "/skylight modules", "Are modules enabled?"
         );
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
-        ComponentMessage command = new ComponentMessage(getConfig(), "messages.main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
-        // Add command values to message
-        for (String key : commandMap.keySet()) {
-            String value = commandMap.get(key);
-            ComponentReplacer replacer = new ComponentReplacer().addReplacements(
-                    "command", key,
-                    "description", value
-            );
-            message = message.append(Component.newline()).append(command.duplicate().applyReplacer(replacer));
-        }
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
+        ComponentMessage header = new ComponentMessage(getConfig(), "messages.main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
+        ComponentMessage usage = new ComponentMessage(getConfig(), "messages.main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
+
+        ComponentMessage message = new HelpMessageBuilder(header, usage)
+                .buildMessage(usageMap, "command", "description");
+
+        return message.applyReplacer(getPrefixReplacer());
     }
 
     public ComponentMessage getMainCommandModulesMessage() {
