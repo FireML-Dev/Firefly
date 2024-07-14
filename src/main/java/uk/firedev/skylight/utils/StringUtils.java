@@ -1,24 +1,28 @@
 package uk.firedev.skylight.utils;
 
-import net.Zrips.CMILib.Colors.CMIChatColor;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.ParsingException;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
 public class StringUtils {
 
     /**
-     * Converts legacy color codes to an Adventure Component.
-     * I dislike using legacy, however it's necessary for ease of use.
+     * Gets a component from a provided String.
+     * Supports legacy and MiniMessage
      * @param string The string to convert
-     * @return A Component built from the legacy String
+     * @return A Component built from the String
      */
-    public static Component convertLegacyToAdventure(@NotNull String string) {
-        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-            string = CMIChatColor.colorize(string);
+    public static Component getComponent(@NotNull String string) {
+        string = string.replace('&', '§');
+        Component component;
+        try {
+            component = MiniMessage.miniMessage().deserialize(string);
+        } catch (ParsingException exception) {
+            component = LegacyComponentSerializer.legacySection().deserialize(string);
         }
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(string.replace('§', '&'));
+        return component;
     }
 
 }

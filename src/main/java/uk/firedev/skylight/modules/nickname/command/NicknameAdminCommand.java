@@ -49,7 +49,7 @@ public class NicknameAdminCommand extends CommandAPICommand {
                 return;
             }
             String[] splitValue = args[1].split(" ");
-            Component nickname = StringUtils.convertLegacyToAdventure(splitValue[0]);
+            Component nickname = StringUtils.getComponent(splitValue[0]);
             NicknameCommand.getInstance().executeCommand(player, targetPlayer, nickname);
         }));
     }
