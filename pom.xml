@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>uk.firedev</groupId>
-  <artifactId>Skylight</artifactId>
+  <artifactId>Firefly</artifactId>
   <version>1.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Skylight</name>
+  <name>Firefly</name>
 
   <properties>
     <java.version>21</java.version>

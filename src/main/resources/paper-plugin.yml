@@ -1,6 +1,6 @@
-name: Skylight
+name: Firefly
 version: '${project.version}'
-main: uk.firedev.skylight.Skylight
+main: uk.firedev.firefly.Firefly
 api-version: '1.21'
 author: FireML
 dependencies:
