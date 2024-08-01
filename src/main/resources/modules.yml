@@ -12,3 +12,5 @@ modules:
   kits: true
   # Classic nickname handling.
   nicknames: true
+  # Custom command aliases
+  aliases: true

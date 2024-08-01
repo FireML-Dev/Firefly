@@ -1,5 +1,5 @@
 messages:
-  prefix: "<gray>[Skylight]</gray> "
+  prefix: "<gray>[Firefly]</gray> "
   player-not-found: "<red>Player not found."
   main-command:
     reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"

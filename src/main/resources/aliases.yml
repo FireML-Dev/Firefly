@@ -1,0 +1,10 @@
+example:
+  permission: "example.permission.1"
+  aliases:
+    - "ex"
+  commands:
+    - "command1"
+    - "command2"
+  messages:
+    - "<aqua>This is a message example"
+    - "<light_purple>And this is the next line :)"

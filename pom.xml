@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>uk.firedev</groupId>
-  <artifactId>Skylight</artifactId>
-  <version>1.0.1-SNAPSHOT</version>
+  <artifactId>Firefly</artifactId>
+  <version>1.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Skylight</name>
+  <name>Firefly</name>
 
   <properties>
     <java.version>21</java.version>
@@ -72,13 +72,13 @@
       <dependency>
           <groupId>io.papermc.paper</groupId>
           <artifactId>paper-api</artifactId>
-          <version>1.20.6-R0.1-SNAPSHOT</version>
+          <version>1.21-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
       <dependency>
           <groupId>uk.firedev</groupId>
           <artifactId>DaisyLib</artifactId>
-          <version>2.0.1-SNAPSHOT</version>
+          <version>2.0.2-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
       <dependency>
@@ -104,13 +104,6 @@
           <artifactId>CMI-API</artifactId>
           <version>9.7.0.1</version>
           <scope>provided</scope>
-      </dependency>
-      <dependency>
-          <groupId>CMILib</groupId>
-          <artifactId>CMILib</artifactId>
-          <version>1.4.6.2</version>
-          <scope>system</scope>
-          <systemPath>${basedir}/libs/CMILib1.4.6.2.jar</systemPath>
       </dependency>
   </dependencies>
 </project>

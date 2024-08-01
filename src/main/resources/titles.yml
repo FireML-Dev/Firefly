@@ -1,7 +1,7 @@
 prefixes:
   example:
     display: "<rainbow>Example</rainbow>"
-    permission: "skylight.prefix.example"
+    permission: "firefly.prefix.example"
     icon:
       material: ENDER_EYE
       display: "<yellow>Equip Prefix</yellow> {display}"
@@ -10,7 +10,7 @@ prefixes:
 suffixes:
   example:
     display: "<aqua><hover:show_text:'<yellow>Suffix Hover!'>■</hover></aqua>"
-    permission: "skylight.suffix.example"
+    permission: "firefly.suffix.example"
     icon:
       material: ITEM_FRAME
       display: "<yellow>Equip Suffix</yellow> {display}"
