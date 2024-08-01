@@ -55,12 +55,8 @@
           <url>https://repo.papermc.io/repository/maven-public/</url>
       </repository>
       <repository>
-          <id>firedev-snapshots</id>
-          <url>https://repo.firedev.uk/snapshots/</url>
-      </repository>
-      <repository>
-          <id>firedev-releases</id>
-          <url>https://repo.firedev.uk/releases/</url>
+          <id>firedev-repo</id>
+          <url>https://repo.firedev.uk/repository/maven-public/</url>
       </repository>
       <repository>
           <id>jitpack.io</id>
