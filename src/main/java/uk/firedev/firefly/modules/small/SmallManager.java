@@ -2,8 +2,8 @@ package uk.firedev.firefly.modules.small;
 
 import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.config.ModuleConfig;
 
 /**

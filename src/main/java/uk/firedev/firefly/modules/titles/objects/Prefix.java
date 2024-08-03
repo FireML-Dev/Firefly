@@ -1,31 +1,31 @@
 package uk.firedev.firefly.modules.titles.objects;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.titles.TitleManager;
 
 public class Prefix implements TitlePart {
 
-    private final @NotNull ConfigurationSection section;
+    private final @NotNull Section section;
     private final @NotNull Component display;
     private final @NotNull String permission;
 
-    public Prefix(@NotNull ConfigurationSection section) throws InvalidConfigurationException {
+    public Prefix(@NotNull Section section) throws InvalidConfigurationException {
         String displayString = section.getString("display");
         if (displayString == null) {
-            throw new InvalidConfigurationException("No display name found for prefix " + section.getCurrentPath());
+            throw new InvalidConfigurationException("No display name found for prefix " + section.getNameAsRoute());
         }
         String permission = section.getString("permission");
         if (permission == null) {
             String defaultPermission = "firefly.prefix." + section.getName();
             Loggers.warn(Firefly.getInstance().getComponentLogger(),
-                    "No permission found for prefix " + section.getCurrentPath() + ". Defaulting to " + defaultPermission
+                    "No permission found for prefix " + section.getNameAsRoute() + ". Defaulting to " + defaultPermission
             );
             permission = defaultPermission;
         }
@@ -50,7 +50,7 @@ public class Prefix implements TitlePart {
     }
 
     @Override
-    public @NotNull ConfigurationSection getConfigurationSection() {
+    public @NotNull Section getSection() {
         return section;
     }
 

@@ -1,11 +1,9 @@
 package uk.firedev.firefly.modules.elevator;
 
-import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -18,10 +16,12 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
+import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
-import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.modules.elevator.command.ElevatorCommand;
 
 import java.util.ArrayList;
@@ -109,7 +109,7 @@ public class ElevatorManager implements Manager {
     }
 
     public ItemStack getElevatorBlock() {
-        FileConfiguration config = ElevatorConfig.getInstance().getConfig();
+        YamlDocument config = ElevatorConfig.getInstance().getConfig();
         String material = config.getString("item.material", "IRON_BLOCK");
         ItemStack item = new ItemBuilder(material, Material.IRON_BLOCK)
                 .withStringDisplay(config.getString("item.display", "<aqua>Elevator Block</aqua>"), null)

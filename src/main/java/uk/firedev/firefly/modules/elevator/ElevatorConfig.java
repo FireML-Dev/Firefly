@@ -15,7 +15,7 @@ public class ElevatorConfig extends Config {
     private static ElevatorConfig instance;
 
     private ElevatorConfig() {
-        super("elevators.yml", Firefly.getInstance(), true, true);
+        super("elevators.yml", "elevators.yml", Firefly.getInstance(), true);
     }
 
     public static ElevatorConfig getInstance() {

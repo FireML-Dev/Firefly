@@ -2,7 +2,6 @@ package uk.firedev.firefly.modules.kit;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +10,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.daisylib.utils.ItemUtils;
@@ -32,20 +32,20 @@ public class Kit {
     private List<Reward> rewards;
     private String permission;
 
-    public Kit(@NotNull ConfigurationSection section) {
+    public Kit(@NotNull Section section) {
         construct(section);
     }
 
     public Kit(@NotNull String name) throws InvalidConfigurationException {
-        ConfigurationSection section = KitConfig.getInstance().getConfig().getConfigurationSection("kits." + name);
+        Section section = KitConfig.getInstance().getConfig().getSection("kits." + name);
         if (section == null) {
             throw new InvalidConfigurationException();
         }
         construct(section);
     }
 
-    private void construct(@NotNull ConfigurationSection section) {
-        this.name = section.getName();
+    private void construct(@NotNull Section section) {
+        this.name = section.getNameAsString();
         this.permission = section.getString("permission", "");
         this.material = ItemUtils.getMaterial(section.getString("material", ""), Material.SHULKER_BOX);
         this.display = new ComponentMessage(section.getString("display", "<gold><bold>Kit")).getMessage();

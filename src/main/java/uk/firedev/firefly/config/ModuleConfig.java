@@ -7,7 +7,7 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
     private static ModuleConfig instance = null;
 
     private ModuleConfig() {
-        super("modules.yml", Firefly.getInstance(), true, true);
+        super("modules.yml", "modules.yml", Firefly.getInstance(), true);
     }
 
     public static ModuleConfig getInstance() {

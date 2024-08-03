@@ -1,10 +1,10 @@
 package uk.firedev.firefly.modules.titles.gui;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import uk.firedev.daisylib.builders.ItemBuilder;
+import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
 import uk.firedev.daisylib.libs.themoep.inventorygui.*;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.GUIConfig;
@@ -18,7 +18,7 @@ public class PrefixGUI {
     private final Player player;
 
     public PrefixGUI(Player player) {
-        FileConfiguration config = GUIConfig.getInstance().getConfig();
+        YamlDocument config = GUIConfig.getInstance().getConfig();
         List<String> setupTemp = config.getStringList("gui.prefixes.format");
         if (setupTemp.isEmpty()) {
             setupTemp = List.of(
@@ -95,7 +95,7 @@ public class PrefixGUI {
         gui.show(player);
     }
 
-    private ItemStack getRemoveButton(FileConfiguration config) {
+    private ItemStack getRemoveButton(YamlDocument config) {
         Material material = Material.FLINT_AND_STEEL;
         try {
             material = Material.valueOf(config.getString("gui.prefixes.remove.material", ""));

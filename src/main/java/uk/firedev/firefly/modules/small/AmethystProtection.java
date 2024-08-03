@@ -14,8 +14,8 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.utils.ObjectUtils;
-import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.Manager;
 
 import java.util.ArrayList;
 import java.util.List;

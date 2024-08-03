@@ -1,7 +1,7 @@
 package uk.firedev.firefly.modules.kit;
 
-import org.bukkit.configuration.ConfigurationSection;
 import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
@@ -15,7 +15,7 @@ public class KitConfig extends Config {
 
     // Does not remove unused config options, as that would wipe custom kits.
     private KitConfig() {
-        super("kits.yml", Firefly.getInstance(), true, false);
+        super("kits.yml", "kits.yml", Firefly.getInstance(), true);
     }
 
     public static KitConfig getInstance() {
@@ -49,13 +49,13 @@ public class KitConfig extends Config {
         return message;
     }
 
-    public List<ConfigurationSection> getKitConfigs() {
-        ConfigurationSection kitsSection = getConfig().getConfigurationSection("kits");
+    public List<Section> getKitConfigs() {
+        Section kitsSection = getConfig().getSection("kits");
         if (kitsSection == null) {
             return List.of();
         }
-        return kitsSection.getKeys(false).stream()
-                .map(kitsSection::getConfigurationSection)
+        return kitsSection.getRoutesAsStrings(false).stream()
+                .map(kitsSection::getSection)
                 .filter(Objects::nonNull)
                 .toList();
     }

@@ -1,6 +1,5 @@
 package uk.firedev.firefly.modules.titles;
 
-import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
@@ -9,11 +8,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
-import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.modules.titles.command.PrefixCommand;
 import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;

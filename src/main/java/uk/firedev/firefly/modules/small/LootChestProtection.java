@@ -12,8 +12,8 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
-import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.Manager;
 
 import java.util.List;
 import java.util.Objects;

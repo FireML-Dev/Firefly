@@ -10,7 +10,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
     private static GUIConfig instance = null;
 
     private GUIConfig() {
-        super("gui.yml", Firefly.getInstance(), true, true);
+        super("gui.yml", "gui.yml", Firefly.getInstance(), true);
     }
 
     public static GUIConfig getInstance() {

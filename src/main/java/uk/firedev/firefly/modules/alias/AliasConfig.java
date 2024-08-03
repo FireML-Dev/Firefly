@@ -1,7 +1,7 @@
 package uk.firedev.firefly.modules.alias;
 
-import org.bukkit.configuration.ConfigurationSection;
 import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.firefly.Firefly;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class AliasConfig extends Config {
     private static AliasConfig instance;
 
     private AliasConfig() {
-        super("aliases.yml", Firefly.getInstance(), false, false);
+        super("aliases.yml", "aliases.yml", Firefly.getInstance(), false);
     }
 
     public static AliasConfig getInstance() {
@@ -24,12 +24,12 @@ public class AliasConfig extends Config {
 
     public List<CommandBuilder> getCommandBuilders() {
         List<CommandBuilder> list = new ArrayList<>();
-        getConfig().getKeys(false).forEach(key -> {
-            ConfigurationSection section = getConfig().getConfigurationSection(key);
+        getConfig().getRoutesAsStrings(false).forEach(key -> {
+            Section section = getConfig().getSection(key);
             if (section == null) {
                 return;
             }
-            String name = section.getName();
+            String name = section.getNameAsString();
             List<String> aliases = section.getStringList("aliases");
             String permission = section.getString("permission");
             List<String> commands = section.getStringList("commands");

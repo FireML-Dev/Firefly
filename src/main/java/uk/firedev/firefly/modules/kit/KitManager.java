@@ -1,16 +1,16 @@
 package uk.firedev.firefly.modules.kit;
 
-import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.utils.ObjectUtils;
-import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.modules.kit.command.AwardKitCommand;
 
 import java.util.List;
@@ -75,10 +75,10 @@ public class KitManager implements Manager {
             return null;
         }
 
-        ConfigurationSection section = null;
+        Section section = null;
         String kitName = item.getItemMeta().getPersistentDataContainer().get(getKitKey(), PersistentDataType.STRING);
         if (kitName != null) {
-            section = KitConfig.getInstance().getConfig().getConfigurationSection(kitName);
+            section = KitConfig.getInstance().getConfig().getSection(kitName);
         }
 
         if (section == null) {

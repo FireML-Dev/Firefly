@@ -1,16 +1,16 @@
 package uk.firedev.firefly.modules.nickname;
 
-import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
-import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
