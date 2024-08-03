@@ -22,3 +22,6 @@ messages:
   prefix-removed: "<red>Removed Current Prefix.</red>"
   suffix-set: "<color:#F0E68C>Applied Suffix {new-suffix}.</color>"
   suffix-removed: "<red>Removed Current Suffix.</red>"
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

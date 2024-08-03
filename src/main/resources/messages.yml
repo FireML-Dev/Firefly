@@ -1,8 +1,10 @@
-messages:
-  prefix: "<gray>[Firefly]</gray> "
-  player-not-found: "<red>Player not found."
-  main-command:
-    reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
-    usage:
-      header: "{prefix}<color:#F0E68C>Command Usage:"
-      command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
+prefix: "<gray>[Firefly]</gray> "
+player-not-found: "<red>Player not found."
+main-command:
+  reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
+  usage:
+    header: "{prefix}<color:#F0E68C>Command Usage:"
+    command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

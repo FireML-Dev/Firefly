@@ -1,16 +1,18 @@
-modules:
-  small:
-    # The plugin will protect budding amethyst from being broken. Can be toggled per-player.
-    amethyst-protection: true
-    # The plugin will protect loot chests in a configurable list of worlds.
-    loot-chest-protection: true
-  # Blocks that allow players to teleport vertically.
-  elevators: true
-  # Custom prefix/suffix handling.
-  titles: true
-  # Packages of items, which can be redeemed by players.
-  kits: true
-  # Classic nickname handling.
-  nicknames: true
-  # Custom command aliases
-  aliases: true
+small:
+  # The plugin will protect budding amethyst from being broken. Can be toggled per-player.
+  amethyst-protection: true
+  # The plugin will protect loot chests in a configurable list of worlds.
+  loot-chest-protection: true
+# Blocks that allow players to teleport vertically.
+elevators: true
+# Custom prefix/suffix handling.
+titles: true
+# Packages of items, which can be redeemed by players.
+kits: true
+# Classic nickname handling.
+nicknames: true
+# Custom command aliases
+aliases: true
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

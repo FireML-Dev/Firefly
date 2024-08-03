@@ -18,31 +18,31 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
     }
 
     public boolean elevatorModuleEnabled() {
-        return getConfig().getBoolean("modules.elevators");
+        return getConfig().getBoolean("elevators");
     }
 
     public boolean titleModuleEnabled() {
-        return getConfig().getBoolean("modules.titles");
+        return getConfig().getBoolean("titles");
     }
 
     public boolean amethystProtectionModuleEnabled() {
-        return getConfig().getBoolean("modules.small.amethyst-protection");
+        return getConfig().getBoolean("small.amethyst-protection");
     }
 
     public boolean lootChestProtectionModuleEnabled() {
-        return getConfig().getBoolean("modules.small.loot-chest-protection");
+        return getConfig().getBoolean("small.loot-chest-protection");
     }
 
     public boolean kitsModuleEnabled() {
-        return getConfig().getBoolean("modules.kits");
+        return getConfig().getBoolean("kits");
     }
 
     public boolean nicknamesModuleEnabled() {
-        return getConfig().getBoolean("modules.nicknames");
+        return getConfig().getBoolean("nicknames");
     }
 
     public boolean aliasesModuleEnabled() {
-        return getConfig().getBoolean("modules.aliases");
+        return getConfig().getBoolean("aliases");
     }
 
 }

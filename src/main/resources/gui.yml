@@ -69,3 +69,6 @@ gui:
       - "fp x r nl"
     title: "Kits"
     filler: gray_stained_glass_pane
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

@@ -25,3 +25,6 @@ messages:
       usage: "{prefix}<red>Usage: /nicknameadmin <player> <nickname>"
       set-others-nickname: "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>"
       removed-others-nickname: "<color:#F0E68C>Removed {player}'s nickname.</color>"
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

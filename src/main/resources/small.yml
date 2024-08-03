@@ -14,3 +14,6 @@ loot-chest-protection:
       - Resource
       - Resource_nether
       - Resource_the_end
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

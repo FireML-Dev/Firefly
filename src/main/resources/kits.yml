@@ -24,3 +24,6 @@ messages:
      kit-not-found: "<red>Kit not found."
      awarded-command: "<color:#F0E68C>Given {player} the kit {kit}.</color>"
      awarded-receive: "<color:#F0E68C>You have been given the kit {kit}.</color>"
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1
