@@ -102,7 +102,7 @@ public class NicknameManager implements Manager {
             component = component.hoverEvent(
                     HoverEvent.hoverEvent(
                             HoverEvent.Action.SHOW_TEXT,
-                            NicknameConfig.getInstance().getRealHoverMessage().applyReplacer(replacer).getMessage()
+                            NicknameConfig.getInstance().getRealNameHoverMessage().applyReplacer(replacer).getMessage()
                     )
             );
         }

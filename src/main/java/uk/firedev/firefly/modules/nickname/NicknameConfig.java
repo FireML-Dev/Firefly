@@ -34,7 +34,7 @@ public class NicknameConfig extends Config {
         return getConfig().getStringList("nicknames.blacklisted-names");
     }
 
-    public ComponentMessage getRealHoverMessage() {
+    public ComponentMessage getRealNameHoverMessage() {
         ComponentMessage message = new ComponentMessage(getConfig(), "messages.real-name-hover", "<color:#F0E68C>Real Username:</color> <white>{username}</white>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
