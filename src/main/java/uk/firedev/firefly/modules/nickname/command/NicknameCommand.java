@@ -13,6 +13,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameManager;
 import uk.firedev.firefly.utils.StringUtils;
@@ -97,7 +98,7 @@ public class NicknameCommand extends CommandAPICommand {
             NicknameConfig.getInstance().getCommandNoUniqueMessage().sendMessage(player);
             return;
         }
-        NicknameManager.getInstance().setNickname(target, finalNicknameMessage.getMessage()).thenRun(() -> {
+        if (NicknameManager.getInstance().setNickname(target, finalNicknameMessage.getMessage())) {
             ComponentReplacer replacer = new ComponentReplacer().addReplacement("nickname", finalNicknameMessage.getMessage());
             if (target.getPlayer() != null) {
                 NicknameConfig.getInstance().getCommandSetOwnNicknameMessage().applyReplacer(replacer).sendMessage(target.getPlayer());
@@ -106,7 +107,9 @@ public class NicknameCommand extends CommandAPICommand {
                 replacer.addReplacements("target", targetName);
                 NicknameConfig.getInstance().getCommandAdminSetNicknameMessage().applyReplacer(replacer).sendMessage(player);
             }
-        });
+        } else {
+            MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
+        }
     }
 
 }

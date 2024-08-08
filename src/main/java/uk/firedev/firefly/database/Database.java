@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public class Database extends SQLiteDatabase {
 
@@ -68,17 +67,15 @@ public class Database extends SQLiteDatabase {
 
     }
 
-    public @NotNull CompletableFuture<Boolean> checkPlayerDatabaseEntry(@NotNull UUID playerUUID) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (PreparedStatement statement = getConnection().prepareStatement("INSERT OR IGNORE INTO firefly_players (uuid) VALUES (?)")) {
-                statement.setString(1, playerUUID.toString());
-                statement.executeUpdate();
-                return true;
-            } catch (SQLException ex) {
-                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to add user to Database.", ex);
-                return false;
-            }
-        });
+    public boolean checkPlayerDatabaseEntry(@NotNull UUID playerUUID) {
+        try (PreparedStatement statement = getConnection().prepareStatement("INSERT OR IGNORE INTO firefly_players (uuid) VALUES (?)")) {
+            statement.setString(1, playerUUID.toString());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to add user to Database.", ex);
+            return false;
+        }
     }
 
 }

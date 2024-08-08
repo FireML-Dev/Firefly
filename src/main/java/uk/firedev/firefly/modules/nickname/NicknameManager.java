@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public class NicknameManager implements Manager {
 
@@ -48,8 +47,8 @@ public class NicknameManager implements Manager {
         NicknameCommand.getInstance().register(Firefly.getInstance());
         NicknameAdminCommand.getInstance().register(Firefly.getInstance());
         NicknameCheckCommand.getInstance().register(Firefly.getInstance());
-        // Marks the manager as loaded once complete.
         populateNicknameMap();
+        loaded = true;
     }
 
     @Override
@@ -57,7 +56,6 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-
         NicknameConfig.getInstance().reload();
         populateNicknameMap();
     }
@@ -126,9 +124,9 @@ public class NicknameManager implements Manager {
      * @param player The player to set
      * @param nickname The nickname to set as an Adventure Component
      */
-    public CompletableFuture<Void> setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
+    public boolean setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
         if (!isLoaded()) {
-            return CompletableFuture.completedFuture(null);
+            return false;
         }
         return setStringNickname(player, LegacyComponentSerializer.legacySection().serialize(nickname));
     }
@@ -138,9 +136,9 @@ public class NicknameManager implements Manager {
      * @param player The player to set
      * @param nickname The nickname to set, as a Legacy String
      */
-    public CompletableFuture<Void> setStringNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
+    public boolean setStringNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
         if (!isLoaded()) {
-            return CompletableFuture.completedFuture(null);
+            return false;
         }
         return NicknameDatabase.getInstance().setNickname(player.getUniqueId(), nickname);
     }
@@ -156,14 +154,8 @@ public class NicknameManager implements Manager {
         NicknameDatabase.getInstance().setNickname(player.getUniqueId(), "");
     }
 
-    /**
-     * Once this method is complete, the NicknameManager will be marked as loaded.
-     */
     public void populateNicknameMap() {
-        NicknameDatabase.getInstance().getNicknames().thenAccept(map -> {
-            nicknameMap = new HashMap<>(map);
-            loaded = true;
-        });
+        nicknameMap = new HashMap<>(NicknameDatabase.getInstance().getNicknames());
     }
 
     public @NotNull Map<UUID, String> getNicknameMap() {
