@@ -8,6 +8,7 @@ import uk.firedev.firefly.database.Database;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -19,8 +20,15 @@ public class NicknameDatabase {
     private NicknameDatabase() {}
 
     public static NicknameDatabase getInstance() {
+        if (Database.getInstance().getConnection() == null) {
+            throw new RuntimeException("Tried to load NicknameDatabase class before the Database class was loaded!");
+        }
         if (instance == null) {
             instance = new NicknameDatabase();
+            try (Statement statement = Database.getInstance().getConnection().createStatement()) {
+                statement.execute("ALTER TABLE firefly_players ADD COLUMN nickname varchar");
+                Loggers.info(Firefly.getInstance().getComponentLogger(), "Created nickname database column.");
+            } catch (SQLException ignored) {}
         }
         return instance;
     }

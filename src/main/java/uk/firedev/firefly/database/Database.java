@@ -45,26 +45,12 @@ public class Database extends SQLiteDatabase {
     }
 
     public void initTables() {
-
         try (Statement statement = getConnection().createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS firefly_players(uuid varchar primary key)");
         } catch (SQLException e) {
             Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to initialize the database. Disabling Firefly.", e);
             Bukkit.getPluginManager().disablePlugin(Firefly.getInstance());
         }
-
-        List<String> addColumns = List.of(
-                // Nickname
-                "ALTER TABLE firefly_players ADD COLUMN nickname varchar"
-        );
-
-        addColumns.forEach(s -> {
-            try (Statement statement = getConnection().createStatement()) {
-                statement.execute(s);
-                Loggers.info(Firefly.getInstance().getComponentLogger(), "Created new database column.");
-            } catch (SQLException ignored) { }
-        });
-
     }
 
     public boolean checkPlayerDatabaseEntry(@NotNull UUID playerUUID) {
