@@ -10,7 +10,7 @@ dependencyResolutionManagement {
             library("miniplaceholders", "io.github.miniplaceholders:miniplaceholders-api:2.2.3")
             library("cmi-api", "CMI-API:CMI-API:9.7.0.1")
 
-            plugin("shadow", "io.github.goooler.shadow").version("8.1.8")
+            plugin("shadow", "com.gradleup.shadow").version("8.3.0")
             plugin("plugin-yml", "net.minecrell.plugin-yml.paper").version("0.6.0")
         }
     }
