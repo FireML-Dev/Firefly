@@ -1,0 +1,10 @@
+# How often to save playtime to the database (in seconds)
+save-interval: 300
+
+messages:
+  command:
+    # /playtime {player}
+    check-playtime: "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>"
+    admin:
+      # /playtime set {player} {playtime}
+      set-playtime: "<color:#F0E68C>Set {target}'s playtime to</color> <white>{playtime}</white>"
