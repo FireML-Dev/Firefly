@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
+import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.requirement.RequirementManager;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
@@ -63,8 +64,14 @@ public class PlaytimeManager implements Manager {
 
     @Override
     public void unload() {
+        if (!isLoaded()) {
+            return;
+        }
         stopSchedulers();
         RequirementManager.getInstance().unregisterRequirement("playtime");
+        // Unregister Commands
+        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Playtime Commands");
+        CommandAPI.unregister("playtime");
         loaded = false;
     }
 
