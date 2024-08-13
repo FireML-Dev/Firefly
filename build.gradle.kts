@@ -105,9 +105,9 @@ tasks {
         archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
         
-        manifest {
-            attributes["paperweight-mappings-namespace"] = "spigot"
-        }
+        //manifest {
+        //    attributes["paperweight-mappings-namespace"] = "spigot"
+        //}
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
