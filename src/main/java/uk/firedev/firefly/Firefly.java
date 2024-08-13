@@ -13,6 +13,7 @@ import uk.firedev.firefly.modules.alias.AliasManager;
 import uk.firedev.firefly.modules.elevator.ElevatorManager;
 import uk.firedev.firefly.modules.kit.KitManager;
 import uk.firedev.firefly.modules.nickname.NicknameManager;
+import uk.firedev.firefly.modules.playtime.PlaytimeManager;
 import uk.firedev.firefly.modules.small.SmallManager;
 import uk.firedev.firefly.modules.titles.TitleManager;
 import uk.firedev.firefly.placeholders.MiniPlaceholdersExpansion;
@@ -71,12 +72,21 @@ public final class Firefly extends JavaPlugin {
             AliasManager.getInstance().load();
             Loggers.info(getComponentLogger(), "Loaded Alias Module.");
         }
-
+        if (ModuleConfig.getInstance().playtimeModuleEnabled()) {
+            PlaytimeManager.getInstance().load();
+            Loggers.info(getComponentLogger(), "Loaded Playtime Module.");
+        }
     }
 
     @Override
     public void onDisable() {
+        ElevatorManager.getInstance().unload();
+        TitleManager.getInstance().unload();
+        KitManager.getInstance().unload();
         NicknameManager.getInstance().unload();
+        AliasManager.getInstance().unload();
+        SmallManager.getInstance().unload();
+        PlaytimeManager.getInstance().unload();
         Database.getInstance().unload();
     }
 
@@ -89,6 +99,7 @@ public final class Firefly extends JavaPlugin {
         NicknameManager.getInstance().reload();
         AliasManager.getInstance().reload();
         SmallManager.getInstance().reload();
+        PlaytimeManager.getInstance().reload();
     }
 
     public static Firefly getInstance() { return instance; }

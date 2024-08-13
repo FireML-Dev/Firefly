@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public class Database extends SQLiteDatabase {
 
@@ -46,39 +45,23 @@ public class Database extends SQLiteDatabase {
     }
 
     public void initTables() {
-
         try (Statement statement = getConnection().createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS firefly_players(uuid varchar primary key)");
         } catch (SQLException e) {
             Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to initialize the database. Disabling Firefly.", e);
             Bukkit.getPluginManager().disablePlugin(Firefly.getInstance());
         }
-
-        List<String> addColumns = List.of(
-                // Nickname
-                "ALTER TABLE firefly_players ADD COLUMN nickname varchar"
-        );
-
-        addColumns.forEach(s -> {
-            try (Statement statement = getConnection().createStatement()) {
-                statement.execute(s);
-                Loggers.info(Firefly.getInstance().getComponentLogger(), "Created new database column.");
-            } catch (SQLException ignored) { }
-        });
-
     }
 
-    public @NotNull CompletableFuture<Boolean> checkPlayerDatabaseEntry(@NotNull UUID playerUUID) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (PreparedStatement statement = getConnection().prepareStatement("INSERT OR IGNORE INTO firefly_players (uuid) VALUES (?)")) {
-                statement.setString(1, playerUUID.toString());
-                statement.executeUpdate();
-                return true;
-            } catch (SQLException ex) {
-                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to add user to Database.", ex);
-                return false;
-            }
-        });
+    public boolean checkPlayerDatabaseEntry(@NotNull UUID playerUUID) {
+        try (PreparedStatement statement = getConnection().prepareStatement("INSERT OR IGNORE INTO firefly_players (uuid) VALUES (?)")) {
+            statement.setString(1, playerUUID.toString());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to add user to Database.", ex);
+            return false;
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 prefix: "<gray>[Firefly]</gray> "
 player-not-found: "<red>Player not found."
+error-occurred: "<red>An error has occurred. Please try again."
 main-command:
   reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
   usage:
@@ -7,4 +8,4 @@ main-command:
     command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2

@@ -45,4 +45,8 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
         return getConfig().getBoolean("aliases");
     }
 
+    public boolean playtimeModuleEnabled() {
+        return getConfig().getBoolean("playtime");
+    }
+
 }

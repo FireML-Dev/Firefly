@@ -38,6 +38,12 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         return message;
     }
 
+    public ComponentMessage getErrorOccurredMessage() {
+        ComponentMessage message = new ComponentMessage(getConfig(), "error-occurred", "<red>An error has occurred. Please try again.");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
     // MAIN COMMAND MESSAGES
 
     public ComponentMessage getMainCommandReloadedMessage() {

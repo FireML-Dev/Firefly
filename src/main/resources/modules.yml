@@ -13,6 +13,8 @@ kits: true
 nicknames: true
 # Custom command aliases
 aliases: true
+# Playtime tracking
+playtime: true
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2
