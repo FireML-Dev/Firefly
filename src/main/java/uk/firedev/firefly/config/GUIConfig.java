@@ -2,7 +2,10 @@ package uk.firedev.firefly.config;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.builders.ItemBuilder;
+import uk.firedev.daisylib.libs.themoep.inventorygui.GuiPageElement;
+import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
 import uk.firedev.firefly.Firefly;
 
 public class GUIConfig extends uk.firedev.daisylib.Config {
@@ -31,48 +34,56 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
                 .build();
     }
 
-    public ItemStack getNextPageButton() {
+    public GuiPageElement getNextPageButton() {
         Material material = Material.PAPER;
         try {
             material = Material.valueOf(getConfig().getString("gui.global.next-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        ItemStack item = new ItemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.next-page.display", "<aqua>Next Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.next-page.lore"), null)
                 .build();
+        return new GuiPageElement('n', item, GuiPageElement.PageAction.NEXT);
     }
 
-    public ItemStack getPreviousPageButton() {
+    public GuiPageElement getPreviousPageButton() {
         Material material = Material.PAPER;
         try {
             material = Material.valueOf(getConfig().getString("gui.global.previous-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        ItemStack item = new ItemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.previous-page.display", "<aqua>Previous Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.previous-page.lore"), null)
                 .build();
+        return new GuiPageElement('p', item, GuiPageElement.PageAction.PREVIOUS);
     }
 
-    public ItemStack getFirstPageButton() {
+    public GuiPageElement getFirstPageButton() {
         Material material = Material.ARROW;
         try {
             material = Material.valueOf(getConfig().getString("gui.global.first-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        ItemStack item = new ItemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.first-page.display", "<aqua>First Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.first-page.lore"), null)
                 .build();
+        return new GuiPageElement('f', item, GuiPageElement.PageAction.FIRST);
     }
 
-    public ItemStack getLastPageButton() {
+    public GuiPageElement getLastPageButton() {
         Material material = Material.ARROW;
         try {
             material = Material.valueOf(getConfig().getString("gui.global.last-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        ItemStack item = new ItemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.last-page.display", "<aqua>Last Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.last-page.lore"), null)
                 .build();
+        return new GuiPageElement('l', item, GuiPageElement.PageAction.LAST);
+    }
+
+    public void addAllPageElements(@NotNull InventoryGui gui) {
+        gui.addElements(getFirstPageButton(), getPreviousPageButton(), getNextPageButton(), getLastPageButton());
     }
 
 }

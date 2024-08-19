@@ -8,8 +8,6 @@ import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
-import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitConfig;
@@ -18,13 +16,13 @@ import uk.firedev.firefly.modules.kit.KitManager;
 import java.util.concurrent.CompletableFuture;
 
 
-public class AwardKitCommand extends CommandAPICommand {
+public class KitAwardCommand extends CommandAPICommand {
 
-    private static AwardKitCommand instance;
+    private static KitAwardCommand instance;
 
-    private AwardKitCommand() {
-        super("awardkit");
-        setPermission(CommandPermission.fromString("firefly.command.awardkit"));
+    private KitAwardCommand() {
+        super("award");
+        setPermission(CommandPermission.fromString("firefly.command.kit.award"));
         withShortDescription("Give kits to people");
         withFullDescription("Give kits to people");
         withArguments(getPlayerArgument());
@@ -48,18 +46,14 @@ public class AwardKitCommand extends CommandAPICommand {
                     KitConfig.getInstance().getNotFoundMessage().sendMessage(sender);
                     return;
                 }
-                ItemUtils.giveItem(kit.buildItem(), player);
-                ComponentReplacer replacer = new ComponentReplacer().addReplacements("kit", kit.getName());
-                KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
-                replacer.addReplacements("player", player.getName());
-                KitConfig.getInstance().getAwardedCommandMessage().applyReplacer(replacer).sendMessage(sender);
+                kit.giveToPlayer(player, sender);
             }
         });
     }
 
-    public static AwardKitCommand getInstance() {
+    public static KitAwardCommand getInstance() {
         if (instance == null) {
-            instance = new AwardKitCommand();
+            instance = new KitAwardCommand();
         }
         return instance;
     }

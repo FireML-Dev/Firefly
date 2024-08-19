@@ -11,7 +11,8 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
-import uk.firedev.firefly.modules.kit.command.AwardKitCommand;
+import uk.firedev.firefly.modules.kit.command.KitAwardCommand;
+import uk.firedev.firefly.modules.kit.command.KitCommand;
 
 import java.util.List;
 
@@ -36,8 +37,8 @@ public class KitManager implements Manager {
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(new KitListener(), Firefly.getInstance());
         KitConfig.getInstance().reload();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering AwardKit Command");
-        AwardKitCommand.getInstance().register(Firefly.getInstance());
+        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Kit Commands");
+        KitCommand.getInstance().register(Firefly.getInstance());
         loaded = true;
     }
 
@@ -55,7 +56,7 @@ public class KitManager implements Manager {
             return;
         }
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering AwardKit Command");
-        CommandAPI.unregister(AwardKitCommand.getInstance().getName());
+        CommandAPI.unregister(KitCommand.getInstance().getName());
         loaded = false;
     }
 

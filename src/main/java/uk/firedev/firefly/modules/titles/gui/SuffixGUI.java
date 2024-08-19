@@ -69,25 +69,7 @@ public class SuffixGUI {
                 })
         );
 
-        gui.addElement(new GuiPageElement('f',
-                GUIConfig.getInstance().getFirstPageButton(),
-                GuiPageElement.PageAction.FIRST)
-        );
-
-        gui.addElement(new GuiPageElement('p',
-                GUIConfig.getInstance().getPreviousPageButton(),
-                GuiPageElement.PageAction.PREVIOUS)
-        );
-
-        gui.addElement(new GuiPageElement('n',
-                GUIConfig.getInstance().getNextPageButton(),
-                GuiPageElement.PageAction.NEXT)
-        );
-
-        gui.addElement(new GuiPageElement('l',
-                GUIConfig.getInstance().getLastPageButton(),
-                GuiPageElement.PageAction.LAST)
-        );
+        GUIConfig.getInstance().addAllPageElements(gui);
 
     }
 
