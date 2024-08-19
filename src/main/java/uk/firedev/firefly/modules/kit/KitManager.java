@@ -8,6 +8,7 @@ import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
+import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
@@ -39,6 +40,7 @@ public class KitManager implements Manager {
         KitConfig.getInstance().reload();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Kit Commands");
         KitCommand.getInstance().register(Firefly.getInstance());
+        new KitRewardType().register();
         loaded = true;
     }
 
@@ -57,6 +59,7 @@ public class KitManager implements Manager {
         }
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering AwardKit Command");
         CommandAPI.unregister(KitCommand.getInstance().getName());
+        RewardManager.getInstance().unregisterRewardType("KIT");
         loaded = false;
     }
 
