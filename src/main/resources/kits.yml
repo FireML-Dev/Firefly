@@ -12,6 +12,10 @@ kits:
     permission: "example.kit.1"
     # Should the player have the kit's permission to be able to open it?
     permission-open: false
+    # Should this kit be visible to players?
+    player-visible: false
+    # How long should the cooldown in the Kits GUI be? In seconds.
+    gui-cooldown: 300
     contents:
       - "denizen:example_item"
       - "item:stone"
@@ -24,6 +28,8 @@ messages:
      kit-not-found: "<red>Kit not found."
      awarded-command: "<color:#F0E68C>Given {player} the kit {kit}.</color>"
      awarded-receive: "<color:#F0E68C>You have been given the kit {kit}.</color>"
+  gui:
+    on-cooldown: "{prefix}<red>This kit is on cooldown!"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2

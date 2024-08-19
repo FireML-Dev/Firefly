@@ -3,7 +3,7 @@ rootProject.name = "Firefly"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            library("paper-api", "io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
+            library("paper-api", "io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
             library("daisylib", "uk.firedev:DaisyLib:2.0.3-SNAPSHOT")
             library("vault", "com.github.MilkBowl:VaultAPI:1.7.1")
             library("placeholderapi", "me.clip:placeholderapi:2.11.6")
