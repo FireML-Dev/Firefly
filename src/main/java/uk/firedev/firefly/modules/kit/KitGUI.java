@@ -2,7 +2,6 @@ package uk.firedev.firefly.modules.kit;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.gui.GUIUtils;
 import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;

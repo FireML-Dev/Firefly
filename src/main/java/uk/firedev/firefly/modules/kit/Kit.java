@@ -2,11 +2,8 @@ package uk.firedev.firefly.modules.kit;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.block.data.type.Fire;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -20,7 +17,6 @@ import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.reward.Reward;
-import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.firefly.Firefly;
 

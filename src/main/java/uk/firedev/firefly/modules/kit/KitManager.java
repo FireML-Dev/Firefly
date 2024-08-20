@@ -12,7 +12,6 @@ import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
-import uk.firedev.firefly.modules.kit.command.KitAwardCommand;
 import uk.firedev.firefly.modules.kit.command.KitCommand;
 
 import java.util.List;

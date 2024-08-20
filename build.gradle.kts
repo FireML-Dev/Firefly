@@ -24,6 +24,7 @@ dependencies {
     compileOnly(libs.placeholderapi)
     compileOnly(libs.miniplaceholders)
     compileOnly(libs.cmi.api)
+    compileOnly(files("$projectDir/libs/CMILib1.5.1.1.jar"))
 }
 
 group = "uk.firedev"
@@ -50,6 +51,10 @@ paper {
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
         register("CMI") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+        register("CMILib") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
