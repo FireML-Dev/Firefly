@@ -10,8 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class StringUtils {
 
     /**
-     * Gets a component from a provided String.
-     * Supports legacy or MiniMessage
+     * Gets a component from a provided legacy color code String.
      * @param string The string to convert
      * @return A Component built from the String
      */
