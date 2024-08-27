@@ -1,7 +1,7 @@
 example:
   permission: "example.permission.1"
   aliases:
-    - "ex"
+    - "exa"
   commands:
     - "command1"
     - "command2"
