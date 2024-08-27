@@ -94,7 +94,7 @@ public class NicknameManager implements Manager {
             savedName = Objects.requireNonNull(player.getName());
         }
         Component component = StringUtils.getComponent(savedName);
-        ComponentMessage componentMessage = new ComponentMessage(component);
+        ComponentMessage componentMessage = ComponentMessage.of(component);
         if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
             ComponentReplacer replacer = new ComponentReplacer().addReplacements("username", player.getName());
             component = component.hoverEvent(

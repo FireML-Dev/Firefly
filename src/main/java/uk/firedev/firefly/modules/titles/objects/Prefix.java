@@ -30,7 +30,7 @@ public class Prefix implements TitlePart {
             permission = defaultPermission;
         }
         this.section = section;
-        this.display = new ComponentMessage(displayString).getMessage();
+        this.display = ComponentMessage.fromString(displayString).getMessage();
         this.permission = permission;
     }
 

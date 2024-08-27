@@ -23,8 +23,8 @@ public class MiniPlaceholdersExpansion {
                     if (TitleManager.getInstance().isLoaded()) {
                         return Tag.selfClosingInserting(TitleManager.getInstance().getPlayerPrefix(player));
                     } else {
-                        String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerPrefix(player).replace('§', '&');
-                        return Tag.selfClosingInserting(LegacyComponentSerializer.legacyAmpersand().deserialize(prefix));
+                        String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerPrefix(player);
+                        return Tag.selfClosingInserting(ComponentMessage.fromString(prefix).getMessage());
                     }
                 }))
                 .audiencePlaceholder("player_suffix", ((audience, argumentQueue, context) -> {
@@ -32,8 +32,8 @@ public class MiniPlaceholdersExpansion {
                     if (TitleManager.getInstance().isLoaded()) {
                         return Tag.selfClosingInserting(TitleManager.getInstance().getPlayerSuffix(player));
                     } else {
-                        String suffix = Objects.requireNonNull(VaultManager.getChat()).getPlayerSuffix(player).replace('§', '&');
-                        return Tag.selfClosingInserting(LegacyComponentSerializer.legacyAmpersand().deserialize(suffix));
+                        String suffix = Objects.requireNonNull(VaultManager.getChat()).getPlayerSuffix(player);
+                        return Tag.selfClosingInserting(ComponentMessage.fromString(suffix).getMessage());
                     }
                 }))
                 .audiencePlaceholder("player_nickname", ((audience, argumentQueue, context) -> {
@@ -41,7 +41,7 @@ public class MiniPlaceholdersExpansion {
                     if (NicknameManager.getInstance().isLoaded()) {
                         return Tag.selfClosingInserting(NicknameManager.getInstance().getNickname(player));
                     } else {
-                        return Tag.selfClosingInserting(new ComponentMessage(player.getName()).getMessage());
+                        return Tag.selfClosingInserting(ComponentMessage.fromString(player.getName()).getMessage());
                     }
                 }))
                 .audiencePlaceholder("amethyst_protected", ((audience, argumentQueue, context) -> {

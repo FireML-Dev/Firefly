@@ -29,17 +29,17 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     // GENERAL MESSAGES
 
     public ComponentMessage getPrefix() {
-        return new ComponentMessage(getConfig(), "prefix", "<gray>[Firefly]</gray> ");
+        return ComponentMessage.fromConfig(getConfig(), "prefix", "<gray>[Firefly]</gray> ");
     }
 
     public ComponentMessage getPlayerNotFoundMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "player-not-found", "<red>Player not found.");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "player-not-found", "<red>Player not found.");
         message = message.applyReplacer(getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getErrorOccurredMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "error-occurred", "<red>An error has occurred. Please try again.");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "error-occurred", "<red>An error has occurred. Please try again.");
         message = message.applyReplacer(getPrefixReplacer());
         return message;
     }
@@ -47,7 +47,7 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     // MAIN COMMAND MESSAGES
 
     public ComponentMessage getMainCommandReloadedMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "main-command.reloaded", "<color:#F0E68C>Successfully reloaded the plugin");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "main-command.reloaded", "<color:#F0E68C>Successfully reloaded the plugin");
         message = message.applyReplacer(getPrefixReplacer());
         return message;
     }
@@ -57,8 +57,8 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
                 "/firefly reload", "Reloads the plugin.",
                 "/firefly modules", "Are modules enabled?"
         );
-        ComponentMessage header = new ComponentMessage(getConfig(), "main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
-        ComponentMessage usage = new ComponentMessage(getConfig(), "main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
+        ComponentMessage header = ComponentMessage.fromConfig(getConfig(), "main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
+        ComponentMessage usage = ComponentMessage.fromConfig(getConfig(), "main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
 
         ComponentMessage message = new HelpMessageBuilder(header, usage)
                 .buildMessage(usageMap, "command", "description");
@@ -67,7 +67,7 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     }
 
     public ComponentMessage getMainCommandModulesMessage() {
-        ComponentMessage message = new ComponentMessage(
+        ComponentMessage message = ComponentMessage.fromString(
                 """
                 {prefix}<color:#F0E68C>Kits:</color> {kitsEnabled}
                 {prefix}<color:#F0E68C>Amethyst Protection:</color> {apEnabled}

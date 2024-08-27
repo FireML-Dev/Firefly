@@ -36,7 +36,7 @@ public class CommandBuilder {
             command.withPermission(CommandPermission.fromString(permission));
         }
         command.executes((sender, arguments) -> {
-            messages.forEach(message -> new ComponentMessage(message).sendMessage(sender));
+            messages.forEach(message -> ComponentMessage.fromString(message).sendMessage(sender));
             commands.forEach(executeCommand -> {
                 CommandSender thisSender;
                 StringReplacer replacer = new StringReplacer();

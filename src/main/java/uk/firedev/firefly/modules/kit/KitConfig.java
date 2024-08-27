@@ -26,31 +26,31 @@ public class KitConfig extends Config {
     }
 
     public ComponentMessage getUsageMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.usage", "<color:#F0E68C>Usage: <green>/awardkit <player> <kit>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.usage", "<color:#F0E68C>Usage: <green>/awardkit <player> <kit>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getNotFoundMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.kit-not-found", "<red>Kit not found.");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.kit-not-found", "<red>Kit not found.");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getAwardedCommandMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.awarded-command", "<color:#F0E68C>Given {player} the kit {kit}.</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-command", "<color:#F0E68C>Given {player} the kit {kit}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getAwardedReceiverMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.awarded-receive", "<color:#F0E68C>You have been given the kit {kit}.</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-receive", "<color:#F0E68C>You have been given the kit {kit}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getGUIOnCooldownMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.gui.on-cooldown", "{prefix}<red>This kit is on cooldown! You can obtain it again in <yellow>{timeLeft}<red>!");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.gui.on-cooldown", "{prefix}<red>This kit is on cooldown! You can obtain it again in <yellow>{timeLeft}<red>!");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }

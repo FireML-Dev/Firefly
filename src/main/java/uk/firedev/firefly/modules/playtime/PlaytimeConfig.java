@@ -25,13 +25,13 @@ public class PlaytimeConfig extends Config {
     }
 
     public ComponentMessage getCommandCheckPlaytimeMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.check-playtime", "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.check-playtime", "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>");
         message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getCommandAdminSetPlaytimeMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.admin.set-playtime", "<color:#F0E68C>Set {target}'s playtime to</color> <white>{playtime}</white>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-playtime", "<color:#F0E68C>Set {target}'s playtime to</color> <white>{playtime}</white>");
         message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }

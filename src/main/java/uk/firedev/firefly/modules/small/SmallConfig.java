@@ -23,19 +23,19 @@ public class SmallConfig extends Config {
     // AMETHYST PROTECTION
 
     public ComponentMessage getAmethystProtectEnabledMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "amethyst-protection.messages.enabled", "<color:#F0E68C>Enabled Amethyst Protection</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "amethyst-protection.messages.enabled", "<color:#F0E68C>Enabled Amethyst Protection</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getAmethystProtectDisabledMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "amethyst-protection.messages.disabled", "<color:#F0E68C>Disabled Amethyst Protection</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "amethyst-protection.messages.disabled", "<color:#F0E68C>Disabled Amethyst Protection</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getAmethystProtectProtectedMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "amethyst-protection.messages.protected", "\n<color:#F0E68C>AmethystProtect has protected this block.</color>\n<red>You can disable this with <click:run_command:'/amethystprotect'><u>/amethystprotect</u></click></red>\n");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "amethyst-protection.messages.protected", "\n<color:#F0E68C>AmethystProtect has protected this block.</color>\n<red>You can disable this with <click:run_command:'/amethystprotect'><u>/amethystprotect</u></click></red>\n");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }

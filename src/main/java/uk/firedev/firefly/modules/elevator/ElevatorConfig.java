@@ -26,37 +26,37 @@ public class ElevatorConfig extends Config {
     }
 
     public ComponentMessage getCommandUsageMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.usage", "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.usage", "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getCommandGivenMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.block-given", "<color:#F0E68C>Given you an Elevator Block!</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.block-given", "<color:#F0E68C>Given you an Elevator Block!</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getCommandUnregisterMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.unregistered-elevator", "<color:#F0E68C>Successfully removed elevator data from this block.</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.unregistered-elevator", "<color:#F0E68C>Successfully removed elevator data from this block.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getCommandInvalidMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.command.not-an-elevator", "<red>This block is not an elevator!</red>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.not-an-elevator", "<red>This block is not an elevator!</red>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getUnsafeLocationMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.unsafe-location", "<red>The target elevator is unsafe!</red>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.unsafe-location", "<red>The target elevator is unsafe!</red>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getTeleportFailMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.teleport-fail", "<red>Failed to teleport. Please try again!</red>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.teleport-fail", "<red>Failed to teleport. Please try again!</red>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
@@ -66,7 +66,7 @@ public class ElevatorConfig extends Config {
                 "current", String.valueOf(elevator.getCurrentPosition() + 1),
                 "all", String.valueOf(elevator.getStack().size())
         );
-        return new ComponentMessage(getConfig(), "bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
+        return ComponentMessage.fromConfig(getConfig(), "bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
     }
 
     public BossBar.Color getBossBarColor() {

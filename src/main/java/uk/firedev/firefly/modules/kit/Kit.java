@@ -59,16 +59,16 @@ public class Kit {
         this.name = section.getNameAsString();
         this.permission = section.getString("permission", "");
         this.material = ItemUtils.getMaterial(section.getString("material", ""), Material.SHULKER_BOX);
-        this.display = new ComponentMessage(section.getString("display", "<gold><bold>Kit")).getMessage();
+        this.display = ComponentMessage.fromString(section.getString("display", "<gold><bold>Kit")).getMessage();
         this.guiCooldown = section.getLong("gui-cooldown");
         this.playerVisible = section.getBoolean("player-visible", true);
         List<String> loreStrings = section.getStringList("lore");
         if (loreStrings.isEmpty()) {
             this.lore = List.of(
-                new ComponentMessage("<green>Right Click to Claim</green>").getMessage()
+                ComponentMessage.fromString("<green>Right Click to Claim</green>").getMessage()
             );
         } else {
-            this.lore = loreStrings.stream().map(s -> new ComponentMessage(s).getMessage()).toList();
+            this.lore = loreStrings.stream().map(s -> ComponentMessage.fromString(s).getMessage()).toList();
         }
         this.singleRandomReward = section.getBoolean("single-random-reward", false);
         this.permissionOpen = section.getBoolean("permission-open");

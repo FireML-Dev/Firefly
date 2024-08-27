@@ -72,7 +72,7 @@ public class NicknameCommand extends CommandAPICommand {
 
     public void executeCommand(@NotNull Player player, @NotNull OfflinePlayer target, @NotNull Component nickname) {
         // No color permission
-        ComponentMessage nicknameMessage = new ComponentMessage(nickname);
+        ComponentMessage nicknameMessage = ComponentMessage.of(nickname);
         if (!player.hasPermission("firefly.command.nickname.colors")) {
             nicknameMessage = nicknameMessage.stripStyling();
         }

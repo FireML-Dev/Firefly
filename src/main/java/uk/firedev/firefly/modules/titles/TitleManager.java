@@ -94,7 +94,7 @@ public class TitleManager implements Manager {
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull String prefix) {
-        setPlayerPrefix(player, new ComponentMessage(prefix).getMessage());
+        setPlayerPrefix(player, ComponentMessage.fromString(prefix).getMessage());
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull Prefix prefix) {
@@ -102,7 +102,7 @@ public class TitleManager implements Manager {
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
-        String stringPrefix = new ComponentMessage(prefix).toStringMessage().getMessage();
+        String stringPrefix = ComponentMessage.of(prefix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
         ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-prefix", prefix);
         TitleConfig.getInstance().getPrefixSetMessage().applyReplacer(replacer).sendMessage(player);
@@ -124,7 +124,7 @@ public class TitleManager implements Manager {
                 return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerPrefix(player).replace('§', '&'));
             }
         }
-        return new ComponentMessage(prefix).getMessage();
+        return ComponentMessage.fromString(prefix).getMessage();
     }
 
     public String getPlayerPrefixLegacy(@NotNull Player player) {
@@ -132,7 +132,7 @@ public class TitleManager implements Manager {
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull String suffix) {
-        setPlayerSuffix(player, new ComponentMessage(suffix).getMessage());
+        setPlayerSuffix(player, ComponentMessage.fromString(suffix).getMessage());
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull Suffix suffix) {
@@ -140,7 +140,7 @@ public class TitleManager implements Manager {
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {
-        String stringSuffix = new ComponentMessage(suffix).toStringMessage().getMessage();
+        String stringSuffix = ComponentMessage.of(suffix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
         ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-suffix", suffix);
         TitleConfig.getInstance().getSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
@@ -162,7 +162,7 @@ public class TitleManager implements Manager {
                 return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerSuffix(player).replace('§', '&'));
             }
         }
-        return new ComponentMessage(suffix).getMessage();
+        return ComponentMessage.fromString(suffix).getMessage();
     }
 
     public String getPlayerSuffixLegacy(@NotNull Player player) {

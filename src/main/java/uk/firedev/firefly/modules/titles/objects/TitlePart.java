@@ -34,9 +34,9 @@ public interface TitlePart {
         String displayString = getSection().getString("icon.display");
         if (displayString != null) {
             ComponentReplacer replacer = new ComponentReplacer().addReplacement("display", getDisplay());
-            display = new ComponentMessage(displayString).applyReplacer(replacer).getMessage();
+            display = ComponentMessage.fromString(displayString).applyReplacer(replacer).getMessage();
         }
-        meta.lore(getSection().getStringList("icon.lore").stream().map(s -> new ComponentMessage(s).getMessage()).toList());
+        meta.lore(getSection().getStringList("icon.lore").stream().map(s -> ComponentMessage.fromString(s).getMessage()).toList());
         meta.displayName(display);
         item.setItemMeta(meta);
         return item;

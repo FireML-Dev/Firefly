@@ -64,25 +64,25 @@ public class TitleConfig extends Config {
     // TITLE MESSAGES
 
     public ComponentMessage getPrefixSetMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.prefix-set", "<color:#F0E68C>Applied Prefix {prefix}.</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.prefix-set", "<color:#F0E68C>Applied Prefix {prefix}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getPrefixRemovedMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.prefix-removed", "<red>Removed Current Prefix.</red>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.prefix-removed", "<red>Removed Current Prefix.</red>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getSuffixSetMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getSuffixRemovedMessage() {
-        ComponentMessage message = new ComponentMessage(getConfig(), "messages.suffix-removed", "<red>Removed Current Suffix.</red>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-removed", "<red>Removed Current Suffix.</red>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
