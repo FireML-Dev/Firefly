@@ -199,8 +199,4 @@ public class Kit {
         }
     }
 
-    private void startCleanupTask() {
-
-    }
-
 }
