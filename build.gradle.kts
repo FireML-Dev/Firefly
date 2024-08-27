@@ -23,8 +23,6 @@ dependencies {
     compileOnly(libs.vault)
     compileOnly(libs.placeholderapi)
     compileOnly(libs.miniplaceholders)
-    compileOnly(libs.cmi.api)
-    compileOnly(files("$projectDir/libs/CMILib1.5.1.1.jar"))
 }
 
 group = "uk.firedev"

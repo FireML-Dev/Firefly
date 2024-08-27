@@ -1,6 +1,5 @@
 package uk.firedev.firefly.utils;
 
-import net.Zrips.CMILib.Colors.CMIChatColor;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
@@ -17,11 +16,7 @@ public class StringUtils {
     @SuppressWarnings("deprecation")
     public static Component getComponent(@NotNull String string) {
         // Do yucky legacy color stuff
-        if (Bukkit.getPluginManager().isPluginEnabled("CMILib")) {
-            string = CMIChatColor.colorize(string);
-        } else {
-            string = ChatColor.translateAlternateColorCodes('&', string);
-        }
+        string = ChatColor.translateAlternateColorCodes('&', string);
         return LegacyComponentSerializer.legacySection().deserialize(string);
     }
 

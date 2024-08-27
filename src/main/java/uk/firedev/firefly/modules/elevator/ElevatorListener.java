@@ -1,6 +1,5 @@
 package uk.firedev.firefly.modules.elevator;
 
-import com.Zrips.CMI.Containers.CMIUser;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
@@ -33,12 +32,6 @@ public class ElevatorListener implements Listener {
         Location stepLoc = event.getTo().clone().add(0D, -1D, 0D);
         Player player = event.getPlayer();
         Elevator elevator = new Elevator(stepLoc);
-
-        // Make elevators compatible with CMI
-        if (elevator.isElevator() && Firefly.getInstance().isPluginEnabled("CMI")) {
-            CMIUser cmiUser = new CMIUser(player);
-            cmiUser.setLastTeleportLocation(event.getFrom());
-        }
 
         Firefly.getScheduler().runTaskLater(() -> elevator.handleBossBar(player), 5L);
     }
