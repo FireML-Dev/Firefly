@@ -12,7 +12,7 @@ public class NicknameConfig extends Config {
     private static NicknameConfig instance;
 
     private NicknameConfig() {
-        super("nicknames.yml", "nicknames.yml", Firefly.getInstance(), true);
+        super("modules/nicknames.yml", "modules/nicknames.yml", Firefly.getInstance(), true);
     }
 
     public static NicknameConfig getInstance() {
