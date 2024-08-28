@@ -19,7 +19,7 @@ public class TitleConfig extends Config {
     private static TitleConfig instance;
 
     private TitleConfig() {
-        super("titles.yml", "titles.yml", Firefly.getInstance(), true);
+        super("modules/titles.yml", "modules/titles.yml", Firefly.getInstance(), true);
     }
 
     public static TitleConfig getInstance() {

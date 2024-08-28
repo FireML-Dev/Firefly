@@ -10,7 +10,7 @@ public class PlaytimeConfig extends Config {
     private static PlaytimeConfig instance;
 
     private PlaytimeConfig() {
-        super("playtime.yml", "playtime.yml", Firefly.getInstance(), false);
+        super("modules/playtime.yml", "modules/playtime.yml", Firefly.getInstance(), false);
     }
 
     public static PlaytimeConfig getInstance() {

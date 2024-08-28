@@ -15,7 +15,7 @@ public class KitConfig extends Config {
 
     // Does not remove unused config options, as that would wipe custom kits.
     private KitConfig() {
-        super("kits.yml", "kits.yml", Firefly.getInstance(), true);
+        super("modules/kits.yml", "modules/kits.yml", Firefly.getInstance(), true);
     }
 
     public static KitConfig getInstance() {

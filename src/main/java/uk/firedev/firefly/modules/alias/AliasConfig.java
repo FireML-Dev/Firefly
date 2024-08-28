@@ -12,7 +12,7 @@ public class AliasConfig extends Config {
     private static AliasConfig instance;
 
     private AliasConfig() {
-        super("aliases.yml", "aliases.yml", Firefly.getInstance(), false);
+        super("modules/aliases.yml", "modules/aliases.yml", Firefly.getInstance(), false);
     }
 
     public static AliasConfig getInstance() {

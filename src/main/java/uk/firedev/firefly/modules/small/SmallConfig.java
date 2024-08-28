@@ -10,7 +10,7 @@ public class SmallConfig extends Config {
     private static SmallConfig instance;
 
     private SmallConfig() {
-        super("small.yml", "small.yml", Firefly.getInstance(), true);
+        super("modules/small.yml", "modules/small.yml", Firefly.getInstance(), true);
     }
 
     public static SmallConfig getInstance() {
