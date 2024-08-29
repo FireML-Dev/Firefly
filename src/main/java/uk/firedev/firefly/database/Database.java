@@ -44,6 +44,7 @@ public class Database extends SQLiteDatabase {
         if (!Firefly.getInstance().isEnabled() || loaded) {
             return;
         }
+        loaded = true;
         registeredModules = new ArrayList<>();
         if (autoSaveTask == null) {
             // seconds * 20 = ticks
@@ -60,6 +61,7 @@ public class Database extends SQLiteDatabase {
         if (!loaded) {
             return;
         }
+        loaded = false;
         closeConnection();
         registeredModules.forEach(DatabaseModule::save);
         registeredModules = null;
