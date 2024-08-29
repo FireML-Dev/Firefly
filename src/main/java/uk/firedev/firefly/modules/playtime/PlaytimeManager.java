@@ -10,6 +10,7 @@ import uk.firedev.daisylib.requirement.RequirementManager;
 import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
 
 import java.util.HashMap;
@@ -43,7 +44,7 @@ public class PlaytimeManager implements Manager {
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
         PlaytimeCommand.getInstance().register(Firefly.getInstance());
         new PlaytimeRequirement().register();
-        PlaytimeDatabase.getInstance().register();
+        PlaytimeDatabase.getInstance().register(Database.getInstance());
         populatePlaytimeMap();
         startScheduler();
         loaded = true;

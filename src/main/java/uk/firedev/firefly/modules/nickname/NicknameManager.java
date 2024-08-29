@@ -11,6 +11,7 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
@@ -49,7 +50,7 @@ public class NicknameManager implements Manager {
         NicknameCommand.getInstance().register(Firefly.getInstance());
         NicknameAdminCommand.getInstance().register(Firefly.getInstance());
         NicknameCheckCommand.getInstance().register(Firefly.getInstance());
-        PlaytimeDatabase.getInstance().register();
+        PlaytimeDatabase.getInstance().register(Database.getInstance());
         populateNicknameMap();
         loaded = true;
     }

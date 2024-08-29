@@ -1,9 +1,11 @@
 package uk.firedev.firefly.database;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.database.DatabaseModule;
 import uk.firedev.daisylib.database.SQLiteDatabase;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.firefly.Firefly;
@@ -19,7 +21,6 @@ import java.util.UUID;
 public class Database extends SQLiteDatabase {
 
     private static Database instance = null;
-    private List<DatabaseModule> registeredModules;
     private MyScheduledTask autoSaveTask = null;
     private boolean loaded;
 
@@ -35,7 +36,7 @@ public class Database extends SQLiteDatabase {
     }
 
     @Override
-    public void setup(JavaPlugin plugin) {
+    public void setup(Plugin plugin) {
         super.setup(plugin);
         initTables();
     }
@@ -45,15 +46,27 @@ public class Database extends SQLiteDatabase {
             return;
         }
         loaded = true;
-        registeredModules = new ArrayList<>();
+        startAutoSaveTask();
+    }
+
+    @Override
+    public void startAutoSaveTask() {
         if (autoSaveTask == null) {
             // seconds * 20 = ticks
             long saveInterval = MainConfig.getInstance().getDatabaseSaveInterval() * 20;
             autoSaveTask = Firefly.getScheduler().runTaskTimerAsynchronously(
-                    () -> registeredModules.forEach(DatabaseModule::save),
+                    () -> getLoadedModules().forEach(DatabaseModule::save),
                     saveInterval,
                     saveInterval
             );
+        }
+    }
+
+    @Override
+    public void stopAutoSaveTask() {
+        if (autoSaveTask != null) {
+            autoSaveTask.cancel();
+            autoSaveTask = null;
         }
     }
 
@@ -63,12 +76,8 @@ public class Database extends SQLiteDatabase {
         }
         loaded = false;
         closeConnection();
-        registeredModules.forEach(DatabaseModule::save);
-        registeredModules = null;
-        if (autoSaveTask != null) {
-            autoSaveTask.cancel();
-            autoSaveTask = null;
-        }
+        getLoadedModules().forEach(DatabaseModule::save);
+        stopAutoSaveTask();
     }
 
     public void initTables() {
@@ -78,14 +87,6 @@ public class Database extends SQLiteDatabase {
             Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to initialize the database. Disabling Firefly.", e);
             Bukkit.getPluginManager().disablePlugin(Firefly.getInstance());
         }
-    }
-
-    public void registerModule(@NotNull DatabaseModule module) {
-        if (registeredModules.contains(module)) {
-            return;
-        }
-        module.init();
-        registeredModules.add(module);
     }
 
     public boolean checkPlayerDatabaseEntry(@NotNull UUID playerUUID) {
