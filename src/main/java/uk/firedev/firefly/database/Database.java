@@ -12,6 +12,7 @@ import uk.firedev.firefly.config.MainConfig;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class Database extends SQLiteDatabase {
     private static Database instance = null;
     private List<DatabaseModule> registeredModules;
     private MyScheduledTask autoSaveTask = null;
+    private boolean loaded;
 
     private Database() {
         super(Firefly.getInstance());
@@ -39,9 +41,10 @@ public class Database extends SQLiteDatabase {
     }
 
     public void load() {
-        if (!Firefly.getInstance().isEnabled()) {
+        if (!Firefly.getInstance().isEnabled() || loaded) {
             return;
         }
+        registeredModules = new ArrayList<>();
         if (autoSaveTask == null) {
             // seconds * 20 = ticks
             long saveInterval = MainConfig.getInstance().getDatabaseSaveInterval() * 20;
@@ -54,7 +57,12 @@ public class Database extends SQLiteDatabase {
     }
 
     public void unload() {
+        if (!loaded) {
+            return;
+        }
         closeConnection();
+        registeredModules.forEach(DatabaseModule::save);
+        registeredModules = null;
         if (autoSaveTask != null) {
             autoSaveTask.cancel();
             autoSaveTask = null;

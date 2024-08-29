@@ -21,13 +21,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NicknameManager implements Manager {
 
     private static NicknameManager instance = null;
 
     private boolean loaded;
-    private Map<UUID, String> nicknameMap = new HashMap<>();
+    private Map<UUID, String> nicknameMap = new ConcurrentHashMap<>();
 
     private NicknameManager() {}
 
