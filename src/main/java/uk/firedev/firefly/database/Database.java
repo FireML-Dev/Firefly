@@ -5,16 +5,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.database.SQLiteDatabase;
+import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.config.MainConfig;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.UUID;
 
 public class Database extends SQLiteDatabase {
 
     private static Database instance = null;
+    private List<DatabaseModule> registeredModules;
+    private MyScheduledTask autoSaveTask = null;
 
     private Database() {
         super(Firefly.getInstance());
@@ -37,10 +42,23 @@ public class Database extends SQLiteDatabase {
         if (!Firefly.getInstance().isEnabled()) {
             return;
         }
+        if (autoSaveTask == null) {
+            // seconds * 20 = ticks
+            long saveInterval = MainConfig.getInstance().getDatabaseSaveInterval() * 20;
+            autoSaveTask = Firefly.getScheduler().runTaskTimerAsynchronously(
+                    () -> registeredModules.forEach(DatabaseModule::save),
+                    saveInterval,
+                    saveInterval
+            );
+        }
     }
 
     public void unload() {
         closeConnection();
+        if (autoSaveTask != null) {
+            autoSaveTask.cancel();
+            autoSaveTask = null;
+        }
     }
 
     public void initTables() {
@@ -50,6 +68,14 @@ public class Database extends SQLiteDatabase {
             Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to initialize the database. Disabling Firefly.", e);
             Bukkit.getPluginManager().disablePlugin(Firefly.getInstance());
         }
+    }
+
+    public void registerModule(@NotNull DatabaseModule module) {
+        if (registeredModules.contains(module)) {
+            return;
+        }
+        module.init();
+        registeredModules.add(module);
     }
 
     public boolean checkPlayerDatabaseEntry(@NotNull UUID playerUUID) {

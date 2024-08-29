@@ -6,6 +6,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import uk.firedev.firefly.config.GUIConfig;
+import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
@@ -32,6 +33,7 @@ public final class Firefly extends JavaPlugin {
         scheduler = UniversalScheduler.getScheduler(this);
 
         // Load configs
+        MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
@@ -91,6 +93,7 @@ public final class Firefly extends JavaPlugin {
     }
 
     public void reload() {
+        MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
         ElevatorManager.getInstance().reload();

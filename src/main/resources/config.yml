@@ -1,0 +1,5 @@
+# How often to save things to the database (in seconds)
+database-save-interval: 300
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1
