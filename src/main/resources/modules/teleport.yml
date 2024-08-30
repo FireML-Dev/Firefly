@@ -2,6 +2,22 @@ tpa:
   # How many TPA requests to cache before discarding the oldest
   cached-requests: 3
 
+spawn:
+  spawn-location:
+    world: []
+    x: []
+    y: []
+    z: []
+    yaw: []
+    pitch: []
+  first-spawn-location:
+    world: [ ]
+    x: [ ]
+    y: [ ]
+    z: [ ]
+    yaw: [ ]
+    pitch: [ ]
+
 messages:
   teleported: "<>You have teleported to {target-location}!"
   location-invalid: "<red>That location is not valid!"

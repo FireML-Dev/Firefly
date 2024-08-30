@@ -28,7 +28,7 @@ public class TeleportConfig extends Config {
     // Spawn command related things
 
     public void setSpawnLocation(boolean firstSpawn, @NotNull Location location) {
-        String spawnLocKey = firstSpawn ? "first-spawn-location" : "spawn-location";
+        String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
         getConfig().set(spawnLocKey + ".world", location.getWorld().getName());
         getConfig().set(spawnLocKey + ".x", location.getX());
         getConfig().set(spawnLocKey + ".y", location.getY());
@@ -44,8 +44,11 @@ public class TeleportConfig extends Config {
     }
 
     public Location getSpawnLocation(boolean firstSpawn) {
-        String spawnLocKey = firstSpawn ? "first-spawn-location" : "spawn-location";
+        String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
         String worldName = getConfig().getString(spawnLocKey + ".world");
+        if (worldName == null) {
+            throw new RuntimeException("The world linked to the spawn location is not valid!");
+        }
         double x = getConfig().getDouble(spawnLocKey + ".x");
         double y = getConfig().getDouble(spawnLocKey + ".y");
         double z = getConfig().getDouble(spawnLocKey + ".z");
@@ -53,7 +56,8 @@ public class TeleportConfig extends Config {
         float pitch = getConfig().getFloat(spawnLocKey + ".pitch");
         World world = Bukkit.getWorld(worldName);
         if (world == null) {
-            throw new RuntimeException("The world linked to the spawn location is not valid!");
+            Loggers.warn(Firefly.getInstance().getComponentLogger(), "The world linked to the spawn location is not valid!");
+            return null;
         }
         return new Location(world, x, y, z, yaw, pitch);
     }

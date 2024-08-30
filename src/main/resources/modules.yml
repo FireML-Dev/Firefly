@@ -19,4 +19,4 @@ playtime: true
 teleportation: true
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 2
+config-version: 3

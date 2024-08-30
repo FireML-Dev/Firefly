@@ -9,6 +9,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.LocationArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LocationType;
 import uk.firedev.daisylib.libs.commandapi.arguments.PlayerArgument;
 import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportManager;
 
@@ -30,9 +31,22 @@ public class SpawnCommand extends CommandAPICommand {
             } else {
                 targetPlayer = (Player) playerArg;
             }
-            targetPlayer.teleportAsync(TeleportManager.getInstance().getSpawnLocation());
-            // TODO send teleported to spawn message to target
-            // TODO if target is not sender, tell the sender too
+            // If target is the sender of the command, just teleport them
+            if (targetPlayer.getUniqueId().equals(player.getUniqueId())) {
+                TeleportManager.getInstance().sendToSpawn(false, targetPlayer);
+                return;
+            }
+            // If not, teleport the target and tell the sender
+            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, player);
+        });
+        executesConsole((console, arguments) -> {
+            Object playerArg = arguments.get("player");
+            if (playerArg == null) {
+                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(console);
+                return;
+            }
+            Player targetPlayer = (Player) playerArg;
+            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, console);
         });
     }
 

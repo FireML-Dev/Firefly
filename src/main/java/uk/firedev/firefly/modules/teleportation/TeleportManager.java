@@ -1,6 +1,10 @@
 package uk.firedev.firefly.modules.teleportation;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
@@ -68,6 +72,23 @@ public class TeleportManager implements Manager {
 
     public Location getFirstSpawnLocation() {
         return firstSpawnLocation;
+    }
+
+    public boolean sendToSpawn(boolean firstSpawn, @NotNull Player player) {
+        Location location = firstSpawn ? getFirstSpawnLocation() : getSpawnLocation();
+        if (location == null) {
+            // TODO send spawn missing message - warn admins
+            return false;
+        }
+        player.teleportAsync(location);
+        // TODO send teleported to spawn message to target
+        return true;
+    }
+
+    public void sendToSpawn(boolean firstSpawn, @NotNull Player player, @Nullable CommandSender sender) {
+        if (sendToSpawn(firstSpawn, player)) {
+            // TODO send sent to spawn message
+        }
     }
 
 }
