@@ -67,10 +67,6 @@ public class PlaytimeManager implements Manager {
             return;
         }
         stopScheduler();
-        RequirementManager.getInstance().unregisterRequirement("playtime");
-        // Unregister Commands
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Playtime Commands");
-        CommandAPI.unregister("playtime");
         loaded = false;
     }
 

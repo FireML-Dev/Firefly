@@ -69,10 +69,6 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        // Unregister Commands
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Nickname Commands");
-        CommandAPI.unregister(NicknameCommand.getInstance().getName());
-        CommandAPI.unregister(NicknameAdminCommand.getInstance().getName());
         CommandAPI.unregister(NicknameCheckCommand.getInstance().getName());
         loaded = false;
     }
