@@ -49,4 +49,8 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
         return getConfig().getBoolean("playtime");
     }
 
+    public boolean teleportationModuleEnabled() {
+        return getConfig().getBoolean("teleportation");
+    }
+
 }

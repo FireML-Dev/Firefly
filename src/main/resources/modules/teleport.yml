@@ -1,0 +1,24 @@
+tpa:
+  # How many TPA requests to cache before discarding the oldest
+  cached-requests: 3
+
+messages:
+  teleported: "<>You have teleported to {target-location}!"
+  location-invalid: "<red>That location is not valid!"
+  # {target} is the player the request is sent to
+  # {player} is the player who sent the request
+  tpahere:
+    request-sent: "Invited {target} to teleport to you"
+    request-incoming: "{player} wants you to teleport to them! {accept} {deny}"
+    request-denied-sender: "{target} has denied your teleport request!"
+    request-denied-target: "Denied {player}'s teleport request!"
+  # {target} is the player the request is sent to
+  # {player} is the player who sent the request
+  tpa:
+    request-sender: "Requested to teleport to {target}"
+    request-target: "{player} wants to teleport to you! {accept} {deny}"
+    request-denied-sender: "{target} has denied your teleport request!"
+    request-denied-target: "Denied {player}'s teleport request!"
+
+## DO NOT TOUCH THIS VALUE!!!
+config-version: 1

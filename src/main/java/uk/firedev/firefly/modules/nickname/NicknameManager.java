@@ -50,7 +50,7 @@ public class NicknameManager implements Manager {
         NicknameCommand.getInstance().register(Firefly.getInstance());
         NicknameAdminCommand.getInstance().register(Firefly.getInstance());
         NicknameCheckCommand.getInstance().register(Firefly.getInstance());
-        PlaytimeDatabase.getInstance().register(Database.getInstance());
+        NicknameDatabase.getInstance().register(Database.getInstance());
         populateNicknameMap();
         loaded = true;
     }
