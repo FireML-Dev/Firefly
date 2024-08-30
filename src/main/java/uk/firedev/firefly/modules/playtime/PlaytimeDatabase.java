@@ -21,9 +21,6 @@ public class PlaytimeDatabase implements DatabaseModule {
     private PlaytimeDatabase() {}
 
     public static PlaytimeDatabase getInstance() {
-        if (Database.getInstance().getConnection() == null) {
-            throw new RuntimeException("Tried to load PlaytimeDatabase class before the Database class was loaded!");
-        }
         if (instance == null) {
             instance = new PlaytimeDatabase();
         }

@@ -64,6 +64,8 @@ public final class Firefly extends JavaPlugin {
         AliasManager.getInstance().unload();
         SmallManager.getInstance().unload();
         PlaytimeManager.getInstance().unload();
+        TeleportManager.getInstance().unload();
+        // DO THIS LAST!!!!
         Database.getInstance().unload();
     }
 

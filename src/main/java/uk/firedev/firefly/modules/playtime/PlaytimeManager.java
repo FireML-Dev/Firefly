@@ -41,10 +41,10 @@ public class PlaytimeManager implements Manager {
             return;
         }
         PlaytimeConfig.getInstance().reload();
+        PlaytimeDatabase.getInstance().register(Database.getInstance());
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
         PlaytimeCommand.getInstance().register(Firefly.getInstance());
         new PlaytimeRequirement().register();
-        PlaytimeDatabase.getInstance().register(Database.getInstance());
         populatePlaytimeMap();
         startScheduler();
         loaded = true;
