@@ -47,7 +47,8 @@ public class TeleportConfig extends Config {
         String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
         String worldName = getConfig().getString(spawnLocKey + ".world");
         if (worldName == null) {
-            throw new RuntimeException("The world linked to the spawn location is not valid!");
+            Loggers.warn(Firefly.getInstance().getComponentLogger(), "The world linked to the spawn location is not valid!");
+            return null;
         }
         double x = getConfig().getDouble(spawnLocKey + ".x");
         double y = getConfig().getDouble(spawnLocKey + ".y");
