@@ -69,7 +69,6 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        CommandAPI.unregister(NicknameCheckCommand.getInstance().getName());
         loaded = false;
     }
 

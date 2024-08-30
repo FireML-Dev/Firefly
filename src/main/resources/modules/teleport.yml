@@ -3,6 +3,10 @@ tpa:
   cached-requests: 3
 
 spawn:
+  # Should players be sent to spawn every time they log in?
+  spawn-on-join: false
+  # Specify the locations for first spawn and /spawn
+  # These can be done in-game with /setfirstspawn and /setspawn
   spawn-location:
     world: []
     x: []
@@ -11,12 +15,12 @@ spawn:
     yaw: []
     pitch: []
   first-spawn-location:
-    world: [ ]
-    x: [ ]
-    y: [ ]
-    z: [ ]
-    yaw: [ ]
-    pitch: [ ]
+    world: []
+    x: []
+    y: []
+    z: []
+    yaw: []
+    pitch: []
 
 messages:
   teleported: "<>You have teleported to {target-location}!"

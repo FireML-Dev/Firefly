@@ -72,10 +72,6 @@ public class TitleManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        // Unregister Commands
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Title Commands");
-        CommandAPI.unregister(PrefixCommand.getInstance().getName());
-        CommandAPI.unregister(SuffixCommand.getInstance().getName());
 
         this.prefixes = new ArrayList<>();
         this.suffixes = new ArrayList<>();

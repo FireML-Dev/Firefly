@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.teleportation;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,6 +37,7 @@ public class TeleportManager implements Manager {
         }
         TeleportConfig.getInstance().reload();
         refreshSpawnLocations();
+        Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Location Commands");
         SpawnCommand.getInstance().register();
         SetSpawnCommand.getInstance().register();
@@ -48,6 +50,7 @@ public class TeleportManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        TeleportConfig.getInstance().reload();
     }
 
     @Override
@@ -79,7 +82,7 @@ public class TeleportManager implements Manager {
     public boolean sendToSpawn(boolean firstSpawn, @NotNull Player player) {
         Location location = firstSpawn ? getFirstSpawnLocation() : getSpawnLocation();
         if (location == null) {
-            // TODO send spawn missing message - warn admins
+            // TODO send spawn missing message and warn admins
             return false;
         }
         player.teleportAsync(location);
