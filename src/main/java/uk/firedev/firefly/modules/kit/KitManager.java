@@ -56,9 +56,6 @@ public class KitManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering AwardKit Command");
-        CommandAPI.unregister(KitCommand.getInstance().getName());
-        RewardManager.getInstance().unregisterRewardType("KIT");
         loaded = false;
     }
 

@@ -10,6 +10,7 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.modules.teleportation.commands.SetFirstSpawnCommand;
 import uk.firedev.firefly.modules.teleportation.commands.SetSpawnCommand;
+import uk.firedev.firefly.modules.teleportation.commands.SpawnCommand;
 
 public class TeleportManager implements Manager {
 
@@ -36,6 +37,7 @@ public class TeleportManager implements Manager {
         TeleportConfig.getInstance().reload();
         refreshSpawnLocations();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Location Commands");
+        SpawnCommand.getInstance().register();
         SetSpawnCommand.getInstance().register();
         SetFirstSpawnCommand.getInstance().register();
         loaded = true;

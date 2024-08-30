@@ -71,8 +71,6 @@ public class ElevatorManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Elevator Command");
-        CommandAPI.unregister(ElevatorCommand.getInstance().getName());
         loaded = false;
     }
 
