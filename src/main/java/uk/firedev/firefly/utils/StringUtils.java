@@ -14,7 +14,7 @@ public class StringUtils {
      * @return A Component built from the String
      */
     @SuppressWarnings("deprecation")
-    public static Component getComponent(@NotNull String string) {
+    public static Component getComponentLegacy(@NotNull String string) {
         // Do yucky legacy color stuff
         string = ChatColor.translateAlternateColorCodes('&', string);
         return LegacyComponentSerializer.legacySection().deserialize(string);

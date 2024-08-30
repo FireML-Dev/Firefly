@@ -97,7 +97,7 @@ public class NicknameManager implements Manager {
         if (savedName == null || savedName.isEmpty()) {
             savedName = Objects.requireNonNull(player.getName());
         }
-        Component component = StringUtils.getComponent(savedName);
+        Component component = StringUtils.getComponentLegacy(savedName);
         ComponentMessage componentMessage = ComponentMessage.of(component);
         if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
             ComponentReplacer replacer = new ComponentReplacer().addReplacements("username", player.getName());
