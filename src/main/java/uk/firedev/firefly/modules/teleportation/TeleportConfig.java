@@ -69,4 +69,10 @@ public class TeleportConfig extends Config {
         return getConfig().getBoolean("spawn.spawn-on-join");
     }
 
+    // TPA related things
+
+    public int getMaximumCachedRequests() {
+        return getConfig().getInt("tpa.cached-requests", 3);
+    }
+
 }

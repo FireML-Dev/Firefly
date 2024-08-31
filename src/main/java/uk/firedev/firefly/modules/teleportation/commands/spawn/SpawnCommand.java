@@ -1,16 +1,11 @@
-package uk.firedev.firefly.modules.teleportation.commands;
+package uk.firedev.firefly.modules.teleportation.commands.spawn;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.LocationArgument;
-import uk.firedev.daisylib.libs.commandapi.arguments.LocationType;
 import uk.firedev.daisylib.libs.commandapi.arguments.PlayerArgument;
-import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportManager;
 
 public class SpawnCommand extends CommandAPICommand {

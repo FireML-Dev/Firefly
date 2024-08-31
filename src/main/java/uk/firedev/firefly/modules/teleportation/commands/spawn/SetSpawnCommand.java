@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.teleportation.commands;
+package uk.firedev.firefly.modules.teleportation.commands.spawn;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -9,18 +9,18 @@ import uk.firedev.daisylib.libs.commandapi.arguments.LocationType;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
-public class SetFirstSpawnCommand extends CommandAPICommand {
+public class SetSpawnCommand extends CommandAPICommand {
 
-    private static SetFirstSpawnCommand instance;
+    private static SetSpawnCommand instance;
 
-    private SetFirstSpawnCommand() {
-        super("setfirstspawn");
+    private SetSpawnCommand() {
+        super("setspawn");
         withArguments(
                 new LocationArgument("location", LocationType.PRECISE_POSITION, false).setOptional(true)
         );
-        setPermission(CommandPermission.fromString("firefly.command.setfirstspawn"));
-        withShortDescription("Set the server first spawn location");
-        withFullDescription("Set the server first spawn location");
+        setPermission(CommandPermission.fromString("firefly.command.setspawn"));
+        withShortDescription("Set the server spawn location");
+        withFullDescription("Set the server spawn location");
         executes((sender, arguments) -> {
             Location location;
             Object locationArg = arguments.get("location");
@@ -33,16 +33,16 @@ public class SetFirstSpawnCommand extends CommandAPICommand {
             } else {
                 location = (Location) locationArg;
             }
-            TeleportConfig.getInstance().setSpawnLocation(true, location);
-            // TODO send set first spawn message
+            TeleportConfig.getInstance().setSpawnLocation(false, location);
+            // TODO send set spawn message
         });
     }
 
-    public static SetFirstSpawnCommand getInstance() {
+    public static SetSpawnCommand getInstance() {
         if (instance == null) {
-            instance = new SetFirstSpawnCommand();
+            instance = new SetSpawnCommand();
         }
         return instance;
     }
-
+    
 }

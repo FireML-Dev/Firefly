@@ -11,11 +11,14 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.database.Database;
-import uk.firedev.firefly.modules.playtime.PlaytimeDatabase;
 import uk.firedev.firefly.modules.teleportation.commands.BackCommand;
-import uk.firedev.firefly.modules.teleportation.commands.SetFirstSpawnCommand;
-import uk.firedev.firefly.modules.teleportation.commands.SetSpawnCommand;
-import uk.firedev.firefly.modules.teleportation.commands.SpawnCommand;
+import uk.firedev.firefly.modules.teleportation.commands.spawn.SetFirstSpawnCommand;
+import uk.firedev.firefly.modules.teleportation.commands.spawn.SetSpawnCommand;
+import uk.firedev.firefly.modules.teleportation.commands.spawn.SpawnCommand;
+import uk.firedev.firefly.modules.teleportation.commands.tpa.TPACommand;
+import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAHereCommand;
+import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAcceptCommand;
+import uk.firedev.firefly.modules.teleportation.commands.tpa.TPDenyCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,11 +51,22 @@ public class TeleportManager implements Manager {
         TeleportDatabase.getInstance().register(Database.getInstance());
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
+
+        // Command Registering
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Location Commands");
+
         SpawnCommand.getInstance().register();
         SetSpawnCommand.getInstance().register();
         SetFirstSpawnCommand.getInstance().register();
+
         BackCommand.getInstance().register();
+
+        TPACommand.getInstance().register();
+        TPAHereCommand.getInstance().register();
+        TPDenyCommand.getInstance().register();
+        TPAcceptCommand.getInstance().register();
+        // Command Registering
+
         populateLastLocationMap();
         loaded = true;
     }
