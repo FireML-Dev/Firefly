@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
+import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
 import java.util.*;
@@ -61,12 +62,13 @@ public class TPAHandler {
         }
         List<TPARequest> targetTpaList = getTpaRequests(target);
         int size = targetTpaList.size();
-        while (size >= TeleportConfig.getInstance().getMaximumCachedRequests()) {
+        while (size >= TeleportConfig.getInstance().getTpaMaximumCachedRequests()) {
             targetTpaList.removeFirst();
             size = targetTpaList.size();
         }
         TPARequest request = new TPARequest(sender, target, direction);
         targetTpaList.add(request);
+        Firefly.getScheduler().runTaskLater(() -> targetTpaList.remove(request), TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
         // TODO send message to both parties
         target.sendMessage("Player requested tp");
         sender.sendMessage("Requested tp to player");

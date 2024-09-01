@@ -1,6 +1,8 @@
 tpa:
   # How many TPA requests to cache before discarding the oldest
   cached-requests: 3
+  # How long until a request should expire? (In seconds)
+  request-expiry: 15
 
 spawn:
   # Should players be sent to spawn every time they log in?
