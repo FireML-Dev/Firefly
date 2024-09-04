@@ -3,10 +3,13 @@ package uk.firedev.firefly.modules.teleportation;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.config.MessageConfig;
 
 import java.io.IOException;
 
@@ -23,6 +26,26 @@ public class TeleportConfig extends Config {
             instance = new TeleportConfig();
         }
         return instance;
+    }
+
+    // General messages
+
+    public ComponentMessage getTeleportedMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.teleported",
+                "<color:#F0E68C>You have teleported to {target-location}!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getLocationInvalidMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.location-invalid",
+                "<red>That location is not valid!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     // Spawn command related things
@@ -83,6 +106,42 @@ public class TeleportConfig extends Config {
 
     public boolean shouldBackSaveDeath() {
         return getConfig().getBoolean("back.save-death", true);
+    }
+
+    public ComponentMessage getBackTeleportedMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.back.teleported-back",
+                "<color:#F0E68C>You have been teleported to your last saved location."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getBackTeleportedSenderMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.back.teleported-back-sender",
+                "<color:#F0E68C>You have teleported {target} to their last saved location."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getDBackTeleportedMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.dback.teleported-back",
+                "<color:#F0E68C>You have been teleported to your last death location."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getDBackTeleportedSenderMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.dback.teleported-back-sender",
+                "<color:#F0E68C>You have teleported {target} to their last death location."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
     }
 
 }

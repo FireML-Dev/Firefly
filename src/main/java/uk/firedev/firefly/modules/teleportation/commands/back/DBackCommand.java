@@ -6,7 +6,9 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.PlayerArgument;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
 public class DBackCommand extends CommandAPICommand {
 
@@ -28,15 +30,14 @@ public class DBackCommand extends CommandAPICommand {
             }
             Location lastDeath = targetPlayer.getLastDeathLocation();
             if (lastDeath == null) {
-                // TODO location invalid message
+                TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(player);
                 return;
             }
             targetPlayer.teleportAsync(lastDeath).thenRun(() -> {
-                // TODO teleported to last death message
-                targetPlayer.sendMessage("Teleported to last death location.");
+                TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
                 if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                    // TODO teleported player to last death message
-                    player.sendMessage("Sent player to their last death location.");
+                    ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                    TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
                 }
             });
         });
@@ -49,14 +50,14 @@ public class DBackCommand extends CommandAPICommand {
             Player targetPlayer = (Player) playerArg;
             Location lastDeath = targetPlayer.getLastDeathLocation();
             if (lastDeath == null) {
-                // TODO last death doesn't exist message
+                TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(console);
                 return;
             }
             targetPlayer.teleportAsync(lastDeath).thenRun(() -> {
-                // TODO teleported to last death message
-                targetPlayer.sendMessage("Teleported to last death location.");
-                // TODO teleported player to last death message
-                console.sendMessage("Sent player to their last death location.");
+                TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
+
+                ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
             });
         });
     }

@@ -5,7 +5,9 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.PlayerArgument;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportManager;
 
 public class BackCommand extends CommandAPICommand {
@@ -27,11 +29,10 @@ public class BackCommand extends CommandAPICommand {
                 targetPlayer = (Player) playerArg;
             }
             targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenRun(() -> {
-                // TODO teleported to last location message
-                targetPlayer.sendMessage("Teleported to last location.");
+                TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
                 if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                    // TODO teleported player to last location message
-                    player.sendMessage("Sent player to their last location.");
+                    ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                    TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
                 }
             });
         });
@@ -43,10 +44,10 @@ public class BackCommand extends CommandAPICommand {
             }
             Player targetPlayer = (Player) playerArg;
             targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenRun(() -> {
-                // TODO teleported to last location message
-                targetPlayer.sendMessage("Teleported to last location.");
-                // TODO teleported player to last location message
-                console.sendMessage("Sent player to their last location.");
+                TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
+
+                ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
             });
         });
     }
