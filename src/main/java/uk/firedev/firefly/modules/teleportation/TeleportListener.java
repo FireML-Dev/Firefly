@@ -15,9 +15,9 @@ public class TeleportListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (!player.hasPlayedBefore()) {
-            TeleportManager.getInstance().sendToSpawn(true, player);
+            TeleportManager.getInstance().sendToSpawn(true, player, false);
         } else if (TeleportConfig.getInstance().isSpawnOnJoin()) {
-            TeleportManager.getInstance().sendToSpawn(false, player);
+            TeleportManager.getInstance().sendToSpawn(false, player, false);
         }
     }
 

@@ -28,11 +28,11 @@ public class SpawnCommand extends CommandAPICommand {
             }
             // If target is the sender of the command, just teleport them
             if (targetPlayer.getUniqueId().equals(player.getUniqueId())) {
-                TeleportManager.getInstance().sendToSpawn(false, targetPlayer);
+                TeleportManager.getInstance().sendToSpawn(false, targetPlayer, true);
                 return;
             }
             // If not, teleport the target and tell the sender
-            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, player);
+            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, player, true);
         });
         executesConsole((console, arguments) -> {
             Object playerArg = arguments.get("player");
@@ -41,7 +41,7 @@ public class SpawnCommand extends CommandAPICommand {
                 return;
             }
             Player targetPlayer = (Player) playerArg;
-            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, console);
+            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, console, true);
         });
     }
 
