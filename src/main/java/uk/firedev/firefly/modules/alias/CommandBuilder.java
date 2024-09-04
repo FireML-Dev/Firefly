@@ -7,6 +7,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.string.StringReplacer;
+import uk.firedev.firefly.Firefly;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class CommandBuilder {
                 Bukkit.dispatchCommand(thisSender, replacer.replace(executeCommand));
             });
         });
-        command.register();
+        command.register(Firefly.getInstance());
     }
 
     public String getCommandName() {

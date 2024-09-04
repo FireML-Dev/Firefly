@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.teleportation;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.data.type.Fire;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -11,7 +12,8 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.database.Database;
-import uk.firedev.firefly.modules.teleportation.commands.BackCommand;
+import uk.firedev.firefly.modules.teleportation.commands.back.BackCommand;
+import uk.firedev.firefly.modules.teleportation.commands.back.DBackCommand;
 import uk.firedev.firefly.modules.teleportation.commands.spawn.SetFirstSpawnCommand;
 import uk.firedev.firefly.modules.teleportation.commands.spawn.SetSpawnCommand;
 import uk.firedev.firefly.modules.teleportation.commands.spawn.SpawnCommand;
@@ -55,16 +57,17 @@ public class TeleportManager implements Manager {
         // Command Registering
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Location Commands");
 
-        SpawnCommand.getInstance().register();
-        SetSpawnCommand.getInstance().register();
-        SetFirstSpawnCommand.getInstance().register();
+        SpawnCommand.getInstance().register(Firefly.getInstance());
+        SetSpawnCommand.getInstance().register(Firefly.getInstance());
+        SetFirstSpawnCommand.getInstance().register(Firefly.getInstance());
 
-        BackCommand.getInstance().register();
+        BackCommand.getInstance().register(Firefly.getInstance());
+        DBackCommand.getInstance().register(Firefly.getInstance());
 
-        TPACommand.getInstance().register();
-        TPAHereCommand.getInstance().register();
-        TPDenyCommand.getInstance().register();
-        TPAcceptCommand.getInstance().register();
+        TPACommand.getInstance().register(Firefly.getInstance());
+        TPAHereCommand.getInstance().register(Firefly.getInstance());
+        TPDenyCommand.getInstance().register(Firefly.getInstance());
+        TPAcceptCommand.getInstance().register(Firefly.getInstance());
         // Command Registering
 
         populateLastLocationMap();
