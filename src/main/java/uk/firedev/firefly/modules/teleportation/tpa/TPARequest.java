@@ -28,7 +28,7 @@ public class TPARequest {
             return;
         }
         if (sender == null) {
-            // TODO send target sender offline message
+            // TODO send player not found message
             target.sendMessage("The player is offline.");
             return;
         }

@@ -29,22 +29,37 @@ spawn:
     pitch: []
 
 messages:
-  teleported: "<>You have teleported to {target-location}!"
+  teleported: "<color:#F0E68C>You have teleported to {target-location}!"
   location-invalid: "<red>That location is not valid!"
-  # {target} is the player the request is sent to
-  # {player} is the player who sent the request
-  tpahere:
-    request-sent: "Invited {target} to teleport to you"
-    request-incoming: "{player} wants you to teleport to them! {accept} {deny}"
-    request-denied-sender: "{target} has denied your teleport request!"
-    request-denied-target: "Denied {player}'s teleport request!"
-  # {target} is the player the request is sent to
-  # {player} is the player who sent the request
-  tpa:
-    request-sender: "Requested to teleport to {target}"
-    request-target: "{player} wants to teleport to you! {accept} {deny}"
-    request-denied-sender: "{target} has denied your teleport request!"
-    request-denied-target: "Denied {player}'s teleport request!"
+  command:
+    tpa:
+      cannot-request-self: "<red>You cannot send a request to yourself!"
+      target-flying-teleporter: "<red>Cannot teleport because the target is flying!"
+      # {target} is the player the request is sent to
+      # {player} is the player who sent the request
+      to:
+        request-sender: "<color:#F0E68C>Requested to teleport to {target}"
+        request-target: "<color:#F0E68C>{player} wants to teleport to you! {accept} {deny}"
+        request-denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
+        request-denied-target: "<color:#F0E68C>Denied {player}'s teleport request!"
+      # {target} is the player the request is sent to
+      # {player} is the player who sent the request
+      here:
+        request-sent: "<color:#F0E68C>Invited {target} to teleport to you"
+        request-incoming: "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}"
+        request-denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
+        request-denied-target: "<color:#F0E68C>Denied {player}'s teleport request!"
+    spawn:
+      sent-to-spawn: "<color:#F0E68C>Sent {target} to spawn."
+      teleported-to-spawn: "<color:#F0E68C>You have been teleported to spawn."
+      spawn-set: "<color:#F0E68C>Set the spawn location to your current location."
+      first-spawn-set: "<color:#F0E68C>Set the first spawn location to your current location."
+    back:
+      teleported-back: "<color:#F0E68C>You have been teleported to your last saved location."
+      teleported-back-sender: "<color:#F0E68C>You have teleported {target} to their last saved location."
+    dback:
+      teleported-back: "<color:#F0E68C>You have been teleported to your last death location."
+      teleported-back-sender: "<color:#F0E68C>You have teleported {target} to their last death location."
 
 ## DO NOT TOUCH THIS VALUE!!!
 config-version: 1

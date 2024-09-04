@@ -27,10 +27,10 @@ public class BackCommand extends CommandAPICommand {
                 targetPlayer = (Player) playerArg;
             }
             targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenRun(() -> {
-                // TODO proper message
+                // TODO teleported to last location message
                 targetPlayer.sendMessage("Teleported to last location.");
                 if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                    // TODO proper message
+                    // TODO teleported player to last location message
                     player.sendMessage("Sent player to their last location.");
                 }
             });
@@ -43,8 +43,9 @@ public class BackCommand extends CommandAPICommand {
             }
             Player targetPlayer = (Player) playerArg;
             targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenRun(() -> {
-                // TODO proper messages
+                // TODO teleported to last location message
                 targetPlayer.sendMessage("Teleported to last location.");
+                // TODO teleported player to last location message
                 console.sendMessage("Sent player to their last location.");
             });
         });

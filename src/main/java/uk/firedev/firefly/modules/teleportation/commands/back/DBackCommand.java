@@ -28,14 +28,14 @@ public class DBackCommand extends CommandAPICommand {
             }
             Location lastDeath = targetPlayer.getLastDeathLocation();
             if (lastDeath == null) {
-                // TODO last death doesn't exist message
+                // TODO location invalid message
                 return;
             }
             targetPlayer.teleportAsync(lastDeath).thenRun(() -> {
-                // TODO proper message
+                // TODO teleported to last death message
                 targetPlayer.sendMessage("Teleported to last death location.");
                 if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                    // TODO proper message
+                    // TODO teleported player to last death message
                     player.sendMessage("Sent player to their last death location.");
                 }
             });
@@ -53,8 +53,9 @@ public class DBackCommand extends CommandAPICommand {
                 return;
             }
             targetPlayer.teleportAsync(lastDeath).thenRun(() -> {
-                // TODO proper messages
+                // TODO teleported to last death message
                 targetPlayer.sendMessage("Teleported to last death location.");
+                // TODO teleported player to last death message
                 console.sendMessage("Sent player to their last death location.");
             });
         });
@@ -69,7 +70,7 @@ public class DBackCommand extends CommandAPICommand {
 
     private Argument<Player> getPlayerArgument() {
         return new PlayerArgument("player")
-                .withPermission(CommandPermission.fromString("firefly.command.back.others"))
+                .withPermission(CommandPermission.fromString("firefly.command.dback.others"))
                 .setOptional(true);
     }
     

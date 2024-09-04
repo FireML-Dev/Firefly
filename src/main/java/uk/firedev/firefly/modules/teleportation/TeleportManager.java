@@ -112,25 +112,28 @@ public class TeleportManager implements Manager {
         return firstSpawnLocation;
     }
 
-    public boolean sendToSpawn(boolean firstSpawn, @NotNull Player player) {
+    public boolean sendToSpawn(boolean firstSpawn, @NotNull Player player, boolean sendMessage) {
         Location location = firstSpawn ? getFirstSpawnLocation() : getSpawnLocation();
         String invalid = firstSpawn ? "The first spawn location is not valid!" : "The spawn location is not valid!";
         if (location == null) {
-            // TODO proper message
-            player.sendMessage("Spawn location was invalid");
+            // TODO send invalid location message
+            if (sendMessage) {
+                player.sendMessage("Spawn location was invalid");
+            }
             Loggers.warn(Firefly.getInstance().getComponentLogger(), invalid);
             return false;
         }
         player.teleportAsync(location);
-        // TODO proper message
-        player.sendMessage("Sent to spawn.");
+        if (sendMessage) {
+            // TODO send sent to spawn message
+            player.sendMessage("Sent to spawn.");
+        }
         return true;
     }
 
-    public void sendToSpawn(boolean firstSpawn, @NotNull Player player, @Nullable CommandSender sender) {
-        if (sendToSpawn(firstSpawn, player)) {
-            // TODO proper messages
-            player.sendMessage("Sent to spawn.");
+    public void sendToSpawn(boolean firstSpawn, @NotNull Player player, @Nullable CommandSender sender, boolean sendMessage) {
+        if (sendToSpawn(firstSpawn, player, sendMessage) && sender != null) {
+            // TODO send sent to spawn message
             sender.sendMessage("Sent player to spawn.");
         }
     }

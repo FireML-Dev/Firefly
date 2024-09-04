@@ -69,8 +69,9 @@ public class TPAHandler {
         TPARequest request = new TPARequest(sender, target, direction);
         targetTpaList.add(request);
         Firefly.getScheduler().runTaskLater(() -> targetTpaList.remove(request), TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
-        // TODO send message to both parties
+        // TODO send player requested message
         target.sendMessage("Player requested tp");
+        // TODO send requested to player message
         sender.sendMessage("Requested tp to player");
     }
 
