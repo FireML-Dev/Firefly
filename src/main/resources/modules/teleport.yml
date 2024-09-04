@@ -34,7 +34,7 @@ messages:
   command:
     tpa:
       cannot-request-self: "<red>You cannot send a request to yourself!"
-      target-flying-teleporter: "<red>Cannot teleport because the target is flying!"
+      target-flying: "<red>Cannot teleport because the target is flying!"
       # {target} is the player the request is sent to
       # {player} is the player who sent the request
       to:
@@ -45,8 +45,8 @@ messages:
       # {target} is the player the request is sent to
       # {player} is the player who sent the request
       here:
-        request-sent: "<color:#F0E68C>Invited {target} to teleport to you"
-        request-incoming: "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}"
+        request-sender: "<color:#F0E68C>Invited {target} to teleport to you"
+        request-target: "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}"
         request-denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
         request-denied-target: "<color:#F0E68C>Denied {player}'s teleport request!"
     spawn:

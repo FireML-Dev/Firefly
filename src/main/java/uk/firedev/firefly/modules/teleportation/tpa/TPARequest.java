@@ -3,6 +3,8 @@ package uk.firedev.firefly.modules.teleportation.tpa;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
 import java.util.UUID;
 
@@ -28,8 +30,8 @@ public class TPARequest {
             return;
         }
         if (sender == null) {
-            // TODO send player not found message
-            target.sendMessage("The player is offline.");
+            MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(target);
+
             return;
         }
         // TODO send sender accepted message
@@ -43,9 +45,7 @@ public class TPARequest {
 
     private void attemptTeleportation(@NotNull Player teleportingPlayer, @NotNull Player teleportTarget) {
         if (teleportTarget.isFlying() || teleportTarget.isGliding()) {
-            // TODO send unsafe message to target and teleporter
-            teleportTarget.sendMessage("Player tried to teleport. Please stop flying");
-            teleportingPlayer.sendMessage("Target is flying. Please ask them to stop.");
+            TeleportConfig.getInstance().getTpaTargetFlyingMessage().sendMessage(teleportingPlayer);
             return;
         }
         teleportingPlayer.teleportAsync(teleportTarget.getLocation());

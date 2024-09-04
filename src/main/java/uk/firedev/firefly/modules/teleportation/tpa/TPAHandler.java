@@ -56,8 +56,7 @@ public class TPAHandler {
 
     public void sendRequest(@NotNull Player target, @NotNull Player sender, @NotNull TPARequest.TPADirection direction) {
         if (target.getUniqueId() == sender.getUniqueId()) {
-            // TODO can't send self message
-            sender.sendMessage("Cannot tpa to yourself!");
+            TeleportConfig.getInstance().getTpaCannotRequestSelfMessage().sendMessage(sender);
             return;
         }
         List<TPARequest> targetTpaList = getTpaRequests(target);
@@ -69,10 +68,14 @@ public class TPAHandler {
         TPARequest request = new TPARequest(sender, target, direction);
         targetTpaList.add(request);
         Firefly.getScheduler().runTaskLater(() -> targetTpaList.remove(request), TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
-        // TODO send player requested message
-        target.sendMessage("Player requested tp");
-        // TODO send requested to player message
-        sender.sendMessage("Requested tp to player");
+        switch(direction){
+            case SENDER_TO_TARGET ->{
+                TeleportConfig.getInstance().getTpaToRequestSenderMessage().sendMessage(sender);
+            }
+            case TARGET_TO_SENDER -> {
+                TeleportConfig.getInstance().getTpaFromRequestTargetMessage().sendMessage(target);
+            }
+        }
     }
 
     public void acceptRequest(@NotNull Player player, @NotNull String senderName) {

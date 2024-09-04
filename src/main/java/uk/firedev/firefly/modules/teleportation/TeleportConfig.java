@@ -102,6 +102,94 @@ public class TeleportConfig extends Config {
         return getConfig().getInt("tpa.request-expiry", 15);
     }
 
+    public ComponentMessage getTpaCannotRequestSelfMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.cannot-request-self",
+                "<red>You cannot send a request to yourself!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaTargetFlyingMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.target-flying",
+                "<red>Cannot teleport because the target is flying!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaToRequestSenderMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.to.request-sender",
+                "<color:#F0E68C>Requested to teleport to {target}"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaToRequestTargetMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.to.request-target",
+                "<color:#F0E68C>{player} wants to teleport to you! {accept} {deny}"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaToRequestDeniedSenderMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.to.request-denied-sender",
+                "<color:#F0E68C>{target} has denied your teleport request!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+    public ComponentMessage getTpaToRequestDeniedTargetMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.to.request-denied-target",
+                "<color:#F0E68C>Denied {player}'s teleport request!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaFromRequestSenderMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.here.request-sender",
+                "<color:#F0E68C>Invited {target} to teleport to you"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaFromRequestTargetMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.here.request-target",
+                "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+    public ComponentMessage getTpaFromRequestDeniedSenderMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.here.request-denied-sender",
+                "<color:#F0E68C>{target} has denied your teleport request!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+    public ComponentMessage getTpaFromRequestDeniedTargetMessage(){
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.here.request-denied-target",
+                "<color:#F0E68C>Denied {player}'s teleport request!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+
     // /back related things
 
     public boolean shouldBackSaveDeath() {
