@@ -79,4 +79,10 @@ public class TeleportConfig extends Config {
         return getConfig().getInt("tpa.request-expiry", 15);
     }
 
+    // /back related things
+
+    public boolean shouldBackSaveDeath() {
+        return getConfig().getBoolean("back.save-death", true);
+    }
+
 }

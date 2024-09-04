@@ -23,8 +23,10 @@ public class TeleportListener implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        Player player = event.getPlayer();
-        TeleportManager.getInstance().setLastLocation(player, player.getLocation());
+        if (TeleportConfig.getInstance().shouldBackSaveDeath()) {
+            Player player = event.getPlayer();
+            TeleportManager.getInstance().setLastLocation(player, player.getLocation());
+        }
     }
 
     @EventHandler
