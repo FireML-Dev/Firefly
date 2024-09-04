@@ -3,7 +3,6 @@ package uk.firedev.firefly.placeholders;
 import io.github.miniplaceholders.api.Expansion;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.Tag;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.message.component.ComponentMessage;

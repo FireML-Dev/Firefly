@@ -48,7 +48,7 @@ public class NicknameCommand extends CommandAPICommand {
                 return;
             }
             String[] splitValue = args[0].split(" ");
-            Component nickname = StringUtils.getComponent(splitValue[0]);
+            Component nickname = StringUtils.getColorOnlyComponent(splitValue[0]);
             executeCommand(player, player, nickname);
         });
     }

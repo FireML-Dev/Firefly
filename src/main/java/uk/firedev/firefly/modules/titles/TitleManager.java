@@ -1,6 +1,7 @@
 package uk.firedev.firefly.modules.titles;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -121,14 +122,14 @@ public class TitleManager implements Manager {
             if (VaultManager.getChat() == null) {
                 return Component.empty();
             } else {
-                return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerPrefix(player).replace('§', '&'));
+                return MiniMessage.miniMessage().deserialize(VaultManager.getChat().getPlayerPrefix(player).replace('§', '&'));
             }
         }
         return ComponentMessage.fromString(prefix).getMessage();
     }
 
     public String getPlayerPrefixLegacy(@NotNull Player player) {
-        return LegacyComponentSerializer.legacySection().serialize(getPlayerPrefix(player)).replace('&', '§');
+        return LegacyComponentSerializer.legacySection().serialize(getPlayerPrefix(player));
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull String suffix) {
@@ -159,14 +160,14 @@ public class TitleManager implements Manager {
             if (VaultManager.getChat() == null) {
                 return Component.empty();
             } else {
-                return LegacyComponentSerializer.legacyAmpersand().deserialize(VaultManager.getChat().getPlayerSuffix(player).replace('§', '&'));
+                return MiniMessage.miniMessage().deserialize(VaultManager.getChat().getPlayerSuffix(player));
             }
         }
         return ComponentMessage.fromString(suffix).getMessage();
     }
 
     public String getPlayerSuffixLegacy(@NotNull Player player) {
-        return LegacyComponentSerializer.legacySection().serialize(getPlayerSuffix(player)).replace('&', '§');
+        return LegacyComponentSerializer.legacySection().serialize(getPlayerSuffix(player));
     }
 
     public List<Prefix> getPrefixes() {
