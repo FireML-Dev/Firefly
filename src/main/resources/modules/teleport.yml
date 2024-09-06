@@ -50,7 +50,7 @@ messages:
         request-denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
         request-denied-target: "<color:#F0E68C>Denied {player}'s teleport request!"
     spawn:
-      sent-to-spawn: "<color:#F0E68C>Sent {target} to spawn."
+      sent-player-to-spawn: "<color:#F0E68C>Sent {target} to spawn."
       teleported-to-spawn: "<color:#F0E68C>You have been teleported to spawn."
       spawn-set: "<color:#F0E68C>Set the spawn location to your current location."
       first-spawn-set: "<color:#F0E68C>Set the first spawn location to your current location."

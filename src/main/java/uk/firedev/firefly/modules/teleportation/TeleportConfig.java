@@ -92,6 +92,43 @@ public class TeleportConfig extends Config {
         return getConfig().getBoolean("spawn.spawn-on-join");
     }
 
+    public ComponentMessage getSpawnSentPlayerToSpawnMessage(@NotNull Player targetPlayer) {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.spawn.sent-player-to-spawn",
+                "<color:#F0E68C>Sent {target} to spawn."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
+                .replace("target", targetPlayer.getName());
+    }
+
+    public ComponentMessage getSpawnTeleportedToSpawnMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.spawn.teleported-to-spawn",
+                "<color:#F0E68C>You have been teleported to spawn."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getSpawnSetSpawnMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.spawn.spawn-set",
+                "<color:#F0E68C>Set the spawn location to your current location."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getSpawnSetFirstSpawnMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.spawn.first-spawn-set",
+                "<color:#F0E68C>Set the first spawn location to your current location."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
     // TPA related things
 
     public int getTpaMaximumCachedRequests() {
@@ -188,7 +225,6 @@ public class TeleportConfig extends Config {
         );
         return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
     }
-
 
     // /back related things
 

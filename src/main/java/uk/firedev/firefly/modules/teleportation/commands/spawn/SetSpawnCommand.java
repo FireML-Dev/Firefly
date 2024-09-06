@@ -34,7 +34,7 @@ public class SetSpawnCommand extends CommandAPICommand {
                 location = (Location) locationArg;
             }
             TeleportConfig.getInstance().setSpawnLocation(false, location);
-            // TODO send set spawn message
+            TeleportConfig.getInstance().getSpawnSetSpawnMessage().sendMessage(sender);
         });
     }
 
