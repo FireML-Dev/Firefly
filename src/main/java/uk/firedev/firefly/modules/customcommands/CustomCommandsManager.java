@@ -109,18 +109,23 @@ public class CustomCommandsManager implements Manager {
             if (name == null || name.isEmpty()) {
                 return;
             }
-            // Remove from unregister list if it is present
+
+            // Handle list things
             commandsToUnregister.remove(name);
-            // Command registration
-            builder.registerCommand();
             if (!loadedCommands.contains(name)) {
                 loadedCommands.add(name);
             }
+
             for (String alias : builder.getAliases()) {
+                // Remove from unregister list if it is present
+                commandsToUnregister.remove(alias);
                 if (!loadedCommands.contains(alias)) {
                     loadedCommands.add(alias);
                 }
             }
+
+            // Command registration
+            builder.registerCommand();
         });
     }
 
