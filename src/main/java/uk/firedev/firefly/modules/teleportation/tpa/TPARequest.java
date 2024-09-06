@@ -31,11 +31,8 @@ public class TPARequest {
         }
         if (sender == null) {
             MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(target);
-
             return;
         }
-        // TODO send sender accepted message
-        // TODO send target accepted message
         switch (this.direction) {
             case SENDER_TO_TARGET -> attemptTeleportation(sender, target);
             case TARGET_TO_SENDER -> attemptTeleportation(target, sender);
@@ -48,6 +45,8 @@ public class TPARequest {
             TeleportConfig.getInstance().getTpaTargetFlyingMessage().sendMessage(teleportingPlayer);
             return;
         }
+        TeleportConfig.getInstance().getTpaRequestAcceptedTargetMessage().sendMessage(teleportTarget);
+        TeleportConfig.getInstance().getTpaRequestAcceptedTeleporterMessage().sendMessage(teleportingPlayer);
         teleportingPlayer.teleportAsync(teleportTarget.getLocation());
     }
 
@@ -58,7 +57,7 @@ public class TPARequest {
         if (target == null) {
             return;
         }
-        // TODO send denied message
+
         target.sendMessage("Request denied");
         if (sender != null) {
             sender.sendMessage("Request was denied");

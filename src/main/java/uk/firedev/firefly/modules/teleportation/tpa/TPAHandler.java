@@ -68,12 +68,14 @@ public class TPAHandler {
         TPARequest request = new TPARequest(sender, target, direction);
         targetTpaList.add(request);
         Firefly.getScheduler().runTaskLater(() -> targetTpaList.remove(request), TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
-        switch(direction){
+        switch (direction) {
             case SENDER_TO_TARGET ->{
-                TeleportConfig.getInstance().getTpaToRequestSenderMessage().sendMessage(sender);
+                TeleportConfig.getInstance().getTpaToRequestSenderMessage(sender).sendMessage(target);
+                TeleportConfig.getInstance().getTpaToRequestTargetMessage(target).sendMessage(sender);
             }
             case TARGET_TO_SENDER -> {
-                TeleportConfig.getInstance().getTpaFromRequestTargetMessage().sendMessage(target);
+                TeleportConfig.getInstance().getTpaHereRequestTargetMessage(sender).sendMessage(target);
+                TeleportConfig.getInstance().getTpaHereRequestSenderMessage(target).sendMessage(sender);
             }
         }
     }

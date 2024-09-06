@@ -139,7 +139,7 @@ public class TeleportConfig extends Config {
         return getConfig().getInt("tpa.request-expiry", 15);
     }
 
-    public ComponentMessage getTpaCannotRequestSelfMessage(){
+    public ComponentMessage getTpaCannotRequestSelfMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
                 "messages.command.tpa.cannot-request-self",
@@ -148,7 +148,7 @@ public class TeleportConfig extends Config {
         return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    public ComponentMessage getTpaTargetFlyingMessage(){
+    public ComponentMessage getTpaTargetFlyingMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
                 "messages.command.tpa.target-flying",
@@ -157,73 +157,82 @@ public class TeleportConfig extends Config {
         return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    public ComponentMessage getTpaToRequestSenderMessage(){
+    public ComponentMessage getTpaToRequestSenderMessage(@NotNull Player target) {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
                 "messages.command.tpa.to.request-sender",
                 "<color:#F0E68C>Requested to teleport to {target}"
         );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
+                .replace("target", target.getName());
     }
 
-    public ComponentMessage getTpaToRequestTargetMessage(){
+    public ComponentMessage getTpaToRequestTargetMessage(@NotNull Player sender) {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
                 "messages.command.tpa.to.request-target",
                 "<color:#F0E68C>{player} wants to teleport to you! {accept} {deny}"
         );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
+                .replace("player", sender.getName());
     }
 
-    public ComponentMessage getTpaToRequestDeniedSenderMessage(){
-        ComponentMessage message = ComponentMessage.fromConfig(
-                getConfig(),
-                "messages.command.tpa.to.request-denied-sender",
-                "<color:#F0E68C>{target} has denied your teleport request!"
-        );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-    }
-    public ComponentMessage getTpaToRequestDeniedTargetMessage(){
-        ComponentMessage message = ComponentMessage.fromConfig(
-                getConfig(),
-                "messages.command.tpa.to.request-denied-target",
-                "<color:#F0E68C>Denied {player}'s teleport request!"
-        );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getTpaFromRequestSenderMessage(){
+    public ComponentMessage getTpaHereRequestSenderMessage(@NotNull Player target) {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
                 "messages.command.tpa.here.request-sender",
                 "<color:#F0E68C>Invited {target} to teleport to you"
         );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
+                .replace("target", target.getName());
     }
 
-    public ComponentMessage getTpaFromRequestTargetMessage(){
+    public ComponentMessage getTpaHereRequestTargetMessage(@NotNull Player sender) {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
                 "messages.command.tpa.here.request-target",
                 "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}"
         );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
+                .replace("player", sender.getName());
     }
-    public ComponentMessage getTpaFromRequestDeniedSenderMessage(){
+
+    public ComponentMessage getTpaRequestAcceptedTargetMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
-                "messages.command.tpa.here.request-denied-sender",
+                "messages.command.tpa.accepted-target",
+                "<color:#F0E68C>Teleport request accepted!"
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaRequestAcceptedTeleporterMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.accepted-teleporter",
+                "<color:#F0E68C>Teleport request accepted! Teleporting..."
+        );
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaRequestDeniedSenderMessage(@NotNull Player target) {
+        ComponentMessage message = ComponentMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.request-denied-sender",
                 "<color:#F0E68C>{target} has denied your teleport request!"
         );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
+                .replace("target", target.getName());
     }
-    public ComponentMessage getTpaFromRequestDeniedTargetMessage(){
+
+    public ComponentMessage getTpaRequestDeniedTargetMessage(@NotNull Player sender) {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
-                "messages.command.tpa.here.request-denied-target",
+                "messages.command.tpa.request-denied-target",
                 "<color:#F0E68C>Denied {player}'s teleport request!"
         );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
+                .replace("player", sender.getName());
     }
 
     // /back related things

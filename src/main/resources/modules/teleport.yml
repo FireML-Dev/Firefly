@@ -35,20 +35,20 @@ messages:
     tpa:
       cannot-request-self: "<red>You cannot send a request to yourself!"
       target-flying: "<red>Cannot teleport because the target is flying!"
+      accepted-target: "<color:#F0E68C>Teleport request accepted!"
+      accepted-teleporter: "<color:#F0E68C>Teleport request accepted! Teleporting..."
+      denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
+      denied-target: "<color:#F0E68C>Denied {player}'s teleport request!"
       # {target} is the player the request is sent to
       # {player} is the player who sent the request
       to:
         request-sender: "<color:#F0E68C>Requested to teleport to {target}"
         request-target: "<color:#F0E68C>{player} wants to teleport to you! {accept} {deny}"
-        request-denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
-        request-denied-target: "<color:#F0E68C>Denied {player}'s teleport request!"
       # {target} is the player the request is sent to
       # {player} is the player who sent the request
       here:
         request-sender: "<color:#F0E68C>Invited {target} to teleport to you"
         request-target: "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}"
-        request-denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
-        request-denied-target: "<color:#F0E68C>Denied {player}'s teleport request!"
     spawn:
       sent-player-to-spawn: "<color:#F0E68C>Sent {target} to spawn."
       teleported-to-spawn: "<color:#F0E68C>You have been teleported to spawn."
