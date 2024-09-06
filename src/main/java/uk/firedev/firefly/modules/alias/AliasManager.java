@@ -1,9 +1,13 @@
 package uk.firedev.firefly.modules.alias;
 
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
+import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class AliasManager implements Manager {
@@ -11,9 +15,14 @@ public class AliasManager implements Manager {
     private static AliasManager instance;
 
     private boolean loaded = false;
-    private List<String> loadedCommands = new ArrayList<>();
+    private List<String> loadedCommands;
+    private List<String> commandsToUnregister;
+    private MyScheduledTask cleanupTask;
 
-    private AliasManager() {}
+    private AliasManager() {
+        loadedCommands = new ArrayList<>();
+        commandsToUnregister = new ArrayList<>();
+    }
 
     public static AliasManager getInstance() {
         if (instance == null) {
@@ -45,10 +54,9 @@ public class AliasManager implements Manager {
         if (!isLoaded()) {
             return;
         }
+        stopTask();
         loaded = false;
-        if (loadedCommands != null) {
-            loadedCommands.clear();
-        }
+        loadedCommands.clear();
     }
 
     @Override
@@ -56,20 +64,59 @@ public class AliasManager implements Manager {
         return loaded;
     }
 
-    private void loadAllCommands() {
-        if (loadedCommands == null) {
-            loadedCommands = new ArrayList<>();
+    private void startTask() {
+        if (cleanupTask != null) {
+            return;
         }
-        if (!loadedCommands.isEmpty()) {
-            loadedCommands.forEach(CommandAPI::unregister);
-            loadedCommands.clear();
+        cleanupTask = Firefly.getScheduler().runTaskTimer(this::slowUnregister, 20L, 20L);
+    }
+
+    private void stopTask() {
+        if (cleanupTask == null) {
+            return;
+        }
+        cleanupTask.cancel();
+        cleanupTask = null;
+    }
+
+    private void slowUnregister() {
+        if (commandsToUnregister.isEmpty()) {
+            stopTask();
+            System.out.println("Disabled task because nothing to unregister");
+            return;
+        }
+        System.out.println("Unregistering " + commandsToUnregister.getFirst());
+        CommandAPI.unregister(commandsToUnregister.getFirst());
+        commandsToUnregister.removeFirst();
+    }
+
+    private void addToUnregisterList(@NotNull String command) {
+        commandsToUnregister.add(command);
+        startTask();
+    }
+
+    private void loadAllCommands() {
+        List<String> configCommands = AliasConfig.getInstance().getCommandBuilderNames();
+        Iterator<String> loadedCommandsIterator = loadedCommands.iterator();
+        while (loadedCommandsIterator.hasNext()) {
+            String command = loadedCommandsIterator.next();
+            if (!configCommands.contains(command)) {
+                // Add to list via method so we can start the removal task if needed
+                addToUnregisterList(command);
+                loadedCommandsIterator.remove();
+            }
         }
         AliasConfig.getInstance().getCommandBuilders().forEach(builder -> {
             String name = builder.getCommandName();
-            if (name != null && !loadedCommands.contains(name)) {
-                builder.registerCommand();
-                loadedCommands.add(name);
+            if (name == null || name.isEmpty()) {
+                return;
             }
+            // Remove from unregister list if it is present
+            commandsToUnregister.remove(name);
+            // Command registration
+            builder.registerCommand();
+            loadedCommands.add(name);
+            loadedCommands.addAll(builder.getAliases());
         });
     }
 

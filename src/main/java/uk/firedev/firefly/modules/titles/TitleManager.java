@@ -9,7 +9,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;

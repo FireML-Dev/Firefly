@@ -2,7 +2,6 @@ package uk.firedev.firefly.database;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.database.DatabaseModule;
@@ -14,8 +13,6 @@ import uk.firedev.firefly.config.MainConfig;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class Database extends SQLiteDatabase {

@@ -7,8 +7,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
-import uk.firedev.daisylib.libs.commandapi.CommandAPI;
-import uk.firedev.daisylib.reward.RewardManager;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;

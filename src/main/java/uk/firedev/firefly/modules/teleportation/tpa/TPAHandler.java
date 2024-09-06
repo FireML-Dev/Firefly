@@ -1,8 +1,6 @@
 package uk.firedev.firefly.modules.teleportation.tpa;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
@@ -12,9 +10,7 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class TPAHandler {

@@ -39,4 +39,13 @@ public class AliasConfig extends Config {
         return list;
     }
 
+    public List<String> getCommandBuilderNames() {
+        List<String> names = new ArrayList<>();
+        for (CommandBuilder builder : getCommandBuilders()) {
+            names.add(builder.getCommandName());
+            names.addAll(builder.getAliases());
+        }
+        return names;
+    }
+
 }

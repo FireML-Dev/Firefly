@@ -2,9 +2,9 @@ package uk.firedev.firefly.modules.playtime;
 
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.database.DatabaseModule;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
-import uk.firedev.daisylib.database.DatabaseModule;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

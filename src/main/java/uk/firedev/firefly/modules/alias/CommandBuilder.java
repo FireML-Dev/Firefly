@@ -60,4 +60,8 @@ public class CommandBuilder {
         return commandName;
     }
 
+    public List<String> getAliases() {
+        return aliases;
+    }
+
 }
