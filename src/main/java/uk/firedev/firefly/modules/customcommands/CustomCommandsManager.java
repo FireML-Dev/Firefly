@@ -82,10 +82,8 @@ public class CustomCommandsManager implements Manager {
     private void slowUnregister() {
         if (commandsToUnregister.isEmpty()) {
             stopTask();
-            System.out.println("Disabled task because nothing to unregister");
             return;
         }
-        System.out.println("Unregistering " + commandsToUnregister.getFirst());
         CommandAPI.unregister(commandsToUnregister.getFirst());
         commandsToUnregister.removeFirst();
     }
