@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.alias;
+package uk.firedev.firefly.modules.customcommands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -58,6 +58,10 @@ public class CommandBuilder {
 
     public String getCommandName() {
         return commandName;
+    }
+
+    public List<String> getAliases() {
+        return aliases;
     }
 
 }
