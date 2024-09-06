@@ -1,3 +1,5 @@
+# Here you can add custom commands, these commands can currently execute other commands and/or send messages.
+
 example:
   permission: "example.permission.1"
   aliases:

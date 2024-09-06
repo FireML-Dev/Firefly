@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.alias;
+package uk.firedev.firefly.modules.customcommands;
 
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
@@ -10,23 +10,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class AliasManager implements Manager {
+public class CustomCommandsManager implements Manager {
 
-    private static AliasManager instance;
+    private static CustomCommandsManager instance;
 
     private boolean loaded = false;
     private List<String> loadedCommands;
     private List<String> commandsToUnregister;
     private MyScheduledTask cleanupTask;
 
-    private AliasManager() {
+    private CustomCommandsManager() {
         loadedCommands = new ArrayList<>();
         commandsToUnregister = new ArrayList<>();
     }
 
-    public static AliasManager getInstance() {
+    public static CustomCommandsManager getInstance() {
         if (instance == null) {
-            instance = new AliasManager();
+            instance = new CustomCommandsManager();
         }
         return instance;
     }
@@ -45,7 +45,7 @@ public class AliasManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        AliasConfig.getInstance().reload();
+        CustomCommandsConfig.getInstance().reload();
         loadAllCommands();
     }
 
@@ -96,7 +96,7 @@ public class AliasManager implements Manager {
     }
 
     private void loadAllCommands() {
-        List<String> configCommands = AliasConfig.getInstance().getCommandBuilderNames();
+        List<String> configCommands = CustomCommandsConfig.getInstance().getCommandBuilderNames();
         Iterator<String> loadedCommandsIterator = loadedCommands.iterator();
         while (loadedCommandsIterator.hasNext()) {
             String command = loadedCommandsIterator.next();
@@ -106,7 +106,7 @@ public class AliasManager implements Manager {
                 loadedCommandsIterator.remove();
             }
         }
-        AliasConfig.getInstance().getCommandBuilders().forEach(builder -> {
+        CustomCommandsConfig.getInstance().getCommandBuilders().forEach(builder -> {
             String name = builder.getCommandName();
             if (name == null || name.isEmpty()) {
                 return;

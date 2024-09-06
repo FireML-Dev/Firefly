@@ -10,7 +10,7 @@ import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
-import uk.firedev.firefly.modules.alias.AliasManager;
+import uk.firedev.firefly.modules.customcommands.CustomCommandsManager;
 import uk.firedev.firefly.modules.elevator.ElevatorManager;
 import uk.firedev.firefly.modules.kit.KitManager;
 import uk.firedev.firefly.modules.nickname.NicknameManager;
@@ -61,7 +61,7 @@ public final class Firefly extends JavaPlugin {
         TitleManager.getInstance().unload();
         KitManager.getInstance().unload();
         NicknameManager.getInstance().unload();
-        AliasManager.getInstance().unload();
+        CustomCommandsManager.getInstance().unload();
         SmallManager.getInstance().unload();
         PlaytimeManager.getInstance().unload();
         TeleportManager.getInstance().unload();
@@ -77,7 +77,7 @@ public final class Firefly extends JavaPlugin {
         TitleManager.getInstance().reload();
         KitManager.getInstance().reload();
         NicknameManager.getInstance().reload();
-        AliasManager.getInstance().reload();
+        CustomCommandsManager.getInstance().reload();
         SmallManager.getInstance().reload();
         PlaytimeManager.getInstance().reload();
     }
@@ -116,7 +116,7 @@ public final class Firefly extends JavaPlugin {
             Loggers.info(getComponentLogger(), "Loaded Nicknames Module.");
         }
         if (moduleConfig.aliasesModuleEnabled()) {
-            AliasManager.getInstance().load();
+            CustomCommandsManager.getInstance().load();
             Loggers.info(getComponentLogger(), "Loaded Alias Module.");
         }
         if (moduleConfig.playtimeModuleEnabled()) {

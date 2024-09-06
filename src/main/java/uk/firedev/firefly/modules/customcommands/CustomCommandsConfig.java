@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.alias;
+package uk.firedev.firefly.modules.customcommands;
 
 import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
@@ -7,17 +7,17 @@ import uk.firedev.firefly.Firefly;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AliasConfig extends Config {
+public class CustomCommandsConfig extends Config {
 
-    private static AliasConfig instance;
+    private static CustomCommandsConfig instance;
 
-    private AliasConfig() {
-        super("modules/aliases.yml", "modules/aliases.yml", Firefly.getInstance(), false);
+    private CustomCommandsConfig() {
+        super("modules/customcommands.yml", "modules/customcommands.yml", Firefly.getInstance(), false);
     }
 
-    public static AliasConfig getInstance() {
+    public static CustomCommandsConfig getInstance() {
         if (instance == null) {
-            instance = new AliasConfig();
+            instance = new CustomCommandsConfig();
         }
         return instance;
     }
