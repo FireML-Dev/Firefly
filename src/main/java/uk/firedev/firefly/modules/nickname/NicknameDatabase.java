@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
+import uk.firedev.daisylib.database.DatabaseModule;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,24 +14,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class NicknameDatabase {
+public class NicknameDatabase implements DatabaseModule {
 
     private static NicknameDatabase instance;
 
     private NicknameDatabase() {}
 
     public static NicknameDatabase getInstance() {
-        if (Database.getInstance().getConnection() == null) {
-            throw new RuntimeException("Tried to load NicknameDatabase class before the Database class was loaded!");
-        }
         if (instance == null) {
             instance = new NicknameDatabase();
-            try (Statement statement = Database.getInstance().getConnection().createStatement()) {
-                statement.execute("ALTER TABLE firefly_players ADD COLUMN nickname varchar");
-                Loggers.info(Firefly.getInstance().getComponentLogger(), "Created nickname database column.");
-            } catch (SQLException ignored) {}
         }
         return instance;
+    }
+
+    @Override
+    public void init() {
+        try (Statement statement = Database.getInstance().getConnection().createStatement()) {
+            statement.execute("ALTER TABLE firefly_players ADD COLUMN nickname varchar");
+            Loggers.info(Firefly.getInstance().getComponentLogger(), "Created nickname database column.");
+        } catch (SQLException ignored) {}
     }
 
     public @NotNull Map<UUID, String> getNicknames() {
@@ -52,7 +54,7 @@ public class NicknameDatabase {
         }
     }
 
-    public boolean setNickname(@NotNull UUID playerUUID, String nickname) {
+    public boolean saveToDatabase(@NotNull UUID playerUUID, String nickname) {
         if (nickname == null) {
             nickname = "";
         }
@@ -72,6 +74,11 @@ public class NicknameDatabase {
             Loggers.error(Firefly.getInstance().getComponentLogger(), "Player is not in the database. Not setting their nickname.");
             return false;
         }
+    }
+
+    @Override
+    public void save() {
+        NicknameManager.getInstance().saveAllNicknames();
     }
 
 }

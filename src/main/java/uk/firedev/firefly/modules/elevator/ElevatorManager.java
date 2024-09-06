@@ -23,6 +23,7 @@ import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
 import uk.firedev.firefly.modules.elevator.command.ElevatorCommand;
+import uk.firedev.firefly.modules.teleportation.TeleportManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +72,6 @@ public class ElevatorManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Elevator Command");
-        CommandAPI.unregister(ElevatorCommand.getInstance().getName());
         loaded = false;
     }
 
@@ -90,9 +89,14 @@ public class ElevatorManager implements Manager {
             ElevatorConfig.getInstance().getUnsafeLocationMessage().sendMessage(player);
             return;
         }
+        boolean teleportManager = TeleportManager.getInstance().isLoaded();
+        final Location lastLocation = teleportManager ? TeleportManager.getInstance().getLastLocation(player) : null;
         player.teleportAsync(location).thenAccept(success -> {
             if (success) {
                 elevator.handleBossBar(player);
+                if (teleportManager && lastLocation != null) {
+                    TeleportManager.getInstance().setLastLocation(player, lastLocation);
+                }
             } else {
                 ElevatorConfig.getInstance().getTeleportFailMessage().sendMessage(player);
             }

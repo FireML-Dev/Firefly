@@ -1,0 +1,70 @@
+back:
+  # Should your last location be set to your death location when you respawn?
+  save-death: true
+
+tpa:
+  # How many TPA requests to cache before discarding the oldest
+  cached-requests: 3
+  # How long until a request should expire? (In seconds)
+  request-expiry: 15
+
+spawn:
+  # Should players be sent to spawn every time they log in?
+  spawn-on-join: false
+  # Specify the locations for first spawn and /spawn
+  # These can be done in-game with /setfirstspawn and /setspawn
+  spawn-location:
+    world: []
+    x: []
+    y: []
+    z: []
+    yaw: []
+    pitch: []
+  first-spawn-location:
+    world: []
+    x: []
+    y: []
+    z: []
+    yaw: []
+    pitch: []
+
+messages:
+  teleported: "<color:#F0E68C>You have teleported to {target-location}!"
+  location-invalid: "<red>That location is not valid!"
+  command:
+    tpa:
+      cannot-request-self: "<red>You cannot send a request to yourself!"
+      target-flying: "<red>Cannot teleport because the target is flying!"
+      accepted-target: "<color:#F0E68C>Teleport request accepted!"
+      accepted-teleporter: "<color:#F0E68C>Teleport request accepted! Teleporting..."
+      denied-sender: "<color:#F0E68C>{target} has denied your teleport request!"
+      denied-target: "<color:#F0E68C>Denied the teleport request!"
+
+      # Shown in the request messages to the target player.
+      accept-click: "<green><click:run_command:'/tpaccept {sender}'>[Accept]"
+      deny-click: "<red><click:run_command:'/tpdeny {sender}'>[Deny]"
+
+      # {target} is the player the request is sent to
+      # {player} is the player who sent the request
+      to:
+        request-sender: "<color:#F0E68C>Requested to teleport to {target}"
+        request-target: "<color:#F0E68C>{player} wants to teleport to you! {accept} {deny}"
+      # {target} is the player the request is sent to
+      # {player} is the player who sent the request
+      here:
+        request-sender: "<color:#F0E68C>Invited {target} to teleport to you"
+        request-target: "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}"
+    spawn:
+      sent-player-to-spawn: "<color:#F0E68C>Sent {target} to spawn."
+      teleported-to-spawn: "<color:#F0E68C>You have been teleported to spawn."
+      spawn-set: "<color:#F0E68C>Set the spawn location to your current location."
+      first-spawn-set: "<color:#F0E68C>Set the first spawn location to your current location."
+    back:
+      teleported-back: "<color:#F0E68C>You have been teleported to your last saved location."
+      teleported-back-sender: "<color:#F0E68C>You have teleported {target} to their last saved location."
+    dback:
+      teleported-back: "<color:#F0E68C>You have been teleported to your last death location."
+      teleported-back-sender: "<color:#F0E68C>You have teleported {target} to their last death location."
+
+## DO NOT TOUCH THIS VALUE!!!
+config-version: 1

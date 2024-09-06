@@ -10,22 +10,25 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
+import uk.firedev.firefly.modules.playtime.PlaytimeDatabase;
 import uk.firedev.firefly.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NicknameManager implements Manager {
 
     private static NicknameManager instance = null;
 
     private boolean loaded;
-    private Map<UUID, String> nicknameMap = new HashMap<>();
+    private Map<UUID, String> nicknameMap = new ConcurrentHashMap<>();
 
     private NicknameManager() {}
 
@@ -46,6 +49,7 @@ public class NicknameManager implements Manager {
         NicknameCommand.getInstance().register(Firefly.getInstance());
         NicknameAdminCommand.getInstance().register(Firefly.getInstance());
         NicknameCheckCommand.getInstance().register(Firefly.getInstance());
+        NicknameDatabase.getInstance().register(Database.getInstance());
         populateNicknameMap();
         loaded = true;
     }
@@ -64,11 +68,6 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        // Unregister Commands
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Nickname Commands");
-        CommandAPI.unregister(NicknameCommand.getInstance().getName());
-        CommandAPI.unregister(NicknameAdminCommand.getInstance().getName());
-        CommandAPI.unregister(NicknameCheckCommand.getInstance().getName());
         loaded = false;
     }
 
@@ -136,10 +135,11 @@ public class NicknameManager implements Manager {
      * @param nickname The nickname to set, as a Legacy String
      */
     public boolean setStringNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
-        if (!isLoaded()) {
+        if (!isLoaded() || getNicknameMap().containsKey(player.getUniqueId())) {
             return false;
         }
-        return NicknameDatabase.getInstance().setNickname(player.getUniqueId(), nickname);
+        nicknameMap.put(player.getUniqueId(), nickname);
+        return true;
     }
 
     /**
@@ -150,7 +150,10 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        NicknameDatabase.getInstance().setNickname(player.getUniqueId(), "");
+        if (!nicknameMap.containsKey(player.getUniqueId())) {
+            return;
+        }
+        nicknameMap.put(player.getUniqueId(), "");
     }
 
     public void populateNicknameMap() {
@@ -162,6 +165,10 @@ public class NicknameManager implements Manager {
             nicknameMap = new HashMap<>();
         }
         return Map.copyOf(nicknameMap);
+    }
+
+    public void saveAllNicknames() {
+        getNicknameMap().forEach(NicknameDatabase.getInstance()::saveToDatabase);
     }
 
 }

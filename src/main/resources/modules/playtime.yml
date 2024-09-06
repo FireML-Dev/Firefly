@@ -1,6 +1,3 @@
-# How often to save playtime to the database (in seconds)
-save-interval: 300
-
 messages:
   command:
     # /playtime {player}

@@ -77,9 +77,6 @@ public class AmethystProtection extends CommandAPICommand implements Listener, M
         }
         // Unregister the event listener
         HandlerList.unregisterAll(this);
-        // Unregister Commands
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering AmethystProtect Command");
-        CommandAPI.unregister(getName());
         loaded = false;
     }
 

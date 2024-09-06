@@ -10,20 +10,21 @@ import uk.firedev.daisylib.requirement.RequirementManager;
 import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlaytimeManager implements Manager {
 
     private static PlaytimeManager instance;
 
     private boolean loaded = false;
-    private Map<UUID, Long> playtimeMap = new HashMap<>();
+    private Map<UUID, Long> playtimeMap = new ConcurrentHashMap<>();
     private MyScheduledTask playtimeTask = null;
-    private MyScheduledTask databaseTask = null;
 
     private PlaytimeManager() {}
 
@@ -40,11 +41,12 @@ public class PlaytimeManager implements Manager {
             return;
         }
         PlaytimeConfig.getInstance().reload();
+        PlaytimeDatabase.getInstance().register(Database.getInstance());
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
         PlaytimeCommand.getInstance().register(Firefly.getInstance());
         new PlaytimeRequirement().register();
         populatePlaytimeMap();
-        startSchedulers();
+        startScheduler();
         loaded = true;
     }
 
@@ -53,10 +55,10 @@ public class PlaytimeManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        stopSchedulers();
+        stopScheduler();
         PlaytimeConfig.getInstance().reload();
         populatePlaytimeMap();
-        startSchedulers();
+        startScheduler();
     }
 
     @Override
@@ -64,11 +66,7 @@ public class PlaytimeManager implements Manager {
         if (!isLoaded()) {
             return;
         }
-        stopSchedulers();
-        RequirementManager.getInstance().unregisterRequirement("playtime");
-        // Unregister Commands
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unregistering Playtime Commands");
-        CommandAPI.unregister("playtime");
+        stopScheduler();
         loaded = false;
     }
 
@@ -79,27 +77,18 @@ public class PlaytimeManager implements Manager {
 
     // Playtime Management
 
-    private void startSchedulers() {
+    private void startScheduler() {
         if (playtimeTask == null) {
             playtimeTask = Firefly.getScheduler().runTaskTimer(() ->
                     Bukkit.getOnlinePlayers().forEach(this::incrementTime), 20L, 20L
             );
         }
-        if (databaseTask == null) {
-            // seconds * 20 = ticks
-            long saveInterval = PlaytimeConfig.getInstance().getSaveInterval() * 20;
-            databaseTask = Firefly.getScheduler().runTaskTimer(this::saveAllPlaytimes, saveInterval, saveInterval);
-        }
     }
 
-    private void stopSchedulers() {
+    private void stopScheduler() {
         if (playtimeTask != null) {
             playtimeTask.cancel();
             playtimeTask = null;
-        }
-        if (databaseTask != null) {
-            databaseTask.cancel();
-            databaseTask = null;
         }
         // Save all times so we don't lose them
         saveAllPlaytimes();
@@ -140,7 +129,7 @@ public class PlaytimeManager implements Manager {
     }
 
     public void saveAllPlaytimes() {
-        getPlaytimeMap().forEach(PlaytimeDatabase.getInstance()::setPlaytime);
+        getPlaytimeMap().forEach(PlaytimeDatabase.getInstance()::saveToDatabase);
     }
 
 }
