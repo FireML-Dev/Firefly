@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.message.string.StringMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
@@ -225,14 +226,33 @@ public class TeleportConfig extends Config {
                 .replace("target", target.getName());
     }
 
-    public ComponentMessage getTpaRequestDeniedTargetMessage(@NotNull Player sender) {
+    public ComponentMessage getTpaRequestDeniedTargetMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(
                 getConfig(),
                 "messages.command.tpa.request-denied-target",
-                "<color:#F0E68C>Denied {player}'s teleport request!"
+                "<color:#F0E68C>Denied the teleport request!"
         );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer())
-                .replace("player", sender.getName());
+        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public ComponentMessage getTpaAcceptClickMessage(@NotNull Player sender) {
+        StringMessage message = StringMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.accept-click",
+                "<green><click:run_command:'/tpaccept {sender}'>[Accept]"
+        );
+        message.replace("sender", sender.getName());
+        return message.toComponentMessage();
+    }
+
+    public ComponentMessage getTpaDenyClickMessage(@NotNull Player sender) {
+        StringMessage message = StringMessage.fromConfig(
+                getConfig(),
+                "messages.command.tpa.deny-click",
+                "<red><click:run_command:'/tpdeny {sender}'>[Deny]"
+        );
+        message.replace("sender", sender.getName());
+        return message.toComponentMessage();
     }
 
     // /back related things

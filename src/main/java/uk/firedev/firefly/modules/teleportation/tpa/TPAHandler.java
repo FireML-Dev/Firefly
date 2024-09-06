@@ -1,15 +1,20 @@
 package uk.firedev.firefly.modules.teleportation.tpa;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
+import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class TPAHandler {
@@ -68,14 +73,26 @@ public class TPAHandler {
         TPARequest request = new TPARequest(sender, target, direction);
         targetTpaList.add(request);
         Firefly.getScheduler().runTaskLater(() -> targetTpaList.remove(request), TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
+
+        Component accept = TeleportConfig.getInstance().getTpaAcceptClickMessage(sender).getMessage();
+        Component deny = TeleportConfig.getInstance().getTpaDenyClickMessage(sender).getMessage();
+
+        ComponentReplacer acceptDenyReplacer = new ComponentReplacer()
+                .addReplacement("accept", accept)
+                .addReplacement("deny", deny);
+
         switch (direction) {
-            case SENDER_TO_TARGET ->{
-                TeleportConfig.getInstance().getTpaToRequestSenderMessage(sender).sendMessage(target);
-                TeleportConfig.getInstance().getTpaToRequestTargetMessage(target).sendMessage(sender);
+            case SENDER_TO_TARGET -> {
+                // Tell the sender they requested the teleport
+                TeleportConfig.getInstance().getTpaToRequestSenderMessage(target).sendMessage(sender);
+                // Tell the target the request was sent
+                TeleportConfig.getInstance().getTpaToRequestTargetMessage(sender).applyReplacer(acceptDenyReplacer).sendMessage(target);
             }
             case TARGET_TO_SENDER -> {
-                TeleportConfig.getInstance().getTpaHereRequestTargetMessage(sender).sendMessage(target);
+                // Tell the sender they requested the teleport
                 TeleportConfig.getInstance().getTpaHereRequestSenderMessage(target).sendMessage(sender);
+                // Tell the target the request was sent
+                TeleportConfig.getInstance().getTpaHereRequestTargetMessage(sender).applyReplacer(acceptDenyReplacer).sendMessage(target);
             }
         }
     }

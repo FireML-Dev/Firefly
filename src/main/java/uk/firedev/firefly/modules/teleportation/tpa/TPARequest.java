@@ -57,10 +57,9 @@ public class TPARequest {
         if (target == null) {
             return;
         }
-
-        target.sendMessage("Request denied");
+        TeleportConfig.getInstance().getTpaRequestDeniedTargetMessage().sendMessage(target);
         if (sender != null) {
-            sender.sendMessage("Request was denied");
+            TeleportConfig.getInstance().getTpaRequestDeniedSenderMessage(target).sendMessage(sender);
         }
     }
 
