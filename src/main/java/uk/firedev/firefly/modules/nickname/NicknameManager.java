@@ -2,7 +2,6 @@ package uk.firedev.firefly.modules.nickname;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
@@ -92,7 +91,7 @@ public class NicknameManager implements Manager {
         if (savedName == null || savedName.isEmpty()) {
             savedName = Objects.requireNonNull(player.getName());
         }
-        Component component = StringUtils.getComponentLegacy(savedName);
+        Component component = StringUtils.getColorOnlyComponent(savedName);
         ComponentMessage componentMessage = ComponentMessage.of(component);
         if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
             ComponentReplacer replacer = new ComponentReplacer().addReplacements("username", player.getName());
@@ -115,7 +114,7 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return null;
         }
-        return LegacyComponentSerializer.legacySection().serialize(getNickname(player));
+        return StringUtils.getColorOnlyMiniMessage().serialize(getNickname(player));
     }
 
     /**
@@ -127,7 +126,7 @@ public class NicknameManager implements Manager {
         if (!isLoaded()) {
             return false;
         }
-        return setStringNickname(player, LegacyComponentSerializer.legacySection().serialize(nickname));
+        return setStringNickname(player, StringUtils.getColorOnlyMiniMessage().serialize(nickname));
     }
 
     /**

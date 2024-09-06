@@ -1,23 +1,33 @@
 package uk.firedev.firefly.utils;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.jetbrains.annotations.NotNull;
 
 public class StringUtils {
 
+    private static MiniMessage miniMessage;
+
     /**
-     * Gets a component from a provided legacy color code String.
+     * Gets a component from a provided String.
+     * Only parses color and decoration tags.
      * @param string The string to convert
      * @return A Component built from the String
      */
-    @SuppressWarnings("deprecation")
-    public static Component getComponentLegacy(@NotNull String string) {
-        // Do yucky legacy color stuff
-        string = ChatColor.translateAlternateColorCodes('&', string);
-        return LegacyComponentSerializer.legacySection().deserialize(string);
+    public static Component getColorOnlyComponent(@NotNull String string) {
+        return getColorOnlyMiniMessage().deserialize(string);
+    }
+
+    public static MiniMessage getColorOnlyMiniMessage() {
+        if (miniMessage == null) {
+            miniMessage = MiniMessage
+                    .builder()
+                    .tags(StandardTags.color())
+                    .tags(StandardTags.decorations())
+                    .build();
+        }
+        return miniMessage;
     }
 
 }
