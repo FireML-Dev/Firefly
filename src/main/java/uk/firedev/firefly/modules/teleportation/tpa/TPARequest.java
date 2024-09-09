@@ -47,7 +47,12 @@ public class TPARequest {
         }
         TeleportConfig.getInstance().getTpaRequestAcceptedTargetMessage().sendMessage(teleportTarget);
         TeleportConfig.getInstance().getTpaRequestAcceptedTeleporterMessage().sendMessage(teleportingPlayer);
-        teleportingPlayer.teleportAsync(teleportTarget.getLocation());
+        teleportingPlayer.teleportAsync(teleportTarget.getLocation()).thenAccept(success -> {
+            if (!success) {
+                MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(teleportingPlayer);
+                MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(teleportTarget);
+            }
+        });
     }
 
     public void deny() {

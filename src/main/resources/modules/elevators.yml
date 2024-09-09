@@ -29,7 +29,6 @@ messages:
     unregistered-elevator: "<color:#F0E68C>Successfully removed elevator data from this block.</color>"
     not-an-elevator: "<red>This block is not an elevator!</red>"
   unsafe-location: "<red>The target elevator is unsafe!</red>"
-  teleport-fail: "<red>Failed to teleport. Please try again!</red>"
 
 # DO NOT TOUCH THIS VALUE!!!
 config-version: 1

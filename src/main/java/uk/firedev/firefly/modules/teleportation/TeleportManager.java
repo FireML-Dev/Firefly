@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.teleportation.commands.back.BackCommand;
 import uk.firedev.firefly.modules.teleportation.commands.back.DBackCommand;
@@ -121,10 +122,16 @@ public class TeleportManager implements Manager {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), invalid);
             return false;
         }
-        player.teleportAsync(location);
-        if (sendMessage) {
-            TeleportConfig.getInstance().getSpawnTeleportedToSpawnMessage().sendMessage(player);
-        }
+        player.teleportAsync(location).thenAccept(success -> {
+            if (!sendMessage) {
+                return;
+            }
+            if (success) {
+                TeleportConfig.getInstance().getSpawnTeleportedToSpawnMessage().sendMessage(player);
+            } else {
+                MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
+            }
+        });
         return true;
     }
 

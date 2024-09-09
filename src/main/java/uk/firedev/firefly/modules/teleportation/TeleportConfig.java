@@ -9,6 +9,7 @@ import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.string.StringMessage;
+import uk.firedev.daisylib.utils.LocationHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
@@ -53,12 +54,7 @@ public class TeleportConfig extends Config {
 
     public void setSpawnLocation(boolean firstSpawn, @NotNull Location location) {
         String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
-        getConfig().set(spawnLocKey + ".world", location.getWorld().getName());
-        getConfig().set(spawnLocKey + ".x", location.getX());
-        getConfig().set(spawnLocKey + ".y", location.getY());
-        getConfig().set(spawnLocKey + ".z", location.getZ());
-        getConfig().set(spawnLocKey + ".yaw", location.getYaw());
-        getConfig().set(spawnLocKey + ".pitch", location.getPitch());
+        LocationHelper.addToConfig(getConfig(), spawnLocKey, location);
         try {
             getConfig().save();
             TeleportManager.getInstance().refreshSpawnLocations();
@@ -69,24 +65,14 @@ public class TeleportConfig extends Config {
 
     public Location getSpawnLocation(boolean firstSpawn) {
         String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
-        String worldName = getConfig().getString(spawnLocKey + ".world");
-        String missingWorld = firstSpawn ? "The world linked to the first spawn location is not valid!" : "The world linked to the spawn location is not valid!";
-        if (worldName == null) {
+        String invalidLocation = firstSpawn ? "The first spawn location is not valid!" : "The spawn location is not valid!";
 
-            Loggers.warn(Firefly.getInstance().getComponentLogger(), missingWorld);
+        Location location = LocationHelper.getFromConfig(getConfig(), spawnLocKey);
+        if (location == null) {
+            Loggers.warn(Firefly.getInstance().getComponentLogger(), invalidLocation);
             return null;
         }
-        double x = getConfig().getDouble(spawnLocKey + ".x");
-        double y = getConfig().getDouble(spawnLocKey + ".y");
-        double z = getConfig().getDouble(spawnLocKey + ".z");
-        float yaw = getConfig().getFloat(spawnLocKey + ".yaw");
-        float pitch = getConfig().getFloat(spawnLocKey + ".pitch");
-        World world = Bukkit.getWorld(worldName);
-        if (world == null) {
-            Loggers.warn(Firefly.getInstance().getComponentLogger(), missingWorld);
-            return null;
-        }
-        return new Location(world, x, y, z, yaw, pitch);
+        return location;
     }
 
     public boolean isSpawnOnJoin() {

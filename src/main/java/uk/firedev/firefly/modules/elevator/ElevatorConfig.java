@@ -55,12 +55,6 @@ public class ElevatorConfig extends Config {
         return message;
     }
 
-    public ComponentMessage getTeleportFailMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.teleport-fail", "<red>Failed to teleport. Please try again!</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
-    }
-
     public Component getBossBarTitle(@NotNull Elevator elevator) {
         ComponentReplacer replacer = new ComponentReplacer().addReplacements(
                 "current", String.valueOf(elevator.getCurrentPosition() + 1),

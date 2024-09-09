@@ -28,11 +28,15 @@ public class BackCommand extends CommandAPICommand {
             } else {
                 targetPlayer = (Player) playerArg;
             }
-            targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenRun(() -> {
-                TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
-                if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                    ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
-                    TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
+            targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
+                if (success) {
+                    TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
+                    if (targetPlayer.getUniqueId() != player.getUniqueId()) {
+                        ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                        TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
+                    }
+                } else {
+                    TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(player);
                 }
             });
         });
@@ -43,11 +47,15 @@ public class BackCommand extends CommandAPICommand {
                 return;
             }
             Player targetPlayer = (Player) playerArg;
-            targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenRun(() -> {
-                TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
+            targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
+                if (success) {
+                    TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
 
-                ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
-                TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
+                    ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                    TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
+                } else {
+                    TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(console);
+                }
             });
         });
     }

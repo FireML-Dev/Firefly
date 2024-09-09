@@ -33,11 +33,19 @@ public class DBackCommand extends CommandAPICommand {
                 TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(player);
                 return;
             }
-            targetPlayer.teleportAsync(lastDeath).thenRun(() -> {
-                TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
-                if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                    ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
-                    TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
+            boolean samePerson = targetPlayer.getUniqueId() == player.getUniqueId();
+            targetPlayer.teleportAsync(lastDeath).thenAccept(success -> {
+                if (success) {
+                    TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
+                    if (!samePerson) {
+                        ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                        TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
+                    }
+                } else {
+                    MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(targetPlayer);
+                    if (!samePerson) {
+                        MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
+                    }
                 }
             });
         });
@@ -53,11 +61,16 @@ public class DBackCommand extends CommandAPICommand {
                 TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(console);
                 return;
             }
-            targetPlayer.teleportAsync(lastDeath).thenRun(() -> {
-                TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
+            targetPlayer.teleportAsync(lastDeath).thenAccept(success -> {
+                if (success) {
+                    TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
 
-                ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
-                TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
+                    ComponentReplacer replacer = new ComponentReplacer().addReplacement("target", targetPlayer.getName());
+                    TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
+                } else {
+                    MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(targetPlayer);
+                    MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(console);
+                }
             });
         });
     }

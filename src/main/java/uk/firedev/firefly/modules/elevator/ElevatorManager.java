@@ -21,6 +21,7 @@ import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.elevator.command.ElevatorCommand;
 import uk.firedev.firefly.modules.teleportation.TeleportManager;
 
@@ -97,7 +98,7 @@ public class ElevatorManager implements Manager {
                     TeleportManager.getInstance().setLastLocation(player, lastLocation);
                 }
             } else {
-                ElevatorConfig.getInstance().getTeleportFailMessage().sendMessage(player);
+                MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
             }
         });
     }
