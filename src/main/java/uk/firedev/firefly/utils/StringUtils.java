@@ -2,6 +2,7 @@ package uk.firedev.firefly.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,11 +22,8 @@ public class StringUtils {
 
     public static MiniMessage getColorOnlyMiniMessage() {
         if (miniMessage == null) {
-            miniMessage = MiniMessage
-                    .builder()
-                    .tags(StandardTags.color())
-                    .tags(StandardTags.decorations())
-                    .build();
+            TagResolver resolver = TagResolver.resolver(StandardTags.color(), StandardTags.decorations());
+            miniMessage = MiniMessage.builder().tags(resolver).build();
         }
         return miniMessage;
     }
