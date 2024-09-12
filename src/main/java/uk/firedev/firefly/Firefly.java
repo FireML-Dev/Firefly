@@ -80,6 +80,7 @@ public final class Firefly extends JavaPlugin {
         CustomCommandsManager.getInstance().reload();
         SmallManager.getInstance().reload();
         PlaytimeManager.getInstance().reload();
+        Database.getInstance().reload();
     }
 
     public static Firefly getInstance() { return instance; }

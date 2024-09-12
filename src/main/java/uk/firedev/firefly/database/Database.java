@@ -46,6 +46,11 @@ public class Database extends SQLiteDatabase {
         startAutoSaveTask();
     }
 
+    public void reload() {
+        stopAutoSaveTask();
+        startAutoSaveTask();
+    }
+
     @Override
     public void startAutoSaveTask() {
         if (autoSaveTask == null) {
