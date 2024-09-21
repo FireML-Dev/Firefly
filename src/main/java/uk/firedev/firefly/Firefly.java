@@ -38,8 +38,6 @@ public final class Firefly extends JavaPlugin {
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
-        registerPermissions();
-
         Database.getInstance().load();
         FireflyCommand.getInstance().register(this);
 
@@ -86,16 +84,6 @@ public final class Firefly extends JavaPlugin {
     public static Firefly getInstance() { return instance; }
 
     public static TaskScheduler getScheduler() { return scheduler; }
-
-    private void registerPermissions() {
-        List<Permission> permissions = List.of(
-                new Permission("firefly.command.nickname.bypass.blacklist"),
-                new Permission("firefly.command.nickname.bypass.length"),
-                new Permission("firefly.command.nickname.colors"),
-                new Permission("firefly.command.nickname.unique")
-        );
-        permissions.forEach(getServer().getPluginManager()::addPermission);
-    }
 
     public void loadModules() {
         ModuleConfig moduleConfig = ModuleConfig.getInstance();

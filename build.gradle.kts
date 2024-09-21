@@ -65,6 +65,14 @@ paper {
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
     }
+
+    permissions {
+        register("firefly.command.nickname.bypass.blacklist")
+        register("firefly.command.nickname.bypass.length")
+        register("firefly.command.nickname.colors")
+        register("firefly.command.nickname.unique")
+    }
+
 }
 
 publishing {
