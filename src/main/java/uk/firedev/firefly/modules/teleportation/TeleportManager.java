@@ -83,7 +83,6 @@ public class TeleportManager implements Manager {
             return;
         }
         TeleportConfig.getInstance().reload();
-        populateLastLocationMap();
     }
 
     @Override
@@ -147,7 +146,8 @@ public class TeleportManager implements Manager {
     // /back
 
     public void populateLastLocationMap() {
-        playerLastLocationMap = new HashMap<>(TeleportDatabase.getInstance().getLastLocations());
+        playerLastLocationMap.clear();
+        playerLastLocationMap.putAll(TeleportDatabase.getInstance().getLastLocations());
     }
 
     public Map<UUID, Location> getPlayerLastLocationMap() {

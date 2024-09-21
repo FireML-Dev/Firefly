@@ -60,7 +60,6 @@ public class NicknameManager implements Manager {
             return;
         }
         NicknameConfig.getInstance().reload();
-        populateNicknameMap();
     }
 
     @Override
@@ -157,7 +156,8 @@ public class NicknameManager implements Manager {
     }
 
     public void populateNicknameMap() {
-        nicknameMap = new HashMap<>(NicknameDatabase.getInstance().getNicknames());
+        nicknameMap.clear();
+        nicknameMap.putAll(NicknameDatabase.getInstance().getNicknames());
     }
 
     public @NotNull Map<UUID, String> getNicknameMap() {

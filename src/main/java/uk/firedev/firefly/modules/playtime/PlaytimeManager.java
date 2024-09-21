@@ -57,7 +57,6 @@ public class PlaytimeManager implements Manager {
         }
         stopScheduler();
         PlaytimeConfig.getInstance().reload();
-        populatePlaytimeMap();
         startScheduler();
     }
 
@@ -118,7 +117,8 @@ public class PlaytimeManager implements Manager {
     }
 
     public void populatePlaytimeMap() {
-        playtimeMap = new HashMap<>(PlaytimeDatabase.getInstance().getPlaytimes());
+        playtimeMap.clear();
+        playtimeMap.putAll(PlaytimeDatabase.getInstance().getPlaytimes());
     }
 
     public @NotNull Map<UUID, Long> getPlaytimeMap() {
