@@ -151,9 +151,6 @@ public class TeleportManager implements Manager {
     }
 
     public Map<UUID, Location> getPlayerLastLocationMap() {
-        if (playerLastLocationMap == null) {
-            playerLastLocationMap = new HashMap<>();
-        }
         return Map.copyOf(playerLastLocationMap);
     }
 
