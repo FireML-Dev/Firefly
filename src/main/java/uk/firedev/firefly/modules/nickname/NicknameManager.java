@@ -26,9 +26,11 @@ public class NicknameManager implements Manager {
     private static NicknameManager instance = null;
 
     private boolean loaded;
-    private Map<UUID, String> nicknameMap = new ConcurrentHashMap<>();
+    private Map<UUID, String> nicknameMap;
 
-    private NicknameManager() {}
+    private NicknameManager() {
+        nicknameMap = new ConcurrentHashMap<>();
+    }
 
     public static NicknameManager getInstance() {
         if (instance == null) {
@@ -159,11 +161,6 @@ public class NicknameManager implements Manager {
     }
 
     public @NotNull Map<UUID, String> getNicknameMap() {
-        if (nicknameMap == null) {
-            Map<UUID, String> newMap = new HashMap<>();
-            nicknameMap = newMap;
-            return newMap;
-        }
         return Map.copyOf(nicknameMap);
     }
 

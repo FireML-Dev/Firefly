@@ -25,6 +25,7 @@ import uk.firedev.firefly.modules.teleportation.commands.tpa.TPDenyCommand;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class TeleportManager implements Manager {
 
@@ -35,7 +36,9 @@ public class TeleportManager implements Manager {
     private Location firstSpawnLocation;
     private Map<UUID, Location> playerLastLocationMap;
 
-    private TeleportManager() {}
+    private TeleportManager() {
+        playerLastLocationMap = new ConcurrentHashMap<>();
+    }
 
     public static TeleportManager getInstance() {
         if (instance == null) {
@@ -155,11 +158,6 @@ public class TeleportManager implements Manager {
     }
 
     private Map<UUID, Location> getEditablePlayerLastLocationMap() {
-        if (playerLastLocationMap == null) {
-            Map<UUID, Location> newMap = new HashMap<>();
-            playerLastLocationMap = newMap;
-            return newMap;
-        }
         return playerLastLocationMap;
     }
 

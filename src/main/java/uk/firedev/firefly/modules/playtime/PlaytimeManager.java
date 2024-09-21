@@ -21,10 +21,12 @@ public class PlaytimeManager implements Manager {
     private static PlaytimeManager instance;
 
     private boolean loaded = false;
-    private Map<UUID, Long> playtimeMap = new ConcurrentHashMap<>();
+    private Map<UUID, Long> playtimeMap;
     private MyScheduledTask playtimeTask = null;
 
-    private PlaytimeManager() {}
+    private PlaytimeManager() {
+        playtimeMap = new ConcurrentHashMap<>();
+    }
 
     public static PlaytimeManager getInstance() {
         if (instance == null) {
@@ -120,11 +122,6 @@ public class PlaytimeManager implements Manager {
     }
 
     public @NotNull Map<UUID, Long> getPlaytimeMap() {
-        if (playtimeMap == null) {
-            Map<UUID, Long> newMap = new HashMap<>();
-            playtimeMap = newMap;
-            return newMap;
-        }
         return Map.copyOf(playtimeMap);
     }
 
