@@ -21,7 +21,7 @@ public class PlaytimeManager implements Manager {
     private static PlaytimeManager instance;
 
     private boolean loaded = false;
-    private Map<UUID, Long> playtimeMap;
+    private final Map<UUID, Long> playtimeMap;
     private MyScheduledTask playtimeTask = null;
 
     private PlaytimeManager() {
@@ -117,8 +117,10 @@ public class PlaytimeManager implements Manager {
     }
 
     public void populatePlaytimeMap() {
-        playtimeMap.clear();
-        playtimeMap.putAll(PlaytimeDatabase.getInstance().getPlaytimes());
+        synchronized (playtimeMap) {
+            playtimeMap.clear();
+            playtimeMap.putAll(PlaytimeDatabase.getInstance().getPlaytimes());
+        }
     }
 
     public @NotNull Map<UUID, Long> getPlaytimeMap() {

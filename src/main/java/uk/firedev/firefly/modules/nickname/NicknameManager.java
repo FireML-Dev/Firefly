@@ -26,7 +26,7 @@ public class NicknameManager implements Manager {
     private static NicknameManager instance = null;
 
     private boolean loaded;
-    private Map<UUID, String> nicknameMap;
+    private final Map<UUID, String> nicknameMap;
 
     private NicknameManager() {
         nicknameMap = new ConcurrentHashMap<>();
@@ -156,8 +156,10 @@ public class NicknameManager implements Manager {
     }
 
     public void populateNicknameMap() {
-        nicknameMap.clear();
-        nicknameMap.putAll(NicknameDatabase.getInstance().getNicknames());
+        synchronized (nicknameMap) {
+            nicknameMap.clear();
+            nicknameMap.putAll(NicknameDatabase.getInstance().getNicknames());
+        }
     }
 
     public @NotNull Map<UUID, String> getNicknameMap() {

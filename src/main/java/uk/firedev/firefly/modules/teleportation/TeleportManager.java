@@ -34,7 +34,7 @@ public class TeleportManager implements Manager {
     private boolean loaded;
     private Location spawnLocation;
     private Location firstSpawnLocation;
-    private Map<UUID, Location> playerLastLocationMap;
+    private final Map<UUID, Location> playerLastLocationMap;
 
     private TeleportManager() {
         playerLastLocationMap = new ConcurrentHashMap<>();
@@ -146,8 +146,10 @@ public class TeleportManager implements Manager {
     // /back
 
     public void populateLastLocationMap() {
-        playerLastLocationMap.clear();
-        playerLastLocationMap.putAll(TeleportDatabase.getInstance().getLastLocations());
+        synchronized (playerLastLocationMap) {
+            playerLastLocationMap.clear();
+            playerLastLocationMap.putAll(TeleportDatabase.getInstance().getLastLocations());
+        }
     }
 
     public Map<UUID, Location> getPlayerLastLocationMap() {
