@@ -121,7 +121,9 @@ public class PlaytimeManager implements Manager {
 
     public @NotNull Map<UUID, Long> getPlaytimeMap() {
         if (playtimeMap == null) {
-            playtimeMap = new HashMap<>();
+            Map<UUID, Long> newMap = new HashMap<>();
+            playtimeMap = newMap;
+            return newMap;
         }
         return Map.copyOf(playtimeMap);
     }

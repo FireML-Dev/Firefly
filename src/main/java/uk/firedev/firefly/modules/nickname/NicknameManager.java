@@ -160,7 +160,9 @@ public class NicknameManager implements Manager {
 
     public @NotNull Map<UUID, String> getNicknameMap() {
         if (nicknameMap == null) {
-            nicknameMap = new HashMap<>();
+            Map<UUID, String> newMap = new HashMap<>();
+            nicknameMap = newMap;
+            return newMap;
         }
         return Map.copyOf(nicknameMap);
     }

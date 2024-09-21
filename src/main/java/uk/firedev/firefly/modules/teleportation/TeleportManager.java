@@ -156,7 +156,9 @@ public class TeleportManager implements Manager {
 
     private Map<UUID, Location> getEditablePlayerLastLocationMap() {
         if (playerLastLocationMap == null) {
-            playerLastLocationMap = new HashMap<>();
+            Map<UUID, Location> newMap = new HashMap<>();
+            playerLastLocationMap = newMap;
+            return newMap;
         }
         return playerLastLocationMap;
     }
