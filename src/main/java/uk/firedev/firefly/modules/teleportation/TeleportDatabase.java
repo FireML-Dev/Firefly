@@ -61,11 +61,12 @@ public class TeleportDatabase implements DatabaseModule {
             ResultSet set = statement.executeQuery();
             Map<UUID, Location> lastLocationMap = new HashMap<>();
             while (set.next()) {
-                UUID uuid = UUID.fromString(set.getString("uuid"));
+                String uuidString = set.getString("uuid");
                 String locationString = set.getString("lastTeleportLocation");
-                if (locationString == null) {
+                if (locationString == null || uuidString == null) {
                     continue;
                 }
+                UUID uuid = UUID.fromString(set.getString("uuid"));
                 Location location = LocationHelper.getFromString(locationString);
                 lastLocationMap.put(uuid, location);
             }
