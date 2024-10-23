@@ -48,14 +48,6 @@ paper {
             required = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
-        register("CMI") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-        register("CMILib") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
         register("PlaceholderAPI") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
