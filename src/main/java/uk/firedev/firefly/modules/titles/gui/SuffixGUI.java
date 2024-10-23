@@ -36,7 +36,7 @@ public class SuffixGUI {
         this.player = player;
         gui = new InventoryGui(Firefly.getInstance(), config.getString("gui.suffixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
-        gui.setFiller(new ItemBuilder(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
+        gui.setFiller(ItemBuilder.itemBuilder(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
                 .withStringDisplay("", null)
                 .build()
         );
@@ -85,7 +85,7 @@ public class SuffixGUI {
         try {
             material = Material.valueOf(config.getString("gui.suffixes.remove.material", ""));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(config.getString("gui.suffixes.remove.display", "<yellow>Remove Suffix</yellow>"), null)
                 .withStringLore(config.getStringList("gui.suffixes.remove.lore"), null)
                 .build();

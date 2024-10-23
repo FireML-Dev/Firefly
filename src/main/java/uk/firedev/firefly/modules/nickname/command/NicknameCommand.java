@@ -36,7 +36,7 @@ public class NicknameCommand extends CommandAPICommand {
             String[] args = arguments.rawArgs();
             Component currentNickname = NicknameManager.getInstance().getNickname(player);
             if (args.length == 0) {
-                ComponentReplacer replacer = new ComponentReplacer()
+                ComponentReplacer replacer = ComponentReplacer.componentReplacer()
                         .addReplacement("nickname", currentNickname)
                         .addReplacement("player", player.getName());
                 NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
@@ -81,12 +81,12 @@ public class NicknameCommand extends CommandAPICommand {
         String targetName = Objects.requireNonNullElse(target.getName(), "Error");
         // Too long and no bypass
         if (!player.hasPermission("firefly.command.nickname.bypass.length") && cleanString.length() > NicknameConfig.getInstance().getMaxLength()) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacements("max-length", String.valueOf(NicknameConfig.getInstance().getMaxLength()));
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("max-length", String.valueOf(NicknameConfig.getInstance().getMaxLength()));
             NicknameConfig.getInstance().getCommandTooLongMessage().applyReplacer(replacer).sendMessage(player);
             return;
         // Too short and no bypass
         } else if (!player.hasPermission("firefly.command.nickname.bypass.length") && cleanString.length() < NicknameConfig.getInstance().getMinLength()) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacements("min-length", String.valueOf(NicknameConfig.getInstance().getMinLength()));
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("min-length", String.valueOf(NicknameConfig.getInstance().getMinLength()));
             NicknameConfig.getInstance().getCommandTooShortMessage().applyReplacer(replacer).sendMessage(player);
             return;
         // Blacklisted and no bypass
@@ -99,7 +99,7 @@ public class NicknameCommand extends CommandAPICommand {
             return;
         }
         if (NicknameManager.getInstance().setNickname(target, finalNicknameMessage.getMessage())) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacement("nickname", finalNicknameMessage.getMessage());
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("nickname", finalNicknameMessage.getMessage());
             if (target.getPlayer() != null) {
                 NicknameConfig.getInstance().getCommandSetOwnNicknameMessage().applyReplacer(replacer).sendMessage(target.getPlayer());
             }

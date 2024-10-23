@@ -23,6 +23,7 @@ public class Database extends SQLiteDatabase {
 
     private Database() {
         super(Firefly.getInstance());
+        initTables();
     }
 
     public static Database getInstance() {
@@ -30,12 +31,6 @@ public class Database extends SQLiteDatabase {
             instance = new Database();
         }
         return instance;
-    }
-
-    @Override
-    public void setup(Plugin plugin) {
-        super.setup(plugin);
-        initTables();
     }
 
     public void load() {

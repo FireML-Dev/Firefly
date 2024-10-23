@@ -40,7 +40,7 @@ public class NicknameAdminCommand extends CommandAPICommand {
             }
             if (args[1].equals("remove") || args[1].equals("off")) {
                 NicknameManager.getInstance().removeNickname(targetPlayer);
-                ComponentReplacer replacer = new ComponentReplacer().addReplacements("player", targetName);
+                ComponentReplacer replacer = ComponentReplacer.componentReplacer("player", targetName);
                 NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
                 if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {
                     NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(targetPlayer.getPlayer());

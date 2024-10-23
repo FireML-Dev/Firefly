@@ -23,7 +23,7 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     }
 
     public ComponentReplacer getPrefixReplacer() {
-        return new ComponentReplacer().addReplacement("prefix", getPrefix().getMessage());
+        return ComponentReplacer.componentReplacer("prefix", getPrefix().getMessage());
     }
 
     // GENERAL MESSAGES
@@ -60,7 +60,7 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         ComponentMessage header = ComponentMessage.fromConfig(getConfig(), "main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
         ComponentMessage usage = ComponentMessage.fromConfig(getConfig(), "main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
 
-        ComponentMessage message = new HelpMessageBuilder(header, usage)
+        ComponentMessage message = HelpMessageBuilder.create(header, usage)
                 .buildMessage(usageMap, "command", "description");
 
         return message.applyReplacer(getPrefixReplacer());

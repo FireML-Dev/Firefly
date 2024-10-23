@@ -93,7 +93,7 @@ public class NicknameManager implements Manager {
         Component component = StringUtils.getColorOnlyComponent(savedName);
         ComponentMessage componentMessage = ComponentMessage.of(component);
         if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacements("username", player.getName());
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("username", player.getName());
             component = component.hoverEvent(
                     HoverEvent.hoverEvent(
                             HoverEvent.Action.SHOW_TEXT,

@@ -191,7 +191,7 @@ public class Kit {
 
     public void giveToPlayer(@NotNull Player player, @Nullable CommandSender sender) {
         ItemUtils.giveItem(buildItem(), player);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacements("kit", getName());
+        ComponentReplacer replacer = ComponentReplacer.componentReplacer("kit", getName());
         KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
         if (sender != null) {
             replacer.addReplacements("player", player.getName());

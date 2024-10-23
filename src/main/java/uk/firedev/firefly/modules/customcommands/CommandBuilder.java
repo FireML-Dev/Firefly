@@ -40,7 +40,7 @@ public class CommandBuilder {
             messages.forEach(message -> ComponentMessage.fromString(message).sendMessage(sender));
             commands.forEach(executeCommand -> {
                 CommandSender thisSender;
-                StringReplacer replacer = new StringReplacer();
+                StringReplacer replacer = StringReplacer.stringReplacer();
                 if (sender instanceof Player player) {
                     replacer.addReplacement("player", player.getName());
                 }

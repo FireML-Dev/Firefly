@@ -4,11 +4,14 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.firefly.modules.customcommands.CustomCommandsManager;
 import uk.firedev.firefly.modules.elevator.ElevatorManager;
 import uk.firedev.firefly.modules.kit.KitManager;
 import uk.firedev.firefly.modules.nickname.NicknameManager;
+import uk.firedev.firefly.modules.playtime.PlaytimeManager;
 import uk.firedev.firefly.modules.small.AmethystProtection;
 import uk.firedev.firefly.modules.small.LootChestProtection;
+import uk.firedev.firefly.modules.teleportation.TeleportManager;
 import uk.firedev.firefly.modules.titles.TitleManager;
 
 /**
@@ -52,13 +55,16 @@ public class FireflyCommand extends CommandAPICommand {
     }
 
     private ComponentReplacer getModulesReplacer() {
-        return new ComponentReplacer().addReplacements(
-                "kitsEnabled", KitManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
-                "apEnabled", AmethystProtection.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
-                "lcpEnabled", LootChestProtection.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+        return ComponentReplacer.componentReplacer(
+                "customCommands", CustomCommandsManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
                 "elevatorsEnabled", ElevatorManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
-                "titlesEnabled", TitleManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
-                "nicknamesEnabled", NicknameManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled"
+                "kitsEnabled", KitManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "nicknamesEnabled", NicknameManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "playtimeEnabled", PlaytimeManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "amethystProtectEnabled", AmethystProtection.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "lootChestProtectionEnabled", LootChestProtection.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled",
+                "teleportationEnabled", TeleportManager.getInstance().isLoaded() ?  "<green>Enabled" : "<red>Disabled",
+                "titlesEnabled", TitleManager.getInstance().isLoaded() ? "<green>Enabled" : "<red>Disabled"
         );
     }
 

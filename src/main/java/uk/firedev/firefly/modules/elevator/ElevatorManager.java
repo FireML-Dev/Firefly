@@ -115,7 +115,7 @@ public class ElevatorManager implements Manager {
     public ItemStack getElevatorBlock() {
         YamlDocument config = ElevatorConfig.getInstance().getConfig();
         String material = config.getString("item.material", "IRON_BLOCK");
-        ItemStack item = new ItemBuilder(material, Material.IRON_BLOCK)
+        ItemStack item = ItemBuilder.itemBuilder(material, Material.IRON_BLOCK)
                 .withStringDisplay(config.getString("item.display", "<aqua>Elevator Block</aqua>"), null)
                 .withStringLore(config.getStringList("item.lore"), null)
                 .addEnchantment(Enchantment.UNBREAKING, 10)

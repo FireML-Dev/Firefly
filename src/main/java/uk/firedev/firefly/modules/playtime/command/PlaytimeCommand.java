@@ -42,9 +42,10 @@ public class PlaytimeCommand extends CommandAPICommand {
                     return;
                 }
             }
-            ComponentReplacer replacer = new ComponentReplacer()
-                    .addReplacement("player", Objects.requireNonNullElse(target.getName(), "N/A"))
-                    .addReplacement("playtime", PlaytimeManager.getInstance().getTimeFormatted(target));
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer(
+                    "player", Objects.requireNonNullElse(target.getName(), "N/A"),
+                    "playtime", PlaytimeManager.getInstance().getTimeFormatted(target)
+            );
             PlaytimeConfig.getInstance().getCommandCheckPlaytimeMessage().applyReplacer(replacer).sendMessage(player);
         });
         executes((sender, arguments) -> {
@@ -53,9 +54,10 @@ public class PlaytimeCommand extends CommandAPICommand {
                 MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
                 return;
             }
-            ComponentReplacer replacer = new ComponentReplacer()
-                    .addReplacement("player", Objects.requireNonNullElse(target.getName(), "N/A"))
-                    .addReplacement("playtime", PlaytimeManager.getInstance().getTimeFormatted(target));
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer(
+                    "player", Objects.requireNonNullElse(target.getName(), "N/A"),
+                    "playtime", PlaytimeManager.getInstance().getTimeFormatted(target)
+            );
             PlaytimeConfig.getInstance().getCommandCheckPlaytimeMessage().applyReplacer(replacer).sendMessage(sender);
         });
     }
@@ -80,9 +82,10 @@ public class PlaytimeCommand extends CommandAPICommand {
                         return;
                     }
                     PlaytimeManager.getInstance().setTime(target, playtime);
-                    ComponentReplacer replacer = new ComponentReplacer()
-                            .addReplacement("target", Objects.requireNonNullElse(target.getName(), "N/A"))
-                            .addReplacement("playtime", PlaytimeManager.getInstance().getTimeFormatted(target));
+                    ComponentReplacer replacer = ComponentReplacer.componentReplacer(
+                            "target", Objects.requireNonNullElse(target.getName(), "N/A"),
+                            "playtime", PlaytimeManager.getInstance().getTimeFormatted(target)
+                    );
                     PlaytimeConfig.getInstance().getCommandAdminSetPlaytimeMessage().applyReplacer(replacer).sendMessage(sender);
                 });
         command.setPermission(CommandPermission.fromString("firefly.command.playtime.admin"));

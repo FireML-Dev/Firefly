@@ -36,7 +36,7 @@ public class PrefixGUI {
         this.player = player;
         gui = new InventoryGui(Firefly.getInstance(), config.getString("gui.prefixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
-        gui.setFiller(new ItemBuilder(config.getString("gui.prefixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
+        gui.setFiller(ItemBuilder.itemBuilder(config.getString("gui.prefixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
                 .withStringDisplay("", null)
                 .build()
         );
@@ -85,7 +85,7 @@ public class PrefixGUI {
         try {
             material = Material.valueOf(config.getString("gui.prefixes.remove.material", ""));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(config.getString("gui.prefixes.remove.display", "<yellow>Remove Prefix</yellow>"), null)
                 .withStringLore(config.getStringList("gui.prefixes.remove.lore"), null)
                 .build();

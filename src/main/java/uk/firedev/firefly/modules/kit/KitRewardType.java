@@ -11,7 +11,7 @@ import uk.firedev.firefly.Firefly;
 public class KitRewardType implements RewardType {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String key, @NotNull String value) {
+    public void doReward(@NotNull Player player, @NotNull String value) {
         Kit kit;
         try {
             kit = new Kit(value);

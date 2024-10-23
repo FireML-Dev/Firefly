@@ -56,7 +56,7 @@ public class ElevatorConfig extends Config {
     }
 
     public Component getBossBarTitle(@NotNull Elevator elevator) {
-        ComponentReplacer replacer = new ComponentReplacer().addReplacements(
+        ComponentReplacer replacer = ComponentReplacer.componentReplacer(
                 "current", String.valueOf(elevator.getCurrentPosition() + 1),
                 "all", String.valueOf(elevator.getStack().size())
         );
@@ -88,7 +88,7 @@ public class ElevatorConfig extends Config {
             progress = (float) (elevator.getCurrentPosition() + 1) / elevator.getStack().size();
         }
 
-        return new BossBarBuilder()
+        return BossBarBuilder.bossBarBuilder()
                 .withTitle(getBossBarTitle(elevator), null)
                 .withColor(getBossBarColor())
                 .withOverlay(getBossBarOverlay())

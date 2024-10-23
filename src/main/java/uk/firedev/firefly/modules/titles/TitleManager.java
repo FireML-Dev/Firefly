@@ -100,7 +100,7 @@ public class TitleManager implements Manager {
     public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
         String stringPrefix = ComponentMessage.of(prefix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-prefix", prefix);
+        ComponentReplacer replacer = ComponentReplacer.componentReplacer("new-prefix", prefix);
         TitleConfig.getInstance().getPrefixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
@@ -138,7 +138,7 @@ public class TitleManager implements Manager {
     public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {
         String stringSuffix = ComponentMessage.of(suffix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-suffix", suffix);
+        ComponentReplacer replacer = ComponentReplacer.componentReplacer("new-suffix", suffix);
         TitleConfig.getInstance().getSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
