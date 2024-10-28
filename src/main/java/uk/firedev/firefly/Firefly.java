@@ -7,20 +7,10 @@ import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.scheduler
 import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
-import uk.firedev.firefly.modules.customcommands.CustomCommandsManager;
-import uk.firedev.firefly.modules.elevator.ElevatorManager;
-import uk.firedev.firefly.modules.kit.KitManager;
-import uk.firedev.firefly.modules.nickname.NicknameManager;
-import uk.firedev.firefly.modules.playtime.PlaytimeManager;
-import uk.firedev.firefly.modules.small.SmallManager;
-import uk.firedev.firefly.modules.teleportation.TeleportManager;
-import uk.firedev.firefly.modules.titles.TitleManager;
+import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.firefly.placeholders.MiniPlaceholdersExpansion;
 import uk.firedev.firefly.placeholders.PlaceholderAPIExpansion;
-
-import java.util.List;
 
 public final class Firefly extends JavaPlugin {
 
@@ -49,19 +39,12 @@ public final class Firefly extends JavaPlugin {
             new MiniPlaceholdersExpansion().register();
             Loggers.info(getComponentLogger(), "Loaded MiniPlaceholders Hook.");
         }
-        loadModules();
+        ModuleManager.getInstance().load();
     }
 
     @Override
     public void onDisable() {
-        ElevatorManager.getInstance().unload();
-        TitleManager.getInstance().unload();
-        KitManager.getInstance().unload();
-        NicknameManager.getInstance().unload();
-        CustomCommandsManager.getInstance().unload();
-        SmallManager.getInstance().unload();
-        PlaytimeManager.getInstance().unload();
-        TeleportManager.getInstance().unload();
+        ModuleManager.getInstance().unload();
         // DO THIS LAST!!!!
         Database.getInstance().unload();
     }
@@ -70,51 +53,12 @@ public final class Firefly extends JavaPlugin {
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
-        ElevatorManager.getInstance().reload();
-        TitleManager.getInstance().reload();
-        KitManager.getInstance().reload();
-        NicknameManager.getInstance().reload();
-        CustomCommandsManager.getInstance().reload();
-        SmallManager.getInstance().reload();
-        PlaytimeManager.getInstance().reload();
+        ModuleManager.getInstance().reload();
         Database.getInstance().reload();
     }
 
     public static Firefly getInstance() { return instance; }
 
     public static TaskScheduler getScheduler() { return scheduler; }
-
-    public void loadModules() {
-        ModuleConfig moduleConfig = ModuleConfig.getInstance();
-        SmallManager.getInstance().load();
-        if (moduleConfig.elevatorModuleEnabled()) {
-            ElevatorManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Elevator Module.");
-        }
-        if (moduleConfig.titleModuleEnabled()) {
-            TitleManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Title Module.");
-        }
-        if (moduleConfig.kitsModuleEnabled()) {
-            KitManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Kits Module.");
-        }
-        if (moduleConfig.nicknamesModuleEnabled()) {
-            NicknameManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Nicknames Module.");
-        }
-        if (moduleConfig.aliasesModuleEnabled()) {
-            CustomCommandsManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Alias Module.");
-        }
-        if (moduleConfig.playtimeModuleEnabled()) {
-            PlaytimeManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Playtime Module.");
-        }
-        if (moduleConfig.teleportationModuleEnabled()) {
-            TeleportManager.getInstance().load();
-            Loggers.info(getComponentLogger(), "Loaded Teleportation Module.");
-        }
-    }
 
 }

@@ -1,8 +1,6 @@
 package uk.firedev.firefly.modules.teleportation;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Config;
@@ -57,7 +55,7 @@ public class TeleportConfig extends Config {
         LocationHelper.addToConfig(getConfig(), spawnLocKey, location);
         try {
             getConfig().save();
-            TeleportManager.getInstance().refreshSpawnLocations();
+            TeleportModule.getInstance().refreshSpawnLocations();
         } catch (IOException exception) {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), "Failed to save spawn location to config!", exception);
         }

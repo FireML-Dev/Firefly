@@ -23,7 +23,7 @@ public class PlaytimeRequirement implements RequirementType {
                 return false;
             }
             long playtimeNeeded = Long.parseLong(value);
-            if (PlaytimeManager.getInstance().getTime(player) >= playtimeNeeded) {
+            if (PlaytimeModule.getInstance().getTime(player) >= playtimeNeeded) {
                 return true;
             }
         }

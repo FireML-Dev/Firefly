@@ -15,9 +15,9 @@ public class TeleportListener implements Listener {
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (!player.hasPlayedBefore()) {
-            TeleportManager.getInstance().sendToSpawn(true, player, false);
+            TeleportModule.getInstance().sendToSpawn(true, player, false);
         } else if (TeleportConfig.getInstance().isSpawnOnJoin()) {
-            TeleportManager.getInstance().sendToSpawn(false, player, false);
+            TeleportModule.getInstance().sendToSpawn(false, player, false);
         }
     }
 
@@ -25,19 +25,19 @@ public class TeleportListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         if (TeleportConfig.getInstance().shouldBackSaveDeath()) {
             Player player = event.getPlayer();
-            TeleportManager.getInstance().setLastLocation(player, player.getLocation());
+            TeleportModule.getInstance().setLastLocation(player, player.getLocation());
         }
     }
 
     @EventHandler
     public void onTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
-        TeleportManager.getInstance().setLastLocation(player, event.getFrom());
+        TeleportModule.getInstance().setLastLocation(player, event.getFrom());
     }
 
     @EventHandler
     public void onRespawn(PlayerRespawnEvent event) {
-        Location customSpawnLocation = TeleportManager.getInstance().getSpawnLocation();
+        Location customSpawnLocation = TeleportModule.getInstance().getSpawnLocation();
         if (event.getPlayer().getRespawnLocation() == null && customSpawnLocation != null) {
             event.setRespawnLocation(customSpawnLocation);
         }

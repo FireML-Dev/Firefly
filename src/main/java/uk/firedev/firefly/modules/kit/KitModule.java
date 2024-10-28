@@ -9,22 +9,27 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 import uk.firedev.firefly.modules.kit.command.KitCommand;
 
 import java.util.List;
 
-public class KitManager implements Manager {
+public class KitModule implements Module {
 
-    private static KitManager instance = null;
+    private static KitModule instance = null;
 
     private boolean loaded = false;
 
-    public static KitManager getInstance() {
+    public static KitModule getInstance() {
         if (instance == null) {
-            instance = new KitManager();
+            instance = new KitModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Kit";
     }
 
     @Override

@@ -43,7 +43,7 @@ public class ElevatorListener implements Listener {
         Elevator elevator = new Elevator(stepLoc);
         if (elevator.isElevator()) {
             Elevator next = elevator.getNext();
-            ElevatorManager.getInstance().teleportPlayer(player, next);
+            ElevatorModule.getInstance().teleportPlayer(player, next);
         }
     }
 
@@ -57,7 +57,7 @@ public class ElevatorListener implements Listener {
         Elevator elevator = new Elevator(stepLoc);
         if (elevator.isElevator()) {
             Elevator previous = elevator.getPrevious();
-            ElevatorManager.getInstance().teleportPlayer(player, previous);
+            ElevatorModule.getInstance().teleportPlayer(player, previous);
         }
     }
 
@@ -74,7 +74,7 @@ public class ElevatorListener implements Listener {
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if (!ElevatorManager.getInstance().isElevatorBlock(event.getItemInHand())) {
+        if (!ElevatorModule.getInstance().isElevatorBlock(event.getItemInHand())) {
             return;
         }
         new Elevator(event.getBlock().getLocation()).setElevator(true);
@@ -86,7 +86,7 @@ public class ElevatorListener implements Listener {
         if (!elevator.isElevator()) {
             return;
         }
-        event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), ElevatorManager.getInstance().getElevatorBlock());
+        event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), ElevatorModule.getInstance().getElevatorBlock());
         elevator.setElevator(false);
     }
 

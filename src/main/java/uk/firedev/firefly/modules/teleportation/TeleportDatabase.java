@@ -79,7 +79,7 @@ public class TeleportDatabase implements DatabaseModule {
 
     @Override
     public void save() {
-        TeleportManager.getInstance().saveAllLastLocations();
+        TeleportModule.getInstance().saveAllLastLocations();
     }
 
 }

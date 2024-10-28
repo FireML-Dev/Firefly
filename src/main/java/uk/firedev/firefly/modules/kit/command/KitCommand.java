@@ -9,7 +9,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitConfig;
 import uk.firedev.firefly.modules.kit.KitGUI;
-import uk.firedev.firefly.modules.kit.KitManager;
+import uk.firedev.firefly.modules.kit.KitModule;
 
 import java.util.Objects;
 
@@ -55,7 +55,7 @@ public class KitCommand extends CommandAPICommand {
 
     private Argument<?> getKitArgument() {
         return new StringArgument("kit").setOptional(true).includeSuggestions(ArgumentSuggestions.strings(
-                KitManager.getInstance().getKits().stream()
+                KitModule.getInstance().getKits().stream()
                         .map(kit -> kit.isPlayerVisible() ? kit : null)
                         .filter(Objects::nonNull)
                         .map(Kit::getName)

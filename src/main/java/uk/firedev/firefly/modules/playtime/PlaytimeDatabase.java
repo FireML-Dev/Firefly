@@ -70,7 +70,7 @@ public class PlaytimeDatabase implements DatabaseModule {
 
     @Override
     public void save() {
-        PlaytimeManager.getInstance().saveAllPlaytimes();
+        PlaytimeModule.getInstance().saveAllPlaytimes();
     }
 
 }

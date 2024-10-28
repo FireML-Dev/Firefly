@@ -11,7 +11,7 @@ import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
 import uk.firedev.daisylib.libs.themoep.inventorygui.StaticGuiElement;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.GUIConfig;
-import uk.firedev.firefly.modules.titles.TitleManager;
+import uk.firedev.firefly.modules.titles.TitleModule;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class SuffixGUI {
 
         DynamicGuiElement suffixesGroup = new DynamicGuiElement('s', who -> {
             GuiElementGroup group = new GuiElementGroup('s');
-            TitleManager.getInstance().getSuffixes().stream()
+            TitleModule.getInstance().getSuffixes().stream()
                     .filter(suffix -> player.hasPermission(suffix.getPermission()))
                     .forEach(suffix -> group.addElement(
                             new StaticGuiElement('s', suffix.generateIcon(), click -> {
@@ -66,7 +66,7 @@ public class SuffixGUI {
 
         gui.addElement(
                 new StaticGuiElement('r', getRemoveButton(config), click -> {
-                    TitleManager.getInstance().removePlayerSuffix(player);
+                    TitleModule.getInstance().removePlayerSuffix(player);
                     gui.close();
                     return true;
                 })

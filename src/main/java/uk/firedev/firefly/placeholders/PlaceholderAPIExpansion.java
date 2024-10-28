@@ -3,9 +3,9 @@ package uk.firedev.firefly.placeholders;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.firefly.modules.nickname.NicknameManager;
+import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.modules.small.AmethystProtection;
-import uk.firedev.firefly.modules.titles.TitleManager;
+import uk.firedev.firefly.modules.titles.TitleModule;
 
 public class PlaceholderAPIExpansion extends PlaceholderExpansion {
 
@@ -31,15 +31,15 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
         }
         return switch (identifier) {
             case "player_prefix" -> {
-                if (TitleManager.getInstance().isLoaded()) {
-                    yield TitleManager.getInstance().getPlayerPrefixLegacy(player);
+                if (TitleModule.getInstance().isLoaded()) {
+                    yield TitleModule.getInstance().getPlayerPrefixLegacy(player);
                 } else {
                     yield null;
                 }
             }
             case "player_suffix" -> {
-                if (TitleManager.getInstance().isLoaded()) {
-                    yield TitleManager.getInstance().getPlayerSuffixLegacy(player);
+                if (TitleModule.getInstance().isLoaded()) {
+                    yield TitleModule.getInstance().getPlayerSuffixLegacy(player);
                 } else {
                     yield null;
                 }
@@ -52,8 +52,8 @@ public class PlaceholderAPIExpansion extends PlaceholderExpansion {
                 }
             }
             case "player_nickname" -> {
-                if (NicknameManager.getInstance().isLoaded()) {
-                    yield NicknameManager.getInstance().getStringNickname(player);
+                if (NicknameModule.getInstance().isLoaded()) {
+                    yield NicknameModule.getInstance().getStringNickname(player);
                 }
                 yield player.getName();
             }

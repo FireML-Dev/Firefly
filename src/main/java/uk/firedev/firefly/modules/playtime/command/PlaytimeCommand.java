@@ -13,7 +13,7 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
-import uk.firedev.firefly.modules.playtime.PlaytimeManager;
+import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -44,7 +44,7 @@ public class PlaytimeCommand extends CommandAPICommand {
             }
             ComponentReplacer replacer = ComponentReplacer.componentReplacer(
                     "player", Objects.requireNonNullElse(target.getName(), "N/A"),
-                    "playtime", PlaytimeManager.getInstance().getTimeFormatted(target)
+                    "playtime", PlaytimeModule.getInstance().getTimeFormatted(target)
             );
             PlaytimeConfig.getInstance().getCommandCheckPlaytimeMessage().applyReplacer(replacer).sendMessage(player);
         });
@@ -56,7 +56,7 @@ public class PlaytimeCommand extends CommandAPICommand {
             }
             ComponentReplacer replacer = ComponentReplacer.componentReplacer(
                     "player", Objects.requireNonNullElse(target.getName(), "N/A"),
-                    "playtime", PlaytimeManager.getInstance().getTimeFormatted(target)
+                    "playtime", PlaytimeModule.getInstance().getTimeFormatted(target)
             );
             PlaytimeConfig.getInstance().getCommandCheckPlaytimeMessage().applyReplacer(replacer).sendMessage(sender);
         });
@@ -81,10 +81,10 @@ public class PlaytimeCommand extends CommandAPICommand {
                         MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
                         return;
                     }
-                    PlaytimeManager.getInstance().setTime(target, playtime);
+                    PlaytimeModule.getInstance().setTime(target, playtime);
                     ComponentReplacer replacer = ComponentReplacer.componentReplacer(
                             "target", Objects.requireNonNullElse(target.getName(), "N/A"),
-                            "playtime", PlaytimeManager.getInstance().getTimeFormatted(target)
+                            "playtime", PlaytimeModule.getInstance().getTimeFormatted(target)
                     );
                     PlaytimeConfig.getInstance().getCommandAdminSetPlaytimeMessage().applyReplacer(replacer).sendMessage(sender);
                 });

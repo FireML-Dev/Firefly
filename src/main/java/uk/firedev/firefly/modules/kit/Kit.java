@@ -128,7 +128,7 @@ public class Kit {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         meta.displayName(getDisplay());
         meta.lore(getLore());
-        pdc.set(KitManager.getInstance().getKitKey(), PersistentDataType.STRING, getConfigKey());
+        pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getConfigKey());
         item.setItemMeta(meta);
         return item;
     }

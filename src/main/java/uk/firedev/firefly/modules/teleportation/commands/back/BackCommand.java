@@ -8,7 +8,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.PlayerArgument;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
-import uk.firedev.firefly.modules.teleportation.TeleportManager;
+import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
 public class BackCommand extends CommandAPICommand {
 
@@ -28,7 +28,7 @@ public class BackCommand extends CommandAPICommand {
             } else {
                 targetPlayer = (Player) playerArg;
             }
-            targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
+            targetPlayer.teleportAsync(TeleportModule.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
                 if (success) {
                     TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
                     if (targetPlayer.getUniqueId() != player.getUniqueId()) {
@@ -47,7 +47,7 @@ public class BackCommand extends CommandAPICommand {
                 return;
             }
             Player targetPlayer = (Player) playerArg;
-            targetPlayer.teleportAsync(TeleportManager.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
+            targetPlayer.teleportAsync(TeleportModule.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
                 if (success) {
                     TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
 

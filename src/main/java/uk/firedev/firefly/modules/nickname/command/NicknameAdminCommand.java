@@ -7,7 +7,7 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
-import uk.firedev.firefly.modules.nickname.NicknameManager;
+import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
 
 public class NicknameAdminCommand extends CommandAPICommand {
@@ -23,7 +23,7 @@ public class NicknameAdminCommand extends CommandAPICommand {
         withFullDescription("Manage Nicknames as Admin");
         executesPlayer(((player, arguments) -> {
             String[] args = arguments.rawArgs();
-            Component currentNickname = NicknameManager.getInstance().getNickname(player);
+            Component currentNickname = NicknameModule.getInstance().getNickname(player);
             if (args.length < 2) {
                 NicknameConfig.getInstance().getCommandAdminUsageMessage().sendMessage(player);
                 return;
@@ -39,7 +39,7 @@ public class NicknameAdminCommand extends CommandAPICommand {
                 return;
             }
             if (args[1].equals("remove") || args[1].equals("off")) {
-                NicknameManager.getInstance().removeNickname(targetPlayer);
+                NicknameModule.getInstance().removeNickname(targetPlayer);
                 ComponentReplacer replacer = ComponentReplacer.componentReplacer("player", targetName);
                 NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
                 if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.teleportation.commands.back.BackCommand;
@@ -22,29 +22,33 @@ import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAHereCommand;
 import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAcceptCommand;
 import uk.firedev.firefly.modules.teleportation.commands.tpa.TPDenyCommand;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class TeleportManager implements Manager {
+public class TeleportModule implements Module {
 
-    private static TeleportManager instance;
+    private static TeleportModule instance;
 
     private boolean loaded;
     private Location spawnLocation;
     private Location firstSpawnLocation;
     private final Map<UUID, Location> playerLastLocationMap;
 
-    private TeleportManager() {
+    private TeleportModule() {
         playerLastLocationMap = new ConcurrentHashMap<>();
     }
 
-    public static TeleportManager getInstance() {
+    public static TeleportModule getInstance() {
         if (instance == null) {
-            instance = new TeleportManager();
+            instance = new TeleportModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Teleportation";
     }
 
     @Override

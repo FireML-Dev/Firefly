@@ -7,32 +7,36 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class PlaytimeManager implements Manager {
+public class PlaytimeModule implements Module {
 
-    private static PlaytimeManager instance;
+    private static PlaytimeModule instance;
 
     private boolean loaded = false;
     private final Map<UUID, Long> playtimeMap;
     private MyScheduledTask playtimeTask = null;
 
-    private PlaytimeManager() {
+    private PlaytimeModule() {
         playtimeMap = new ConcurrentHashMap<>();
     }
 
-    public static PlaytimeManager getInstance() {
+    public static PlaytimeModule getInstance() {
         if (instance == null) {
-            instance = new PlaytimeManager();
+            instance = new PlaytimeModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Playtime";
     }
 
     @Override

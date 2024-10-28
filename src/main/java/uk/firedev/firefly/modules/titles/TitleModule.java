@@ -13,7 +13,7 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 import uk.firedev.firefly.modules.titles.command.PrefixCommand;
 import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
@@ -22,21 +22,26 @@ import uk.firedev.firefly.modules.titles.objects.Suffix;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TitleManager implements Manager {
+public class TitleModule implements Module {
 
-    private static TitleManager instance = null;
+    private static TitleModule instance = null;
 
     private List<Prefix> prefixes = new ArrayList<>();
     private List<Suffix> suffixes = new ArrayList<>();
     private boolean loaded = false;
 
-    private TitleManager() {}
+    private TitleModule() {}
 
-    public static TitleManager getInstance() {
+    public static TitleModule getInstance() {
         if (instance == null) {
-            instance = new TitleManager();
+            instance = new TitleModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Title";
     }
 
     @Override

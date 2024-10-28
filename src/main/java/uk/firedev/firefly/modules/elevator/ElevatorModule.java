@@ -20,29 +20,34 @@ import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.elevator.command.ElevatorCommand;
-import uk.firedev.firefly.modules.teleportation.TeleportManager;
+import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElevatorManager implements Manager {
+public class ElevatorModule implements Module {
 
-    private static ElevatorManager instance;
+    private static ElevatorModule instance;
     private final Firefly plugin;
     private boolean loaded = false;
 
-    private ElevatorManager() {
+    private ElevatorModule() {
         plugin = Firefly.getInstance();
     }
 
-    public static ElevatorManager getInstance() {
+    public static ElevatorModule getInstance() {
         if (instance == null) {
-            instance = new ElevatorManager();
+            instance = new ElevatorModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Elevator";
     }
 
     @Override
@@ -89,13 +94,13 @@ public class ElevatorManager implements Manager {
             ElevatorConfig.getInstance().getUnsafeLocationMessage().sendMessage(player);
             return;
         }
-        boolean teleportManager = TeleportManager.getInstance().isLoaded();
-        final Location lastLocation = teleportManager ? TeleportManager.getInstance().getLastLocation(player) : null;
+        boolean teleportManager = TeleportModule.getInstance().isLoaded();
+        final Location lastLocation = teleportManager ? TeleportModule.getInstance().getLastLocation(player) : null;
         player.teleportAsync(location).thenAccept(success -> {
             if (success) {
                 elevator.handleBossBar(player);
                 if (teleportManager && lastLocation != null) {
-                    TeleportManager.getInstance().setLastLocation(player, lastLocation);
+                    TeleportModule.getInstance().setLastLocation(player, lastLocation);
                 }
             } else {
                 MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);

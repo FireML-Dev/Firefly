@@ -66,18 +66,4 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         return message.applyReplacer(getPrefixReplacer());
     }
 
-    public ComponentMessage getMainCommandModulesMessage() {
-        ComponentMessage message = ComponentMessage.fromString(
-                """
-                {prefix}<color:#F0E68C>Kits:</color> {kitsEnabled}
-                {prefix}<color:#F0E68C>Amethyst Protection:</color> {apEnabled}
-                {prefix}<color:#F0E68C>Loot Chest Protection:</color> {lcpEnabled}
-                {prefix}<color:#F0E68C>Elevators:</color> {elevatorsEnabled}
-                {prefix}<color:#F0E68C>Titles:</color> {titlesEnabled}
-                {prefix}<color:#F0E68C>Nicknames:</color> {nicknamesEnabled}"""
-        );
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
-    }
-
 }

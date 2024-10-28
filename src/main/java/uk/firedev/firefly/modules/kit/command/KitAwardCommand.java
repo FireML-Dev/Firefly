@@ -11,7 +11,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitConfig;
-import uk.firedev.firefly.modules.kit.KitManager;
+import uk.firedev.firefly.modules.kit.KitModule;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -66,7 +66,7 @@ public class KitAwardCommand extends CommandAPICommand {
 
     private Argument<?> getKitArgument() {
         return new StringArgument("kit").includeSuggestions(ArgumentSuggestions.strings(
-                KitManager.getInstance().getKits().stream().map(Kit::getName).toArray(String[]::new)
+                KitModule.getInstance().getKits().stream().map(Kit::getName).toArray(String[]::new)
         ));
     }
 
