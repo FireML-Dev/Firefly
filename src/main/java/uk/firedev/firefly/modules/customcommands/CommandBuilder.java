@@ -1,6 +1,7 @@
 package uk.firedev.firefly.modules.customcommands;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.data.type.Fire;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
@@ -31,29 +32,27 @@ public class CommandBuilder {
         if (commandName == null) {
             return;
         }
-        CommandAPICommand command = new CommandAPICommand(commandName);
-        command.withAliases(aliases.toArray(String[]::new));
-        if (permission != null) {
-            command.withPermission(CommandPermission.fromString(permission));
-        }
-        command.executes((sender, arguments) -> {
-            messages.forEach(message -> ComponentMessage.fromString(message).sendMessage(sender));
-            commands.forEach(executeCommand -> {
-                CommandSender thisSender;
-                StringReplacer replacer = StringReplacer.stringReplacer();
-                if (sender instanceof Player player) {
-                    replacer.addReplacement("player", player.getName());
-                }
-                if (executeCommand.startsWith("console:")) {
-                    executeCommand = executeCommand.replace("console:", "");
-                    thisSender = Bukkit.getConsoleSender();
-                } else {
-                    thisSender = sender;
-                }
-                Bukkit.dispatchCommand(thisSender, replacer.replace(executeCommand));
-            });
-        });
-        command.register(Firefly.getInstance());
+        new CommandAPICommand(commandName)
+                .withAliases(aliases.toArray(String[]::new))
+                .withPermission(permission == null ? CommandPermission.NONE : CommandPermission.fromString(permission))
+                .executes((sender, arguments) -> {
+                    messages.forEach(message -> ComponentMessage.fromString(message).sendMessage(sender));
+                    commands.forEach(executeCommand -> {
+                        CommandSender thisSender;
+                        StringReplacer replacer = StringReplacer.stringReplacer();
+                        if (sender instanceof Player player) {
+                            replacer.addReplacement("player", player.getName());
+                        }
+                        if (executeCommand.startsWith("console:")) {
+                            executeCommand = executeCommand.replace("console:", "");
+                            thisSender = Bukkit.getConsoleSender();
+                        } else {
+                            thisSender = sender;
+                        }
+                        Bukkit.dispatchCommand(thisSender, replacer.replace(executeCommand));
+                    });
+                })
+                .register(Firefly.getInstance());
     }
 
     public String getCommandName() {
