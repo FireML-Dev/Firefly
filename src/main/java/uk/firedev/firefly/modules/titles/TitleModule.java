@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.titles;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.ParsingException;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -122,7 +123,15 @@ public class TitleModule implements Module {
             if (VaultManager.getChat() == null) {
                 return Component.empty();
             } else {
-                return MiniMessage.miniMessage().deserialize(VaultManager.getChat().getPlayerPrefix(player).replace('§', '&'));
+                // Horrible but necessary color parsing code
+                String vaultPrefix = VaultManager.getChat().getPlayerPrefix(player);
+                Component componentPrefix;
+                try {
+                    componentPrefix = MiniMessage.miniMessage().deserialize(vaultPrefix);
+                } catch (ParsingException exception) {
+                    componentPrefix = LegacyComponentSerializer.legacySection().deserialize(vaultPrefix);
+                }
+                return componentPrefix;
             }
         }
         return ComponentMessage.fromString(prefix).getMessage();
@@ -160,7 +169,15 @@ public class TitleModule implements Module {
             if (VaultManager.getChat() == null) {
                 return Component.empty();
             } else {
-                return MiniMessage.miniMessage().deserialize(VaultManager.getChat().getPlayerSuffix(player));
+                // Horrible but necessary color parsing code
+                String vaultSuffix = VaultManager.getChat().getPlayerSuffix(player);
+                Component componentSuffix;
+                try {
+                    componentSuffix = MiniMessage.miniMessage().deserialize(vaultSuffix);
+                } catch (ParsingException exception) {
+                    componentSuffix = LegacyComponentSerializer.legacySection().deserialize(vaultSuffix);
+                }
+                return componentSuffix;
             }
         }
         return ComponentMessage.fromString(suffix).getMessage();
