@@ -22,7 +22,7 @@ public class ModuleManager {
 
     private static ModuleManager instance;
     private boolean loaded;
-    private Map<String, Module> loadedModules;
+    private final Map<String, Module> loadedModules;
 
     private ModuleManager() {
         loadedModules = new HashMap<>();
@@ -103,7 +103,8 @@ public class ModuleManager {
         if (!isLoaded()) {
             return;
         }
-        loadedModules.values().forEach(Module::unregister);
+        Map<String, Module> loadedModulesCopy = Map.copyOf(loadedModules);
+        loadedModulesCopy.values().forEach(Module::unregister);
     }
 
     public boolean isLoaded() {
