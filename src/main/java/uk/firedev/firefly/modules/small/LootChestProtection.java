@@ -35,7 +35,7 @@ public class LootChestProtection implements Listener, Module {
 
     @Override
     public String getIdentifier() {
-        return "Loot Chest Protection";
+        return "LootChestProtection";
     }
 
     @Override

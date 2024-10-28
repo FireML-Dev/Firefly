@@ -58,7 +58,7 @@ public class AmethystProtection implements Listener, Module {
 
     @Override
     public String getIdentifier() {
-        return "Amethyst Protection";
+        return "AmethystProtection";
     }
 
     @Override
