@@ -31,7 +31,6 @@ public class PlaytimeCommand extends CommandAPICommand {
         withSubcommand(getSetPlaytimeSubCommand());
         executesPlayer((player, arguments) -> {
             Object argument = arguments.get("player");
-            System.out.println(argument);
             OfflinePlayer target;
             if (argument == null) {
                 target = player;

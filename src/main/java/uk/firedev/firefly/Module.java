@@ -2,8 +2,6 @@ package uk.firedev.firefly;
 
 import uk.firedev.firefly.modules.ModuleManager;
 
-import java.io.File;
-
 public interface Module {
 
     String getIdentifier();
