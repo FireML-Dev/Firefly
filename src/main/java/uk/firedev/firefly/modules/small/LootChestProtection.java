@@ -24,7 +24,9 @@ public class LootChestProtection implements Listener, Module {
 
     private boolean loaded = false;
 
-    private LootChestProtection() {}
+    private LootChestProtection() {
+        Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
+    }
 
     public static LootChestProtection getInstance() {
         if (instance == null) {
