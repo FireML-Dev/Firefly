@@ -78,7 +78,7 @@ public class NicknameDatabase implements DatabaseModule {
 
     @Override
     public void save() {
-        NicknameManager.getInstance().saveAllNicknames();
+        NicknameModule.getInstance().saveAllNicknames();
     }
 
 }

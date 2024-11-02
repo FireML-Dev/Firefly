@@ -33,7 +33,7 @@ public interface TitlePart {
         Component display = getDisplay();
         String displayString = getSection().getString("icon.display");
         if (displayString != null) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacement("display", getDisplay());
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("display", getDisplay());
             display = ComponentMessage.fromString(displayString).applyReplacer(replacer).getMessage();
         }
         meta.lore(getSection().getStringList("icon.lore").stream().map(s -> ComponentMessage.fromString(s).getMessage()).toList());

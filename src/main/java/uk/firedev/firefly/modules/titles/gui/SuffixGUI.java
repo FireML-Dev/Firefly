@@ -11,7 +11,7 @@ import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
 import uk.firedev.daisylib.libs.themoep.inventorygui.StaticGuiElement;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.GUIConfig;
-import uk.firedev.firefly.modules.titles.TitleManager;
+import uk.firedev.firefly.modules.titles.TitleModule;
 
 import java.util.List;
 
@@ -36,14 +36,14 @@ public class SuffixGUI {
         this.player = player;
         gui = new InventoryGui(Firefly.getInstance(), config.getString("gui.suffixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
-        gui.setFiller(new ItemBuilder(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
+        gui.setFiller(ItemBuilder.itemBuilder(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
                 .withStringDisplay("", null)
                 .build()
         );
 
         DynamicGuiElement suffixesGroup = new DynamicGuiElement('s', who -> {
             GuiElementGroup group = new GuiElementGroup('s');
-            TitleManager.getInstance().getSuffixes().stream()
+            TitleModule.getInstance().getSuffixes().stream()
                     .filter(suffix -> player.hasPermission(suffix.getPermission()))
                     .forEach(suffix -> group.addElement(
                             new StaticGuiElement('s', suffix.generateIcon(), click -> {
@@ -66,7 +66,7 @@ public class SuffixGUI {
 
         gui.addElement(
                 new StaticGuiElement('r', getRemoveButton(config), click -> {
-                    TitleManager.getInstance().removePlayerSuffix(player);
+                    TitleModule.getInstance().removePlayerSuffix(player);
                     gui.close();
                     return true;
                 })
@@ -85,7 +85,7 @@ public class SuffixGUI {
         try {
             material = Material.valueOf(config.getString("gui.suffixes.remove.material", ""));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(config.getString("gui.suffixes.remove.display", "<yellow>Remove Suffix</yellow>"), null)
                 .withStringLore(config.getStringList("gui.suffixes.remove.lore"), null)
                 .build();

@@ -16,7 +16,7 @@ public class KitListener implements Listener {
         if (item == null) {
             return;
         }
-        Kit kit = KitManager.getInstance().getKit(item);
+        Kit kit = KitModule.getInstance().getKit(item);
         if (kit == null) {
             return;
         }

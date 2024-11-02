@@ -3,19 +3,31 @@ package uk.firedev.firefly.modules.playtime;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.requirement.RequirementData;
 import uk.firedev.daisylib.requirement.RequirementType;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 
+import java.util.List;
+
 public class PlaytimeRequirement implements RequirementType {
 
     @Override
-    public boolean checkRequirement(@NotNull Player player, @NotNull String value) {
-        if (!ObjectUtils.isLong(value)) {
+    public boolean checkRequirement(@NotNull RequirementData data, @NotNull List<String> values) {
+        Player player = data.getPlayer();
+        if (player == null) {
             return false;
         }
-        long playtimeNeeded = Long.parseLong(value);
-        return PlaytimeManager.getInstance().getTime(player) >= playtimeNeeded;
+        for (String value : values) {
+            if (!ObjectUtils.isLong(value)) {
+                return false;
+            }
+            long playtimeNeeded = Long.parseLong(value);
+            if (PlaytimeModule.getInstance().getTime(player) >= playtimeNeeded) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

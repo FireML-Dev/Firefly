@@ -11,7 +11,7 @@ import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
 import uk.firedev.daisylib.libs.themoep.inventorygui.StaticGuiElement;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.GUIConfig;
-import uk.firedev.firefly.modules.titles.TitleManager;
+import uk.firedev.firefly.modules.titles.TitleModule;
 
 import java.util.List;
 
@@ -36,14 +36,14 @@ public class PrefixGUI {
         this.player = player;
         gui = new InventoryGui(Firefly.getInstance(), config.getString("gui.prefixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
-        gui.setFiller(new ItemBuilder(config.getString("gui.prefixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
+        gui.setFiller(ItemBuilder.itemBuilder(config.getString("gui.prefixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
                 .withStringDisplay("", null)
                 .build()
         );
 
         DynamicGuiElement prefixesGroup = new DynamicGuiElement('i', who -> {
             GuiElementGroup group = new GuiElementGroup('i');
-            TitleManager.getInstance().getPrefixes().stream()
+            TitleModule.getInstance().getPrefixes().stream()
                     .filter(prefix -> player.hasPermission(prefix.getPermission()))
                     .forEach(prefix -> group.addElement(
                             new StaticGuiElement('i', prefix.generateIcon(), click -> {
@@ -66,7 +66,7 @@ public class PrefixGUI {
 
         gui.addElement(
                 new StaticGuiElement('r', getRemoveButton(config), click -> {
-                    TitleManager.getInstance().removePlayerPrefix(player);
+                    TitleModule.getInstance().removePlayerPrefix(player);
                     gui.close();
                     return true;
                 })
@@ -85,7 +85,7 @@ public class PrefixGUI {
         try {
             material = Material.valueOf(config.getString("gui.prefixes.remove.material", ""));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(config.getString("gui.prefixes.remove.display", "<yellow>Remove Prefix</yellow>"), null)
                 .withStringLore(config.getStringList("gui.prefixes.remove.lore"), null)
                 .build();

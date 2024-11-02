@@ -128,7 +128,7 @@ public class Kit {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         meta.displayName(getDisplay());
         meta.lore(getLore());
-        pdc.set(KitManager.getInstance().getKitKey(), PersistentDataType.STRING, getConfigKey());
+        pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getConfigKey());
         item.setItemMeta(meta);
         return item;
     }
@@ -191,7 +191,7 @@ public class Kit {
 
     public void giveToPlayer(@NotNull Player player, @Nullable CommandSender sender) {
         ItemUtils.giveItem(buildItem(), player);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacements("kit", getName());
+        ComponentReplacer replacer = ComponentReplacer.componentReplacer("kit", getName());
         KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
         if (sender != null) {
             replacer.addReplacements("player", player.getName());

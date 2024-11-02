@@ -6,7 +6,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.PlayerArgument;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.firefly.modules.teleportation.TeleportManager;
+import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
 public class SpawnCommand extends CommandAPICommand {
 
@@ -28,11 +28,11 @@ public class SpawnCommand extends CommandAPICommand {
             }
             // If target is the sender of the command, just teleport them
             if (targetPlayer.getUniqueId().equals(player.getUniqueId())) {
-                TeleportManager.getInstance().sendToSpawn(false, targetPlayer, true);
+                TeleportModule.getInstance().sendToSpawn(false, targetPlayer, true);
                 return;
             }
             // If not, teleport the target and tell the sender
-            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, player, true);
+            TeleportModule.getInstance().sendToSpawn(false, targetPlayer, player, true);
         });
         executesConsole((console, arguments) -> {
             Object playerArg = arguments.get("player");
@@ -41,7 +41,7 @@ public class SpawnCommand extends CommandAPICommand {
                 return;
             }
             Player targetPlayer = (Player) playerArg;
-            TeleportManager.getInstance().sendToSpawn(false, targetPlayer, console, true);
+            TeleportModule.getInstance().sendToSpawn(false, targetPlayer, console, true);
         });
     }
 

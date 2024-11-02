@@ -6,7 +6,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.firefly.modules.elevator.Elevator;
 import uk.firedev.firefly.modules.elevator.ElevatorConfig;
-import uk.firedev.firefly.modules.elevator.ElevatorManager;
+import uk.firedev.firefly.modules.elevator.ElevatorModule;
 
 public class ElevatorCommand extends CommandAPICommand {
 
@@ -33,7 +33,7 @@ public class ElevatorCommand extends CommandAPICommand {
     private CommandAPICommand getGiveBlockCommand() {
         return new CommandAPICommand("giveBlock")
                 .executesPlayer((player, arguments) -> {
-                    ItemUtils.giveItem(ElevatorManager.getInstance().getElevatorBlock(), player);
+                    ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
                     ElevatorConfig.getInstance().getCommandGivenMessage().sendMessage(player);
                 });
     }

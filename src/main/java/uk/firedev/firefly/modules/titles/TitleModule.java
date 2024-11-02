@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.titles;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.ParsingException;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -13,7 +14,7 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 import uk.firedev.firefly.modules.titles.command.PrefixCommand;
 import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
@@ -22,21 +23,26 @@ import uk.firedev.firefly.modules.titles.objects.Suffix;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TitleManager implements Manager {
+public class TitleModule implements Module {
 
-    private static TitleManager instance = null;
+    private static TitleModule instance = null;
 
     private List<Prefix> prefixes = new ArrayList<>();
     private List<Suffix> suffixes = new ArrayList<>();
     private boolean loaded = false;
 
-    private TitleManager() {}
+    private TitleModule() {}
 
-    public static TitleManager getInstance() {
+    public static TitleModule getInstance() {
         if (instance == null) {
-            instance = new TitleManager();
+            instance = new TitleModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Title";
     }
 
     @Override
@@ -100,7 +106,7 @@ public class TitleManager implements Manager {
     public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
         String stringPrefix = ComponentMessage.of(prefix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-prefix", prefix);
+        ComponentReplacer replacer = ComponentReplacer.componentReplacer("new-prefix", prefix);
         TitleConfig.getInstance().getPrefixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
@@ -117,7 +123,15 @@ public class TitleManager implements Manager {
             if (VaultManager.getChat() == null) {
                 return Component.empty();
             } else {
-                return MiniMessage.miniMessage().deserialize(VaultManager.getChat().getPlayerPrefix(player).replace('§', '&'));
+                // Horrible but necessary color parsing code
+                String vaultPrefix = VaultManager.getChat().getPlayerPrefix(player);
+                Component componentPrefix;
+                try {
+                    componentPrefix = MiniMessage.miniMessage().deserialize(vaultPrefix);
+                } catch (ParsingException exception) {
+                    componentPrefix = LegacyComponentSerializer.legacySection().deserialize(vaultPrefix);
+                }
+                return componentPrefix;
             }
         }
         return ComponentMessage.fromString(prefix).getMessage();
@@ -138,7 +152,7 @@ public class TitleManager implements Manager {
     public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {
         String stringSuffix = ComponentMessage.of(suffix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
-        ComponentReplacer replacer = new ComponentReplacer().addReplacement("new-suffix", suffix);
+        ComponentReplacer replacer = ComponentReplacer.componentReplacer("new-suffix", suffix);
         TitleConfig.getInstance().getSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
@@ -155,7 +169,15 @@ public class TitleManager implements Manager {
             if (VaultManager.getChat() == null) {
                 return Component.empty();
             } else {
-                return MiniMessage.miniMessage().deserialize(VaultManager.getChat().getPlayerSuffix(player));
+                // Horrible but necessary color parsing code
+                String vaultSuffix = VaultManager.getChat().getPlayerSuffix(player);
+                Component componentSuffix;
+                try {
+                    componentSuffix = MiniMessage.miniMessage().deserialize(vaultSuffix);
+                } catch (ParsingException exception) {
+                    componentSuffix = LegacyComponentSerializer.legacySection().deserialize(vaultSuffix);
+                }
+                return componentSuffix;
             }
         }
         return ComponentMessage.fromString(suffix).getMessage();

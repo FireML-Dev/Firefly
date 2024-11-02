@@ -13,7 +13,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
     private static GUIConfig instance = null;
 
     private GUIConfig() {
-        super("modules/gui.yml", "modules/gui.yml", Firefly.getInstance(), true);
+        super("gui.yml", "gui.yml", Firefly.getInstance(), true);
     }
 
     public static GUIConfig getInstance() {
@@ -28,7 +28,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         try {
             material = Material.valueOf(getConfig().getString("gui.global.exit.material"));
         } catch (IllegalArgumentException ignored) {}
-        return new ItemBuilder(material)
+        return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.exit.display", "<red>Exit</red>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.exit.lore"), null)
                 .build();
@@ -39,7 +39,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         try {
             material = Material.valueOf(getConfig().getString("gui.global.next-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        ItemStack item = new ItemBuilder(material)
+        ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.next-page.display", "<aqua>Next Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.next-page.lore"), null)
                 .build();
@@ -51,7 +51,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         try {
             material = Material.valueOf(getConfig().getString("gui.global.previous-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        ItemStack item = new ItemBuilder(material)
+        ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.previous-page.display", "<aqua>Previous Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.previous-page.lore"), null)
                 .build();
@@ -63,7 +63,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         try {
             material = Material.valueOf(getConfig().getString("gui.global.first-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        ItemStack item = new ItemBuilder(material)
+        ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.first-page.display", "<aqua>First Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.first-page.lore"), null)
                 .build();
@@ -75,7 +75,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         try {
             material = Material.valueOf(getConfig().getString("gui.global.last-page.material"));
         } catch (IllegalArgumentException ignored) {}
-        ItemStack item = new ItemBuilder(material)
+        ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.last-page.display", "<aqua>Last Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.last-page.lore"), null)
                 .build();

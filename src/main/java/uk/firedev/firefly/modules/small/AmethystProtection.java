@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.small;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -12,36 +13,40 @@ import org.bukkit.persistence.PersistentDataType;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
+import uk.firedev.daisylib.libs.commandapi.executors.CommandExecutor;
+import uk.firedev.daisylib.libs.commandapi.executors.ExecutorType;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AmethystProtection extends CommandAPICommand implements Listener, Manager {
+public class AmethystProtection implements Listener, Module {
 
     private static AmethystProtection instance = null;
     private static final List<UUID> warned = new ArrayList<>();
 
+    private final CommandAPICommand command;
     private boolean loaded = false;
 
     private AmethystProtection() {
-        super("amethystprotect");
-        setPermission(CommandPermission.fromString("firefly.command.amethystprotect"));
-        withShortDescription("Protects Amethyst");
-        withFullDescription("Protects Amethyst");
-        executesPlayer((player, arguments) -> {
-            PersistentDataContainer pdc = player.getPersistentDataContainer();
-            if (isDisabled(player)) {
-                pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-                SmallConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
-            } else {
-                pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-                SmallConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
-            }
-        });
+        command = new CommandAPICommand("amethystprotect")
+                .withPermission("firefly.command.amethystprotect")
+                .withShortDescription("Protects Amethyst")
+                .withFullDescription("Protects Amethyst")
+                .executesPlayer((player, arguments) -> {
+                    PersistentDataContainer pdc = player.getPersistentDataContainer();
+                    if (isDisabled(player)) {
+                        pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
+                        SmallConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
+                    } else {
+                        pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
+                        SmallConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
+                    }
+                });
+        Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
     }
 
     public static AmethystProtection getInstance() {
@@ -52,12 +57,17 @@ public class AmethystProtection extends CommandAPICommand implements Listener, M
     }
 
     @Override
+    public String getIdentifier() {
+        return "AmethystProtection";
+    }
+
+    @Override
     public void load() {
         if (isLoaded()) {
             return;
         }
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering AmethystProtect Command");
-        register();
+        command.register(Firefly.getInstance());
         loaded = true;
     }
 

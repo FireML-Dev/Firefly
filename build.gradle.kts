@@ -26,7 +26,7 @@ dependencies {
 }
 
 group = "uk.firedev"
-version = "1.0.2-SNAPSHOT"
+version = "1.1.0-SNAPSHOT"
 description = "A collection of helpful server features."
 java.sourceCompatibility = JavaVersion.VERSION_21
 
@@ -46,14 +46,6 @@ paper {
         }
         register("DaisyLib") {
             required = true
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-        register("CMI") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-        register("CMILib") {
-            required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
         register("PlaceholderAPI") {

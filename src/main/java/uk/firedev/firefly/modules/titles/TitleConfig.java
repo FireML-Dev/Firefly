@@ -75,6 +75,12 @@ public class TitleConfig extends Config {
         return message;
     }
 
+    public ComponentMessage getPrefixDisplayMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.prefix-display", "<color:#F0E68C>Current Prefix: <white>{prefix}");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
     public ComponentMessage getSuffixSetMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
@@ -83,6 +89,12 @@ public class TitleConfig extends Config {
 
     public ComponentMessage getSuffixRemovedMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-removed", "<red>Removed Current Suffix.</red>");
+        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getSuffixDisplayMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-display", "<color:#F0E68C>Current Suffix: <white>{suffix}");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }

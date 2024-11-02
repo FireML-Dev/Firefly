@@ -8,7 +8,7 @@ import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
-import uk.firedev.firefly.modules.nickname.NicknameManager;
+import uk.firedev.firefly.modules.nickname.NicknameModule;
 
 public class NicknameCheckCommand extends CommandAPICommand {
 
@@ -37,9 +37,9 @@ public class NicknameCheckCommand extends CommandAPICommand {
                 MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
                 return;
             }
-            ComponentReplacer replacer = new ComponentReplacer()
+                ComponentReplacer replacer = ComponentReplacer.componentReplacer()
                     .addReplacement("player", ComponentMessage.fromString(targetName).getMessage())
-                    .addReplacement("nickname", NicknameManager.getInstance().getNickname(target));
+                    .addReplacement("nickname", NicknameModule.getInstance().getNickname(target));
             NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
         });
     }

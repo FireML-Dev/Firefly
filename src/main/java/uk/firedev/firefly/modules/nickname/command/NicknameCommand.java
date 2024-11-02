@@ -15,7 +15,7 @@ import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
-import uk.firedev.firefly.modules.nickname.NicknameManager;
+import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
 
 import java.util.Objects;
@@ -34,16 +34,16 @@ public class NicknameCommand extends CommandAPICommand {
         withFullDescription("Manage Nickname");
         executesPlayer((player, arguments) -> {
             String[] args = arguments.rawArgs();
-            Component currentNickname = NicknameManager.getInstance().getNickname(player);
+            Component currentNickname = NicknameModule.getInstance().getNickname(player);
             if (args.length == 0) {
-                ComponentReplacer replacer = new ComponentReplacer()
+                ComponentReplacer replacer = ComponentReplacer.componentReplacer()
                         .addReplacement("nickname", currentNickname)
                         .addReplacement("player", player.getName());
                 NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
                 return;
             }
             if (args[0].equals("remove") || args[0].equals("off")) {
-                NicknameManager.getInstance().removeNickname(player);
+                NicknameModule.getInstance().removeNickname(player);
                 NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(player);
                 return;
             }
@@ -81,12 +81,12 @@ public class NicknameCommand extends CommandAPICommand {
         String targetName = Objects.requireNonNullElse(target.getName(), "Error");
         // Too long and no bypass
         if (!player.hasPermission("firefly.command.nickname.bypass.length") && cleanString.length() > NicknameConfig.getInstance().getMaxLength()) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacements("max-length", String.valueOf(NicknameConfig.getInstance().getMaxLength()));
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("max-length", String.valueOf(NicknameConfig.getInstance().getMaxLength()));
             NicknameConfig.getInstance().getCommandTooLongMessage().applyReplacer(replacer).sendMessage(player);
             return;
         // Too short and no bypass
         } else if (!player.hasPermission("firefly.command.nickname.bypass.length") && cleanString.length() < NicknameConfig.getInstance().getMinLength()) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacements("min-length", String.valueOf(NicknameConfig.getInstance().getMinLength()));
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("min-length", String.valueOf(NicknameConfig.getInstance().getMinLength()));
             NicknameConfig.getInstance().getCommandTooShortMessage().applyReplacer(replacer).sendMessage(player);
             return;
         // Blacklisted and no bypass
@@ -98,8 +98,8 @@ public class NicknameCommand extends CommandAPICommand {
             NicknameConfig.getInstance().getCommandNoUniqueMessage().sendMessage(player);
             return;
         }
-        if (NicknameManager.getInstance().setNickname(target, finalNicknameMessage.getMessage())) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacement("nickname", finalNicknameMessage.getMessage());
+        if (NicknameModule.getInstance().setNickname(target, finalNicknameMessage.getMessage())) {
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("nickname", finalNicknameMessage.getMessage());
             if (target.getPlayer() != null) {
                 NicknameConfig.getInstance().getCommandSetOwnNicknameMessage().applyReplacer(replacer).sendMessage(target.getPlayer());
             }

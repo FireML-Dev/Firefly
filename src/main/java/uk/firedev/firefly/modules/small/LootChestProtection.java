@@ -13,24 +13,31 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 
 import java.util.List;
 import java.util.Objects;
 
-public class LootChestProtection implements Listener, Manager {
+public class LootChestProtection implements Listener, Module {
 
     private static LootChestProtection instance = null;
 
     private boolean loaded = false;
 
-    private LootChestProtection() {}
+    private LootChestProtection() {
+        Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
+    }
 
     public static LootChestProtection getInstance() {
         if (instance == null) {
             instance = new LootChestProtection();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "LootChestProtection";
     }
 
     @Override

@@ -23,7 +23,7 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
     }
 
     public ComponentReplacer getPrefixReplacer() {
-        return new ComponentReplacer().addReplacement("prefix", getPrefix().getMessage());
+        return ComponentReplacer.componentReplacer("prefix", getPrefix().getMessage());
     }
 
     // GENERAL MESSAGES
@@ -60,24 +60,10 @@ public class MessageConfig extends uk.firedev.daisylib.Config {
         ComponentMessage header = ComponentMessage.fromConfig(getConfig(), "main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
         ComponentMessage usage = ComponentMessage.fromConfig(getConfig(), "main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
 
-        ComponentMessage message = new HelpMessageBuilder(header, usage)
+        ComponentMessage message = HelpMessageBuilder.create(header, usage)
                 .buildMessage(usageMap, "command", "description");
 
         return message.applyReplacer(getPrefixReplacer());
-    }
-
-    public ComponentMessage getMainCommandModulesMessage() {
-        ComponentMessage message = ComponentMessage.fromString(
-                """
-                {prefix}<color:#F0E68C>Kits:</color> {kitsEnabled}
-                {prefix}<color:#F0E68C>Amethyst Protection:</color> {apEnabled}
-                {prefix}<color:#F0E68C>Loot Chest Protection:</color> {lcpEnabled}
-                {prefix}<color:#F0E68C>Elevators:</color> {elevatorsEnabled}
-                {prefix}<color:#F0E68C>Titles:</color> {titlesEnabled}
-                {prefix}<color:#F0E68C>Nicknames:</color> {nicknamesEnabled}"""
-        );
-        message = message.applyReplacer(getPrefixReplacer());
-        return message;
     }
 
 }

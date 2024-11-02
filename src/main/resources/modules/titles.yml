@@ -20,8 +20,10 @@ suffixes:
 messages:
   prefix-set: "<color:#F0E68C>Applied Prefix {new-prefix}.</color>"
   prefix-removed: "<red>Removed Current Prefix.</red>"
+  prefix-display: "<color:#F0E68C>Current Prefix: <white>{player-prefix}"
   suffix-set: "<color:#F0E68C>Applied Suffix {new-suffix}.</color>"
   suffix-removed: "<red>Removed Current Suffix.</red>"
+  suffix-display: "<color:#F0E68C>Current Suffix: <white>{player-suffix}"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2

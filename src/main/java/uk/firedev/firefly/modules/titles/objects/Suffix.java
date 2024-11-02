@@ -8,7 +8,7 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.modules.titles.TitleManager;
+import uk.firedev.firefly.modules.titles.TitleModule;
 
 public class Suffix implements TitlePart {
 
@@ -36,7 +36,7 @@ public class Suffix implements TitlePart {
 
     @Override
     public void apply(@NotNull Player player) {
-        TitleManager.getInstance().setPlayerSuffix(player, this);
+        TitleModule.getInstance().setPlayerSuffix(player, this);
     }
 
     @Override

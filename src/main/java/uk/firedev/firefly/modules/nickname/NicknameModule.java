@@ -8,35 +8,39 @@ import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
 import uk.firedev.firefly.utils.StringUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class NicknameManager implements Manager {
+public class NicknameModule implements Module {
 
-    private static NicknameManager instance = null;
+    private static NicknameModule instance = null;
 
     private boolean loaded;
     private final Map<UUID, String> nicknameMap;
 
-    private NicknameManager() {
+    private NicknameModule() {
         nicknameMap = new ConcurrentHashMap<>();
     }
 
-    public static NicknameManager getInstance() {
+    public static NicknameModule getInstance() {
         if (instance == null) {
-            instance = new NicknameManager();
+            instance = new NicknameModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "Nickname";
     }
 
     @Override
@@ -93,7 +97,7 @@ public class NicknameManager implements Manager {
         Component component = StringUtils.getColorOnlyComponent(savedName);
         ComponentMessage componentMessage = ComponentMessage.of(component);
         if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
-            ComponentReplacer replacer = new ComponentReplacer().addReplacements("username", player.getName());
+            ComponentReplacer replacer = ComponentReplacer.componentReplacer("username", player.getName());
             component = component.hoverEvent(
                     HoverEvent.hoverEvent(
                             HoverEvent.Action.SHOW_TEXT,

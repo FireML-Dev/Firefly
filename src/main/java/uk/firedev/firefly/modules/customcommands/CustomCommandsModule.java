@@ -4,31 +4,36 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Manager;
+import uk.firedev.firefly.Module;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CustomCommandsManager implements Manager {
+public class CustomCommandsModule implements Module {
 
-    private static CustomCommandsManager instance;
+    private static CustomCommandsModule instance;
 
     private boolean loaded = false;
     private List<String> loadedCommands;
     private List<String> commandsToUnregister;
     private MyScheduledTask cleanupTask;
 
-    private CustomCommandsManager() {
+    private CustomCommandsModule() {
         loadedCommands = new ArrayList<>();
         commandsToUnregister = new ArrayList<>();
     }
 
-    public static CustomCommandsManager getInstance() {
+    public static CustomCommandsModule getInstance() {
         if (instance == null) {
-            instance = new CustomCommandsManager();
+            instance = new CustomCommandsModule();
         }
         return instance;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "CustomCommands";
     }
 
     @Override
