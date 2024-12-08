@@ -1,6 +1,7 @@
 package uk.firedev.firefly.modules.kit;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -9,10 +10,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
@@ -27,8 +28,8 @@ public class Kit {
 
     private static final Random random = new Random();
 
-    private static Map<UUID, Map<String, MyScheduledTask>> cooldowns = new ConcurrentHashMap<>();
-    private static MyScheduledTask cleanupTask;
+    private static Map<UUID, Map<String, BukkitTask>> cooldowns = new ConcurrentHashMap<>();
+    private static BukkitTask cleanupTask;
     private String name;
     private Material material;
     private Component display;
@@ -54,7 +55,7 @@ public class Kit {
 
     private void construct(@NotNull Section section) {
         if (cleanupTask == null) {
-            cleanupTask = Firefly.getScheduler().runTaskTimer(() -> cooldowns.entrySet().removeIf(entry -> entry.getValue().isEmpty()), 300L, 300L);
+            cleanupTask = Bukkit.getScheduler().runTaskTimer(Firefly.getInstance(), () -> cooldowns.entrySet().removeIf(entry -> entry.getValue().isEmpty()), 300L, 300L);
         }
         this.name = section.getNameAsString();
         this.permission = section.getString("permission", "");
@@ -144,19 +145,19 @@ public class Kit {
     }
 
     public boolean isOnCooldown(@NotNull UUID uuid) {
-        Map<String, MyScheduledTask> kits = cooldowns.get(uuid);
+        Map<String, BukkitTask> kits = cooldowns.get(uuid);
         return kits != null && kits.containsKey(getName());
     }
 
     public void applyCooldown(@NotNull UUID uuid) {
         cooldowns.computeIfAbsent(uuid, k -> new HashMap<>())
-                .putIfAbsent(getName(), Firefly.getScheduler().runTaskLater(() -> removeCooldown(uuid), getGuiCooldownTicks()));
+                .putIfAbsent(getName(), Bukkit.getScheduler().runTaskLater(Firefly.getInstance(), () -> removeCooldown(uuid), getGuiCooldownTicks()));
     }
 
     public void removeCooldown(@NotNull UUID uuid) {
-        Map<String, MyScheduledTask> map = cooldowns.get(uuid);
+        Map<String, BukkitTask> map = cooldowns.get(uuid);
         if (map != null) {
-            MyScheduledTask task = map.remove(getName());
+            BukkitTask task = map.remove(getName());
             if (task != null) {
                 task.cancel();
             }
@@ -164,9 +165,9 @@ public class Kit {
     }
 
     public static void removeAllCooldowns(@NotNull UUID uuid) {
-        Map<String, MyScheduledTask> map = cooldowns.remove(uuid);
+        Map<String, BukkitTask> map = cooldowns.remove(uuid);
         if (map != null) {
-            map.forEach((string, myScheduledTask) -> myScheduledTask.cancel());
+            map.forEach((string, task) -> task.cancel());
         }
     }
 

@@ -1,6 +1,8 @@
 package uk.firedev.firefly.modules.teleportation.tpa;
 
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
+import org.bukkit.block.data.type.Fire;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
@@ -68,7 +70,7 @@ public class TPAHandler {
         }
         TPARequest request = new TPARequest(sender, target, direction);
         targetTpaList.add(request);
-        Firefly.getScheduler().runTaskLater(() -> targetTpaList.remove(request), TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
+        Bukkit.getScheduler().runTaskLater(Firefly.getInstance(), () -> targetTpaList.remove(request), TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
 
         Component accept = TeleportConfig.getInstance().getTpaAcceptClickMessage(sender).getMessage();
         Component deny = TeleportConfig.getInstance().getTpaDenyClickMessage(sender).getMessage();

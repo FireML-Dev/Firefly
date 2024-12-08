@@ -37,7 +37,6 @@ paper {
     apiVersion = "1.21"
     author = "FireML"
     description = project.description.toString()
-    foliaSupported = true
 
     serverDependencies {
         register("Vault") {

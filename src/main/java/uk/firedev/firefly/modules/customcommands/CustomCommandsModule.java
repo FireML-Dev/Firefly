@@ -1,7 +1,8 @@
 package uk.firedev.firefly.modules.customcommands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -17,7 +18,7 @@ public class CustomCommandsModule implements Module {
     private boolean loaded = false;
     private List<String> loadedCommands;
     private List<String> commandsToUnregister;
-    private MyScheduledTask cleanupTask;
+    private BukkitTask cleanupTask;
 
     private CustomCommandsModule() {
         loadedCommands = new ArrayList<>();
@@ -73,7 +74,7 @@ public class CustomCommandsModule implements Module {
         if (cleanupTask != null) {
             return;
         }
-        cleanupTask = Firefly.getScheduler().runTaskTimer(this::slowUnregister, 20L, 20L);
+        cleanupTask = Bukkit.getScheduler().runTaskTimer(Firefly.getInstance(), this::slowUnregister, 20L, 20L);
     }
 
     private void stopTask() {

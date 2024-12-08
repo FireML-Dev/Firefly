@@ -2,9 +2,9 @@ package uk.firedev.firefly.modules.playtime;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.tasks.MyScheduledTask;
 import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -21,7 +21,7 @@ public class PlaytimeModule implements Module {
 
     private boolean loaded = false;
     private final Map<UUID, Long> playtimeMap;
-    private MyScheduledTask playtimeTask = null;
+    private BukkitTask playtimeTask = null;
 
     private PlaytimeModule() {
         playtimeMap = new ConcurrentHashMap<>();
@@ -82,7 +82,7 @@ public class PlaytimeModule implements Module {
 
     private void startScheduler() {
         if (playtimeTask == null) {
-            playtimeTask = Firefly.getScheduler().runTaskTimer(() ->
+            playtimeTask = Bukkit.getScheduler().runTaskTimer(Firefly.getInstance(), () ->
                     Bukkit.getOnlinePlayers().forEach(this::incrementTime), 20L, 20L
             );
         }

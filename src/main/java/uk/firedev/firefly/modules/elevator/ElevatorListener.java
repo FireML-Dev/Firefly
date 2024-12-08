@@ -1,7 +1,9 @@
 package uk.firedev.firefly.modules.elevator;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.data.type.Fire;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,7 +35,7 @@ public class ElevatorListener implements Listener {
         Player player = event.getPlayer();
         Elevator elevator = new Elevator(stepLoc);
 
-        Firefly.getScheduler().runTaskLater(() -> elevator.handleBossBar(player), 5L);
+        Bukkit.getScheduler().runTaskLater(Firefly.getInstance(), () -> elevator.handleBossBar(player), 5L);
     }
 
     @EventHandler

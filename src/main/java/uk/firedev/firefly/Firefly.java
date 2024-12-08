@@ -2,8 +2,6 @@ package uk.firedev.firefly;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.libs.Anon8281.universalScheduler.UniversalScheduler;
-import uk.firedev.daisylib.libs.Anon8281.universalScheduler.scheduling.schedulers.TaskScheduler;
 import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
@@ -15,12 +13,10 @@ import uk.firedev.firefly.placeholders.PlaceholderAPIExpansion;
 public final class Firefly extends JavaPlugin {
 
     private static Firefly instance;
-    private static TaskScheduler scheduler;
 
     @Override
     public void onEnable() {
         instance = this;
-        scheduler = UniversalScheduler.getScheduler(this);
 
         // Load configs
         MainConfig.getInstance().reload();
@@ -58,7 +54,5 @@ public final class Firefly extends JavaPlugin {
     }
 
     public static Firefly getInstance() { return instance; }
-
-    public static TaskScheduler getScheduler() { return scheduler; }
 
 }
