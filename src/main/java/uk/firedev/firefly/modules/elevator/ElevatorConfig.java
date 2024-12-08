@@ -58,7 +58,8 @@ public class ElevatorConfig extends Config {
     public Component getBossBarTitle(@NotNull Elevator elevator) {
         ComponentReplacer replacer = ComponentReplacer.componentReplacer(
                 "current", String.valueOf(elevator.getCurrentPosition() + 1),
-                "all", String.valueOf(elevator.getStack().size())
+                "all", String.valueOf(elevator.getStack().size()),
+                "y", String.valueOf((int) elevator.getTPLocation().getY())
         );
         return ComponentMessage.fromConfig(getConfig(), "bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
     }
