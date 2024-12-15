@@ -8,29 +8,27 @@ import uk.firedev.firefly.modules.elevator.Elevator;
 import uk.firedev.firefly.modules.elevator.ElevatorConfig;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 
-public class ElevatorCommand extends CommandAPICommand {
+public class ElevatorCommand {
 
-    private static ElevatorCommand instance = null;
+    private static CommandAPICommand command;
 
-    private ElevatorCommand() {
-        super("elevator");
-        withPermission("firefly.command.elevator");
-        withShortDescription("Manage Elevators");
-        withFullDescription("Manage Elevators");
-        withSubcommands(getGiveBlockCommand(), getUnsetElevatorCommand());
-        executes((sender, arguments) -> {
-            ElevatorConfig.getInstance().getCommandUsageMessage().sendMessage(sender);
-        });
-    }
+    private ElevatorCommand() {}
 
-    public static ElevatorCommand getInstance() {
-        if (instance == null) {
-            instance = new ElevatorCommand();
+    public static CommandAPICommand getCommand() {
+        if (command == null) {
+            command = new CommandAPICommand("elevator")
+                .withPermission("firefly.command.elevator")
+                .withShortDescription("Manage Elevators")
+                .withFullDescription("Manage Elevators")
+                .withSubcommands(getGiveBlockCommand(), getUnsetElevatorCommand())
+                .executes((sender, arguments) -> {
+                    ElevatorConfig.getInstance().getCommandUsageMessage().sendMessage(sender);
+                });
         }
-        return instance;
+        return command;
     }
 
-    private CommandAPICommand getGiveBlockCommand() {
+    private static CommandAPICommand getGiveBlockCommand() {
         return new CommandAPICommand("giveBlock")
                 .executesPlayer((player, arguments) -> {
                     ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
@@ -38,7 +36,7 @@ public class ElevatorCommand extends CommandAPICommand {
                 });
     }
 
-    private CommandAPICommand getUnsetElevatorCommand() {
+    private static CommandAPICommand getUnsetElevatorCommand() {
         return new CommandAPICommand("remove")
                 .executesPlayer((player, arguments) -> {
                     RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);

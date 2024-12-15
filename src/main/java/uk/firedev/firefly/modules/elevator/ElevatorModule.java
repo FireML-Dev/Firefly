@@ -59,7 +59,7 @@ public class ElevatorModule implements Module {
         pm.registerEvents(new ElevatorListener(), this.plugin);
         ElevatorConfig.getInstance().reload();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Elevator Command");
-        ElevatorCommand.getInstance().register(Firefly.getInstance());
+        ElevatorCommand.getCommand().register(Firefly.getInstance());
         registerRecipe();
         loaded = true;
     }
