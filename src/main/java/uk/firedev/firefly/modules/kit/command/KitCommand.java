@@ -13,47 +13,46 @@ import uk.firedev.firefly.modules.kit.KitModule;
 
 import java.util.Objects;
 
-public class KitCommand extends CommandAPICommand {
+public class KitCommand {
 
-    private static KitCommand instance;
+    private static CommandAPICommand command;
 
-    private KitCommand() {
-        super("kit");
-        withAliases("kits");
-        setPermission(CommandPermission.fromString("firefly.command.kit"));
-        withShortDescription("Get kits");
-        withFullDescription("Get kits");
-        withSubcommand(KitAwardCommand.getInstance());
-        withArguments(getKitArgument());
-        executesPlayer((player, arguments) -> {
-            String[] args = arguments.rawArgs();
-            if (args.length == 0) {
-                new KitGUI(player).open();
-                return;
-            }
-            Kit kit;
-            try {
-                kit = new Kit(args[0]);
-            } catch (InvalidConfigurationException ex) {
-                KitConfig.getInstance().getNotFoundMessage().sendMessage(player);
-                return;
-            }
-            if (!kit.isPlayerVisible()) {
-                KitConfig.getInstance().getNotFoundMessage().sendMessage(player);
-                return;
-            }
-            kit.awardKit(player, false);
-        });
-    }
+    private KitCommand() {}
 
-    public static KitCommand getInstance() {
-        if (instance == null) {
-            instance = new KitCommand();
+    public static CommandAPICommand getCommand() {
+        if (command == null) {
+            command = new CommandAPICommand("kit")
+                    .withAliases("kits")
+                    .withPermission("firefly.command.kit")
+                    .withShortDescription("Get kits")
+                    .withFullDescription("Get kits")
+                    .withSubcommand(KitAwardCommand.getCommand())
+                    .withArguments(getKitArgument())
+                    .executesPlayer((player, arguments) -> {
+                        Object kitNameObj = arguments.get("kit");
+                        if (kitNameObj == null) {
+                            new KitGUI(player).open();
+                            return;
+                        }
+                        String kitName = (String) kitNameObj;
+                        Kit kit;
+                        try {
+                            kit = new Kit(kitName);
+                        } catch (InvalidConfigurationException ex) {
+                            KitConfig.getInstance().getNotFoundMessage().sendMessage(player);
+                            return;
+                        }
+                        if (!kit.isPlayerVisible()) {
+                            KitConfig.getInstance().getNotFoundMessage().sendMessage(player);
+                            return;
+                        }
+                        kit.awardKit(player, false);
+                    });
         }
-        return instance;
+        return command;
     }
 
-    private Argument<?> getKitArgument() {
+    private static Argument<?> getKitArgument() {
         return new StringArgument("kit").setOptional(true).includeSuggestions(ArgumentSuggestions.strings(
                 KitModule.getInstance().getKits().stream()
                         .map(kit -> kit.isPlayerVisible() ? kit : null)

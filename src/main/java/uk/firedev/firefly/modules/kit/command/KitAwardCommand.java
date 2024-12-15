@@ -1,70 +1,49 @@
 package uk.firedev.firefly.modules.kit.command;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
-import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
-import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.daisylib.libs.commandapi.arguments.*;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitConfig;
 import uk.firedev.firefly.modules.kit.KitModule;
 
-import java.util.concurrent.CompletableFuture;
+public class KitAwardCommand {
 
+    private static CommandAPICommand command;
 
-public class KitAwardCommand extends CommandAPICommand {
+    private KitAwardCommand() {}
 
-    private static KitAwardCommand instance;
-
-    private KitAwardCommand() {
-        super("award");
-        setPermission(CommandPermission.fromString("firefly.command.kit.award"));
-        withShortDescription("Give kits to people");
-        withFullDescription("Give kits to people");
-        withArguments(getPlayerArgument());
-        withArguments(getKitArgument());
-        executes((sender, arguments) -> {
-            String[] args = arguments.rawArgs();
-            if (args.length < 2) {
-                KitConfig.getInstance().getUsageMessage().sendMessage(sender);
-            } else {
-                String playerName = args[0];
-                Player player = Bukkit.getPlayer(playerName);
-                if (player == null) {
-                    MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
-                    return;
-                }
-                String kitName = args[1];
-                Kit kit;
-                try {
-                    kit = new Kit(kitName);
-                } catch (InvalidConfigurationException ex) {
-                    KitConfig.getInstance().getNotFoundMessage().sendMessage(sender);
-                    return;
-                }
-                kit.giveToPlayer(player, sender);
-            }
-        });
-    }
-
-    public static KitAwardCommand getInstance() {
-        if (instance == null) {
-            instance = new KitAwardCommand();
+    public static CommandAPICommand getCommand() {
+        if (command == null) {
+            command = new CommandAPICommand("award")
+                    .withPermission(CommandPermission.fromString("firefly.command.kit.award"))
+                    .withShortDescription("Give kits to people")
+                    .withFullDescription("Give kits to people")
+                    .withArguments(new EntitySelectorArgument.OnePlayer("player"), getKitArgument())
+                    .executes((sender, arguments) -> {
+                        Object playerObj = arguments.get("player");
+                        Object kitObj = arguments.get("kit");
+                        if (playerObj == null || kitObj == null) {
+                            KitConfig.getInstance().getUsageMessage().sendMessage(sender);
+                        }
+                        Player player = (Player) playerObj;
+                        String kitName = (String) kitObj;
+                        Kit kit;
+                        try {
+                            kit = new Kit(kitName);
+                        } catch (InvalidConfigurationException ex) {
+                            KitConfig.getInstance().getNotFoundMessage().sendMessage(sender);
+                            return;
+                        }
+                        kit.giveToPlayer(player, sender);
+                    });
         }
-        return instance;
+        return command;
     }
 
-    private Argument<?> getPlayerArgument() {
-        return new StringArgument("player").includeSuggestions(ArgumentSuggestions.stringsAsync(info ->
-                CompletableFuture.supplyAsync(() ->
-                        Bukkit.getOnlinePlayers().stream().map(Player::getName).toArray(String[]::new))));
-    }
-
-    private Argument<?> getKitArgument() {
+    private static Argument<?> getKitArgument() {
         return new StringArgument("kit").includeSuggestions(ArgumentSuggestions.strings(
                 KitModule.getInstance().getKits().stream().map(Kit::getName).toArray(String[]::new)
         ));

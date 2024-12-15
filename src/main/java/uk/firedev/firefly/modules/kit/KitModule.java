@@ -41,7 +41,7 @@ public class KitModule implements Module {
         pm.registerEvents(new KitListener(), Firefly.getInstance());
         KitConfig.getInstance().reload();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Kit Commands");
-        KitCommand.getInstance().register(Firefly.getInstance());
+        KitCommand.getCommand().register(Firefly.getInstance());
         new KitRewardType().register();
         loaded = true;
     }
