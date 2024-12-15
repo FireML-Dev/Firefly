@@ -9,6 +9,8 @@ import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.LongArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
+import uk.firedev.daisylib.libs.commandapi.executors.CommandExecutor;
+import uk.firedev.daisylib.libs.commandapi.executors.PlayerCommandExecutor;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.firefly.config.MessageConfig;
@@ -18,18 +20,28 @@ import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-public class PlaytimeCommand extends CommandAPICommand {
+public class PlaytimeCommand {
 
-    private static PlaytimeCommand instance;
+    private static CommandAPICommand command;
 
-    private PlaytimeCommand() {
-        super("playtime");
-        withArguments(getPlayersArgument(true));
-        setPermission(CommandPermission.fromString("firefly.command.playtime"));
-        withShortDescription("Check Playtime");
-        withFullDescription("Check Playtime");
-        withSubcommand(getSetPlaytimeSubCommand());
-        executesPlayer((player, arguments) -> {
+    // /playtime Command
+
+    public static CommandAPICommand getCommand() {
+        if (command == null) {
+            command = new CommandAPICommand("playtime")
+                    .withArguments(getPlayersArgument(true))
+                    .withPermission(CommandPermission.fromString("firefly.command.playtime"))
+                    .withShortDescription("Check Playtime")
+                    .withFullDescription("Check Playtime")
+                    .withSubcommand(getSetPlaytimeSubCommand())
+                    .executesPlayer(getPlayerExecutor())
+                    .executes(getOtherExecutor());
+        }
+        return command;
+    }
+
+    private static PlayerCommandExecutor getPlayerExecutor() {
+        return (player, arguments) -> {
             Object argument = arguments.get("player");
             OfflinePlayer target;
             if (argument == null) {
@@ -46,8 +58,11 @@ public class PlaytimeCommand extends CommandAPICommand {
                     "playtime", PlaytimeModule.getInstance().getTimeFormatted(target)
             );
             PlaytimeConfig.getInstance().getCommandCheckPlaytimeMessage().applyReplacer(replacer).sendMessage(player);
-        });
-        executes((sender, arguments) -> {
+        };
+    }
+
+    private static CommandExecutor getOtherExecutor() {
+        return (sender, arguments) -> {
             OfflinePlayer target = PlayerHelper.getOfflinePlayer(String.valueOf(arguments.get("player")));
             if (target == null) {
                 MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
@@ -58,18 +73,13 @@ public class PlaytimeCommand extends CommandAPICommand {
                     "playtime", PlaytimeModule.getInstance().getTimeFormatted(target)
             );
             PlaytimeConfig.getInstance().getCommandCheckPlaytimeMessage().applyReplacer(replacer).sendMessage(sender);
-        });
+        };
     }
 
-    public static PlaytimeCommand getInstance() {
-        if (instance == null) {
-            instance = new PlaytimeCommand();
-        }
-        return instance;
-    }
+    // /playtime set Command
 
-    private CommandAPICommand getSetPlaytimeSubCommand() {
-        CommandAPICommand command = new CommandAPICommand("set-playtime")
+    private static CommandAPICommand getSetPlaytimeSubCommand() {
+        CommandAPICommand command = new CommandAPICommand("set")
                 .withArguments(getPlayersArgument(false), new LongArgument("playtime"))
                 .withFullDescription("Set a player's playtime")
                 .withShortDescription("Set a player's playtime")
@@ -91,7 +101,9 @@ public class PlaytimeCommand extends CommandAPICommand {
         return command;
     }
 
-    private Argument<?> getPlayersArgument(boolean optional) {
+    // Argument stuff
+
+    private static Argument<?> getPlayersArgument(boolean optional) {
         return new StringArgument("player").setOptional(optional).includeSuggestions(ArgumentSuggestions.stringsAsync(info ->
                 CompletableFuture.supplyAsync(() ->
                         Bukkit.getOnlinePlayers().stream().map(Player::getName).toArray(String[]::new)
