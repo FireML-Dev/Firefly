@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.command.ArgumentBuilder;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
@@ -21,43 +22,39 @@ import uk.firedev.firefly.utils.StringUtils;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
-public class NicknameCommand extends CommandAPICommand {
+public class NicknameCommand {
 
-    private static NicknameCommand instance = null;
+    private static CommandAPICommand command = null;
 
-    private NicknameCommand() {
-        super("nickname");
-        withAliases("nick");
-        withArguments(getNickArgument());
-        setPermission(CommandPermission.fromString("firefly.command.nickname"));
-        withShortDescription("Manage Nickname");
-        withFullDescription("Manage Nickname");
-        executesPlayer((player, arguments) -> {
-            String[] args = arguments.rawArgs();
-            Component currentNickname = NicknameModule.getInstance().getNickname(player);
-            if (args.length == 0) {
-                ComponentReplacer replacer = ComponentReplacer.componentReplacer()
-                        .addReplacement("nickname", currentNickname)
-                        .addReplacement("player", player.getName());
-                NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
-                return;
-            }
-            if (args[0].equals("remove") || args[0].equals("off")) {
-                NicknameModule.getInstance().removeNickname(player);
-                NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(player);
-                return;
-            }
-            String[] splitValue = args[0].split(" ");
-            Component nickname = StringUtils.getColorOnlyComponent(splitValue[0]);
-            executeCommand(player, player, nickname);
-        });
-    }
-
-    public static NicknameCommand getInstance() {
-        if (instance == null) {
-            instance = new NicknameCommand();
+    public static CommandAPICommand getCommand() {
+        if (command == null) {
+            command = new CommandAPICommand("nickname")
+                    .withAliases("nick")
+                    .withArguments(getNickArgument())
+                    .withPermission(CommandPermission.fromString("firefly.command.nickname"))
+                    .withShortDescription("Manage Nickname")
+                    .withFullDescription("Manage Nickname")
+                    .executesPlayer((player, arguments) -> {
+                        String nicknameStr = ArgumentBuilder.resolveArgument(arguments.get("value"), String.class);
+                        Component currentNickname = NicknameModule.getInstance().getNickname(player);
+                        if (nicknameStr == null) {
+                            ComponentReplacer replacer = ComponentReplacer.componentReplacer()
+                                    .addReplacement("nickname", currentNickname)
+                                    .addReplacement("player", player.getName());
+                            NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);
+                            return;
+                        }
+                        if (nicknameStr.equalsIgnoreCase("remove") || nicknameStr.equalsIgnoreCase("off")) {
+                            NicknameModule.getInstance().removeNickname(player);
+                            NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(player);
+                            return;
+                        }
+                        String[] splitValue = nicknameStr.split(" ");
+                        Component nickname = StringUtils.getColorOnlyComponent(splitValue[0]);
+                        executeCommand(player, player, nickname);
+                    });
         }
-        return instance;
+        return command;
     }
 
     public static Argument<?> getNickArgument() {
@@ -70,7 +67,7 @@ public class NicknameCommand extends CommandAPICommand {
         ));
     }
 
-    public void executeCommand(@NotNull Player player, @NotNull OfflinePlayer target, @NotNull Component nickname) {
+    public static void executeCommand(@NotNull Player player, @NotNull OfflinePlayer target, @NotNull Component nickname) {
         // No color permission
         ComponentMessage nicknameMessage = ComponentMessage.of(nickname);
         if (!player.hasPermission("firefly.command.nickname.colors")) {

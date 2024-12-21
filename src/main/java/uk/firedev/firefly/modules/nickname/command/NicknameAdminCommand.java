@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.nickname.command;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
+import uk.firedev.daisylib.command.ArgumentBuilder;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.message.component.ComponentReplacer;
 import uk.firedev.daisylib.utils.PlayerHelper;
@@ -10,54 +11,50 @@ import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
 
-public class NicknameAdminCommand extends CommandAPICommand {
+public class NicknameAdminCommand {
 
-    private static NicknameAdminCommand instance = null;
+    private static CommandAPICommand command = null;
 
-    private NicknameAdminCommand() {
-        super("nicknameadmin");
-        withAliases("nickadmin");
-        withArguments(NicknameCommand.getPlayersArgument(), NicknameCommand.getNickArgument());
-        withPermission("firefly.command.nickname.admin");
-        withShortDescription("Manage Nicknames as Admin");
-        withFullDescription("Manage Nicknames as Admin");
-        executesPlayer(((player, arguments) -> {
-            String[] args = arguments.rawArgs();
-            Component currentNickname = NicknameModule.getInstance().getNickname(player);
-            if (args.length < 2) {
-                NicknameConfig.getInstance().getCommandAdminUsageMessage().sendMessage(player);
-                return;
-            }
-            OfflinePlayer targetPlayer = PlayerHelper.getOfflinePlayer(args[0]);
-            if (targetPlayer == null) {
-                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
-                return;
-            }
-            String targetName = targetPlayer.getName();
-            if (targetName == null) {
-                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
-                return;
-            }
-            if (args[1].equals("remove") || args[1].equals("off")) {
-                NicknameModule.getInstance().removeNickname(targetPlayer);
-                ComponentReplacer replacer = ComponentReplacer.componentReplacer("player", targetName);
-                NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
-                if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {
-                    NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(targetPlayer.getPlayer());
-                }
-                return;
-            }
-            String[] splitValue = args[1].split(" ");
-            Component nickname = StringUtils.getColorOnlyComponent(splitValue[0]);
-            NicknameCommand.getInstance().executeCommand(player, targetPlayer, nickname);
-        }));
-    }
-
-    public static NicknameAdminCommand getInstance() {
-        if (instance == null) {
-            instance = new NicknameAdminCommand();
+    public static CommandAPICommand getCommand() {
+        if (command == null) {
+            command = new CommandAPICommand("nicknameAdmin")
+                    .withAliases("nickAdmin")
+                    .withPermission("firefly.command.nickname.admin")
+                    .withShortDescription("Manage Nicknames as Admin")
+                    .withFullDescription("Manage Nicknames as Admin")
+                    .withArguments(NicknameCommand.getPlayersArgument(), NicknameCommand.getNickArgument())
+                    .executesPlayer(((player, arguments) -> {
+                        if (arguments.count() < 2) {
+                            NicknameConfig.getInstance().getCommandAdminUsageMessage().sendMessage(player);
+                            return;
+                        }
+                        String playerName = ArgumentBuilder.resolveArgumentOrThrow(arguments.get("player"), String.class);
+                        String nicknameStr = ArgumentBuilder.resolveArgumentOrThrow(arguments.get("value"), String.class);
+                        OfflinePlayer targetPlayer = PlayerHelper.getOfflinePlayer(playerName);
+                        if (targetPlayer == null) {
+                            MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
+                            return;
+                        }
+                        String targetName = targetPlayer.getName();
+                        if (targetName == null) {
+                            MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
+                            return;
+                        }
+                        if (nicknameStr.equalsIgnoreCase("remove") || nicknameStr.equalsIgnoreCase("off")) {
+                            NicknameModule.getInstance().removeNickname(targetPlayer);
+                            ComponentReplacer replacer = ComponentReplacer.componentReplacer("player", targetName);
+                            NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
+                            if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {
+                                NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(targetPlayer.getPlayer());
+                            }
+                            return;
+                        }
+                        String[] splitValue = nicknameStr.split(" ");
+                        Component nickname = StringUtils.getColorOnlyComponent(splitValue[0]);
+                        NicknameCommand.executeCommand(player, targetPlayer, nickname);
+                    }));
         }
-        return instance;
+        return command;
     }
 
 }

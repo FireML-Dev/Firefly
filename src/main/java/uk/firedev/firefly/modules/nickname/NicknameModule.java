@@ -50,9 +50,9 @@ public class NicknameModule implements Module {
         }
         NicknameConfig.getInstance().reload();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Nickname Commands");
-        NicknameCommand.getInstance().register(Firefly.getInstance());
-        NicknameAdminCommand.getInstance().register(Firefly.getInstance());
-        NicknameCheckCommand.getInstance().register(Firefly.getInstance());
+        NicknameCommand.getCommand().register(Firefly.getInstance());
+        NicknameAdminCommand.getCommand().register(Firefly.getInstance());
+        NicknameCheckCommand.getCommand().register(Firefly.getInstance());
         NicknameDatabase.getInstance().register(Database.getInstance());
         populateNicknameMap();
         loaded = true;
