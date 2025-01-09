@@ -28,7 +28,7 @@ public interface TitlePart {
                 material = Material.valueOf(matName.toUpperCase());
             }
         } catch (IllegalArgumentException ignored) {}
-        ItemStack item = new ItemStack(material);
+        ItemStack item = ItemStack.of(material);
         ItemMeta meta = item.getItemMeta();
         Component display = getDisplay();
         String displayString = getSection().getString("icon.display");

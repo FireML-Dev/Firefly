@@ -136,7 +136,7 @@ public class ElevatorModule implements Module {
     private void registerRecipe() {
         List<ItemStack> stackList = new ArrayList<>();
         ElevatorConfig.getInstance().getConfig().getStringList("item.recipe").forEach(itemName ->
-                stackList.add(new ItemStack(ItemUtils.getMaterial(itemName, Material.AIR)))
+                stackList.add(ItemStack.of(ItemUtils.getMaterial(itemName, Material.AIR)))
         );
         ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);
         if (recipe.register(true)) {

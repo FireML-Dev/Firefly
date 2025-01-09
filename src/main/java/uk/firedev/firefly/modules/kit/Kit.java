@@ -124,7 +124,7 @@ public class Kit {
     }
 
     public ItemStack buildItem() {
-        ItemStack item = new ItemStack(getMaterial());
+        ItemStack item = ItemStack.of(getMaterial());
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         meta.displayName(getDisplay());
