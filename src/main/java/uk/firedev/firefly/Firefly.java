@@ -1,14 +1,12 @@
 package uk.firedev.firefly;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.ModuleManager;
-import uk.firedev.firefly.placeholders.MiniPlaceholdersExpansion;
-import uk.firedev.firefly.placeholders.PlaceholderAPIExpansion;
+import uk.firedev.firefly.placeholders.Placeholders;
 
 public final class Firefly extends JavaPlugin {
 
@@ -26,15 +24,8 @@ public final class Firefly extends JavaPlugin {
         Database.getInstance().load();
         FireflyCommand.getInstance().register(this);
 
-        // Load Placeholder Hooks
-        if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlaceholderAPIExpansion().register();
-            Loggers.info(getComponentLogger(), "Loaded PlaceholderAPI Hook.");
-        }
-        if (getServer().getPluginManager().isPluginEnabled("MiniPlaceholders")) {
-            new MiniPlaceholdersExpansion().register();
-            Loggers.info(getComponentLogger(), "Loaded MiniPlaceholders Hook.");
-        }
+        Placeholders.register();
+
         ModuleManager.getInstance().load();
     }
 
