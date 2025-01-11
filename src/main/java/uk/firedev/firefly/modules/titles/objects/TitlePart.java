@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
@@ -14,31 +15,24 @@ public interface TitlePart {
 
     void apply(@NotNull Player player);
 
-    @NotNull Component getDisplay();
+    @NotNull ComponentMessage getDisplay();
     @NotNull String getPermission();
     @NotNull Section getSection();
     boolean isPrefix();
     boolean isSuffix();
 
     default ItemStack generateIcon() {
-        Material material = Material.NAME_TAG;
-        try {
-            String matName = getSection().getString("icon.material");
-            if (matName != null) {
-                material = Material.valueOf(matName.toUpperCase());
-            }
-        } catch (IllegalArgumentException ignored) {}
+        Material material = ItemUtils.getMaterial(getSection().getString("icon.material"), Material.NAME_TAG);
         ItemStack item = ItemStack.of(material);
-        ItemMeta meta = item.getItemMeta();
-        Component display = getDisplay();
-        String displayString = getSection().getString("icon.display");
-        if (displayString != null) {
-            ComponentReplacer replacer = ComponentReplacer.componentReplacer("display", getDisplay());
-            display = ComponentMessage.fromString(displayString).applyReplacer(replacer).getMessage();
-        }
-        meta.lore(getSection().getStringList("icon.lore").stream().map(s -> ComponentMessage.fromString(s).getMessage()).toList());
-        meta.displayName(display);
-        item.setItemMeta(meta);
+        item.editMeta(meta -> {
+            Component display = getDisplay().getMessage();
+            String displayString = getSection().getString("icon.display");
+            if (displayString != null) {
+                display = ComponentMessage.fromString(displayString).replace("display", getDisplay().getMessage()).getMessage();
+            }
+            meta.lore(getSection().getStringList("icon.lore").stream().map(str -> ComponentMessage.fromString(str).getMessage()).toList());
+            meta.displayName(display);
+        });
         return item;
     }
 

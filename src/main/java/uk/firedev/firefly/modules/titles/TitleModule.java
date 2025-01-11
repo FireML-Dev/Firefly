@@ -100,7 +100,7 @@ public class TitleModule implements Module {
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull Prefix prefix) {
-        setPlayerPrefix(player, prefix.getDisplay());
+        setPlayerPrefix(player, prefix.getDisplay().getMessage());
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
@@ -146,7 +146,7 @@ public class TitleModule implements Module {
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull Suffix suffix) {
-        setPlayerSuffix(player, suffix.getDisplay());
+        setPlayerSuffix(player, suffix.getDisplay().getMessage());
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {

@@ -13,7 +13,7 @@ import uk.firedev.firefly.modules.titles.TitleModule;
 public class Suffix implements TitlePart {
 
     private final @NotNull Section section;
-    private final @NotNull Component display;
+    private final @NotNull ComponentMessage display;
     private final @NotNull String permission;
 
     public Suffix(@NotNull Section section) throws InvalidConfigurationException {
@@ -30,7 +30,7 @@ public class Suffix implements TitlePart {
             permission = defaultPermission;
         }
         this.section = section;
-        this.display = ComponentMessage.fromString(displayString).getMessage();
+        this.display = ComponentMessage.fromString(displayString);
         this.permission = permission;
     }
 
@@ -40,7 +40,7 @@ public class Suffix implements TitlePart {
     }
 
     @Override
-    public @NotNull Component getDisplay() {
+    public @NotNull ComponentMessage getDisplay() {
         return display;
     }
 
