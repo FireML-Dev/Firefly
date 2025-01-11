@@ -13,12 +13,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.crafting.ShapedRecipe;
 import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
-import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.api.utils.ItemUtils;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -125,7 +125,7 @@ public class ElevatorModule implements Module {
                 .withStringLore(config.getStringList("item.lore"), null)
                 .addEnchantment(Enchantment.UNBREAKING, 10)
                 .addFlag(ItemFlag.HIDE_ENCHANTS)
-                .build();
+                .getItem();
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         pdc.set(getItemKey(), PersistentDataType.BOOLEAN, true);

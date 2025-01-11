@@ -1,8 +1,8 @@
 package uk.firedev.firefly;
 
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.daisylib.message.component.ComponentMessage;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.ModuleManager;
 

@@ -15,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
-import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.reward.Reward;
-import uk.firedev.daisylib.utils.ItemUtils;
+import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.firefly.Firefly;
 
 import java.util.*;

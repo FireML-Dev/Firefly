@@ -4,9 +4,9 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Config;
-import uk.firedev.daisylib.builders.BossBarBuilder;
-import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.api.builders.BossBarBuilder;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 

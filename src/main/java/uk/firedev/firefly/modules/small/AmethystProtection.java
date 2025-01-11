@@ -10,12 +10,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.executors.CommandExecutor;
 import uk.firedev.daisylib.libs.commandapi.executors.ExecutorType;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 

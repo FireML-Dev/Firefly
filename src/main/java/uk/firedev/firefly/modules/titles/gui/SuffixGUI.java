@@ -38,7 +38,7 @@ public class SuffixGUI {
         gui.setCloseAction(close -> false);
         gui.setFiller(ItemBuilder.itemBuilder(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
                 .withStringDisplay("", null)
-                .build()
+                .getItem()
         );
 
         DynamicGuiElement suffixesGroup = new DynamicGuiElement('s', who -> {
@@ -88,7 +88,7 @@ public class SuffixGUI {
         return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(config.getString("gui.suffixes.remove.display", "<yellow>Remove Suffix</yellow>"), null)
                 .withStringLore(config.getStringList("gui.suffixes.remove.lore"), null)
-                .build();
+                .getItem();
     }
 
 }

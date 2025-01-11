@@ -1,7 +1,7 @@
 package uk.firedev.firefly.modules.small;
 
 import uk.firedev.daisylib.Config;
-import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 

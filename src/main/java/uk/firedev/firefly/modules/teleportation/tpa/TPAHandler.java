@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 

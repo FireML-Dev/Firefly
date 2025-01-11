@@ -2,8 +2,8 @@ package uk.firedev.firefly.modules.titles.command;
 
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.message.component.ComponentReplacer;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 import uk.firedev.firefly.modules.titles.gui.PrefixGUI;

@@ -4,7 +4,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.reward.RewardType;
 import uk.firedev.firefly.Firefly;
 

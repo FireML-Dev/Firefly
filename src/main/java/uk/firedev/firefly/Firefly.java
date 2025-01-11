@@ -1,7 +1,7 @@
 package uk.firedev.firefly;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;

@@ -31,7 +31,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.exit.display", "<red>Exit</red>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.exit.lore"), null)
-                .build();
+                .getItem();
     }
 
     public GuiPageElement getNextPageButton() {
@@ -42,7 +42,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.next-page.display", "<aqua>Next Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.next-page.lore"), null)
-                .build();
+                .getItem();
         return new GuiPageElement('n', item, GuiPageElement.PageAction.NEXT);
     }
 
@@ -54,7 +54,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.previous-page.display", "<aqua>Previous Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.previous-page.lore"), null)
-                .build();
+                .getItem();
         return new GuiPageElement('p', item, GuiPageElement.PageAction.PREVIOUS);
     }
 
@@ -66,7 +66,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.first-page.display", "<aqua>First Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.first-page.lore"), null)
-                .build();
+                .getItem();
         return new GuiPageElement('f', item, GuiPageElement.PageAction.FIRST);
     }
 
@@ -78,7 +78,7 @@ public class GUIConfig extends uk.firedev.daisylib.Config {
         ItemStack item = ItemBuilder.itemBuilder(material)
                 .withStringDisplay(getConfig().getString("gui.global.last-page.display", "<aqua>Last Page</aqua>"), null)
                 .withStringLore(getConfig().getStringList("gui.global.last-page.lore"), null)
-                .build();
+                .getItem();
         return new GuiPageElement('l', item, GuiPageElement.PageAction.LAST);
     }
 

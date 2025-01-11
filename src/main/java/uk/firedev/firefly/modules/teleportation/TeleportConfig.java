@@ -4,10 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Config;
-import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.message.component.ComponentMessage;
-import uk.firedev.daisylib.message.string.StringMessage;
-import uk.firedev.daisylib.utils.LocationHelper;
+import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.message.string.StringMessage;
+import uk.firedev.daisylib.api.utils.LocationHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 

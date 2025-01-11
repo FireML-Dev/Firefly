@@ -3,7 +3,7 @@ package uk.firedev.firefly.modules.elevator.command;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.util.RayTraceResult;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.utils.ItemUtils;
+import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.firefly.modules.elevator.Elevator;
 import uk.firedev.firefly.modules.elevator.ElevatorConfig;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;

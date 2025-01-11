@@ -2,9 +2,9 @@ package uk.firedev.firefly.modules.teleportation;
 
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.database.DatabaseModule;
-import uk.firedev.daisylib.utils.LocationHelper;
+import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.database.DatabaseModule;
+import uk.firedev.daisylib.api.utils.LocationHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 

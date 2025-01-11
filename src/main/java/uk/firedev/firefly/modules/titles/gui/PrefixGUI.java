@@ -38,7 +38,7 @@ public class PrefixGUI {
         gui.setCloseAction(close -> false);
         gui.setFiller(ItemBuilder.itemBuilder(config.getString("gui.prefixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
                 .withStringDisplay("", null)
-                .build()
+                .getItem()
         );
 
         DynamicGuiElement prefixesGroup = new DynamicGuiElement('i', who -> {
@@ -88,7 +88,7 @@ public class PrefixGUI {
         return ItemBuilder.itemBuilder(material)
                 .withStringDisplay(config.getString("gui.prefixes.remove.display", "<yellow>Remove Prefix</yellow>"), null)
                 .withStringLore(config.getStringList("gui.prefixes.remove.lore"), null)
-                .build();
+                .getItem();
     }
     
 

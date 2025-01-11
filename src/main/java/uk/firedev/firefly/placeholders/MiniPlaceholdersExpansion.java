@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.Tag;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.modules.small.AmethystProtection;
 import uk.firedev.firefly.modules.titles.TitleModule;
