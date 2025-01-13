@@ -59,6 +59,7 @@ public class ModuleManager {
         if (!isLoaded()) {
             return;
         }
+        ModuleConfig.getInstance().reload();
         modules.forEach(this::registerOrUnregisterModule);
     }
 
