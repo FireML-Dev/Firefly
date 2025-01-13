@@ -1,1 +1,0 @@
-All modules in this package require a single class file, and share the SmallConfig config file.

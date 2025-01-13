@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.small;
+package uk.firedev.firefly.modules.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -103,7 +103,7 @@ public class LootChestProtection implements Listener, Module {
     }
 
     private List<World> getProtectedWorlds() {
-        return SmallConfig.getInstance().getConfig().getStringList("loot-chest-protection.settings.protected-worlds").stream()
+        return CommandConfig.getInstance().getConfig().getStringList("loot-chest-protection.settings.protected-worlds").stream()
                 .map(Bukkit::getWorld)
                 .filter(Objects::nonNull)
                 .toList();

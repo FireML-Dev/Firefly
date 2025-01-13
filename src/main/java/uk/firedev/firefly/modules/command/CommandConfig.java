@@ -1,21 +1,21 @@
-package uk.firedev.firefly.modules.small;
+package uk.firedev.firefly.modules.command;
 
 import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
-public class SmallConfig extends Config {
+public class CommandConfig extends Config {
 
-    private static SmallConfig instance;
+    private static CommandConfig instance;
 
-    private SmallConfig() {
+    private CommandConfig() {
         super("modules/small.yml", "modules/small.yml", Firefly.getInstance(), true);
     }
 
-    public static SmallConfig getInstance() {
+    public static CommandConfig getInstance() {
         if (instance == null) {
-            instance = new SmallConfig();
+            instance = new CommandConfig();
         }
         return instance;
     }

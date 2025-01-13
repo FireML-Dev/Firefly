@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.small;
+package uk.firedev.firefly.modules.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,9 +12,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.daisylib.libs.commandapi.executors.CommandExecutor;
-import uk.firedev.daisylib.libs.commandapi.executors.ExecutorType;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -40,10 +37,10 @@ public class AmethystProtection implements Listener, Module {
                     PersistentDataContainer pdc = player.getPersistentDataContainer();
                     if (isDisabled(player)) {
                         pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-                        SmallConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
+                        CommandConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
                     } else {
                         pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-                        SmallConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
+                        CommandConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
                     }
                 });
         Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
@@ -109,7 +106,7 @@ public class AmethystProtection implements Listener, Module {
             event.setCancelled(true);
             if (!warned.contains(player.getUniqueId())) {
                 warned.add(player.getUniqueId());
-                SmallConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
+                CommandConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
             }
         }
     }

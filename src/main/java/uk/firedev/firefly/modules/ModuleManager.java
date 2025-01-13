@@ -10,8 +10,8 @@ import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
-import uk.firedev.firefly.modules.small.AmethystProtection;
-import uk.firedev.firefly.modules.small.LootChestProtection;
+import uk.firedev.firefly.modules.command.AmethystProtection;
+import uk.firedev.firefly.modules.command.LootChestProtection;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 import uk.firedev.firefly.modules.titles.TitleModule;
 
