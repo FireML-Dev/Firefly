@@ -53,9 +53,7 @@ public class ProtectionModule implements Module {
             return;
         }
         ProtectionConfig.getInstance().reload();
-        protections.forEach(protection -> {
-            ModuleManager.getInstance().registerOrUnregisterModule(protection);
-        });
+        protections.forEach(protection -> ModuleManager.getInstance().registerOrUnregisterModule(protection));
     }
 
     @Override

@@ -84,6 +84,8 @@ public class ModuleManager {
         } else {
             module.unregister();
         }
+        // Ensure we reload after this
+        module.reload();
     }
 
 }
