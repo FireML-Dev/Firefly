@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
+import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 
@@ -96,6 +97,7 @@ public class CustomCommandsModule implements Module {
 
     private void addToUnregisterList(@NotNull String command) {
         commandsToUnregister.add(command);
+        commandsToUnregister.add("firefly:" + command);
         startTask();
     }
 

@@ -1,4 +1,5 @@
 # Here you can add custom commands, these commands can currently execute other commands and/or send messages.
+# NOTE: These will override another plugin's commands if the names match.
 
 example:
   permission: "example.permission.1"
