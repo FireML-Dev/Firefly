@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.type.Fire;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -15,7 +16,7 @@ import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
-import uk.firedev.daisylib.crafting.ShapedRecipe;
+import uk.firedev.daisylib.api.crafting.ShapedRecipe;
 import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
@@ -138,7 +139,7 @@ public class ElevatorModule implements Module {
         ElevatorConfig.getInstance().getConfig().getStringList("item.recipe").forEach(itemName ->
                 stackList.add(ItemStack.of(ItemUtils.getMaterial(itemName, Material.AIR)))
         );
-        ShapedRecipe recipe = new ShapedRecipe(getItemKey(), getElevatorBlock(), stackList);
+        ShapedRecipe recipe = new ShapedRecipe(Firefly.getInstance(), getItemKey(), getElevatorBlock(), stackList);
         if (recipe.register(true)) {
             Loggers.info(Firefly.getInstance().getComponentLogger(), "Registered Elevator Recipe");
         } else {
