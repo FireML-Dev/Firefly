@@ -23,7 +23,7 @@ public class ProtectionConfig extends Config {
     // Getters
 
     public boolean isAmethystProtectEnabled() {
-        return getConfig().getBoolean("amethyst-protect.enabled", false);
+        return getConfig().getBoolean("amethyst-protection.enabled", false);
     }
 
     public boolean isLootChestProtectionEnabled() {
