@@ -25,12 +25,8 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
         return getConfig().getBoolean("titles");
     }
 
-    public boolean amethystProtectionModuleEnabled() {
-        return getConfig().getBoolean("small.amethyst-protection");
-    }
-
-    public boolean lootChestProtectionModuleEnabled() {
-        return getConfig().getBoolean("small.loot-chest-protection");
+    public boolean protectionModuleEnabled() {
+        return getConfig().getBoolean("protection");
     }
 
     public boolean kitsModuleEnabled() {

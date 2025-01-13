@@ -7,7 +7,7 @@ import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.placeholders.PlaceholderProvider;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
-import uk.firedev.firefly.modules.command.AmethystProtection;
+import uk.firedev.firefly.modules.protection.protections.AmethystProtection;
 import uk.firedev.firefly.modules.titles.TitleModule;
 
 import java.util.Objects;

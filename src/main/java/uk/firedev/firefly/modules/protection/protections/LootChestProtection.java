@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.command;
+package uk.firedev.firefly.modules.protection.protections;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -13,12 +13,13 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Module;
+import uk.firedev.firefly.SubModule;
+import uk.firedev.firefly.modules.protection.ProtectionConfig;
 
 import java.util.List;
 import java.util.Objects;
 
-public class LootChestProtection implements Listener, Module {
+public class LootChestProtection implements SubModule {
 
     private static LootChestProtection instance = null;
 
@@ -36,8 +37,8 @@ public class LootChestProtection implements Listener, Module {
     }
 
     @Override
-    public String getIdentifier() {
-        return "LootChestProtection";
+    public boolean isConfigEnabled() {
+        return ProtectionConfig.getInstance().isLootChestProtectionEnabled();
     }
 
     @Override
@@ -103,7 +104,7 @@ public class LootChestProtection implements Listener, Module {
     }
 
     private List<World> getProtectedWorlds() {
-        return CommandConfig.getInstance().getConfig().getStringList("loot-chest-protection.settings.protected-worlds").stream()
+        return ProtectionConfig.getInstance().getConfig().getStringList("loot-chest-protection.settings.protected-worlds").stream()
                 .map(Bukkit::getWorld)
                 .filter(Objects::nonNull)
                 .toList();

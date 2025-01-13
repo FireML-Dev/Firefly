@@ -9,6 +9,7 @@ import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
@@ -41,6 +42,11 @@ public class NicknameModule implements Module {
     @Override
     public String getIdentifier() {
         return "Nickname";
+    }
+
+    @Override
+    public boolean isConfigEnabled() {
+        return ModuleConfig.getInstance().nicknamesModuleEnabled();
     }
 
     @Override

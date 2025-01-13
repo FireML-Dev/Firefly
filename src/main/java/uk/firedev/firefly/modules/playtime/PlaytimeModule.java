@@ -8,6 +8,7 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
 
@@ -37,6 +38,11 @@ public class PlaytimeModule implements Module {
     @Override
     public String getIdentifier() {
         return "Playtime";
+    }
+
+    @Override
+    public boolean isConfigEnabled() {
+        return ModuleConfig.getInstance().playtimeModuleEnabled();
     }
 
     @Override

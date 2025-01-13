@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.command;
+package uk.firedev.firefly.modules.protection.protections;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -14,13 +14,14 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.Module;
+import uk.firedev.firefly.SubModule;
+import uk.firedev.firefly.modules.protection.ProtectionConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AmethystProtection implements Listener, Module {
+public class AmethystProtection implements SubModule {
 
     private static AmethystProtection instance = null;
     private static final List<UUID> warned = new ArrayList<>();
@@ -37,10 +38,10 @@ public class AmethystProtection implements Listener, Module {
                     PersistentDataContainer pdc = player.getPersistentDataContainer();
                     if (isDisabled(player)) {
                         pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-                        CommandConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
+                        ProtectionConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
                     } else {
                         pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-                        CommandConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
+                        ProtectionConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
                     }
                 });
         Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
@@ -54,8 +55,8 @@ public class AmethystProtection implements Listener, Module {
     }
 
     @Override
-    public String getIdentifier() {
-        return "AmethystProtection";
+    public boolean isConfigEnabled() {
+        return ProtectionConfig.getInstance().isAmethystProtectEnabled();
     }
 
     @Override
@@ -106,7 +107,7 @@ public class AmethystProtection implements Listener, Module {
             event.setCancelled(true);
             if (!warned.contains(player.getUniqueId())) {
                 warned.add(player.getUniqueId());
-                CommandConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
+                ProtectionConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
             }
         }
     }

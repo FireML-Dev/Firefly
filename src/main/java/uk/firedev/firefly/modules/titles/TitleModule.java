@@ -15,6 +15,8 @@ import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.ModuleConfig;
+import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.firefly.modules.titles.command.PrefixCommand;
 import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
@@ -43,6 +45,11 @@ public class TitleModule implements Module {
     @Override
     public String getIdentifier() {
         return "Title";
+    }
+
+    @Override
+    public boolean isConfigEnabled() {
+        return ModuleConfig.getInstance().titleModuleEnabled();
     }
 
     @Override

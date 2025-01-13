@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.ModuleConfig;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,8 +17,8 @@ public class CustomCommandsModule implements Module {
     private static CustomCommandsModule instance;
 
     private boolean loaded = false;
-    private List<String> loadedCommands;
-    private List<String> commandsToUnregister;
+    private final List<String> loadedCommands;
+    private final List<String> commandsToUnregister;
     private BukkitTask cleanupTask;
 
     private CustomCommandsModule() {
@@ -34,7 +35,12 @@ public class CustomCommandsModule implements Module {
 
     @Override
     public String getIdentifier() {
-        return "CustomCommands";
+        return "CustomAliases";
+    }
+
+    @Override
+    public boolean isConfigEnabled() {
+        return ModuleConfig.getInstance().aliasesModuleEnabled();
     }
 
     @Override

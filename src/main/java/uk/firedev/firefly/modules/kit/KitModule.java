@@ -10,6 +10,7 @@ import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.kit.command.KitCommand;
 
 import java.util.List;
@@ -30,6 +31,11 @@ public class KitModule implements Module {
     @Override
     public String getIdentifier() {
         return "Kit";
+    }
+
+    @Override
+    public boolean isConfigEnabled() {
+        return ModuleConfig.getInstance().kitsModuleEnabled();
     }
 
     @Override

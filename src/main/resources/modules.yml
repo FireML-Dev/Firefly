@@ -1,8 +1,5 @@
-small:
-  # The plugin will protect budding amethyst from being broken. Can be toggled per-player.
-  amethyst-protection: true
-  # The plugin will protect loot chests in a configurable list of worlds.
-  loot-chest-protection: true
+# Various block protections, see modules/protection.yml for more detailed config.
+protection: true
 # Blocks that allow players to teleport vertically.
 elevators: true
 # Custom prefix/suffix handling.
@@ -19,4 +16,4 @@ playtime: true
 teleportation: true
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 3
+config-version: 4

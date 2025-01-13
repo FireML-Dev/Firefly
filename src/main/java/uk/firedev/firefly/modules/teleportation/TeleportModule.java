@@ -11,6 +11,7 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.teleportation.commands.back.BackCommand;
 import uk.firedev.firefly.modules.teleportation.commands.back.DBackCommand;
@@ -49,6 +50,11 @@ public class TeleportModule implements Module {
     @Override
     public String getIdentifier() {
         return "Teleportation";
+    }
+
+    @Override
+    public boolean isConfigEnabled() {
+        return ModuleConfig.getInstance().teleportationModuleEnabled();
     }
 
     @Override

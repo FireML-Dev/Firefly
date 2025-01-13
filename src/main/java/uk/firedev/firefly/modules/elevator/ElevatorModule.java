@@ -22,6 +22,7 @@ import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.elevator.command.ElevatorCommand;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
@@ -48,6 +49,11 @@ public class ElevatorModule implements Module {
     @Override
     public String getIdentifier() {
         return "Elevator";
+    }
+
+    @Override
+    public boolean isConfigEnabled() {
+        return ModuleConfig.getInstance().elevatorModuleEnabled();
     }
 
     @Override

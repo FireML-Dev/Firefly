@@ -1,11 +1,17 @@
 package uk.firedev.firefly;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.JoinConfiguration;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.ModuleManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,14 +59,24 @@ public class FireflyCommand extends CommandAPICommand {
      * This message is designed to look like /plugins
      */
     private ComponentMessage getModulesMessage() {
-        StringBuilder message = new StringBuilder();
-        Map<String, Module> loadedModules = ModuleManager.getInstance().getLoadedModules();
-        message.append("Modules (").append(loadedModules.size()).append("):").append("\n");
-        loadedModules.forEach((uppercaseIdentifier, module) -> {
-            String color = module.isLoaded() ? "<green>" : "<red>";
-            message.append(color).append(module.getIdentifier()).append("<white>, ");
-        });
-        return ComponentMessage.fromString(message.toString());
+        List<Module> modules = ModuleManager.getInstance().getModules();
+        List<Component> formattedModules = new ArrayList<>();
+
+        int loadedModules = modules.size();
+
+        for (Module module : ModuleManager.getInstance().getModules()) {
+            Component formatted = Component
+                    .text(module.getIdentifier())
+                    .color(module.isLoaded() ? NamedTextColor.GREEN : NamedTextColor.RED);
+            formattedModules.add(formatted);
+        }
+
+        Component finalComponent = Component
+                .text("Modules (" + loadedModules + "):")
+                .appendNewline()
+                .append(Component.join(JoinConfiguration.commas(true), formattedModules));
+
+        return ComponentMessage.of(finalComponent);
     }
 
 }

@@ -1,23 +1,33 @@
-package uk.firedev.firefly.modules.command;
+package uk.firedev.firefly.modules.protection;
 
 import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
-public class CommandConfig extends Config {
+public class ProtectionConfig extends Config {
 
-    private static CommandConfig instance;
+    private static ProtectionConfig instance;
 
-    private CommandConfig() {
-        super("modules/small.yml", "modules/small.yml", Firefly.getInstance(), true);
+    private ProtectionConfig() {
+        super("modules/protection.yml", "modules/protection.yml", Firefly.getInstance(), true);
     }
 
-    public static CommandConfig getInstance() {
+    public static ProtectionConfig getInstance() {
         if (instance == null) {
-            instance = new CommandConfig();
+            instance = new ProtectionConfig();
         }
         return instance;
+    }
+
+    // Getters
+
+    public boolean isAmethystProtectEnabled() {
+        return getConfig().getBoolean("amethyst-protect.enabled", false);
+    }
+
+    public boolean isLootChestProtectionEnabled() {
+        return getConfig().getBoolean("loot-chest-protection.enabled", false);
     }
 
     // AMETHYST PROTECTION

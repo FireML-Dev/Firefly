@@ -1,4 +1,5 @@
 amethyst-protection:
+  enabled: true
   messages:
     enabled: "<color:#F0E68C>Enabled Amethyst Protection</color>"
     disabled: "<color:#F0E68C>Disabled Amethyst Protection</color>"
@@ -9,6 +10,7 @@ amethyst-protection:
       - World2
 
 loot-chest-protection:
+  enabled: true
   settings:
     protected-worlds:
       - Resource
