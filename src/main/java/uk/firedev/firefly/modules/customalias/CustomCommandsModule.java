@@ -1,10 +1,9 @@
-package uk.firedev.firefly.modules.customcommands;
+package uk.firedev.firefly.modules.customalias;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
-import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 

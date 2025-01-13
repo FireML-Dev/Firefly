@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.customcommands;
+package uk.firedev.firefly.modules.customalias;
 
 import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;

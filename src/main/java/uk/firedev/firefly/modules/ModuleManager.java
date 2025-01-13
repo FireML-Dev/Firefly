@@ -5,7 +5,7 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
-import uk.firedev.firefly.modules.customcommands.CustomCommandsModule;
+import uk.firedev.firefly.modules.customalias.CustomCommandsModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;

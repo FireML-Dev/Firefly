@@ -1,7 +1,6 @@
-package uk.firedev.firefly.modules.customcommands;
+package uk.firedev.firefly.modules.customalias;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.data.type.Fire;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
