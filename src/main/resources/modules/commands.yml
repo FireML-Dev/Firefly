@@ -1,0 +1,13 @@
+# Configure different commands from the "Commands" module here.
+
+# The /fly command - Toggles flight
+fly:
+  enabled: true
+  messages:
+    enabled: "{prefix}<color:#F0E68C>Flight is now enabled."
+    enabled-sender: "{prefix}<color:#F0E68C>Flight is now enabled for {target}."
+    disabled: "{prefix}<red>Flight is now disabled."
+    disabled-sender: "{prefix}<red>Flight is now disabled for {target}."
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

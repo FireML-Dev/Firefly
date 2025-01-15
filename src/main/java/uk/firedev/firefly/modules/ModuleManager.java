@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
+import uk.firedev.firefly.modules.command.CommandModule;
 import uk.firedev.firefly.modules.customalias.CustomAliasModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
@@ -28,7 +29,8 @@ public class ModuleManager {
         NicknameModule.getInstance(),
         CustomAliasModule.getInstance(),
         PlaytimeModule.getInstance(),
-        TeleportModule.getInstance()
+        TeleportModule.getInstance(),
+        CommandModule.getInstance()
     );
 
     private ModuleManager() {}
