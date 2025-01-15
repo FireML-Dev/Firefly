@@ -9,6 +9,8 @@ import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
 
+import java.util.Objects;
+
 public class FlyCommand extends Command {
 
     private final CommandTree command = new CommandTree(getName())
@@ -20,11 +22,8 @@ public class FlyCommand extends Command {
             .then(
                     new EntitySelectorArgument.OnePlayer("target")
                             .executes((sender, arguments) -> {
-                                Player player = (Player) arguments.get("target");
-                                if (player == null) {
-                                    MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
-                                    return;
-                                }
+                                // This should never be null.
+                                Player player = (Player) Objects.requireNonNull(arguments.get("target"));
                                 toggleFlight(sender, player);
                             })
             );
