@@ -28,8 +28,8 @@ ride:
     not-permitted: "{prefix}<red>You are not allowed to ride this entity!"
     riding: "{prefix}<#F0E68C>You are now riding an entity. Sneak to dismount."
     riding-sender: "{prefix}<#F0E68C>{target} is now riding an entity."
-    shake: "<#F0E68C>{player} is now riding you. Type <gold><click:run_command:'/ride shake'>/ride shake</click> <#F0E68C>to get them off!"
-    shook: "<#F0E68C>Successfully shook off all players!"
+    shake: "{prefix}<#F0E68C>{player} is now riding you. Type <gold><click:run_command:'/ride shake'>/ride shake</click> <#F0E68C>to get them off!"
+    shook: "{prefix}<#F0E68C>Successfully shook off all players!"
 
 # DO NOT TOUCH THIS VALUE!!!
 config-version: 1
