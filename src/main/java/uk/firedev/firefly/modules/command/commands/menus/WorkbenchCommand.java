@@ -15,6 +15,7 @@ import java.util.Objects;
 public class WorkbenchCommand extends Command {
 
     private final CommandTree command = new CommandTree(getName())
+            .withPermission(getPermission())
             .executesPlayer(info -> {
                 open(info.sender());
             })

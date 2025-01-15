@@ -15,6 +15,7 @@ import java.util.Objects;
 public class AnvilCommand extends Command {
 
     private final CommandTree command = new CommandTree(getName())
+            .withPermission(getPermission())
             .executesPlayer(info -> {
                 open(info.sender());
             })

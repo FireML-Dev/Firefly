@@ -18,6 +18,7 @@ import java.util.Objects;
 public class RideCommand extends Command {
 
     private final CommandTree command = new CommandTree(getName())
+            .withPermission(getPermission())
             .executesPlayer((player, arguments) -> {
                 RayTraceResult result = player.rayTraceEntities(5);
                 Entity entity;

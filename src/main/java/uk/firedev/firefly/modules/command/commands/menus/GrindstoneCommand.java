@@ -15,6 +15,7 @@ import java.util.Objects;
 public class GrindstoneCommand extends Command {
 
     private final CommandTree command = new CommandTree(getName())
+            .withPermission(getPermission())
             .executesPlayer(info -> {
                 open(info.sender());
             })
