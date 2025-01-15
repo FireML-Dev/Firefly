@@ -49,7 +49,7 @@ public class FlySpeedCommand extends Command {
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlySpeedSetSenderMessage()
                     .replace("speed", String.valueOf(speed))
-                    .replace("target", target.getName())
+                    .replace("target", target.name())
                     .sendMessage(sender);
         }
     }
