@@ -17,7 +17,7 @@ flyspeed:
     set: "{prefix}<#F0E68C>Your fly speed has been set to {speed}."
     set-sender: "{prefix}<#F0E68C>{target}'s fly speed has been set to {speed}."
 
-# The /ride command - Allows you to sit on entities and players
+# The /ride command - Allows you to sit on entities and other players
 ride:
   enabled: true
   entity-blacklist:
