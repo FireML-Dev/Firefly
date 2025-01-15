@@ -5,13 +5,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
-import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
-import uk.firedev.firefly.utils.CommandUtils;
 
-public class FlyCommand implements SubModule {
+public class FlyCommand extends Command {
 
     private boolean loaded;
     private final CommandTree command;
@@ -34,6 +32,16 @@ public class FlyCommand implements SubModule {
                                 toggleFlight(sender, player);
                             })
                 );
+    }
+
+    @Override
+    public String getName() {
+        return "fly";
+    }
+
+    @Override
+    public CommandTree getCommand() {
+        return command;
     }
 
     private void toggleFlight(@NotNull CommandSender sender, @NotNull Player target) {
@@ -63,42 +71,6 @@ public class FlyCommand implements SubModule {
                     .replace("target", target.getName())
                     .sendMessage(sender);
         }
-    }
-
-    @Override
-    public boolean isConfigEnabled() {
-        return CommandConfig.getInstance().getConfig().getBoolean("fly.enabled", true);
-    }
-
-    @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
-        command.register(Firefly.getInstance());
-        loaded = true;
-    }
-
-    @Override
-    public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
-        // There is nothing to reload here :)
-    }
-
-    @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        CommandUtils.unregisterCommand("fly");
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
     }
 
 }
