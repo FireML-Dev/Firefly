@@ -31,5 +31,8 @@ ride:
     shake: "{prefix}<#F0E68C>{player} is now riding you. Type <gold><click:run_command:'/ride shake'>/ride shake</click> <#F0E68C>to get them off!"
     shook: "{prefix}<#F0E68C>Successfully shook off all players!"
 
+workbench:
+  enabled: true
+
 # DO NOT TOUCH THIS VALUE!!!
 config-version: 1
