@@ -48,5 +48,18 @@ grindstone:
 loom:
   enabled: true
 
+# The /itemframe command - Allows modification of item frames
+itemframe:
+  enabled: true
+  messages:
+    look-at-frame: "{prefix}<red>You must be looking at an item frame!"
+    invisible-on: "{prefix}<#F0E68C>Item Frame is now invisible!"
+    invisible-off: "{prefix}<#F0E68C>Item Frame is now visible!"
+    fixed-on: "{prefix}<#F0E68C>Item Frame is now fixed!"
+    fixed-off: "{prefix}<#F0E68C>Item Frame is no longer fixed!"
+    invulnerable-on: "{prefix}<#F0E68C>Item Frame is now invulnerable!"
+    invulnerable:off:  "{prefix}<#F0E68C>Item Frame is no longer invulnerable!"
+
+
 # DO NOT TOUCH THIS VALUE!!!
 config-version: 1

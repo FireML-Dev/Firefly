@@ -4,6 +4,7 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.ModuleManager;
+import uk.firedev.firefly.modules.command.commands.ItemFrameCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlyCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlySpeedCommand;
 import uk.firedev.firefly.modules.command.commands.RideCommand;
@@ -28,7 +29,8 @@ public class CommandModule implements Module {
         new CartographyCommand(),
         new StonecutterCommand(),
 
-        new RideCommand()
+        new RideCommand(),
+        new ItemFrameCommand()
     );
 
     private CommandModule() {}
@@ -65,7 +67,6 @@ public class CommandModule implements Module {
             return;
         }
         CommandConfig.getInstance().reload();
-        // TODO look into why commands aren't being unregistered.
         commands.forEach(command -> ModuleManager.getInstance().registerOrUnregisterModule(command));
     }
 

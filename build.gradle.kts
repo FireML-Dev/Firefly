@@ -20,7 +20,9 @@ repositories {
 dependencies {
     compileOnly(libs.paper.api)
     compileOnly(libs.daisylib)
-    compileOnly(libs.vault)
+    compileOnly(libs.vault) {
+        exclude("*", "*")
+    }
     compileOnly(libs.placeholderapi)
     compileOnly(libs.miniplaceholders)
 }

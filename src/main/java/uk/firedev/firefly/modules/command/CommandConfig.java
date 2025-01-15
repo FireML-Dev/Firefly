@@ -90,13 +90,57 @@ public class CommandConfig extends Config {
     }
 
     public ComponentMessage getRideShakeMessage() {
-        ComponentMessage message = getComponentMessage("ride.messages.shake", "<#F0E68C>{player} is now riding you. Type <gold><click:run_command:'/ride shake'>/ride shake</click> <#F0E68C>to get them off!");
+        ComponentMessage message = getComponentMessage("ride.messages.shake", "{prefix}<#F0E68C>{player} is now riding you. Type <gold><click:run_command:'/ride shake'>/ride shake</click> <#F0E68C>to get them off!");
         message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getRideShookMessage() {
-        ComponentMessage message = getComponentMessage("ride.messages.shook", "<#F0E68C>Successfully shook off all players!");
+        ComponentMessage message = getComponentMessage("ride.messages.shook", "{prefix}<#F0E68C>Successfully shook off all players!");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    // ItemFrame Messages
+
+    public ComponentMessage getItemFrameLookAtFrameMessage() {
+        ComponentMessage message = getComponentMessage("itemframe.messages.look-at-frame", "{prefix}<red>You must be looking at an item frame!");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getItemFrameInvisibleOnMessage() {
+        ComponentMessage message = getComponentMessage("itemframe.messages.invisible-on", "{prefix}<#F0E68C>Item Frame is now invisible!");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getItemFrameInvisibleOffMessage() {
+        ComponentMessage message = getComponentMessage("itemframe.messages.invisible-off", "{prefix}<#F0E68C>Item Frame is no longer invisible!");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getItemFrameFixedOnMessage() {
+        ComponentMessage message = getComponentMessage("itemframe.messages.fixed-on", "{prefix}<#F0E68C>Item Frame is now fixed!");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getItemFrameFixedOffMessage() {
+        ComponentMessage message = getComponentMessage("itemframe.messages.fixed-off", "{prefix}<#F0E68C>Item Frame is no longer fixed!");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getItemFrameInvulnerableOnMessage() {
+        ComponentMessage message = getComponentMessage("itemframe.messages.invulnerable-on", "{prefix}<#F0E68C>Item Frame is now invulnerable!");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getItemFrameInvulnerableOffMessage() {
+        ComponentMessage message = getComponentMessage("itemframe.messages.invulnerable-off", "{prefix}<#F0E68C>Item Frame is no longer invulnerable!");
         message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
