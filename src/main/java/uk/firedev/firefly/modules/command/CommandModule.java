@@ -8,6 +8,7 @@ import uk.firedev.firefly.modules.command.commands.flight.FlyCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlySpeedCommand;
 import uk.firedev.firefly.modules.command.commands.RideCommand;
 import uk.firedev.firefly.modules.command.commands.menus.AnvilCommand;
+import uk.firedev.firefly.modules.command.commands.menus.GrindstoneCommand;
 import uk.firedev.firefly.modules.command.commands.menus.WorkbenchCommand;
 
 import java.util.List;
@@ -22,7 +23,8 @@ public class CommandModule implements Module {
         new FlySpeedCommand(),
         new RideCommand(),
         new WorkbenchCommand(),
-            new AnvilCommand()
+            new AnvilCommand(),
+            new GrindstoneCommand()
     );
 
     private CommandModule() {}
