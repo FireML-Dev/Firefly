@@ -58,7 +58,7 @@ itemframe:
     fixed-on: "{prefix}<#F0E68C>Item Frame is now fixed!"
     fixed-off: "{prefix}<#F0E68C>Item Frame is no longer fixed!"
     invulnerable-on: "{prefix}<#F0E68C>Item Frame is now invulnerable!"
-    invulnerable:off:  "{prefix}<#F0E68C>Item Frame is no longer invulnerable!"
+    invulnerable-off:  "{prefix}<#F0E68C>Item Frame is no longer invulnerable!"
 
 
 # DO NOT TOUCH THIS VALUE!!!
