@@ -11,17 +11,13 @@ import uk.firedev.firefly.modules.command.CommandConfig;
 
 public class FlyCommand extends Command {
 
-    private boolean loaded;
-    private final CommandTree command;
-
-    public FlyCommand() {
-        command = new CommandTree("fly")
-                .withPermission("firefly.command.fly")
-                .withShortDescription("Toggles flight")
-                .executesPlayer((player, arguments) -> {
-                    toggleFlight(player, player);
-                })
-                .then(
+    private final CommandTree command = new CommandTree(getName())
+            .withPermission(getPermission())
+            .withShortDescription("Toggles flight")
+            .executesPlayer((player, arguments) -> {
+                toggleFlight(player, player);
+            })
+            .then(
                     new EntitySelectorArgument.OnePlayer("target")
                             .executes((sender, arguments) -> {
                                 Player player = (Player) arguments.get("target");
@@ -31,8 +27,7 @@ public class FlyCommand extends Command {
                                 }
                                 toggleFlight(sender, player);
                             })
-                );
-    }
+            );
 
     @Override
     public String getName() {

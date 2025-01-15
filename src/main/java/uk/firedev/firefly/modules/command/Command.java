@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.command;
 
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
@@ -41,6 +42,10 @@ public abstract class Command implements SubModule {
     @Override
     public boolean isLoaded() {
         return loaded;
+    }
+
+    public @NotNull String getPermission() {
+        return "firefly.command." + getName().toLowerCase();
     }
 
 }

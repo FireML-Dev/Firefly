@@ -49,4 +49,18 @@ public class CommandConfig extends Config {
         return message;
     }
 
+    // FlySpeed Messages
+
+    public ComponentMessage getFlySpeedSetMessage() {
+        ComponentMessage message = getComponentMessage("flyspeed.messages.set", "{prefix}<color:#F0E68C>Your fly speed has been set to {speed}.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getFlySpeedSetSenderMessage() {
+        ComponentMessage message = getComponentMessage("flyspeed.messages.set-sender", "{prefix}<color:#F0E68C>{target}'s fly speed has been set to {speed}.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
 }

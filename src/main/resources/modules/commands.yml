@@ -9,5 +9,12 @@ fly:
     disabled: "{prefix}<red>Flight is now disabled."
     disabled-sender: "{prefix}<red>Flight is now disabled for {target}."
 
+# The /flyspeed command - Adjusts the speed of flight
+flyspeed:
+  enabled: true
+  messages:
+    set: "{prefix}<color:#F0E68C>Your fly speed has been set to {speed}."
+    set-sender: "{prefix}<color:#F0E68C>{target}'s fly speed has been set to {speed}."
+
 # DO NOT TOUCH THIS VALUE!!!
 config-version: 1

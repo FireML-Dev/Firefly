@@ -5,6 +5,7 @@ import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.firefly.modules.command.commands.FlyCommand;
+import uk.firedev.firefly.modules.command.commands.FlySpeedCommand;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ public class CommandModule implements Module {
 
     private boolean loaded = false;
     private final List<SubModule> commands = List.of(
-        new FlyCommand()
+        new FlyCommand(),
+        new FlySpeedCommand()
     );
 
     private CommandModule() {}
