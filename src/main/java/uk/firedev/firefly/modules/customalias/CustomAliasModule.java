@@ -12,23 +12,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CustomCommandsModule implements Module {
+public class CustomAliasModule implements Module {
 
-    private static CustomCommandsModule instance;
+    private static CustomAliasModule instance;
 
     private boolean loaded = false;
     private final List<String> loadedCommands;
     private final List<String> commandsToUnregister;
     private BukkitTask cleanupTask;
 
-    private CustomCommandsModule() {
+    private CustomAliasModule() {
         loadedCommands = new ArrayList<>();
         commandsToUnregister = new ArrayList<>();
     }
 
-    public static CustomCommandsModule getInstance() {
+    public static CustomAliasModule getInstance() {
         if (instance == null) {
-            instance = new CustomCommandsModule();
+            instance = new CustomAliasModule();
         }
         return instance;
     }
@@ -57,7 +57,7 @@ public class CustomCommandsModule implements Module {
         if (!isLoaded()) {
             return;
         }
-        CustomCommandsConfig.getInstance().reload();
+        CustomAliasConfig.getInstance().reload();
         loadAllCommands();
     }
 
@@ -107,7 +107,7 @@ public class CustomCommandsModule implements Module {
     }
 
     private void loadAllCommands() {
-        List<String> configCommands = CustomCommandsConfig.getInstance().getCommandBuilderNames();
+        List<String> configCommands = CustomAliasConfig.getInstance().getCommandBuilderNames();
         Iterator<String> loadedCommandsIterator = loadedCommands.iterator();
         while (loadedCommandsIterator.hasNext()) {
             String command = loadedCommandsIterator.next();
@@ -117,7 +117,8 @@ public class CustomCommandsModule implements Module {
                 loadedCommandsIterator.remove();
             }
         }
-        CustomCommandsConfig.getInstance().getCommandBuilders().forEach(builder -> {
+        CustomAliasConfig.getInstance().getCommandBuilders().forEach(builder -> {
+
             String name = builder.getCommandName();
             if (name == null || name.isEmpty()) {
                 return;

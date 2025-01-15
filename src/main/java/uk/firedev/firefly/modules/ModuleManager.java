@@ -1,26 +1,19 @@
 package uk.firedev.firefly.modules;
 
-import com.sun.source.tree.ModuleTree;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
-import uk.firedev.firefly.modules.customalias.CustomCommandsModule;
+import uk.firedev.firefly.modules.customalias.CustomAliasModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 import uk.firedev.firefly.modules.protection.ProtectionModule;
-import uk.firedev.firefly.modules.protection.protections.AmethystProtection;
-import uk.firedev.firefly.modules.protection.protections.LootChestProtection;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 import uk.firedev.firefly.modules.titles.TitleModule;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ModuleManager {
 
@@ -33,7 +26,7 @@ public class ModuleManager {
         TitleModule.getInstance(),
         KitModule.getInstance(),
         NicknameModule.getInstance(),
-        CustomCommandsModule.getInstance(),
+        CustomAliasModule.getInstance(),
         PlaytimeModule.getInstance(),
         TeleportModule.getInstance()
     );

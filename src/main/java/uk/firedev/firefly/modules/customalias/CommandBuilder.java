@@ -3,6 +3,8 @@ package uk.firedev.firefly.modules.customalias;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
@@ -10,6 +12,7 @@ import uk.firedev.daisylib.api.message.string.StringReplacer;
 import uk.firedev.firefly.Firefly;
 
 import java.util.List;
+import java.util.Objects;
 
 public class CommandBuilder {
 
@@ -19,12 +22,12 @@ public class CommandBuilder {
     private final List<String> commands;
     private final List<String> messages;
 
-    public CommandBuilder(String commandName, List<String> aliases, String permission, List<String> commands, List<String> messages) {
-        this.commandName = commandName;
-        this.aliases = aliases;
-        this.permission = permission;
-        this.commands = commands;
-        this.messages = messages;
+    public CommandBuilder(@NotNull Section section) {
+        this.commandName = Objects.requireNonNull(section.getNameAsString());
+        this.aliases = section.getStringList("aliases");
+        this.permission = section.getString("permission");
+        this.commands = section.getStringList("commands");
+        this.messages = section.getStringList("messages");
     }
 
     public void registerCommand() {
