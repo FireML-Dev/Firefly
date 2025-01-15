@@ -1,3 +1,5 @@
+# Basic server commands and other helpful things. See modules/commands.yml for detailed config.
+commands: true
 # Various block protections, see modules/protection.yml for more detailed config.
 protection: true
 # Blocks that allow players to teleport vertically.
@@ -16,4 +18,4 @@ playtime: true
 teleportation: true
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 4
+config-version: 5

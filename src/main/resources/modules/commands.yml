@@ -1,0 +1,65 @@
+# Configure different commands from the "Commands" module here.
+# All commands follow the same permission format: `firefly.command.[name]`.
+
+# The /fly command - Toggles flight
+fly:
+  enabled: true
+  messages:
+    enabled: "{prefix}<color:#F0E68C>Flight is now enabled."
+    enabled-sender: "{prefix}<color:#F0E68C>Flight is now enabled for {target}."
+    disabled: "{prefix}<red>Flight is now disabled."
+    disabled-sender: "{prefix}<red>Flight is now disabled for {target}."
+
+# The /flyspeed command - Adjusts the speed of flight
+flyspeed:
+  enabled: true
+  messages:
+    set: "{prefix}<#F0E68C>Your fly speed has been set to {speed}."
+    set-sender: "{prefix}<#F0E68C>{target}'s fly speed has been set to {speed}."
+
+# The /ride command - Allows you to sit on entities and players
+ride:
+  enabled: true
+  entity-blacklist:
+    - "ENDER_DRAGON"
+    - "WITHER"
+    - "WARDEN"
+  messages:
+    target-not-found: "{prefix}<red>Could not find a rideable target!"
+    not-permitted: "{prefix}<red>You are not allowed to ride this entity!"
+    riding: "{prefix}<#F0E68C>You are now riding an entity. Sneak to dismount."
+    riding-sender: "{prefix}<#F0E68C>{target} is now riding an entity."
+    shake: "{prefix}<#F0E68C>{player} is now riding you. Type <gold><click:run_command:'/ride shake'>/ride shake</click> <#F0E68C>to get them off!"
+    shook: "{prefix}<#F0E68C>Successfully shook off all players!"
+
+# The /workbench command - Opens a workbench
+workbench:
+  enabled: true
+
+# The /anvil command - Opens an anvil
+anvil:
+  enabled: true
+
+# The /grindstone command - Opens a grindstone
+grindstone:
+  enabled: true
+
+# The /loom command - Opens a loom
+loom:
+  enabled: true
+
+# The /itemframe command - Allows modification of item frames
+itemframe:
+  enabled: true
+  messages:
+    look-at-frame: "{prefix}<red>You must be looking at an item frame!"
+    invisible-on: "{prefix}<#F0E68C>Item Frame is now invisible!"
+    invisible-off: "{prefix}<#F0E68C>Item Frame is now visible!"
+    fixed-on: "{prefix}<#F0E68C>Item Frame is now fixed!"
+    fixed-off: "{prefix}<#F0E68C>Item Frame is no longer fixed!"
+    invulnerable-on: "{prefix}<#F0E68C>Item Frame is now invulnerable!"
+    invulnerable-off:  "{prefix}<#F0E68C>Item Frame is no longer invulnerable!"
+
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1

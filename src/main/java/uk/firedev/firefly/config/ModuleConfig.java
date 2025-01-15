@@ -49,4 +49,8 @@ public class ModuleConfig extends uk.firedev.daisylib.Config {
         return getConfig().getBoolean("teleportation");
     }
 
+    public boolean commandsModuleEnabled() {
+        return getConfig().getBoolean("commands");
+    }
+
 }

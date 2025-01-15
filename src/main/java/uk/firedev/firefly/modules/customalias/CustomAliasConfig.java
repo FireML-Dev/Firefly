@@ -7,17 +7,17 @@ import uk.firedev.firefly.Firefly;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomCommandsConfig extends Config {
+public class CustomAliasConfig extends Config {
 
-    private static CustomCommandsConfig instance;
+    private static CustomAliasConfig instance;
 
-    private CustomCommandsConfig() {
-        super("modules/customcommands.yml", "modules/customcommands.yml", Firefly.getInstance(), false);
+    private CustomAliasConfig() {
+        super("modules/customalias.yml", "modules/customalias.yml", Firefly.getInstance(), false);
     }
 
-    public static CustomCommandsConfig getInstance() {
+    public static CustomAliasConfig getInstance() {
         if (instance == null) {
-            instance = new CustomCommandsConfig();
+            instance = new CustomAliasConfig();
         }
         return instance;
     }
@@ -29,12 +29,7 @@ public class CustomCommandsConfig extends Config {
             if (section == null) {
                 return;
             }
-            String name = section.getNameAsString();
-            List<String> aliases = section.getStringList("aliases");
-            String permission = section.getString("permission");
-            List<String> commands = section.getStringList("commands");
-            List<String> messages = section.getStringList("messages");
-            list.add(new CommandBuilder(name, aliases, permission, commands, messages));
+            list.add(new CommandBuilder(section));
         });
         return list;
     }
