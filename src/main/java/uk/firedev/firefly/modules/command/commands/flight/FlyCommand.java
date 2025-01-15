@@ -1,4 +1,4 @@
-package uk.firedev.firefly.modules.command.commands;
+package uk.firedev.firefly.modules.command.commands.flight;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

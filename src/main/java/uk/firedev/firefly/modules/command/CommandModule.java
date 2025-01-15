@@ -4,8 +4,8 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.ModuleManager;
-import uk.firedev.firefly.modules.command.commands.FlyCommand;
-import uk.firedev.firefly.modules.command.commands.FlySpeedCommand;
+import uk.firedev.firefly.modules.command.commands.flight.FlyCommand;
+import uk.firedev.firefly.modules.command.commands.flight.FlySpeedCommand;
 import uk.firedev.firefly.modules.command.commands.RideCommand;
 
 import java.util.List;

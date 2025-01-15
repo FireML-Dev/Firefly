@@ -1,13 +1,11 @@
-package uk.firedev.firefly.modules.command.commands;
+package uk.firedev.firefly.modules.command.commands.flight;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
-import uk.firedev.daisylib.libs.commandapi.arguments.FloatArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.IntegerArgument;
-import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
