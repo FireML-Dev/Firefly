@@ -11,8 +11,14 @@ import java.util.List;
 
 public class CommandUtils {
 
-    private static BukkitTask cleanupTask;
+    private static boolean disabling = false;
+    private static BukkitTask cleanupTask = null;
     private static final List<String> commandsToUnregister = new ArrayList<>();
+
+    public static void disable() {
+        disabling = true;
+        stopTask();
+    }
 
     public static void stopTask() {
         if (cleanupTask == null) {
@@ -23,7 +29,7 @@ public class CommandUtils {
     }
 
     private static void startTask() {
-        if (cleanupTask != null) {
+        if (cleanupTask != null || disabling) {
             return;
         }
         cleanupTask = Bukkit.getScheduler().runTaskTimer(Firefly.getInstance(), CommandUtils::slowUnregister, 20L, 20L);

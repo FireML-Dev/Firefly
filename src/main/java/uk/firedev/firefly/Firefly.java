@@ -33,7 +33,7 @@ public final class Firefly extends JavaPlugin {
     @Override
     public void onDisable() {
         // Stop the CommandUtils unregister task.
-        CommandUtils.stopTask();
+        CommandUtils.disable();
         ModuleManager.getInstance().unload();
         // DO THIS LAST!!!!
         Database.getInstance().unload();
