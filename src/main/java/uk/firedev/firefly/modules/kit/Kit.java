@@ -14,6 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.command.CooldownHelper;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
@@ -21,6 +22,7 @@ import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.firefly.Firefly;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,8 +30,7 @@ public class Kit {
 
     private static final Random random = new Random();
 
-    private static Map<UUID, Map<String, BukkitTask>> cooldowns = new ConcurrentHashMap<>();
-    private static BukkitTask cleanupTask;
+    private CooldownHelper cooldowns = CooldownHelper.cooldownHelper();
     private String name;
     private Material material;
     private Component display;
@@ -41,21 +42,9 @@ public class Kit {
     private long guiCooldown;
     private boolean playerVisible;
 
-    public Kit(@NotNull Section section) {
-        construct(section);
-    }
-
-    public Kit(@NotNull String name) throws InvalidConfigurationException {
-        Section section = KitConfig.getInstance().getConfig().getSection("kits." + name);
+    public Kit(@Nullable Section section) throws InvalidConfigurationException {
         if (section == null) {
-            throw new InvalidConfigurationException();
-        }
-        construct(section);
-    }
-
-    private void construct(@NotNull Section section) {
-        if (cleanupTask == null) {
-            cleanupTask = Bukkit.getScheduler().runTaskTimer(Firefly.getInstance(), () -> cooldowns.entrySet().removeIf(entry -> entry.getValue().isEmpty()), 300L, 300L);
+            throw new InvalidConfigurationException("Kit config is not valid!");
         }
         this.name = section.getNameAsString();
         this.permission = section.getString("permission", "");
@@ -66,7 +55,7 @@ public class Kit {
         List<String> loreStrings = section.getStringList("lore");
         if (loreStrings.isEmpty()) {
             this.lore = List.of(
-                ComponentMessage.fromString("<green>Right Click to Claim</green>").getMessage()
+                    ComponentMessage.fromString("<green>Right Click to Claim</green>").getMessage()
             );
         } else {
             this.lore = loreStrings.stream().map(s -> ComponentMessage.fromString(s).getMessage()).toList();
@@ -78,6 +67,10 @@ public class Kit {
         this.rewards = rewardsList.stream()
                 .map(identifier -> new Reward(identifier, Firefly.getInstance()))
                 .toList();
+    }
+
+    public Kit(@NotNull String name) throws InvalidConfigurationException {
+        this(KitConfig.getInstance().getConfig().getSection("kits." + name));
     }
 
     public @NotNull Material getMaterial() {
@@ -145,38 +138,15 @@ public class Kit {
     }
 
     public boolean isOnCooldown(@NotNull UUID uuid) {
-        Map<String, BukkitTask> kits = cooldowns.get(uuid);
-        return kits != null && kits.containsKey(getName());
+        return cooldowns.hasCooldown(uuid);
     }
 
     public void applyCooldown(@NotNull UUID uuid) {
-        cooldowns.computeIfAbsent(uuid, k -> new HashMap<>())
-                .putIfAbsent(getName(), Bukkit.getScheduler().runTaskLater(Firefly.getInstance(), () -> removeCooldown(uuid), getGuiCooldownTicks()));
-    }
-
-    public void removeCooldown(@NotNull UUID uuid) {
-        Map<String, BukkitTask> map = cooldowns.get(uuid);
-        if (map != null) {
-            BukkitTask task = map.remove(getName());
-            if (task != null) {
-                task.cancel();
-            }
-        }
-    }
-
-    public static void removeAllCooldowns(@NotNull UUID uuid) {
-        Map<String, BukkitTask> map = cooldowns.remove(uuid);
-        if (map != null) {
-            map.forEach((string, task) -> task.cancel());
-        }
+        cooldowns.applyCooldown(uuid, Duration.ofSeconds(getGuiCooldown()));
     }
 
     public long getGuiCooldown() {
         return guiCooldown;
-    }
-
-    public long getGuiCooldownTicks() {
-        return guiCooldown * 20;
     }
 
     public void awardKit(@NotNull Player player, boolean skipCooldown) {
