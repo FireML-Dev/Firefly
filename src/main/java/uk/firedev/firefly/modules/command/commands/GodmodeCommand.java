@@ -1,36 +1,33 @@
-package uk.firedev.firefly.modules.command.commands.flight;
+package uk.firedev.firefly.modules.command.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
 
 import java.util.Objects;
 
-public class FlyCommand extends Command {
+public class GodmodeCommand extends Command {
 
     private final CommandTree command = new CommandTree(getName())
             .withPermission(getPermission())
-            .withShortDescription("Toggles flight")
             .executesPlayer(info -> {
-                toggleFlight(info.sender(), info.sender());
+                toggleGodmode(info.sender(), info.sender());
             })
             .then(
                     new EntitySelectorArgument.OnePlayer("target")
                             .executes((sender, arguments) -> {
-                                // This should never be null.
                                 Player player = (Player) Objects.requireNonNull(arguments.get("target"));
-                                toggleFlight(sender, player);
+                                toggleGodmode(sender, player);
                             })
             );
 
     @Override
     public String getName() {
-        return "fly";
+        return "godmode";
     }
 
     @Override
@@ -38,30 +35,29 @@ public class FlyCommand extends Command {
         return command;
     }
 
-    private void toggleFlight(@NotNull CommandSender sender, @NotNull Player target) {
-        if (target.getAllowFlight()) {
-            target.setFlying(false);
-            target.setAllowFlight(false);
+    private void toggleGodmode(@NotNull CommandSender sender, @NotNull Player target) {
+        if (target.isInvulnerable()) {
+            target.setInvulnerable(false);
             sendDisabledMessage(sender, target);
         } else {
-            target.setAllowFlight(true);
+            target.setInvulnerable(true);
             sendEnabledMessage(sender, target);
         }
     }
 
     private void sendEnabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getFlightEnabledMessage().sendMessage(target);
+        CommandConfig.getInstance().getGodmodeEnabledMessage().sendMessage(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getFlightEnabledSenderMessage()
+            CommandConfig.getInstance().getGodmodeEnabledSenderMessage()
                     .replace("target", target.name())
                     .sendMessage(sender);
         }
     }
 
     private void sendDisabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getFlightDisabledMessage().sendMessage(target);
+        CommandConfig.getInstance().getGodmodeDisabledMessage().sendMessage(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getFlightDisabledSenderMessage()
+            CommandConfig.getInstance().getGodmodeDisabledSenderMessage()
                     .replace("target", target.name())
                     .sendMessage(sender);
         }

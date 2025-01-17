@@ -60,6 +60,15 @@ itemframe:
     invulnerable-on: "{prefix}<#F0E68C>Item Frame is now invulnerable!"
     invulnerable-off:  "{prefix}<#F0E68C>Item Frame is no longer invulnerable!"
 
+# The /godmode command - Makes you invulnerable to all damage
+godmode:
+  enabled: true
+  messages:
+    enabled: "{prefix}<color:#F0E68C>Godmode is now enabled."
+    enabled-sender: "{prefix}<color:#F0E68C>Godmode is now enabled for {target}."
+    disabled: "{prefix}<red>Godmode is now disabled."
+    disabled-sender: "{prefix}<red>Godmode is now disabled for {target}."
+
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2

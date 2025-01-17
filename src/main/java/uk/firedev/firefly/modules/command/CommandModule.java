@@ -4,6 +4,7 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.ModuleManager;
+import uk.firedev.firefly.modules.command.commands.GodmodeCommand;
 import uk.firedev.firefly.modules.command.commands.ItemFrameCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlyCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlySpeedCommand;
@@ -30,7 +31,8 @@ public class CommandModule implements Module {
         new StonecutterCommand(),
 
         new RideCommand(),
-        new ItemFrameCommand()
+        new ItemFrameCommand(),
+        new GodmodeCommand()
     );
 
     private CommandModule() {}

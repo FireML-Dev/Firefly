@@ -145,4 +145,30 @@ public class CommandConfig extends Config {
         return message;
     }
 
+    // Godmode Messages
+
+    public ComponentMessage getGodmodeEnabledMessage() {
+        ComponentMessage message = getComponentMessage("godmode.messages.enabled", "{prefix}<color:#F0E68C>Godmode is now enabled.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getGodmodeEnabledSenderMessage() {
+        ComponentMessage message = getComponentMessage("godmode.messages.enabled-sender", "{prefix}<color:#F0E68C>Godmode is now enabled for {target}.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getGodmodeDisabledMessage() {
+        ComponentMessage message = getComponentMessage("godmode.messages.disabled", "{prefix}<red>Godmode is now disabled.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getGodmodeDisabledSenderMessage() {
+        ComponentMessage message = getComponentMessage("godmode.messages.disabled-sender", "{prefix}<red>Godmode is now disabled for {target}.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
 }
