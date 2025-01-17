@@ -2,6 +2,8 @@ package uk.firedev.firefly.placeholders;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.placeholders.PlaceholderProvider;
@@ -11,6 +13,7 @@ import uk.firedev.firefly.modules.protection.protections.AmethystProtection;
 import uk.firedev.firefly.modules.titles.TitleModule;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * Registers the plugin's placeholders using DaisyLib's PlaceholderProvider class.
@@ -19,51 +22,30 @@ import java.util.Objects;
  */
 public class Placeholders {
 
+    private static PlaceholderProvider provider;
+
+    public static void init() {
+        provider = PlaceholderProvider.create(Firefly.getInstance());
+    }
+
+    /**
+     * Allows registration of placeholders.
+     * This will not do anything after the plugin's first load.
+     * @param consumer
+     */
+    public static void manageProvider(@NotNull Consumer<PlaceholderProvider> consumer) {
+        if (provider == null) {
+            return;
+        }
+        consumer.accept(provider);
+    }
+
     public static void register() {
-        PlaceholderProvider.create(Firefly.getInstance())
-                .addAudiencePlaceholder("player_prefix", audience -> {
-                    if (!(audience instanceof Player player)) {
-                        return Component.text("Player is not available.");
-                    }
-                    if (TitleModule.getInstance().isLoaded()) {
-                        return TitleModule.getInstance().getPlayerPrefix(player);
-                    } else {
-                        String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerPrefix(player);
-                        return ComponentMessage.fromString(prefix).getMessage();
-                    }
-                })
-                .addAudiencePlaceholder("player_suffix", audience -> {
-                    if (!(audience instanceof Player player)) {
-                        return Component.text("Player is not available.");
-                    }
-                    if (TitleModule.getInstance().isLoaded()) {
-                        return TitleModule.getInstance().getPlayerSuffix(player);
-                    } else {
-                        String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerSuffix(player);
-                        return ComponentMessage.fromString(prefix).getMessage();
-                    }
-                })
-                .addAudiencePlaceholder("player_nickname", audience -> {
-                    if (!(audience instanceof Player player)) {
-                        return Component.text("Player is not available.");
-                    }
-                    if (NicknameModule.getInstance().isLoaded()) {
-                        return NicknameModule.getInstance().getNickname(player);
-                    } else {
-                        return ComponentMessage.fromString(player.getName()).getMessage();
-                    }
-                })
-                .addAudiencePlaceholder("amethyst_protected", audience -> {
-                    if (!(audience instanceof Player player)) {
-                        return Component.text("Player is not available.");
-                    }
-                    if (AmethystProtection.getInstance().isLoaded()) {
-                        return Component.text(!AmethystProtection.getInstance().isDisabled(player));
-                    } else {
-                        return Component.text(false);
-                    }
-                })
-                .register();
+        if (provider == null) {
+            return;
+        }
+        provider.register();
+        provider = null;
     }
 
 }

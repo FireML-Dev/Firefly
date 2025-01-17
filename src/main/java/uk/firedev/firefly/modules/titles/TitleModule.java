@@ -21,9 +21,11 @@ import uk.firedev.firefly.modules.titles.command.PrefixCommand;
 import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
+import uk.firedev.firefly.placeholders.Placeholders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TitleModule implements Module {
 
@@ -85,7 +87,6 @@ public class TitleModule implements Module {
         if (!isLoaded()) {
             return;
         }
-
         this.prefixes = new ArrayList<>();
         this.suffixes = new ArrayList<>();
         loaded = false;
@@ -93,6 +94,34 @@ public class TitleModule implements Module {
 
     @Override
     public boolean isLoaded() { return loaded; }
+
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider -> {
+            provider.addAudiencePlaceholder("player_prefix", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                if (TitleModule.getInstance().isLoaded()) {
+                    return TitleModule.getInstance().getPlayerPrefix(player);
+                } else {
+                    String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerPrefix(player);
+                    return ComponentMessage.fromString(prefix).getMessage();
+                }
+            });
+            provider.addAudiencePlaceholder("player_suffix", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                if (TitleModule.getInstance().isLoaded()) {
+                    return TitleModule.getInstance().getPlayerSuffix(player);
+                } else {
+                    String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerSuffix(player);
+                    return ComponentMessage.fromString(prefix).getMessage();
+                }
+            });
+        });
+    }
 
     public NamespacedKey getPrefixKey() {
         return ObjectUtils.createNamespacedKey("player-prefix", Firefly.getInstance());

@@ -3,6 +3,7 @@ package uk.firedev.firefly.modules.nickname;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
@@ -14,6 +15,7 @@ import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
+import uk.firedev.firefly.placeholders.Placeholders;
 import uk.firedev.firefly.utils.StringUtils;
 
 import java.util.Map;
@@ -83,6 +85,22 @@ public class NicknameModule implements Module {
     @Override
     public boolean isLoaded() {
         return loaded;
+    }
+
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider -> {
+            provider.addAudiencePlaceholder("player_nickname", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                if (NicknameModule.getInstance().isLoaded()) {
+                    return NicknameModule.getInstance().getNickname(player);
+                } else {
+                    return ComponentMessage.fromString(player.getName()).getMessage();
+                }
+            });
+        });
     }
 
     // Nickname Management

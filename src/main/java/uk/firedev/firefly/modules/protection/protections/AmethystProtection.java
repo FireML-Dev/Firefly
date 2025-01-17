@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.protection.protections;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -16,6 +17,7 @@ import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.protection.ProtectionConfig;
+import uk.firedev.firefly.placeholders.Placeholders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +92,22 @@ public class AmethystProtection implements SubModule {
     @Override
     public boolean isLoaded() {
         return loaded;
+    }
+
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider -> {
+            provider.addAudiencePlaceholder("amethyst_protected", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                if (AmethystProtection.getInstance().isLoaded()) {
+                    return Component.text(!AmethystProtection.getInstance().isDisabled(player));
+                } else {
+                    return Component.text(false);
+                }
+            });
+        });
     }
 
     private NamespacedKey getAmethystProtectKey() {
