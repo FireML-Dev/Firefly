@@ -20,12 +20,17 @@ public interface SubModule extends Listener {
     default boolean register() {
         load();
         Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
+        registerPlaceholders();
         return true;
     }
 
     default void unregister() {
         unload();
         HandlerList.unregisterAll(this);
+    }
+
+    default void registerPlaceholders() {
+        return;
     }
 
 }

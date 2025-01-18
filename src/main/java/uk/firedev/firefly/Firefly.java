@@ -25,9 +25,10 @@ public final class Firefly extends JavaPlugin {
         Database.getInstance().load();
         FireflyCommand.getInstance().register(this);
 
-        Placeholders.register();
-
+        // Handle module loading and their placeholders
+        Placeholders.init();
         ModuleManager.getInstance().load();
+        Placeholders.register();
     }
 
     @Override

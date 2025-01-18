@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.command.commands.flight;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
+import uk.firedev.firefly.placeholders.Placeholders;
 
 import java.util.Objects;
 
@@ -65,6 +67,18 @@ public class FlyCommand extends Command {
                     .replace("target", target.name())
                     .sendMessage(sender);
         }
+    }
+
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider -> {
+            provider.addAudiencePlaceholder("can_fly", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                return Component.text(player.getAllowFlight());
+            });
+        });
     }
 
 }

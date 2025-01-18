@@ -24,10 +24,9 @@ kits:
 
 messages:
   command:
-     usage: "{prefix}<color:#F0E68C>Usage: <green>/awardkit <player> <kit>"
-     kit-not-found: "<red>Kit not found."
-     awarded-command: "<color:#F0E68C>Given {player} the kit {kit}.</color>"
-     awarded-receive: "<color:#F0E68C>You have been given the kit {kit}.</color>"
+     kit-not-found: "{prefix}<red>Kit not found."
+     awarded-command: "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>"
+     awarded-receive: "{prefix}<color:#F0E68C>You have been given the kit {kit}.</color>"
   gui:
     on-cooldown: "{prefix}<red>This kit is on cooldown!"
 

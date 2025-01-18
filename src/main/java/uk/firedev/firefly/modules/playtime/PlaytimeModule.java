@@ -1,7 +1,9 @@
 package uk.firedev.firefly.modules.playtime;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
@@ -11,6 +13,7 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
+import uk.firedev.firefly.placeholders.Placeholders;
 
 import java.util.Map;
 import java.util.UUID;
@@ -82,6 +85,24 @@ public class PlaytimeModule implements Module {
     @Override
     public boolean isLoaded() {
         return loaded;
+    }
+
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider -> {
+            provider.addAudiencePlaceholder("playtime", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                return Component.text(getTimeFormatted(player));
+            });
+            provider.addAudiencePlaceholder("playtime_raw", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                return Component.text(getTime(player));
+            });
+        });
     }
 
     // Playtime Management

@@ -9,6 +9,8 @@ import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitConfig;
 import uk.firedev.firefly.modules.kit.KitModule;
 
+import java.util.Objects;
+
 public class KitAwardCommand {
 
     private static CommandAPICommand command;
@@ -23,30 +25,24 @@ public class KitAwardCommand {
                     .withFullDescription("Give kits to people")
                     .withArguments(new EntitySelectorArgument.OnePlayer("player"), getKitArgument())
                     .executes((sender, arguments) -> {
-                        Object playerObj = arguments.get("player");
-                        Object kitObj = arguments.get("kit");
-                        if (playerObj == null || kitObj == null) {
-                            KitConfig.getInstance().getUsageMessage().sendMessage(sender);
-                        }
-                        Player player = (Player) playerObj;
-                        String kitName = (String) kitObj;
-                        Kit kit;
-                        try {
-                            kit = new Kit(kitName);
-                        } catch (InvalidConfigurationException ex) {
-                            KitConfig.getInstance().getNotFoundMessage().sendMessage(sender);
-                            return;
-                        }
+                        Player player = (Player) Objects.requireNonNull(arguments.get("player"));
+                        Kit kit = (Kit) Objects.requireNonNull(arguments.get("kit"));
                         kit.giveToPlayer(player, sender);
                     });
         }
         return command;
     }
 
-    private static Argument<?> getKitArgument() {
-        return new StringArgument("kit").includeSuggestions(ArgumentSuggestions.strings(
-                KitModule.getInstance().getKits().stream().map(Kit::getName).toArray(String[]::new)
-        ));
+    private static Argument<Kit> getKitArgument() {
+        return new CustomArgument<>(new StringArgument("kit"), info -> {
+            Kit kit = KitModule.getInstance().getKit(info.input());
+            if (kit == null) {
+                throw CustomArgument.CustomArgumentException.fromMessageBuilder(
+                        new CustomArgument.MessageBuilder("Unknown kit: ").appendArgInput()
+                );
+            }
+            return kit;
+        });
     }
 
 }

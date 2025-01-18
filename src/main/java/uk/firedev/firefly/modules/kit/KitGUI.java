@@ -61,7 +61,7 @@ public class KitGUI {
     private void addKitElements() {
         DynamicGuiElement dynamicGroup = new DynamicGuiElement('k', human -> {
             GuiElementGroup group = new GuiElementGroup('k');
-            KitModule.getInstance().getKits()
+            KitModule.getInstance().getKits().values()
                     .forEach(kit -> {
                         if (!kit.isPlayerVisible()) {
                             return;

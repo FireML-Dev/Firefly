@@ -1,6 +1,7 @@
 package uk.firedev.firefly.modules.kit.command;
 
 import org.bukkit.configuration.InvalidConfigurationException;
+import uk.firedev.daisylib.command.ArgumentBuilder;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
@@ -53,12 +54,8 @@ public class KitCommand {
     }
 
     private static Argument<?> getKitArgument() {
-        return new StringArgument("kit").setOptional(true).includeSuggestions(ArgumentSuggestions.strings(
-                KitModule.getInstance().getKits().stream()
-                        .map(kit -> kit.isPlayerVisible() ? kit : null)
-                        .filter(Objects::nonNull)
-                        .map(Kit::getName)
-                        .toArray(String[]::new)
+        return new StringArgument("kit").setOptional(true).includeSuggestions(ArgumentBuilder.getAsyncSuggestions(
+                info -> KitModule.getInstance().getKits().keySet().toArray(String[]::new)
         ));
     }
 
