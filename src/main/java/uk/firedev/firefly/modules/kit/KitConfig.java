@@ -25,26 +25,20 @@ public class KitConfig extends Config {
         return instance;
     }
 
-    public ComponentMessage getUsageMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.usage", "<color:#F0E68C>Usage: <green>/awardkit <player> <kit>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
-    }
-
     public ComponentMessage getNotFoundMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.kit-not-found", "<red>Kit not found.");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.kit-not-found", "{prefix}<red>Kit not found.");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getAwardedCommandMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-command", "<color:#F0E68C>Given {player} the kit {kit}.</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-command", "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
     public ComponentMessage getAwardedReceiverMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-receive", "<color:#F0E68C>You have been given the kit {kit}.</color>");
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-receive", "{prefix}<color:#F0E68C>You have been given the kit {kit}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
