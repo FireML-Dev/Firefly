@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.elevator;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -14,6 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.api.utils.PlayerHelper;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.api.crafting.ShapedRecipe;
 import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
@@ -25,6 +27,7 @@ import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.elevator.command.ElevatorCommand;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
+import uk.firedev.firefly.placeholders.Placeholders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +92,23 @@ public class ElevatorModule implements Module {
     @Override
     public boolean isLoaded() { return loaded; }
 
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider -> {
+            provider.addAudiencePlaceholder("elevator_level", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                Block block = PlayerHelper.getPlayerStandingOn(player);
+                Elevator elevator = new Elevator(block);
+                if (elevator.isElevator()) {
+                    return Component.text("N/A");
+                }
+                return Component.text(elevator.getCurrentPosition());
+            });
+        });
+    }
+
     public void teleportPlayer(@NotNull Player player, Elevator elevator) {
         if (elevator == null || !elevator.isElevator()) {
             return;
@@ -149,15 +169,6 @@ public class ElevatorModule implements Module {
             Loggers.info(Firefly.getInstance().getComponentLogger(), "Registered Elevator Recipe");
         } else {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), "Elevator Recipe failed to register.");
-        }
-    }
-
-    public void migrateElevator(Block from, Block to) {
-        Elevator fromElevator = new Elevator(from);
-        Elevator toElevator = new Elevator(to);
-        if (fromElevator.isElevator()) {
-            fromElevator.setElevator(false);
-            toElevator.setElevator(true);
         }
     }
 
