@@ -91,7 +91,8 @@ public class KitModule implements Module {
                 if (kit == null) {
                     return Component.text(value + " is not a valid kit.");
                 }
-                return Component.text(!kit.isOnCooldown(player.getUniqueId()));
+                boolean available = kit.hasPermission(player) && !kit.isOnCooldown(player.getUniqueId());
+                return Component.text(available);
             });
         });
     }
