@@ -91,10 +91,6 @@ public class Kit {
 
     public boolean permissionOpen() { return this.permissionOpen; }
 
-    public String getConfigKey() {
-        return "kits." + getName();
-    }
-
     public @NotNull String getName() {
         return this.name;
     }
@@ -122,7 +118,7 @@ public class Kit {
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
         meta.displayName(getDisplay());
         meta.lore(getLore());
-        pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getConfigKey());
+        pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getName());
         item.setItemMeta(meta);
         return item;
     }

@@ -5,6 +5,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
@@ -50,8 +53,6 @@ public class KitModule implements Module {
         if (isLoaded()) {
             return;
         }
-        PluginManager pm = Bukkit.getPluginManager();
-        pm.registerEvents(new KitListener(), Firefly.getInstance());
         KitConfig.getInstance().reload();
         loadKits();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Kit Commands");
@@ -114,6 +115,7 @@ public class KitModule implements Module {
             return null;
         }
         String kitName = item.getItemMeta().getPersistentDataContainer().get(getKitKey(), PersistentDataType.STRING);
+        System.out.println(kitName);
         if (kitName != null) {
             return getKit(kitName);
         }
@@ -129,11 +131,38 @@ public class KitModule implements Module {
         KitConfig.getInstance().getKitConfigs().forEach(section -> {
             String name = Objects.requireNonNull(section.getNameAsString());
             try {
-                loadedKits.put(name, new Kit(section));
+                Kit kit = new Kit(section);
+                loadedKits.put(kit.getName(), kit);
             } catch (InvalidConfigurationException exception) {
                 Loggers.warn(Firefly.getInstance().getComponentLogger(), "Kit " + name + " is not configured properly!");
             }
         });
+    }
+
+
+    // Interact Listener
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        ItemStack item = event.getItem();
+        if (item == null) {
+            return;
+        }
+        Kit kit = getKit(item);
+        if (kit == null) {
+            return;
+        }
+        event.setCancelled(true);
+        if (event.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+        if (kit.permissionOpen() && !kit.hasPermission(player)) {
+            return;
+        }
+        item.setAmount(item.getAmount() - 1);
+        player.getInventory().setItem(EquipmentSlot.HAND, item);
+        kit.processRewards(player);
     }
 
 }
