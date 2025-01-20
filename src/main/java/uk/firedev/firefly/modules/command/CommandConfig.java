@@ -171,4 +171,18 @@ public class CommandConfig extends Config {
         return message;
     }
 
+    // Heal Messages
+
+    public ComponentMessage getHealedMessage() {
+        ComponentMessage message = getComponentMessage("heal.messages.healed", "{prefix}<color:#F0E68C>You have been healed.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getHealedSenderMessage() {
+        ComponentMessage message = getComponentMessage("heal.messages.healed-sender", "{prefix}<color:#F0E68C>You have healed {target}.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
 }

@@ -69,6 +69,13 @@ godmode:
     disabled: "{prefix}<red>Godmode is now disabled."
     disabled-sender: "{prefix}<red>Godmode is now disabled for {target}."
 
+# The /heal command - Restores all health and hunger
+heal:
+  enabled: true
+  messages:
+    healed: "{prefix}<color:#F0E68C>You have been healed."
+    healed-sender: "{prefix}<color:#F0E68C>You have healed {target}."
+
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 2
+config-version: 3
