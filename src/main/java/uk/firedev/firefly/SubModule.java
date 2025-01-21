@@ -1,7 +1,6 @@
 package uk.firedev.firefly;
 
 import org.bukkit.Bukkit;
-import org.bukkit.block.data.type.Fire;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 

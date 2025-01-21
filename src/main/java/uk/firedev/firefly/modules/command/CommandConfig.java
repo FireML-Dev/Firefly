@@ -1,12 +1,9 @@
 package uk.firedev.firefly.modules.command;
 
-import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Config;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-
-import java.util.List;
 
 public class CommandConfig extends Config {
 

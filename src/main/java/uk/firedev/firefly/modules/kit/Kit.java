@@ -1,7 +1,6 @@
 package uk.firedev.firefly.modules.kit;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -10,21 +9,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.command.CooldownHelper;
-import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.daisylib.api.utils.ItemUtils;
+import uk.firedev.daisylib.command.CooldownHelper;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
+import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.firefly.Firefly;
 
 import java.time.Duration;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class Kit {
 

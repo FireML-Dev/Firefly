@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.api.message.string.StringReplacer;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.api.message.string.StringReplacer;
 import uk.firedev.firefly.Firefly;
 
 import java.util.List;

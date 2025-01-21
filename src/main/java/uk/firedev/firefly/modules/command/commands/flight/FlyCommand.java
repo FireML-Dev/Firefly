@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
 import uk.firedev.firefly.placeholders.Placeholders;
@@ -23,6 +22,7 @@ public class FlyCommand extends Command {
             })
             .then(
                     new EntitySelectorArgument.OnePlayer("target")
+                            .withPermission(getTargetPermission())
                             .executes((sender, arguments) -> {
                                 // This should never be null.
                                 Player player = (Player) Objects.requireNonNull(arguments.get("target"));

@@ -21,6 +21,7 @@ public class HealCommand extends Command {
             })
             .then(
                     new EntitySelectorArgument.OnePlayer("target")
+                            .withPermission(getTargetPermission())
                             .executes((sender, arguments) -> {
                                 Player player = Objects.requireNonNull(arguments.getUnchecked("target"));
                                 heal(sender, player);

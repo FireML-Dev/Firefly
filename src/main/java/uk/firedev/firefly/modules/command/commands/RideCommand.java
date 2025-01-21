@@ -11,7 +11,6 @@ import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
-import uk.firedev.firefly.placeholders.Placeholders;
 
 import java.util.List;
 import java.util.Objects;

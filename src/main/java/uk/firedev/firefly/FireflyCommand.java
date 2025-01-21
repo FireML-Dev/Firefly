@@ -2,7 +2,6 @@ package uk.firedev.firefly;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
@@ -12,7 +11,6 @@ import uk.firedev.firefly.modules.ModuleManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This command should never be unloaded.

@@ -1,8 +1,8 @@
 package uk.firedev.firefly.config;
 
-import uk.firedev.daisylib.command.HelpMessageBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
+import uk.firedev.daisylib.command.HelpMessageBuilder;
 import uk.firedev.firefly.Firefly;
 
 import java.util.Map;

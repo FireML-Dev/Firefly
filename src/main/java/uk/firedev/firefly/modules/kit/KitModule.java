@@ -1,7 +1,6 @@
 package uk.firedev.firefly.modules.kit;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
@@ -10,11 +9,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -22,7 +19,9 @@ import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.kit.command.KitCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 
 public class KitModule implements Module {
 

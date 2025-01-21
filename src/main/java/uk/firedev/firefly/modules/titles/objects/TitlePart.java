@@ -4,12 +4,10 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 
 public interface TitlePart {
 

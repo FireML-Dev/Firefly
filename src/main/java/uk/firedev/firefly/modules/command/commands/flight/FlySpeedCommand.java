@@ -24,6 +24,7 @@ public class FlySpeedCommand extends Command {
                                 setSpeed(player, player, speed);
                             })
                             .then(new EntitySelectorArgument.OnePlayer("target")
+                                    .withPermission(getTargetPermission())
                                     .executes((sender, arguments) -> {
                                         Player player = (Player) arguments.get("target");
                                         if (player == null) {

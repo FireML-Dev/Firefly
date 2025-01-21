@@ -3,7 +3,6 @@ package uk.firedev.firefly.modules.elevator;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.data.type.Fire;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

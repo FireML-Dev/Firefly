@@ -48,4 +48,8 @@ public abstract class Command implements SubModule {
         return "firefly.command." + getName().toLowerCase();
     }
 
+    public @NotNull String getTargetPermission() {
+        return getPermission() + ".other";
+    }
+
 }

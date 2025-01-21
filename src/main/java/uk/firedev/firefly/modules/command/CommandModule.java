@@ -7,9 +7,9 @@ import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.firefly.modules.command.commands.GodmodeCommand;
 import uk.firedev.firefly.modules.command.commands.HealCommand;
 import uk.firedev.firefly.modules.command.commands.ItemFrameCommand;
+import uk.firedev.firefly.modules.command.commands.RideCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlyCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlySpeedCommand;
-import uk.firedev.firefly.modules.command.commands.RideCommand;
 import uk.firedev.firefly.modules.command.commands.workstations.*;
 
 import java.util.List;

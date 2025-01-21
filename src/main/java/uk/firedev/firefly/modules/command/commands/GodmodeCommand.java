@@ -21,6 +21,7 @@ public class GodmodeCommand extends Command {
             })
             .then(
                     new EntitySelectorArgument.OnePlayer("target")
+                            .withPermission(getTargetPermission())
                             .executes((sender, arguments) -> {
                                 Player player = (Player) Objects.requireNonNull(arguments.get("target"));
                                 toggleGodmode(sender, player);

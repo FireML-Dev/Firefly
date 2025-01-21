@@ -1,8 +1,8 @@
 package uk.firedev.firefly.modules.kit;
 
 import uk.firedev.daisylib.Config;
-import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 

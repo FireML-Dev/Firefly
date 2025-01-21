@@ -1,12 +1,12 @@
 package uk.firedev.firefly.modules.nickname.command;
 
 import org.bukkit.OfflinePlayer;
-import uk.firedev.daisylib.command.ArgumentBuilder;
-import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.utils.PlayerHelper;
+import uk.firedev.daisylib.command.ArgumentBuilder;
+import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;

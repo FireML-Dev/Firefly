@@ -18,6 +18,7 @@ public class StonecutterCommand extends Command {
                 open(info.sender());
             })
             .then(new EntitySelectorArgument.OnePlayer("target")
+                    .withPermission(getTargetPermission())
                     .executes((sender, arguments) -> {
                         Player player = (Player) Objects.requireNonNull(arguments.get("target"));
                         open(player);
