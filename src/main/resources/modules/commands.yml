@@ -1,5 +1,20 @@
 # Configure different commands from the "Commands" module here.
-# All commands follow the same permission format: `firefly.command.[name]`.
+
+# Example Command Configuration
+example:
+  # Enable this command? (true/false)
+  enabled: false
+  # The command's name. (Optional)
+  name: "mycommand"
+  # Additional names (aliases) for the command. (Optional)
+  aliases:
+    - "definitelymycommand"
+  # Set a custom permission for this command. Defaults to `firefly.command.[name]` if not specified.
+  permission: firefly.exampleperm
+  # Permission for targeting other players with this command. Defaults to `firefly.command.[name].other` if not specified.
+  permission-target: firefly.exampleperm.target
+  # Custom messages for this command. See each command for their specific messages.
+  messages: []
 
 # The /fly command - Toggles flight
 fly:
@@ -78,4 +93,4 @@ heal:
 
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 3
+config-version: 4
