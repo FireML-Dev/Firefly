@@ -78,11 +78,17 @@ public abstract class Command implements SubModule {
     }
 
     public @NotNull String getPermission() {
-        return "firefly.command." + getConfigName().toLowerCase();
+        return CommandConfig.getInstance().getConfig().getString(
+                getConfigName() + ".permission",
+                "firefly.command." + getConfigName().toLowerCase()
+        );
     }
 
     public @NotNull String getTargetPermission() {
-        return getPermission() + ".other";
+        return CommandConfig.getInstance().getConfig().getString(
+                getConfigName() + ".permission-target",
+                "firefly.command." + getConfigName().toLowerCase() + ".other"
+        );
     }
 
 }
