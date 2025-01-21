@@ -12,39 +12,6 @@ import uk.firedev.firefly.modules.command.CommandConfig;
 
 public class ItemFrameCommand extends Command {
 
-    private final CommandTree command = new CommandTree(getName())
-            .withPermission(getPermission())
-            .then(
-                new LiteralArgument("invisible")
-                    .executesPlayer(info -> {
-                        ItemFrame frame = getFrame(info.sender());
-                        if (frame == null) {
-                            return;
-                        }
-                        invisible(info.sender(), frame);
-                    })
-            )
-            .then(
-                new LiteralArgument("fixed")
-                    .executesPlayer(info -> {
-                        ItemFrame frame = getFrame(info.sender());
-                        if (frame == null) {
-                            return;
-                        }
-                        fixed(info.sender(), frame);
-                    })
-            )
-            .then(
-                new LiteralArgument("invulnerable")
-                    .executesPlayer(info -> {
-                        ItemFrame frame = getFrame(info.sender());
-                        if (frame == null) {
-                            return;
-                        }
-                        invulnerable(info.sender(), frame);
-                    })
-            );
-
     private ItemFrame getFrame(@NotNull Player player) {
         RayTraceResult result = player.rayTraceEntities(5);
         Entity entity;
@@ -89,14 +56,48 @@ public class ItemFrameCommand extends Command {
         }
     }
 
+    @NotNull
     @Override
-    public String getName() {
+    public String getConfigName() {
         return "itemframe";
     }
 
+    @NotNull
     @Override
-    public CommandTree getCommand() {
-        return command;
+    public CommandTree refreshCommand() {
+        return new CommandTree(getName())
+                .withAliases(getAliases())
+                .withPermission(getPermission())
+                .then(
+                        new LiteralArgument("invisible")
+                                .executesPlayer(info -> {
+                                    ItemFrame frame = getFrame(info.sender());
+                                    if (frame == null) {
+                                        return;
+                                    }
+                                    invisible(info.sender(), frame);
+                                })
+                )
+                .then(
+                        new LiteralArgument("fixed")
+                                .executesPlayer(info -> {
+                                    ItemFrame frame = getFrame(info.sender());
+                                    if (frame == null) {
+                                        return;
+                                    }
+                                    fixed(info.sender(), frame);
+                                })
+                )
+                .then(
+                        new LiteralArgument("invulnerable")
+                                .executesPlayer(info -> {
+                                    ItemFrame frame = getFrame(info.sender());
+                                    if (frame == null) {
+                                        return;
+                                    }
+                                    invulnerable(info.sender(), frame);
+                                })
+                );
     }
 
 }

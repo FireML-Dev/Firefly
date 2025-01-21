@@ -6,16 +6,24 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.utils.CommandUtils;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public abstract class Command implements SubModule {
 
     private boolean loaded;
+    private CommandTree command;
 
-    public abstract String getName();
-    public abstract CommandTree getCommand();
+    public @NotNull CommandTree getCommand() {
+        if (command == null) {
+            throw new RuntimeException("Command is not available! This should not be the case!");
+        }
+        return command;
+    }
 
     @Override
     public boolean isConfigEnabled() {
-        return CommandConfig.getInstance().getConfig().getBoolean(getName() + ".enabled", true);
+        return CommandConfig.getInstance().getConfig().getBoolean(getConfigName() + ".enabled", true);
     }
 
     @Override
@@ -23,19 +31,44 @@ public abstract class Command implements SubModule {
         if (isLoaded()) {
             return;
         }
-        getCommand().register(Firefly.getInstance());
+        command = refreshCommand();
+        command.register(Firefly.getInstance());
         loaded = true;
     }
 
+    public abstract @NotNull String getConfigName();
+
+    public @NotNull String getName() {
+        return Objects.requireNonNullElse(
+                CommandConfig.getInstance().getConfig().getString(getConfigName() + ".name"),
+                getConfigName()
+        );
+    }
+
+    public String[] getAliases() {
+        return CommandConfig.getInstance().getConfig().getStringList(getConfigName() + ".aliases").toArray(String[]::new);
+    }
+
+    public abstract @NotNull CommandTree refreshCommand();
+
     @Override
-    public void reload() { /* There is nothing to reload here :) */ }
+    public void reload() {
+        if (!isLoaded()) {
+            return;
+        }
+        unload();
+        load();
+    }
 
     @Override
     public void unload() {
         if (!isLoaded()) {
             return;
         }
-        CommandUtils.unregisterCommand(getName());
+        if (command != null) {
+            CommandUtils.unregisterCommand(command.getName());
+            Arrays.stream(command.getAliases()).forEach(CommandUtils::unregisterCommand);
+        }
         loaded = false;
     }
 
@@ -45,7 +78,7 @@ public abstract class Command implements SubModule {
     }
 
     public @NotNull String getPermission() {
-        return "firefly.command." + getName().toLowerCase();
+        return "firefly.command." + getConfigName().toLowerCase();
     }
 
     public @NotNull String getTargetPermission() {

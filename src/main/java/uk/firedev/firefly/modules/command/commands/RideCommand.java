@@ -17,35 +17,8 @@ import java.util.Objects;
 
 public class RideCommand extends Command {
 
-    private final CommandTree command = new CommandTree(getName())
-            .withPermission(getPermission())
-            .executesPlayer((player, arguments) -> {
-                RayTraceResult result = player.rayTraceEntities(5);
-                Entity entity;
-                if (result == null || (entity = result.getHitEntity()) == null) {
-                    CommandConfig.getInstance().getRideTargetNotFoundMessage().sendMessage(player);
-                    return;
-                }
-                if (getBlacklistedEntities().contains(entity.getType())) {
-                    CommandConfig.getInstance().getRideNotPermittedMessage().sendMessage(player);
-                    return;
-                }
-                mount(player, player, entity);
-            })
-            .then(
-                    new LiteralArgument("shake")
-                            .executesPlayer((player, arguments) -> {
-                                player.getPassengers().forEach(passenger -> {
-                                    if (passenger instanceof Player) {
-                                        player.removePassenger(passenger);
-                                    }
-                                });
-                                CommandConfig.getInstance().getRideShookMessage().sendMessage(player);
-                            })
-            );
-
     private List<EntityType> getBlacklistedEntities() {
-        return CommandConfig.getInstance().getConfig().getStringList(getName() + ".entity-blacklist")
+        return CommandConfig.getInstance().getConfig().getStringList(getConfigName() + ".entity-blacklist")
                 .stream()
                 .map(typeName -> {
                     try {
@@ -79,14 +52,42 @@ public class RideCommand extends Command {
         }
     }
 
+    @NotNull
     @Override
-    public String getName() {
+    public String getConfigName() {
         return "ride";
     }
 
+    @NotNull
     @Override
-    public CommandTree getCommand() {
-        return command;
+    public CommandTree refreshCommand() {
+        return new CommandTree(getName())
+                .withAliases(getAliases())
+                .withPermission(getPermission())
+                .executesPlayer((player, arguments) -> {
+                    RayTraceResult result = player.rayTraceEntities(5);
+                    Entity entity;
+                    if (result == null || (entity = result.getHitEntity()) == null) {
+                        CommandConfig.getInstance().getRideTargetNotFoundMessage().sendMessage(player);
+                        return;
+                    }
+                    if (getBlacklistedEntities().contains(entity.getType())) {
+                        CommandConfig.getInstance().getRideNotPermittedMessage().sendMessage(player);
+                        return;
+                    }
+                    mount(player, player, entity);
+                })
+                .then(
+                        new LiteralArgument("shake")
+                                .executesPlayer((player, arguments) -> {
+                                    player.getPassengers().forEach(passenger -> {
+                                        if (passenger instanceof Player) {
+                                            player.removePassenger(passenger);
+                                        }
+                                    });
+                                    CommandConfig.getInstance().getRideShookMessage().sendMessage(player);
+                                })
+                );
     }
 
 }

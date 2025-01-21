@@ -14,30 +14,10 @@ import java.util.Objects;
 
 public class FlyCommand extends Command {
 
-    private final CommandTree command = new CommandTree(getName())
-            .withPermission(getPermission())
-            .withShortDescription("Toggles flight")
-            .executesPlayer(info -> {
-                toggleFlight(info.sender(), info.sender());
-            })
-            .then(
-                    new EntitySelectorArgument.OnePlayer("target")
-                            .withPermission(getTargetPermission())
-                            .executes((sender, arguments) -> {
-                                // This should never be null.
-                                Player player = (Player) Objects.requireNonNull(arguments.get("target"));
-                                toggleFlight(sender, player);
-                            })
-            );
-
+    @NotNull
     @Override
-    public String getName() {
+    public String getConfigName() {
         return "fly";
-    }
-
-    @Override
-    public CommandTree getCommand() {
-        return command;
     }
 
     private void toggleFlight(@NotNull CommandSender sender, @NotNull Player target) {
@@ -79,6 +59,27 @@ public class FlyCommand extends Command {
                 return Component.text(player.getAllowFlight());
             });
         });
+    }
+
+    @NotNull
+    @Override
+    public CommandTree refreshCommand() {
+        return new CommandTree(getName())
+                .withPermission(getPermission())
+                .withAliases(getAliases())
+                .withShortDescription("Toggles flight")
+                .executesPlayer(info -> {
+                    toggleFlight(info.sender(), info.sender());
+                })
+                .then(
+                        new EntitySelectorArgument.OnePlayer("target")
+                                .withPermission(getTargetPermission())
+                                .executes((sender, arguments) -> {
+                                    // This should never be null.
+                                    Player player = (Player) Objects.requireNonNull(arguments.get("target"));
+                                    toggleFlight(sender, player);
+                                })
+                );
     }
 
 }

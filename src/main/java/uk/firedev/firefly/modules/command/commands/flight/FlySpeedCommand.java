@@ -14,28 +14,6 @@ import java.util.Objects;
 
 public class FlySpeedCommand extends Command {
 
-    private final CommandTree command = new CommandTree(getName())
-            .withPermission(getPermission())
-            .withShortDescription("Adjusts the speed of flight")
-            .then(
-                    new IntegerArgument("speed", 1, 10)
-                            .executesPlayer((player, arguments) -> {
-                                int speed = (int) Objects.requireNonNull(arguments.get("speed"));
-                                setSpeed(player, player, speed);
-                            })
-                            .then(new EntitySelectorArgument.OnePlayer("target")
-                                    .withPermission(getTargetPermission())
-                                    .executes((sender, arguments) -> {
-                                        Player player = (Player) arguments.get("target");
-                                        if (player == null) {
-                                            MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
-                                            return;
-                                        }
-                                        int speed = (int) Objects.requireNonNull(arguments.get("speed"));
-                                        setSpeed(sender, player, speed);
-                                    }))
-            );
-
     private void setSpeed(@NotNull CommandSender sender, @NotNull Player target, int speed) {
         target.setFlySpeed((float) speed / 10);
         sendSetMessage(sender, target, speed);
@@ -53,14 +31,37 @@ public class FlySpeedCommand extends Command {
         }
     }
 
+    @NotNull
     @Override
-    public String getName() {
+    public String getConfigName() {
         return "flyspeed";
     }
 
+    @NotNull
     @Override
-    public CommandTree getCommand() {
-        return command;
+    public CommandTree refreshCommand() {
+        return new CommandTree(getName())
+                .withPermission(getPermission())
+                .withAliases(getAliases())
+                .withShortDescription("Adjusts the speed of flight")
+                .then(
+                        new IntegerArgument("speed", 1, 10)
+                                .executesPlayer((player, arguments) -> {
+                                    int speed = (int) Objects.requireNonNull(arguments.get("speed"));
+                                    setSpeed(player, player, speed);
+                                })
+                                .then(new EntitySelectorArgument.OnePlayer("target")
+                                        .withPermission(getTargetPermission())
+                                        .executes((sender, arguments) -> {
+                                            Player player = (Player) arguments.get("target");
+                                            if (player == null) {
+                                                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
+                                                return;
+                                            }
+                                            int speed = (int) Objects.requireNonNull(arguments.get("speed"));
+                                            setSpeed(sender, player, speed);
+                                        }))
+                );
     }
 
 }

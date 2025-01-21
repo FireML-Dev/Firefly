@@ -12,33 +12,34 @@ import java.util.Objects;
 
 public class CartographyCommand extends Command {
 
-    private final CommandTree command = new CommandTree(getName())
-            .withPermission(getPermission())
-            .executesPlayer(info -> {
-                open(info.sender());
-            })
-            .then(new EntitySelectorArgument.OnePlayer("target")
-                    .withPermission(getTargetPermission())
-                    .executes((sender, arguments) -> {
-                        Player player = (Player) Objects.requireNonNull(arguments.get("target"));
-                        open(player);
-                    })
-            );
-
     private void open(@NotNull Player player) {
         player.openInventory(
                 MenuType.CARTOGRAPHY_TABLE.create(player, Component.empty())
         );
     }
 
+    @NotNull
     @Override
-    public String getName() {
+    public String getConfigName() {
         return "cartography";
     }
 
+    @NotNull
     @Override
-    public CommandTree getCommand() {
-        return command;
+    public CommandTree refreshCommand() {
+        return new CommandTree(getName())
+                .withAliases(getAliases())
+                .withPermission(getPermission())
+                .executesPlayer(info -> {
+                    open(info.sender());
+                })
+                .then(new EntitySelectorArgument.OnePlayer("target")
+                        .withPermission(getTargetPermission())
+                        .executes((sender, arguments) -> {
+                            Player player = (Player) Objects.requireNonNull(arguments.get("target"));
+                            open(player);
+                        })
+                );
     }
 
 }

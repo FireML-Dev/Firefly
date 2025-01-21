@@ -41,9 +41,11 @@ public class CommandUtils {
     }
 
     public static void unregisterCommand(@NotNull String name) {
-        commandsToUnregister.add(name);
-        commandsToUnregister.add("firefly:" + name);
-        startTask();
+        CommandAPI.unregister(name);
+        CommandAPI.unregister("firefly:" + name);
+        //commandsToUnregister.add(name);
+        //commandsToUnregister.add("firefly:" + name);
+        //startTask();
     }
 
     private static void slowUnregister() {
@@ -51,6 +53,7 @@ public class CommandUtils {
             stopTask();
             return;
         }
+        System.out.println("Unregistered " + commandsToUnregister.getFirst());
         CommandAPI.unregister(commandsToUnregister.getFirst());
         commandsToUnregister.removeFirst();
     }

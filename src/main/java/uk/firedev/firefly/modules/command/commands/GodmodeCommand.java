@@ -14,28 +14,10 @@ import java.util.Objects;
 
 public class GodmodeCommand extends Command {
 
-    private final CommandTree command = new CommandTree(getName())
-            .withPermission(getPermission())
-            .executesPlayer(info -> {
-                toggleGodmode(info.sender(), info.sender());
-            })
-            .then(
-                    new EntitySelectorArgument.OnePlayer("target")
-                            .withPermission(getTargetPermission())
-                            .executes((sender, arguments) -> {
-                                Player player = (Player) Objects.requireNonNull(arguments.get("target"));
-                                toggleGodmode(sender, player);
-                            })
-            );
-
+    @NotNull
     @Override
-    public String getName() {
+    public String getConfigName() {
         return "godmode";
-    }
-
-    @Override
-    public CommandTree getCommand() {
-        return command;
     }
 
     private void toggleGodmode(@NotNull CommandSender sender, @NotNull Player target) {
@@ -76,6 +58,25 @@ public class GodmodeCommand extends Command {
                 return Component.text(player.isInvulnerable());
             });
         });
+    }
+
+    @NotNull
+    @Override
+    public CommandTree refreshCommand() {
+        return new CommandTree(getName())
+                .withAliases(getAliases())
+                .withPermission(getPermission())
+                .executesPlayer(info -> {
+                    toggleGodmode(info.sender(), info.sender());
+                })
+                .then(
+                        new EntitySelectorArgument.OnePlayer("target")
+                                .withPermission(getTargetPermission())
+                                .executes((sender, arguments) -> {
+                                    Player player = (Player) Objects.requireNonNull(arguments.get("target"));
+                                    toggleGodmode(sender, player);
+                                })
+                );
     }
 
 }

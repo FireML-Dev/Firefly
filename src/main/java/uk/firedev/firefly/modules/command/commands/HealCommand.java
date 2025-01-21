@@ -14,28 +14,10 @@ import java.util.Objects;
 
 public class HealCommand extends Command {
 
-    private final CommandTree command = new CommandTree(getName())
-            .withPermission(getPermission())
-            .executesPlayer(info -> {
-                heal(info.sender(), info.sender());
-            })
-            .then(
-                    new EntitySelectorArgument.OnePlayer("target")
-                            .withPermission(getTargetPermission())
-                            .executes((sender, arguments) -> {
-                                Player player = Objects.requireNonNull(arguments.getUnchecked("target"));
-                                heal(sender, player);
-                            })
-            );
-
+    @NotNull
     @Override
-    public String getName() {
+    public String getConfigName() {
         return "heal";
-    }
-
-    @Override
-    public CommandTree getCommand() {
-        return command;
     }
 
     private void heal(@NotNull CommandSender sender, @NotNull Player target) {
@@ -56,6 +38,25 @@ public class HealCommand extends Command {
                     .replace("target", target.name())
                     .sendMessage(sender);
         }
+    }
+
+    @NotNull
+    @Override
+    public CommandTree refreshCommand() {
+        return new CommandTree(getName())
+                .withAliases(getAliases())
+                .withPermission(getPermission())
+                .executesPlayer(info -> {
+                    heal(info.sender(), info.sender());
+                })
+                .then(
+                        new EntitySelectorArgument.OnePlayer("target")
+                                .withPermission(getTargetPermission())
+                                .executes((sender, arguments) -> {
+                                    Player player = Objects.requireNonNull(arguments.getUnchecked("target"));
+                                    heal(sender, player);
+                                })
+                );
     }
 
 }
