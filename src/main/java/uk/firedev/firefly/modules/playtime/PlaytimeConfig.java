@@ -24,14 +24,20 @@ public class PlaytimeConfig extends Config {
         return getConfig().getLong("save-interval");
     }
 
-    public ComponentMessage getCommandCheckPlaytimeMessage() {
+    public ComponentMessage getCheckPlaytimeMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.check-playtime", "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>");
         message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
 
-    public ComponentMessage getCommandAdminSetPlaytimeMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-playtime", "<color:#F0E68C>Set {target}'s playtime to</color> <white>{playtime}</white>");
+    public ComponentMessage getAdminSetPlaytimeMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-playtime", "<#F0E68C>Your playtime has been set to <white>{playtime}");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getAdminSetPlaytimeSenderMessage() {
+        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-playtime-sender", "<#F0E68C>Set {target}'s playtime to <white>{playtime}");
         message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }

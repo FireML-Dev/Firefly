@@ -1,7 +1,6 @@
 messages:
   command:
-    # /playtime {player}
     check-playtime: "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>"
     admin:
-      # /playtime set {player} {playtime}
-      set-playtime: "<color:#F0E68C>Set {target}'s playtime to</color> <white>{playtime}</white>"
+      set-playtime-sender: "<#F0E68C>Set {target}'s playtime to <white>{playtime}"
+      set-playtime: "<#F0E68C>Your playtime has been set to <white>{playtime}"

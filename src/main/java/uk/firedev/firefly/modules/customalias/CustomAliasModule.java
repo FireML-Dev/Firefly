@@ -87,14 +87,12 @@ public class CustomAliasModule implements Module {
             }
 
             // Handle list things
-            CommandUtils.cancelUnregister(name);
             if (!loadedCommands.contains(name)) {
                 loadedCommands.add(name);
             }
 
             for (String alias : builder.getAliases()) {
                 // Remove from unregister list if it is present
-                CommandUtils.cancelUnregister(alias);
                 if (!loadedCommands.contains(alias)) {
                     loadedCommands.add(alias);
                 }
