@@ -58,7 +58,7 @@ public class TitleModule implements Module {
         if (isLoaded()) {
             return;
         }
-        if (VaultManager.getChat() == null) {
+        if (VaultManager.getInstance().getChat() == null) {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please register one to use this module! (Something like LuckPerms should be fine)");
             return;
         }
@@ -104,7 +104,7 @@ public class TitleModule implements Module {
                 if (TitleModule.getInstance().isLoaded()) {
                     return TitleModule.getInstance().getPlayerPrefix(player);
                 } else {
-                    String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerPrefix(player);
+                    String prefix = Objects.requireNonNull(VaultManager.getInstance().getChat()).getPlayerPrefix(player);
                     return ComponentMessage.fromString(prefix).getMessage();
                 }
             });
@@ -115,7 +115,7 @@ public class TitleModule implements Module {
                 if (TitleModule.getInstance().isLoaded()) {
                     return TitleModule.getInstance().getPlayerSuffix(player);
                 } else {
-                    String prefix = Objects.requireNonNull(VaultManager.getChat()).getPlayerSuffix(player);
+                    String prefix = Objects.requireNonNull(VaultManager.getInstance().getChat()).getPlayerSuffix(player);
                     return ComponentMessage.fromString(prefix).getMessage();
                 }
             });
@@ -155,11 +155,11 @@ public class TitleModule implements Module {
                 getPrefixKey(), PersistentDataType.STRING
         );
         if (prefix == null) {
-            if (VaultManager.getChat() == null) {
+            if (VaultManager.getInstance().getChat() == null) {
                 return Component.empty();
             } else {
                 // Horrible but necessary color parsing code
-                String vaultPrefix = VaultManager.getChat().getPlayerPrefix(player);
+                String vaultPrefix = VaultManager.getInstance().getChat().getPlayerPrefix(player);
                 Component componentPrefix;
                 try {
                     componentPrefix = MiniMessage.miniMessage().deserialize(vaultPrefix);
@@ -201,11 +201,11 @@ public class TitleModule implements Module {
                 getSuffixKey(), PersistentDataType.STRING
         );
         if (suffix == null) {
-            if (VaultManager.getChat() == null) {
+            if (VaultManager.getInstance().getChat() == null) {
                 return Component.empty();
             } else {
                 // Horrible but necessary color parsing code
-                String vaultSuffix = VaultManager.getChat().getPlayerSuffix(player);
+                String vaultSuffix = VaultManager.getInstance().getChat().getPlayerSuffix(player);
                 Component componentSuffix;
                 try {
                     componentSuffix = MiniMessage.miniMessage().deserialize(vaultSuffix);

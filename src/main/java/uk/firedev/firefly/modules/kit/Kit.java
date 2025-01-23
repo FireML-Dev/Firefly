@@ -104,10 +104,10 @@ public class Kit {
         if (this.permission.isEmpty()) {
             return true;
         }
-        if (VaultManager.getPermissions() == null) {
+        if (VaultManager.getInstance().getPermissions() == null) {
             return player.hasPermission(this.permission);
         } else {
-            return VaultManager.getPermissions().has(player, this.permission);
+            return VaultManager.getInstance().getPermissions().has(player, this.permission);
         }
     }
 
