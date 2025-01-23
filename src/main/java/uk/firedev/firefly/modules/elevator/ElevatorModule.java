@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -20,7 +21,6 @@ import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.api.utils.PlayerHelper;
 import uk.firedev.daisylib.builders.ItemBuilder;
-import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -144,7 +144,7 @@ public class ElevatorModule implements Module {
     }
 
     public ItemStack getElevatorBlock() {
-        YamlDocument config = ElevatorConfig.getInstance().getConfig();
+        YamlConfiguration config = ElevatorConfig.getInstance().getConfig();
         String material = config.getString("item.material", "IRON_BLOCK");
         ItemStack item = ItemBuilder.itemBuilder(material, Material.IRON_BLOCK)
                 .withStringDisplay(config.getString("item.display", "<aqua>Elevator Block</aqua>"), null)

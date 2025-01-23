@@ -128,7 +128,7 @@ public class KitModule implements Module {
     private void loadKits() {
         loadedKits.clear();
         KitConfig.getInstance().getKitConfigs().forEach(section -> {
-            String name = Objects.requireNonNull(section.getNameAsString());
+            String name = section.getName();
             try {
                 Kit kit = new Kit(section);
                 loadedKits.put(kit.getName(), kit);

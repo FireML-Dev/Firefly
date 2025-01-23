@@ -1,10 +1,10 @@
 package uk.firedev.firefly.modules.kit;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.gui.GUIUtils;
-import uk.firedev.daisylib.libs.boostedyaml.YamlDocument;
 import uk.firedev.daisylib.libs.themoep.inventorygui.DynamicGuiElement;
 import uk.firedev.daisylib.libs.themoep.inventorygui.GuiElementGroup;
 import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
@@ -20,7 +20,7 @@ public class KitGUI {
     private final @NotNull Player player;
 
     public KitGUI(@NotNull Player player) {
-        YamlDocument config = GUIConfig.getInstance().getConfig();
+        YamlConfiguration config = GUIConfig.getInstance().getConfig();
         List<String> setupTemp = config.getStringList("gui.kits.format");
         if (setupTemp.isEmpty()) {
             setupTemp = List.of(

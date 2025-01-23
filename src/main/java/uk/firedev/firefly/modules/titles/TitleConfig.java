@@ -1,7 +1,8 @@
 package uk.firedev.firefly.modules.titles;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
@@ -14,12 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TitleConfig extends Config {
+public class TitleConfig extends ConfigBase {
 
     private static TitleConfig instance;
 
     private TitleConfig() {
-        super("modules/titles.yml", "modules/titles.yml", Firefly.getInstance(), true);
+        super("modules/titles.yml", "modules/titles.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static TitleConfig getInstance() {
@@ -30,12 +32,12 @@ public class TitleConfig extends Config {
     }
 
     public List<Prefix> getPrefixesFromFile() {
-        Section section = getConfig().getSection("prefixes");
+        ConfigurationSection section = getConfig().getConfigurationSection("prefixes");
         if (section == null) {
             return List.of();
         }
         List<Prefix> prefixes = new ArrayList<>();
-        section.getRoutesAsStrings(false).stream().map(section::getSection).filter(Objects::nonNull).forEach(prefixSection -> {
+        section.getKeys(false).stream().map(section::getConfigurationSection).filter(Objects::nonNull).forEach(prefixSection -> {
             try {
                 prefixes.add(new Prefix(prefixSection));
             } catch (InvalidConfigurationException ex) {
@@ -46,12 +48,12 @@ public class TitleConfig extends Config {
     }
 
     public List<Suffix> getSuffixesFromFile() {
-        Section section = getConfig().getSection("suffixes");
+        ConfigurationSection section = getConfig().getConfigurationSection("suffixes");
         if (section == null) {
             return List.of();
         }
         List<Suffix> suffixes = new ArrayList<>();
-        section.getRoutesAsStrings(false).stream().map(section::getSection).filter(Objects::nonNull).forEach(prefixSection -> {
+        section.getKeys(false).stream().map(section::getConfigurationSection).filter(Objects::nonNull).forEach(prefixSection -> {
             try {
                 suffixes.add(new Suffix(prefixSection));
             } catch (InvalidConfigurationException ex) {

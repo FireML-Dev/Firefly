@@ -1,13 +1,15 @@
 package uk.firedev.firefly.config;
 
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
-public class ModuleConfig extends uk.firedev.daisylib.Config {
+public class ModuleConfig extends ConfigBase {
 
     private static ModuleConfig instance = null;
 
     private ModuleConfig() {
-        super("modules.yml", "modules.yml", Firefly.getInstance(), true);
+        super("modules.yml", "modules.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static ModuleConfig getInstance() {

@@ -3,16 +3,18 @@ package uk.firedev.firefly.config;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.command.HelpMessageBuilder;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
 import java.util.Map;
 
-public class MessageConfig extends uk.firedev.daisylib.Config {
+public class MessageConfig extends ConfigBase {
 
     private static MessageConfig instance = null;
 
     private MessageConfig() {
-        super("messages.yml", "messages.yml", Firefly.getInstance(), true);
+        super("messages.yml", "messages.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static MessageConfig getInstance() {

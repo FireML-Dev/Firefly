@@ -3,19 +3,20 @@ package uk.firedev.firefly.modules.elevator;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.builders.BossBarBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
-public class ElevatorConfig extends Config {
+public class ElevatorConfig extends ConfigBase {
 
     private static ElevatorConfig instance;
 
     private ElevatorConfig() {
-        super("modules/elevators.yml", "modules/elevators.yml", Firefly.getInstance(), true);
+        super("modules/elevators.yml", "modules/elevators.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static ElevatorConfig getInstance() {

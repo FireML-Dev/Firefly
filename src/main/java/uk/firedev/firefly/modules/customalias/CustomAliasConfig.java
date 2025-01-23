@@ -1,18 +1,19 @@
 package uk.firedev.firefly.modules.customalias;
 
-import uk.firedev.daisylib.Config;
+import org.bukkit.configuration.ConfigurationSection;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.firefly.Firefly;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAliasConfig extends Config {
+public class CustomAliasConfig extends ConfigBase {
 
     private static CustomAliasConfig instance;
 
     private CustomAliasConfig() {
-        super("modules/customalias.yml", "modules/customalias.yml", Firefly.getInstance(), false);
+        super("modules/customalias.yml", "modules/customalias.yml", Firefly.getInstance());
     }
 
     public static CustomAliasConfig getInstance() {
@@ -24,8 +25,8 @@ public class CustomAliasConfig extends Config {
 
     public List<CommandBuilder> getCommandBuilders() {
         List<CommandBuilder> list = new ArrayList<>();
-        getConfig().getRoutesAsStrings(false).forEach(key -> {
-            Section section = getConfig().getSection(key);
+        getConfig().getKeys(false).forEach(key -> {
+            ConfigurationSection section = getConfig().getConfigurationSection(key);
             if (section == null) {
                 return;
             }

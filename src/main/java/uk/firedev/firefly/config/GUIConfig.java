@@ -4,16 +4,18 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.builders.ItemBuilder;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.libs.themoep.inventorygui.GuiPageElement;
 import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
 import uk.firedev.firefly.Firefly;
 
-public class GUIConfig extends uk.firedev.daisylib.Config {
+public class GUIConfig extends ConfigBase {
 
     private static GUIConfig instance = null;
 
     private GUIConfig() {
-        super("gui.yml", "gui.yml", Firefly.getInstance(), true);
+        super("gui.yml", "gui.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static GUIConfig getInstance() {

@@ -1,16 +1,17 @@
 package uk.firedev.firefly.modules.command;
 
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
-public class CommandConfig extends Config {
+public class CommandConfig extends ConfigBase {
 
     private static CommandConfig instance;
 
     private CommandConfig() {
-        super("modules/commands.yml", "modules/commands.yml", Firefly.getInstance(), false);
+        super("modules/commands.yml", "modules/commands.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static CommandConfig getInstance() {

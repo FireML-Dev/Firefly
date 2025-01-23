@@ -3,7 +3,7 @@ package uk.firedev.firefly.modules.teleportation;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.string.StringMessage;
@@ -13,12 +13,13 @@ import uk.firedev.firefly.config.MessageConfig;
 
 import java.io.IOException;
 
-public class TeleportConfig extends Config {
+public class TeleportConfig extends ConfigBase {
 
     private static TeleportConfig instance;
 
     private TeleportConfig() {
-        super("modules/teleport.yml", "modules/teleport.yml", Firefly.getInstance(), true);
+        super("modules/teleport.yml", "modules/teleport.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static TeleportConfig getInstance() {
@@ -53,12 +54,8 @@ public class TeleportConfig extends Config {
     public void setSpawnLocation(boolean firstSpawn, @NotNull Location location) {
         String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
         LocationHelper.addToConfig(getConfig(), spawnLocKey, location);
-        try {
-            getConfig().save();
-            TeleportModule.getInstance().refreshSpawnLocations();
-        } catch (IOException exception) {
-            Loggers.warn(Firefly.getInstance().getComponentLogger(), "Failed to save spawn location to config!", exception);
-        }
+        save();
+        TeleportModule.getInstance().refreshSpawnLocations();
     }
 
     public Location getSpawnLocation(boolean firstSpawn) {

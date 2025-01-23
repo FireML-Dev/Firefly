@@ -1,16 +1,17 @@
 package uk.firedev.firefly.modules.protection;
 
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
-public class ProtectionConfig extends Config {
+public class ProtectionConfig extends ConfigBase {
 
     private static ProtectionConfig instance;
 
     private ProtectionConfig() {
-        super("modules/protection.yml", "modules/protection.yml", Firefly.getInstance(), true);
+        super("modules/protection.yml", "modules/protection.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static ProtectionConfig getInstance() {

@@ -1,16 +1,17 @@
 package uk.firedev.firefly.modules.playtime;
 
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
-public class PlaytimeConfig extends Config {
+public class PlaytimeConfig extends ConfigBase {
 
     private static PlaytimeConfig instance;
 
     private PlaytimeConfig() {
-        super("modules/playtime.yml", "modules/playtime.yml", Firefly.getInstance(), false);
+        super("modules/playtime.yml", "modules/playtime.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static PlaytimeConfig getInstance() {

@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.customalias;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
@@ -22,8 +23,8 @@ public class CommandBuilder {
     private final List<String> commands;
     private final List<String> messages;
 
-    public CommandBuilder(@NotNull Section section) {
-        this.commandName = Objects.requireNonNull(section.getNameAsString());
+    public CommandBuilder(@NotNull ConfigurationSection section) {
+        this.commandName = Objects.requireNonNull(section.getName());
         this.aliases = section.getStringList("aliases");
         this.permission = section.getString("permission");
         this.commands = section.getStringList("commands");

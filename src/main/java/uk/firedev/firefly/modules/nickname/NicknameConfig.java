@@ -1,18 +1,19 @@
 package uk.firedev.firefly.modules.nickname;
 
-import uk.firedev.daisylib.Config;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
 import java.util.List;
 
-public class NicknameConfig extends Config {
+public class NicknameConfig extends ConfigBase {
 
     private static NicknameConfig instance;
 
     private NicknameConfig() {
-        super("modules/nicknames.yml", "modules/nicknames.yml", Firefly.getInstance(), true);
+        super("modules/nicknames.yml", "modules/nicknames.yml", Firefly.getInstance());
+        withDefaultUpdaterSettings();
     }
 
     public static NicknameConfig getInstance() {

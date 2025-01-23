@@ -3,6 +3,7 @@ package uk.firedev.firefly.modules.kit;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -41,11 +42,11 @@ public class Kit {
     private long guiCooldown;
     private boolean playerVisible;
 
-    public Kit(@Nullable Section section) throws InvalidConfigurationException {
+    public Kit(@Nullable ConfigurationSection section) throws InvalidConfigurationException {
         if (section == null) {
             throw new InvalidConfigurationException("Kit config is not valid!");
         }
-        this.name = section.getNameAsString();
+        this.name = section.getName();
         this.permission = section.getString("permission", "");
         this.material = ItemUtils.getMaterial(section.getString("material", ""), Material.SHULKER_BOX);
         this.display = ComponentMessage.fromString(section.getString("display", "<gold><bold>Kit")).getMessage();
@@ -69,7 +70,7 @@ public class Kit {
     }
 
     public Kit(@NotNull String name) throws InvalidConfigurationException {
-        this(KitConfig.getInstance().getConfig().getSection("kits." + name));
+        this(KitConfig.getInstance().getConfig().getConfigurationSection("kits." + name));
     }
 
     public @NotNull Material getMaterial() {

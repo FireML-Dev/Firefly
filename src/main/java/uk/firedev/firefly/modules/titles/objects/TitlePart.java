@@ -2,12 +2,12 @@ package uk.firedev.firefly.modules.titles.objects;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.utils.ItemUtils;
-import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 
 public interface TitlePart {
 
@@ -15,7 +15,7 @@ public interface TitlePart {
 
     @NotNull ComponentMessage getDisplay();
     @NotNull String getPermission();
-    @NotNull Section getSection();
+    @NotNull ConfigurationSection getSection();
     boolean isPrefix();
     boolean isSuffix();
 
