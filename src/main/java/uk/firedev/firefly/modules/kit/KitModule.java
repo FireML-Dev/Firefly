@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.kit;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.data.type.Fire;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
@@ -98,7 +100,7 @@ public class KitModule implements Module {
     }
 
     public NamespacedKey getKitKey() {
-        return ObjectUtils.createNamespacedKey("kit", Firefly.getInstance());
+        return new NamespacedKey(Firefly.getInstance(), "kit");
     }
 
     public boolean isKit(ItemStack item) {

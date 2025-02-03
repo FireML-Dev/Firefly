@@ -14,13 +14,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.crafting.ShapedRecipe;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.api.utils.PlayerHelper;
-import uk.firedev.daisylib.builders.ItemBuilder;
+import uk.firedev.daisylib.api.builders.ItemBuilder;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -135,7 +136,7 @@ public class ElevatorModule implements Module {
     }
 
     public NamespacedKey getItemKey() {
-        return ObjectUtils.createNamespacedKey("elevator-block", Firefly.getInstance());
+        return new NamespacedKey(Firefly.getInstance(), "elevator-block");
     }
 
     public boolean isElevatorBlock(ItemStack itemStack) {
@@ -146,7 +147,7 @@ public class ElevatorModule implements Module {
     public ItemStack getElevatorBlock() {
         YamlConfiguration config = ElevatorConfig.getInstance().getConfig();
         String material = config.getString("item.material", "IRON_BLOCK");
-        ItemStack item = ItemBuilder.itemBuilder(material, Material.IRON_BLOCK)
+        ItemStack item = ItemBuilder.create(material, Material.IRON_BLOCK)
                 .withStringDisplay(config.getString("item.display", "<aqua>Elevator Block</aqua>"), null)
                 .withStringLore(config.getStringList("item.lore"), null)
                 .addEnchantment(Enchantment.UNBREAKING, 10)

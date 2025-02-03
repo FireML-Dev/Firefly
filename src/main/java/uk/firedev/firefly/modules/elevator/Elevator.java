@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.checkerframework.checker.units.qual.N;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
@@ -33,11 +34,11 @@ public class Elevator {
     }
 
     public NamespacedKey getStackKey() {
-        return ObjectUtils.createNamespacedKey("elevator-" + location.getBlock().getX() + "_" + location.getBlock().getZ(), Firefly.getInstance());
+        return new NamespacedKey(Firefly.getInstance(), "elevator-" + location.getBlock().getX() + "_" + location.getBlock().getZ());
     }
 
     public NamespacedKey getMaterialKey() {
-        return ObjectUtils.createNamespacedKey("elevator-material", Firefly.getInstance());
+        return new NamespacedKey(Firefly.getInstance(), "elevator-material");
     }
 
     public Location getLocation() {

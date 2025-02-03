@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.database.DatabaseModule;
+import uk.firedev.daisylib.api.utils.DatabaseUtils;
 import uk.firedev.daisylib.api.utils.LocationHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
@@ -42,7 +43,7 @@ public class TeleportDatabase implements DatabaseModule {
     public boolean saveLastLocationToDatabase(@NotNull UUID playerUUID, @NotNull Location location) {
         if (Database.getInstance().checkPlayerDatabaseEntry(playerUUID)) {
             try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement("UPDATE firefly_players SET lastTeleportLocation = ? WHERE uuid = ?")) {
-                statement.setString(1, LocationHelper.convertToString(location, true));
+                statement.setString(1, DatabaseUtils.prepareLocation(location));
                 statement.setString(2, playerUUID.toString());
                 statement.executeUpdate();
                 return true;
@@ -67,7 +68,10 @@ public class TeleportDatabase implements DatabaseModule {
                     continue;
                 }
                 UUID uuid = UUID.fromString(set.getString("uuid"));
-                Location location = LocationHelper.getFromString(locationString);
+                Location location = DatabaseUtils.parseLocation(locationString);
+                if (location == null) {
+                    continue;
+                }
                 lastLocationMap.put(uuid, location);
             }
             return lastLocationMap;

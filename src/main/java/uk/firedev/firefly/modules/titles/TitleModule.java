@@ -123,11 +123,11 @@ public class TitleModule implements Module {
     }
 
     public NamespacedKey getPrefixKey() {
-        return ObjectUtils.createNamespacedKey("player-prefix", Firefly.getInstance());
+        return new NamespacedKey(Firefly.getInstance(), "player-prefix");
     }
 
     public NamespacedKey getSuffixKey() {
-        return ObjectUtils.createNamespacedKey("player-suffix", Firefly.getInstance());
+        return new NamespacedKey(Firefly.getInstance(), "player-suffix");
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull String prefix) {

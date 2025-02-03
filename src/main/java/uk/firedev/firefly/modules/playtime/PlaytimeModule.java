@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.utils.DurationFormatter;
+import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;

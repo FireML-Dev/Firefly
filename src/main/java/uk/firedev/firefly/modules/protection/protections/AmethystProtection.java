@@ -10,6 +10,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.checkerframework.checker.units.qual.N;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
@@ -110,7 +111,7 @@ public class AmethystProtection implements SubModule {
     }
 
     private NamespacedKey getAmethystProtectKey() {
-        return ObjectUtils.createNamespacedKey("no-amethyst-protect", Firefly.getInstance());
+        return new NamespacedKey(Firefly.getInstance(), "no-amethyst-protect");
     }
 
     @EventHandler

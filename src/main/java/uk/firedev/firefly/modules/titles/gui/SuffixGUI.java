@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import uk.firedev.daisylib.builders.ItemBuilder;
+import uk.firedev.daisylib.api.builders.ItemBuilder;
 import uk.firedev.daisylib.libs.themoep.inventorygui.DynamicGuiElement;
 import uk.firedev.daisylib.libs.themoep.inventorygui.GuiElementGroup;
 import uk.firedev.daisylib.libs.themoep.inventorygui.InventoryGui;
@@ -36,7 +36,7 @@ public class SuffixGUI {
         this.player = player;
         gui = new InventoryGui(Firefly.getInstance(), config.getString("gui.suffixes.title", "Titles"), setup);
         gui.setCloseAction(close -> false);
-        gui.setFiller(ItemBuilder.itemBuilder(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
+        gui.setFiller(ItemBuilder.create(config.getString("gui.suffixes.filler", ""), Material.GRAY_STAINED_GLASS_PANE)
                 .withStringDisplay("", null)
                 .getItem()
         );
@@ -85,7 +85,7 @@ public class SuffixGUI {
         try {
             material = Material.valueOf(config.getString("gui.suffixes.remove.material", ""));
         } catch (IllegalArgumentException ignored) {}
-        return ItemBuilder.itemBuilder(material)
+        return ItemBuilder.create(material)
                 .withStringDisplay(config.getString("gui.suffixes.remove.display", "<yellow>Remove Suffix</yellow>"), null)
                 .withStringLore(config.getStringList("gui.suffixes.remove.lore"), null)
                 .getItem();
