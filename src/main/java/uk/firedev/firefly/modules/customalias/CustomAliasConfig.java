@@ -2,7 +2,6 @@ package uk.firedev.firefly.modules.customalias;
 
 import org.bukkit.configuration.ConfigurationSection;
 import uk.firedev.daisylib.config.ConfigBase;
-import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.firefly.Firefly;
 
 import java.util.ArrayList;

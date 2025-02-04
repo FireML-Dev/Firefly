@@ -121,7 +121,7 @@ public class NicknameModule implements Module {
         Component component = StringUtils.getColorOnlyComponent(savedName);
         ComponentMessage componentMessage = ComponentMessage.of(component);
         if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
-            ComponentReplacer replacer = ComponentReplacer.componentReplacer("username", player.getName());
+            ComponentReplacer replacer = ComponentReplacer.create("username", player.getName());
             component = component.hoverEvent(
                     HoverEvent.hoverEvent(
                             HoverEvent.Action.SHOW_TEXT,

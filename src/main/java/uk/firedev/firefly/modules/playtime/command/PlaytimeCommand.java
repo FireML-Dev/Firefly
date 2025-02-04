@@ -7,7 +7,10 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.*;
+import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
+import uk.firedev.daisylib.libs.commandapi.arguments.AsyncOfflinePlayerArgument;
+import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
+import uk.firedev.daisylib.libs.commandapi.arguments.LongArgument;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 
@@ -42,7 +45,7 @@ public class PlaytimeCommand {
     }
 
     private static void sendPlaytime(@NotNull CommandSender sender, @NotNull OfflinePlayer playerToCheck) {
-        ComponentReplacer replacer = ComponentReplacer.componentReplacer(
+        ComponentReplacer replacer = ComponentReplacer.create(
                 "player", Objects.requireNonNullElse(playerToCheck.getName(), "N/A"),
                 "playtime", PlaytimeModule.getInstance().getTimeFormatted(playerToCheck)
         );

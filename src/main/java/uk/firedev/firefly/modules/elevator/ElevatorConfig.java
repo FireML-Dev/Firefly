@@ -3,10 +3,10 @@ package uk.firedev.firefly.modules.elevator;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.builders.BossBarBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
@@ -57,7 +57,7 @@ public class ElevatorConfig extends ConfigBase {
     }
 
     public Component getBossBarTitle(@NotNull Elevator elevator) {
-        ComponentReplacer replacer = ComponentReplacer.componentReplacer(
+        ComponentReplacer replacer = ComponentReplacer.create(
                 "current", String.valueOf(elevator.getCurrentPosition() + 1),
                 "all", String.valueOf(elevator.getStack().size()),
                 "y", String.valueOf((int) elevator.getTPLocation().getY())
@@ -90,7 +90,7 @@ public class ElevatorConfig extends ConfigBase {
             progress = (float) (elevator.getCurrentPosition() + 1) / elevator.getStack().size();
         }
 
-        return BossBarBuilder.bossBarBuilder()
+        return BossBarBuilder.create()
                 .withTitle(getBossBarTitle(elevator), null)
                 .withColor(getBossBarColor())
                 .withOverlay(getBossBarOverlay())

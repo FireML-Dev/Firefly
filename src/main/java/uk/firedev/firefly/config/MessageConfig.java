@@ -1,5 +1,6 @@
 package uk.firedev.firefly.config;
 
+import org.checkerframework.checker.units.qual.C;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.command.HelpMessageBuilder;
@@ -7,6 +8,7 @@ import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class MessageConfig extends ConfigBase {
 
@@ -25,7 +27,7 @@ public class MessageConfig extends ConfigBase {
     }
 
     public ComponentReplacer getPrefixReplacer() {
-        return ComponentReplacer.componentReplacer("prefix", getPrefix().getMessage());
+        return ComponentReplacer.create("prefix", getPrefix().getMessage());
     }
 
     // GENERAL MESSAGES
@@ -55,15 +57,16 @@ public class MessageConfig extends ConfigBase {
     }
 
     public ComponentMessage getMainCommandUsageMessage() {
-        Map<String, String> usageMap = Map.of(
-                "/firefly reload", "Reloads the plugin.",
-                "/firefly modules", "Are modules enabled?"
+        Map<String, Supplier<ComponentMessage>> usageMap = Map.of(
+                "reload", () -> ComponentMessage.fromString("Reloads the plugin."),
+                "modules", () -> ComponentMessage.fromString("Are modules enabled?")
         );
-        ComponentMessage header = ComponentMessage.fromConfig(getConfig(), "main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
-        ComponentMessage usage = ComponentMessage.fromConfig(getConfig(), "main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
+        Supplier<ComponentMessage> header = () -> ComponentMessage.fromConfig(getConfig(), "main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
+        Supplier<ComponentMessage> usage = () -> ComponentMessage.fromConfig(getConfig(), "main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
 
-        ComponentMessage message = HelpMessageBuilder.create(header, usage)
-                .buildMessage(usageMap, "command", "description");
+        ComponentMessage message = HelpMessageBuilder.create("firefly", header, usage)
+                .addUsages(usageMap)
+                .buildMessage();
 
         return message.applyReplacer(getPrefixReplacer());
     }

@@ -34,7 +34,7 @@ public class NicknameCheckCommand {
                             MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(player);
                             return;
                         }
-                        ComponentReplacer replacer = ComponentReplacer.componentReplacer()
+                        ComponentReplacer replacer = ComponentReplacer.create()
                                 .addReplacement("player", ComponentMessage.fromString(targetName).getMessage())
                                 .addReplacement("nickname", NicknameModule.getInstance().getNickname(target));
                         NicknameConfig.getInstance().getCommandCheckInfoMessage().applyReplacer(replacer).sendMessage(player);

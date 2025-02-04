@@ -17,7 +17,6 @@ import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.command.CooldownHelper;
-import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
 import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.firefly.Firefly;
 
@@ -30,7 +29,7 @@ public class Kit {
 
     private static final Random random = new Random();
 
-    private CooldownHelper cooldowns = CooldownHelper.cooldownHelper();
+    private CooldownHelper cooldowns = CooldownHelper.create();
     private String name;
     private Material material;
     private Component display;
@@ -158,7 +157,7 @@ public class Kit {
 
     public void giveToPlayer(@NotNull Player player, @Nullable CommandSender sender) {
         ItemUtils.giveItem(buildItem(), player);
-        ComponentReplacer replacer = ComponentReplacer.componentReplacer("kit", getName());
+        ComponentReplacer replacer = ComponentReplacer.create("kit", getName());
         KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
         if (sender != null) {
             replacer.addReplacements("player", player.getName());

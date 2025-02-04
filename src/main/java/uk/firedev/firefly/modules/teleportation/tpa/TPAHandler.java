@@ -74,7 +74,7 @@ public class TPAHandler {
         Component accept = TeleportConfig.getInstance().getTpaAcceptClickMessage(sender).getMessage();
         Component deny = TeleportConfig.getInstance().getTpaDenyClickMessage(sender).getMessage();
 
-        ComponentReplacer acceptDenyReplacer = ComponentReplacer.componentReplacer(Map.of(
+        ComponentReplacer acceptDenyReplacer = ComponentReplacer.create(Map.of(
                 "accept", accept,
                 "deny", deny
         ));

@@ -38,7 +38,7 @@ public class DBackCommand extends CommandAPICommand {
                 if (success) {
                     TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
                     if (!samePerson) {
-                        ComponentReplacer replacer = ComponentReplacer.componentReplacer("target", targetPlayer.getName());
+                        ComponentReplacer replacer = ComponentReplacer.create("target", targetPlayer.getName());
                         TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
                     }
                 } else {
@@ -65,7 +65,7 @@ public class DBackCommand extends CommandAPICommand {
                 if (success) {
                     TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(targetPlayer);
 
-                    ComponentReplacer replacer = ComponentReplacer.componentReplacer("target", targetPlayer.getName());
+                    ComponentReplacer replacer = ComponentReplacer.create("target", targetPlayer.getName());
                     TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
                 } else {
                     MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(targetPlayer);

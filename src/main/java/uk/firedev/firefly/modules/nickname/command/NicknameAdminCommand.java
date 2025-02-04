@@ -42,7 +42,7 @@ public class NicknameAdminCommand {
                         }
                         if (nicknameStr.equalsIgnoreCase("remove") || nicknameStr.equalsIgnoreCase("off")) {
                             NicknameModule.getInstance().removeNickname(targetPlayer);
-                            ComponentReplacer replacer = ComponentReplacer.componentReplacer("player", targetName);
+                            ComponentReplacer replacer = ComponentReplacer.create("player", targetName);
                             NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().applyReplacer(replacer).sendMessage(player);
                             if (targetPlayer.getUniqueId() != player.getUniqueId() && targetPlayer.getPlayer() != null) {
                                 NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(targetPlayer.getPlayer());

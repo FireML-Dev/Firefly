@@ -2,10 +2,9 @@ package uk.firedev.firefly.modules.titles;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.libs.boostedyaml.block.implementation.Section;
+import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.titles.objects.Prefix;

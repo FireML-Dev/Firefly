@@ -32,7 +32,7 @@ public class BackCommand extends CommandAPICommand {
                 if (success) {
                     TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
                     if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                        ComponentReplacer replacer = ComponentReplacer.componentReplacer("target", targetPlayer.getName());
+                        ComponentReplacer replacer = ComponentReplacer.create("target", targetPlayer.getName());
                         TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
                     }
                 } else {
@@ -51,7 +51,7 @@ public class BackCommand extends CommandAPICommand {
                 if (success) {
                     TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
 
-                    ComponentReplacer replacer = ComponentReplacer.componentReplacer("target", targetPlayer.getName());
+                    ComponentReplacer replacer = ComponentReplacer.create("target", targetPlayer.getName());
                     TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
                 } else {
                     TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(console);

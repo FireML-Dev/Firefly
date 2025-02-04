@@ -5,7 +5,6 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
-import uk.firedev.firefly.utils.CommandUtils;
 
 import java.util.Arrays;
 import java.util.Objects;

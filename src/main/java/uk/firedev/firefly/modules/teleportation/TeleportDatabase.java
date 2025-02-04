@@ -5,7 +5,6 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.database.DatabaseModule;
 import uk.firedev.daisylib.api.utils.DatabaseUtils;
-import uk.firedev.daisylib.api.utils.LocationHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 

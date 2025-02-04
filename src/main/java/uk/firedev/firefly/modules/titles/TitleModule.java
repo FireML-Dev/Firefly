@@ -12,7 +12,6 @@ import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
@@ -141,7 +140,7 @@ public class TitleModule implements Module {
     public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
         String stringPrefix = ComponentMessage.of(prefix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
-        ComponentReplacer replacer = ComponentReplacer.componentReplacer("new-prefix", prefix);
+        ComponentReplacer replacer = ComponentReplacer.create("new-prefix", prefix);
         TitleConfig.getInstance().getPrefixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
@@ -187,7 +186,7 @@ public class TitleModule implements Module {
     public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {
         String stringSuffix = ComponentMessage.of(suffix).toStringMessage().getMessage();
         player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
-        ComponentReplacer replacer = ComponentReplacer.componentReplacer("new-suffix", suffix);
+        ComponentReplacer replacer = ComponentReplacer.create("new-suffix", suffix);
         TitleConfig.getInstance().getSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
     }
 
