@@ -1,5 +1,6 @@
 package uk.firedev.firefly;
 
+import com.google.common.base.Preconditions;
 import org.bukkit.plugin.java.JavaPlugin;
 import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
@@ -13,9 +14,12 @@ public final class Firefly extends JavaPlugin {
     private static Firefly instance;
 
     @Override
-    public void onEnable() {
+    public void onLoad() {
         instance = this;
+    }
 
+    @Override
+    public void onEnable() {
         // Load configs
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
@@ -35,6 +39,7 @@ public final class Firefly extends JavaPlugin {
         ModuleManager.getInstance().unload();
         // DO THIS LAST!!!!
         Database.getInstance().unload();
+        instance = null;
     }
 
     public void reload() {
@@ -45,6 +50,9 @@ public final class Firefly extends JavaPlugin {
         Database.getInstance().reload();
     }
 
-    public static Firefly getInstance() { return instance; }
+    public static Firefly getInstance() {
+        Preconditions.checkArgument(instance != null, "Firefly is not enabled!");
+        return instance;
+    }
 
 }
