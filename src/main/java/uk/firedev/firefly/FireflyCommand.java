@@ -4,59 +4,47 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.NamedTextColor;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.command.ArgumentBuilder;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
+import uk.firedev.daisylib.libs.commandapi.CommandTree;
+import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
+import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.ModuleManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This command should never be unloaded.
- */
-public class FireflyCommand extends CommandAPICommand {
+public class FireflyCommand {
 
-    private static FireflyCommand instance = null;
-
-    private FireflyCommand() {
-        super("firefly");
-        setPermission(CommandPermission.fromString("firefly.command.main"));
-        withShortDescription("Manage the Plugin");
-        withFullDescription("Manage the Plugin");
-        withSubcommands(getReloadCommand(), getModulesCommand());
-        executes((sender, arguments) -> {
-            MessageConfig.getInstance().getMainCommandUsageMessage().sendMessage(sender);
-        });
+    public static CommandTree getCommand() {
+        return new CommandTree("firefly")
+            .withPermission("firefly.command.main")
+            .withShortDescription("Manage the Plugin")
+            .then(getReloadBranch());
     }
 
-    public static FireflyCommand getInstance() {
-        if (instance == null) {
-            instance = new FireflyCommand();
-        }
-        return instance;
+    private static Argument<String> getReloadBranch() {
+        return new LiteralArgument("reload")
+            .executes(info -> {
+                Firefly.getInstance().reload();
+                MessageConfig.getInstance().getMainCommandReloadedMessage().sendMessage(info.sender());
+            });
     }
 
-    private CommandAPICommand getReloadCommand() {
-        return new CommandAPICommand("reload")
-                .executes(((sender, arguments) -> {
-                    Firefly.getInstance().reload();
-                    MessageConfig.getInstance().getMainCommandReloadedMessage().sendMessage(sender);
-                }));
-    }
-
-    private CommandAPICommand getModulesCommand() {
-        return new CommandAPICommand("modules")
-                .executes((sender, arguments) -> {
-                    getModulesMessage().sendMessage(sender);
-                });
+    private static Argument<String> getModulesBranch() {
+        return new LiteralArgument("modules")
+            .executes(info -> {
+                getModulesMessage().sendMessage(info.sender());
+            });
     }
 
     /**
      * Creates a message for the modules command.
      * This message is designed to look like /plugins
      */
-    private ComponentMessage getModulesMessage() {
+    private static ComponentMessage getModulesMessage() {
         List<Module> modules = ModuleManager.getInstance().getModules();
         List<Component> formattedModules = new ArrayList<>();
 

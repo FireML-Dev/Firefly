@@ -22,7 +22,7 @@ public final class Firefly extends JavaPlugin {
         GUIConfig.getInstance().reload();
 
         Database.getInstance().load();
-        FireflyCommand.getInstance().register(this);
+        FireflyCommand.getCommand().register(this);
 
         // Handle module loading and their placeholders
         Placeholders.init();
