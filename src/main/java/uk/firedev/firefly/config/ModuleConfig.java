@@ -1,5 +1,6 @@
 package uk.firedev.firefly.config;
 
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
@@ -19,40 +20,8 @@ public class ModuleConfig extends ConfigBase {
         return instance;
     }
 
-    public boolean elevatorModuleEnabled() {
-        return getConfig().getBoolean("elevators");
-    }
-
-    public boolean titleModuleEnabled() {
-        return getConfig().getBoolean("titles");
-    }
-
-    public boolean protectionModuleEnabled() {
-        return getConfig().getBoolean("protection");
-    }
-
-    public boolean kitsModuleEnabled() {
-        return getConfig().getBoolean("kits");
-    }
-
-    public boolean nicknamesModuleEnabled() {
-        return getConfig().getBoolean("nicknames");
-    }
-
-    public boolean aliasesModuleEnabled() {
-        return getConfig().getBoolean("aliases");
-    }
-
-    public boolean playtimeModuleEnabled() {
-        return getConfig().getBoolean("playtime");
-    }
-
-    public boolean teleportationModuleEnabled() {
-        return getConfig().getBoolean("teleportation");
-    }
-
-    public boolean commandsModuleEnabled() {
-        return getConfig().getBoolean("commands");
+    public boolean isModuleEnabled(@NotNull String module) {
+        return getConfig().getBoolean(module.toLowerCase());
     }
 
 }

@@ -48,7 +48,7 @@ public class NicknameModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().nicknamesModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("nicknames");
     }
 
     @Override
@@ -61,7 +61,7 @@ public class NicknameModule implements Module {
         NicknameCommand.getCommand().register(Firefly.getInstance());
         NicknameAdminCommand.getCommand().register(Firefly.getInstance());
         NicknameCheckCommand.getCommand().register(Firefly.getInstance());
-        NicknameDatabase.getInstance().register(Database.getInstance());
+        NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         populateNicknameMap();
         loaded = true;
     }

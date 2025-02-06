@@ -56,19 +56,4 @@ public class MessageConfig extends ConfigBase {
         return message;
     }
 
-    public ComponentMessage getMainCommandUsageMessage() {
-        Map<String, Supplier<ComponentMessage>> usageMap = Map.of(
-                "reload", () -> ComponentMessage.fromString("Reloads the plugin."),
-                "modules", () -> ComponentMessage.fromString("Are modules enabled?")
-        );
-        Supplier<ComponentMessage> header = () -> ComponentMessage.fromConfig(getConfig(), "main-command.usage.header", "{prefix}<color:#F0E68C>Command Usage:");
-        Supplier<ComponentMessage> usage = () -> ComponentMessage.fromConfig(getConfig(), "main-command.usage.command", "{prefix}<aqua>{command} <color:#F0E68C>- {description}");
-
-        ComponentMessage message = HelpMessageBuilder.create("firefly", header, usage)
-                .addUsages(usageMap)
-                .buildMessage();
-
-        return message.applyReplacer(getPrefixReplacer());
-    }
-
 }

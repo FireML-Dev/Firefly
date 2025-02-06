@@ -45,7 +45,7 @@ public class PlaytimeModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().playtimeModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("playtime");
     }
 
     @Override
@@ -54,7 +54,7 @@ public class PlaytimeModule implements Module {
             return;
         }
         PlaytimeConfig.getInstance().reload();
-        PlaytimeDatabase.getInstance().register(Database.getInstance());
+        PlaytimeDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
         PlaytimeCommand.getCommand().register(Firefly.getInstance());
         new PlaytimeRequirement().register();

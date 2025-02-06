@@ -49,7 +49,7 @@ public class TitleModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().titleModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("titles");
     }
 
     @Override

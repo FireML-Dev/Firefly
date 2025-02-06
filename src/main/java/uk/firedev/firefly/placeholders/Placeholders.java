@@ -16,13 +16,15 @@ public class Placeholders {
     private static PlaceholderProvider provider;
 
     public static void init() {
+        if (provider != null) {
+            return;
+        }
         provider = PlaceholderProvider.create(Firefly.getInstance());
     }
 
     /**
      * Allows registration of placeholders.
-     * This will not do anything after the plugin's first load.
-     * @param consumer
+     * This will not do anything after the plugin/module's first load.
      */
     public static void manageProvider(@NotNull Consumer<PlaceholderProvider> consumer) {
         if (provider == null) {

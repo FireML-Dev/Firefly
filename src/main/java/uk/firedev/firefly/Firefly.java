@@ -1,6 +1,9 @@
 package uk.firedev.firefly;
 
+import com.google.common.base.Preconditions;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.database.exceptions.DatabaseLoadException;
 import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
@@ -12,17 +15,27 @@ public final class Firefly extends JavaPlugin {
 
     private static Firefly instance;
 
+    private final Database database = new Database(this);
+
+    @Override
+    public void onLoad() {
+        instance = this;
+    }
+
     @Override
     public void onEnable() {
-        instance = this;
-
         // Load configs
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
-        Database.getInstance().load();
-        FireflyCommand.getInstance().register(this);
+        try {
+            database.load();
+        } catch (DatabaseLoadException exception) {
+            throw new RuntimeException(exception);
+        }
+
+        FireflyCommand.getCommand().register(this);
 
         // Handle module loading and their placeholders
         Placeholders.init();
@@ -34,7 +47,8 @@ public final class Firefly extends JavaPlugin {
     public void onDisable() {
         ModuleManager.getInstance().unload();
         // DO THIS LAST!!!!
-        Database.getInstance().unload();
+        database.unload();
+        instance = null;
     }
 
     public void reload() {
@@ -42,9 +56,16 @@ public final class Firefly extends JavaPlugin {
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
         ModuleManager.getInstance().reload();
-        Database.getInstance().reload();
+        database.reload();
     }
 
-    public static Firefly getInstance() { return instance; }
+    public @NotNull Database getDatabase() {
+        return this.database;
+    }
+
+    public static Firefly getInstance() {
+        Preconditions.checkArgument(instance != null, "Firefly is not enabled!");
+        return instance;
+    }
 
 }
