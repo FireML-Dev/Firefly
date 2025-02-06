@@ -25,9 +25,9 @@ public final class Firefly extends JavaPlugin {
     @Override
     public void onEnable() {
         // Load configs
-        MainConfig.getInstance().reload();
-        MessageConfig.getInstance().reload();
-        GUIConfig.getInstance().reload();
+        MainConfig.getInstance().init();
+        MessageConfig.getInstance().init();
+        GUIConfig.getInstance().init();
 
         try {
             database.load();
