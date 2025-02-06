@@ -53,7 +53,7 @@ public class CommandModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().commandsModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("commands");
     }
 
     @Override

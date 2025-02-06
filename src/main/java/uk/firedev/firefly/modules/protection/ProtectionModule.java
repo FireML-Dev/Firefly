@@ -35,7 +35,7 @@ public class ProtectionModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().protectionModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("protection");
     }
 
     @Override

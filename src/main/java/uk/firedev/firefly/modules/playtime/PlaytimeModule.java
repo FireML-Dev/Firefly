@@ -45,7 +45,7 @@ public class PlaytimeModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().playtimeModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("playtime");
     }
 
     @Override

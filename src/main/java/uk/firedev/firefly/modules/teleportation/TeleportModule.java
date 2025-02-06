@@ -54,7 +54,7 @@ public class TeleportModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().teleportationModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("teleportation");
     }
 
     @Override

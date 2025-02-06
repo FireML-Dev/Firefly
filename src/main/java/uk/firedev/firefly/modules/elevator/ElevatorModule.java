@@ -55,7 +55,7 @@ public class ElevatorModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().elevatorModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("elevators");
     }
 
     @Override

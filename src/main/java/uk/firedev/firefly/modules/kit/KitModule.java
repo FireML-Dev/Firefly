@@ -42,7 +42,7 @@ public class KitModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().kitsModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("kits");
     }
 
     @Override

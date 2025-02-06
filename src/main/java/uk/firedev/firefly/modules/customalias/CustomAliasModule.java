@@ -33,7 +33,7 @@ public class CustomAliasModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().aliasesModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("aliases");
     }
 
     @Override

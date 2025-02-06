@@ -22,7 +22,8 @@ public class FireflyCommand {
         return new CommandTree("firefly")
             .withPermission("firefly.command.main")
             .withShortDescription("Manage the Plugin")
-            .then(getReloadBranch());
+            .then(getReloadBranch())
+            .then(getModulesBranch());
     }
 
     private static Argument<String> getReloadBranch() {

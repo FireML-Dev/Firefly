@@ -48,7 +48,7 @@ public class NicknameModule implements Module {
 
     @Override
     public boolean isConfigEnabled() {
-        return ModuleConfig.getInstance().nicknamesModuleEnabled();
+        return ModuleConfig.getInstance().isModuleEnabled("nicknames");
     }
 
     @Override
