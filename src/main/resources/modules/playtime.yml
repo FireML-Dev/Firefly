@@ -4,3 +4,6 @@ messages:
     admin:
       set-playtime-sender: "<#F0E68C>Set {target}'s playtime to <white>{playtime}"
       set-playtime: "<#F0E68C>Your playtime has been set to <white>{playtime}"
+
+# DO NOT TOUCH THIS VALUE!!!
+config-version: 1
