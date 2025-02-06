@@ -43,8 +43,9 @@ public class ProtectionModule implements Module {
         if (isLoaded()) {
             return;
         }
+        ProtectionConfig.getInstance().init();
+        protections.forEach(protection -> ModuleManager.getInstance().registerOrUnregisterModule(protection));
         loaded = true;
-        reload();
     }
 
     @Override

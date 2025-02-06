@@ -61,8 +61,9 @@ public class CommandModule implements Module {
         if (isLoaded()) {
             return;
         }
+        CommandConfig.getInstance().init();
+        commands.forEach(command -> ModuleManager.getInstance().registerOrUnregisterModule(command));
         loaded = true;
-        reload();
     }
 
     @Override

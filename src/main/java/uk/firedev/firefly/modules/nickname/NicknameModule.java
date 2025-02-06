@@ -56,7 +56,7 @@ public class NicknameModule implements Module {
         if (isLoaded()) {
             return;
         }
-        NicknameConfig.getInstance().reload();
+        NicknameConfig.getInstance().init();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Nickname Commands");
         NicknameCommand.getCommand().register(Firefly.getInstance());
         NicknameAdminCommand.getCommand().register(Firefly.getInstance());

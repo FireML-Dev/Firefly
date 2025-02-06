@@ -46,8 +46,9 @@ public class ModuleManager {
         if (isLoaded()) {
             return;
         }
+        ModuleConfig.getInstance().init();
+        modules.forEach(this::registerOrUnregisterModule);
         loaded = true;
-        reload();
     }
 
     public void reload() {

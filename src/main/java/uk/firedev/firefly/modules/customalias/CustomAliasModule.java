@@ -41,8 +41,9 @@ public class CustomAliasModule implements Module {
         if (isLoaded()) {
             return;
         }
-        loaded = true;
+        CustomAliasConfig.getInstance().init();
         loadAllCommands();
+        loaded = true;
     }
 
     @Override

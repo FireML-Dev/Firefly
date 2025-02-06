@@ -50,7 +50,7 @@ public class KitModule implements Module {
         if (isLoaded()) {
             return;
         }
-        KitConfig.getInstance().reload();
+        KitConfig.getInstance().init();
         loadKits();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Kit Commands");
         KitCommand.getCommand().register(Firefly.getInstance());

@@ -53,7 +53,7 @@ public class PlaytimeModule implements Module {
         if (isLoaded()) {
             return;
         }
-        PlaytimeConfig.getInstance().reload();
+        PlaytimeConfig.getInstance().init();
         PlaytimeDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
         PlaytimeCommand.getCommand().register(Firefly.getInstance());

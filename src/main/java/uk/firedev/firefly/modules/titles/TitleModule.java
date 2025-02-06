@@ -61,7 +61,7 @@ public class TitleModule implements Module {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please register one to use this module! (Something like LuckPerms should be fine)");
             return;
         }
-        TitleConfig.getInstance().reload();
+        TitleConfig.getInstance().init();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Title Commands");
         PrefixCommand.getInstance().register(Firefly.getInstance());
         SuffixCommand.getInstance().register(Firefly.getInstance());
