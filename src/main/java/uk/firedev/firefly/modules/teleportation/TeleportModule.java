@@ -63,7 +63,7 @@ public class TeleportModule implements Module {
             return;
         }
         TeleportConfig.getInstance().reload();
-        TeleportDatabase.getInstance().register(Database.getInstance());
+        TeleportDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
 

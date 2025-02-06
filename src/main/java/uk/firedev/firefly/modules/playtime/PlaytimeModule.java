@@ -54,7 +54,7 @@ public class PlaytimeModule implements Module {
             return;
         }
         PlaytimeConfig.getInstance().reload();
-        PlaytimeDatabase.getInstance().register(Database.getInstance());
+        PlaytimeDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
         PlaytimeCommand.getCommand().register(Firefly.getInstance());
         new PlaytimeRequirement().register();

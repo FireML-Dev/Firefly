@@ -29,14 +29,14 @@ public class PlaytimeDatabase implements DatabaseModule {
 
     @Override
     public void init() {
-        try (Statement statement = Database.getInstance().getConnection().createStatement()) {
+        try (Statement statement = Firefly.getInstance().getDatabase().getConnection().createStatement()) {
             statement.execute("ALTER TABLE firefly_players ADD COLUMN playtime long");
             Loggers.info(Firefly.getInstance().getComponentLogger(), "Created playtime database column.");
         } catch (SQLException ignored) {}
     }
 
     public @NotNull Map<UUID, Long> getPlaytimes() {
-        try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
+        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
             ResultSet set = statement.executeQuery();
             Map<UUID, Long> playtimeMap = new HashMap<>();
             while (set.next()) {
@@ -52,8 +52,8 @@ public class PlaytimeDatabase implements DatabaseModule {
     }
 
     public boolean saveToDatabase(@NotNull UUID playerUUID, final long playtime) {
-        if (Database.getInstance().checkPlayerDatabaseEntry(playerUUID)) {
-            try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement("UPDATE firefly_players SET playtime = ? WHERE uuid = ?")) {
+        if (Firefly.getInstance().getDatabase().createPlayerEntryIfNeeded(playerUUID)) {
+            try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET playtime = ? WHERE uuid = ?")) {
                 statement.setLong(1, playtime);
                 statement.setString(2, playerUUID.toString());
                 statement.executeUpdate();

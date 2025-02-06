@@ -29,14 +29,14 @@ public class NicknameDatabase implements DatabaseModule {
 
     @Override
     public void init() {
-        try (Statement statement = Database.getInstance().getConnection().createStatement()) {
+        try (Statement statement = Firefly.getInstance().getDatabase().getConnection().createStatement()) {
             statement.execute("ALTER TABLE firefly_players ADD COLUMN nickname varchar");
             Loggers.info(Firefly.getInstance().getComponentLogger(), "Created nickname database column.");
         } catch (SQLException ignored) {}
     }
 
     public @NotNull Map<UUID, String> getNicknames() {
-        try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
+        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
             ResultSet set = statement.executeQuery();
             Map<UUID, String> nicknameMap = new HashMap<>();
             while (set.next()) {
@@ -60,8 +60,8 @@ public class NicknameDatabase implements DatabaseModule {
         }
         final String finalNickname = nickname;
 
-        if (Database.getInstance().checkPlayerDatabaseEntry(playerUUID)) {
-            try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement("UPDATE firefly_players SET nickname = ? WHERE uuid = ?")) {
+        if (Firefly.getInstance().getDatabase().createPlayerEntryIfNeeded(playerUUID)) {
+            try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET nickname = ? WHERE uuid = ?")) {
                 statement.setString(1, finalNickname);
                 statement.setString(2, playerUUID.toString());
                 statement.executeUpdate();

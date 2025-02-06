@@ -31,7 +31,7 @@ public class TeleportDatabase implements DatabaseModule {
 
     @Override
     public void init() {
-        try (Statement statement = Database.getInstance().getConnection().createStatement()) {
+        try (Statement statement = Firefly.getInstance().getDatabase().getConnection().createStatement()) {
             statement.execute("ALTER TABLE firefly_players ADD COLUMN lastTeleportLocation VARCHAR(255)");
             Loggers.info(Firefly.getInstance().getComponentLogger(), "Created last location database column.");
         } catch (SQLException ignored) {}
@@ -40,8 +40,8 @@ public class TeleportDatabase implements DatabaseModule {
     // Last Location for /back
 
     public boolean saveLastLocationToDatabase(@NotNull UUID playerUUID, @NotNull Location location) {
-        if (Database.getInstance().checkPlayerDatabaseEntry(playerUUID)) {
-            try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement("UPDATE firefly_players SET lastTeleportLocation = ? WHERE uuid = ?")) {
+        if (Firefly.getInstance().getDatabase().createPlayerEntryIfNeeded(playerUUID)) {
+            try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET lastTeleportLocation = ? WHERE uuid = ?")) {
                 statement.setString(1, DatabaseUtils.prepareLocation(location));
                 statement.setString(2, playerUUID.toString());
                 statement.executeUpdate();
@@ -57,7 +57,7 @@ public class TeleportDatabase implements DatabaseModule {
     }
 
     public @NotNull Map<UUID, Location> getLastLocations() {
-        try (PreparedStatement statement = Database.getInstance().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
+        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
             ResultSet set = statement.executeQuery();
             Map<UUID, Location> lastLocationMap = new HashMap<>();
             while (set.next()) {

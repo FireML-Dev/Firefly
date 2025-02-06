@@ -2,6 +2,8 @@ package uk.firedev.firefly;
 
 import com.google.common.base.Preconditions;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.api.database.exceptions.DatabaseLoadException;
 import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
@@ -12,6 +14,8 @@ import uk.firedev.firefly.placeholders.Placeholders;
 public final class Firefly extends JavaPlugin {
 
     private static Firefly instance;
+
+    private final Database database = new Database(this);
 
     @Override
     public void onLoad() {
@@ -25,7 +29,12 @@ public final class Firefly extends JavaPlugin {
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
 
-        Database.getInstance().load();
+        try {
+            database.load();
+        } catch (DatabaseLoadException exception) {
+            throw new RuntimeException(exception);
+        }
+
         FireflyCommand.getCommand().register(this);
 
         // Handle module loading and their placeholders
@@ -38,7 +47,7 @@ public final class Firefly extends JavaPlugin {
     public void onDisable() {
         ModuleManager.getInstance().unload();
         // DO THIS LAST!!!!
-        Database.getInstance().unload();
+        database.unload();
         instance = null;
     }
 
@@ -47,7 +56,11 @@ public final class Firefly extends JavaPlugin {
         MessageConfig.getInstance().reload();
         GUIConfig.getInstance().reload();
         ModuleManager.getInstance().reload();
-        Database.getInstance().reload();
+        database.reload();
+    }
+
+    public @NotNull Database getDatabase() {
+        return this.database;
     }
 
     public static Firefly getInstance() {
