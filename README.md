@@ -57,4 +57,4 @@ These configurations include:
 
 Release Builds are currently not available.
 
-Snapshot/Dev Builds are available on [Jenkins](https://ci.firedev.uk/job/Firefly/).
+Snapshot/Dev Builds are available on [Jenkins](https://ci.codemc.io/job/FireML/job/Firefly/).
