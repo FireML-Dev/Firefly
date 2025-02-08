@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.database.exceptions.DatabaseLoadException;
-import uk.firedev.firefly.config.GUIConfig;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.Database;
@@ -27,7 +26,6 @@ public final class Firefly extends JavaPlugin {
         // Load configs
         MainConfig.getInstance().init();
         MessageConfig.getInstance().init();
-        GUIConfig.getInstance().init();
 
         try {
             database.load();
@@ -54,7 +52,6 @@ public final class Firefly extends JavaPlugin {
     public void reload() {
         MainConfig.getInstance().reload();
         MessageConfig.getInstance().reload();
-        GUIConfig.getInstance().reload();
         ModuleManager.getInstance().reload();
         database.reload();
     }
