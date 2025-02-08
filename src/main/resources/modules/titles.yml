@@ -1,3 +1,4 @@
+# Configurations for all loaded prefixes
 prefixes:
   example:
     display: "<rainbow>Example</rainbow>"
@@ -7,6 +8,8 @@ prefixes:
       display: "<yellow>Equip Prefix</yellow> {display}"
       lore:
         - "<color:#F0E68C>Unlocked by coding this plugin</color>"
+
+# Configurations for all loaded suffixes
 suffixes:
   example:
     display: "<aqua><hover:show_text:'<yellow>Suffix Hover!'>■</hover></aqua>"
@@ -17,6 +20,7 @@ suffixes:
       lore:
         - "<color:#F0E68C>Unlocked by coding this plugin</color>"
 
+# Configuration for all of this module's messages
 messages:
   prefix-set: "<color:#F0E68C>Applied Prefix {new-prefix}.</color>"
   prefix-removed: "<red>Removed Current Prefix.</red>"
@@ -25,5 +29,83 @@ messages:
   suffix-removed: "<red>Removed Current Suffix.</red>"
   suffix-display: "<color:#F0E68C>Current Suffix: <white>{player-suffix}"
 
+# Configuration for this module's GUIs
+gui:
+  # Prefix Gui Configs
+  prefix:
+    title: "Prefixes"
+    rows: 6
+    page-size: 45
+    filler:
+      type: BORDER
+      material: GRAY_STAINED_GLASS_PANE
+    items:
+      # Next Page Button
+      next-page:
+        material: PAPER
+        display: "<red>Next Page"
+        locations:
+          - 7,6
+        click-actions:
+          left: next-page
+          right: next-page
+      # Previous Page Button
+      previous-page:
+        material: PAPER
+        display: "<red>Previous Page"
+        locations:
+          - 3,6
+        click-actions:
+          left: previous-page
+          right: previous-page
+      # Remove Prefix Button
+      remove-prefix:
+        material: FLINT_AND_STEEL
+        display: "<yellow>Remove Prefix"
+        locations:
+          - 5,6
+        click-actions:
+          left: remove-prefix
+          right: remove-prefix
+
+  # Suffix Gui Configs
+  suffix:
+    title: "Suffixes"
+    rows: 6
+    page-size: 45
+    filler:
+      type: BORDER
+      material: GRAY_STAINED_GLASS_PANE
+    items:
+      # Next Page Button
+      next-page:
+        material: PAPER
+        display: "<red>Next Page"
+        locations:
+          - 7,6
+        click-actions:
+          left: next-page
+          right: next-page
+      # Previous Page Button
+      previous-page:
+        material: PAPER
+        display: "<red>Previous Page"
+        locations:
+          - 3,6
+        click-actions:
+          left: previous-page
+          right: previous-page
+      # Remove Prefix Button
+      remove-prefix:
+        material: FLINT_AND_STEEL
+        display: "<yellow>Remove Suffix"
+        locations:
+          - 5,6
+        click-actions:
+          left: remove-suffix
+          right: remove-suffix
+
+
+
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 2
+config-version: 3

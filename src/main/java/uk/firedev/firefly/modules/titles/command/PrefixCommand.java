@@ -5,7 +5,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
-import uk.firedev.firefly.modules.titles.gui.PrefixGUI;
+import uk.firedev.firefly.modules.titles.gui.PrefixGui;
 
 public class PrefixCommand extends CommandAPICommand {
 
@@ -18,7 +18,7 @@ public class PrefixCommand extends CommandAPICommand {
         withFullDescription("Manage Prefix");
         withSubcommand(getDisplayCommand());
         executesPlayer((player, arguments) -> {
-            new PrefixGUI(player).open();
+            new PrefixGui(player).open();
         });
     }
 

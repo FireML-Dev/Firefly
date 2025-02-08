@@ -5,7 +5,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
-import uk.firedev.firefly.modules.titles.gui.SuffixGUI;
+import uk.firedev.firefly.modules.titles.gui.SuffixGui;
 
 public class SuffixCommand extends CommandAPICommand {
 
@@ -18,7 +18,7 @@ public class SuffixCommand extends CommandAPICommand {
         withFullDescription("Manage Suffix");
         withSubcommand(getDisplayCommand());
         executesPlayer((player, arguments) -> {
-            new SuffixGUI(player).open();
+            new SuffixGui(player).open();
         });
     }
 

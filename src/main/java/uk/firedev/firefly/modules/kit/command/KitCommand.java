@@ -5,10 +5,7 @@ import uk.firedev.daisylib.command.ArgumentBuilder;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
-import uk.firedev.firefly.modules.kit.Kit;
-import uk.firedev.firefly.modules.kit.KitConfig;
-import uk.firedev.firefly.modules.kit.KitGUI;
-import uk.firedev.firefly.modules.kit.KitModule;
+import uk.firedev.firefly.modules.kit.*;
 
 public class KitCommand {
 
@@ -28,7 +25,7 @@ public class KitCommand {
                     .executesPlayer((player, arguments) -> {
                         Object kitNameObj = arguments.get("kit");
                         if (kitNameObj == null) {
-                            new KitGUI(player).open();
+                            new KitGui(player).open();
                             return;
                         }
                         String kitName = (String) kitNameObj;

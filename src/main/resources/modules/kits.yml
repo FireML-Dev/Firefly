@@ -30,5 +30,33 @@ messages:
   gui:
     on-cooldown: "{prefix}<red>This kit is on cooldown!"
 
+# Kit Gui Config
+gui:
+  title: "Kits"
+  rows: 6
+  page-size: 45
+  filler:
+    type: BORDER
+    material: GRAY_STAINED_GLASS_PANE
+  items:
+    # Next Page Button
+    next-page:
+      material: PAPER
+      display: "<red>Next Page"
+      locations:
+        - 7,6
+      click-actions:
+        left: next-page
+        right: next-page
+    # Previous Page Button
+    previous-page:
+      material: PAPER
+      display: "<red>Previous Page"
+      locations:
+        - 3,6
+      click-actions:
+        left: previous-page
+        right: previous-page
+
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 2
+config-version: 3
