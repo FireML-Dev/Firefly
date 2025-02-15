@@ -60,18 +60,13 @@ public class NicknameDatabase implements DatabaseModule {
         }
         final String finalNickname = nickname;
 
-        if (Firefly.getInstance().getDatabase().createPlayerEntryIfNeeded(playerUUID)) {
-            try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET nickname = ? WHERE uuid = ?")) {
-                statement.setString(1, finalNickname);
-                statement.setString(2, playerUUID.toString());
-                statement.executeUpdate();
-                return true;
-            } catch (SQLException ex) {
-                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to set username for player " + playerUUID, ex);
-                return false;
-            }
-        } else {
-            Loggers.error(Firefly.getInstance().getComponentLogger(), "Player is not in the database. Not setting their nickname.");
+        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET nickname = ? WHERE uuid = ?")) {
+            statement.setString(1, finalNickname);
+            statement.setString(2, playerUUID.toString());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to set username for player " + playerUUID, ex);
             return false;
         }
     }

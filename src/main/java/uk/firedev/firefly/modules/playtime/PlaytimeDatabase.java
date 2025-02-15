@@ -52,18 +52,13 @@ public class PlaytimeDatabase implements DatabaseModule {
     }
 
     public boolean saveToDatabase(@NotNull UUID playerUUID, final long playtime) {
-        if (Firefly.getInstance().getDatabase().createPlayerEntryIfNeeded(playerUUID)) {
-            try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET playtime = ? WHERE uuid = ?")) {
-                statement.setLong(1, playtime);
-                statement.setString(2, playerUUID.toString());
-                statement.executeUpdate();
-                return true;
-            } catch (SQLException ex) {
-                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to set playtime for player " + playerUUID, ex);
-                return false;
-            }
-        } else {
-            Loggers.error(Firefly.getInstance().getComponentLogger(), "Player is not in the database. Not setting their playtime.");
+        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET playtime = ? WHERE uuid = ?")) {
+            statement.setLong(1, playtime);
+            statement.setString(2, playerUUID.toString());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to set playtime for player " + playerUUID, ex);
             return false;
         }
     }

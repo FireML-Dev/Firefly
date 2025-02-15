@@ -40,18 +40,13 @@ public class TeleportDatabase implements DatabaseModule {
     // Last Location for /back
 
     public boolean saveLastLocationToDatabase(@NotNull UUID playerUUID, @NotNull Location location) {
-        if (Firefly.getInstance().getDatabase().createPlayerEntryIfNeeded(playerUUID)) {
-            try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET lastTeleportLocation = ? WHERE uuid = ?")) {
-                statement.setString(1, DatabaseUtils.prepareLocation(location));
-                statement.setString(2, playerUUID.toString());
-                statement.executeUpdate();
-                return true;
-            } catch (SQLException ex) {
-                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to set last teleport location for player " + playerUUID, ex);
-                return false;
-            }
-        } else {
-            Loggers.error(Firefly.getInstance().getComponentLogger(), "Player is not in the database. Not setting their last teleport location.");
+        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET lastTeleportLocation = ? WHERE uuid = ?")) {
+            statement.setString(1, DatabaseUtils.prepareLocation(location));
+            statement.setString(2, playerUUID.toString());
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to set last teleport location for player " + playerUUID, ex);
             return false;
         }
     }
