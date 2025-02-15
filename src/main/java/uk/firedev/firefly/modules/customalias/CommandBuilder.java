@@ -17,6 +17,7 @@ import java.util.Objects;
 
 public class CommandBuilder {
 
+    private final boolean disabled;
     private final String commandName;
     private final List<String> aliases;
     private final String permission;
@@ -24,6 +25,7 @@ public class CommandBuilder {
     private final List<String> messages;
 
     public CommandBuilder(@NotNull ConfigurationSection section) {
+        this.disabled = section.getBoolean("disabled", false);
         this.commandName = Objects.requireNonNull(section.getName());
         this.aliases = section.getStringList("aliases");
         this.permission = section.getString("permission");
@@ -32,7 +34,7 @@ public class CommandBuilder {
     }
 
     public void registerCommand() {
-        if (commandName == null) {
+        if (commandName == null || disabled) {
             return;
         }
         new CommandTree(commandName)
