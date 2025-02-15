@@ -9,6 +9,7 @@ import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.string.StringReplacer;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
+import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Objects;
 
 public class CommandBuilder {
 
+    private final boolean disabled;
     private final String commandName;
     private final List<String> aliases;
     private final String permission;
@@ -23,6 +25,7 @@ public class CommandBuilder {
     private final List<String> messages;
 
     public CommandBuilder(@NotNull ConfigurationSection section) {
+        this.disabled = section.getBoolean("disabled", false);
         this.commandName = Objects.requireNonNull(section.getName());
         this.aliases = section.getStringList("aliases");
         this.permission = section.getString("permission");
@@ -31,30 +34,31 @@ public class CommandBuilder {
     }
 
     public void registerCommand() {
-        if (commandName == null) {
+        if (commandName == null || disabled) {
             return;
         }
-        new CommandAPICommand(commandName)
-                .withAliases(aliases.toArray(String[]::new))
-                .withPermission(permission == null ? CommandPermission.NONE : CommandPermission.fromString(permission))
-                .executes((sender, arguments) -> {
-                    messages.forEach(message -> ComponentMessage.fromString(message).sendMessage(sender));
-                    commands.forEach(executeCommand -> {
-                        CommandSender thisSender;
-                        StringReplacer replacer = StringReplacer.create();
-                        if (sender instanceof Player player) {
-                            replacer.addReplacement("player", player.getName());
-                        }
-                        if (executeCommand.startsWith("console:")) {
-                            executeCommand = executeCommand.replace("console:", "");
-                            thisSender = Bukkit.getConsoleSender();
-                        } else {
-                            thisSender = sender;
-                        }
-                        Bukkit.dispatchCommand(thisSender, replacer.replace(executeCommand));
-                    });
-                })
-                .register(Firefly.getInstance());
+        new CommandTree(commandName)
+            .withAliases(aliases.toArray(String[]::new))
+            .withPermission(permission == null ? CommandPermission.NONE : CommandPermission.fromString(permission))
+            .executes(info -> {
+                CommandSender sender = info.sender();
+                messages.forEach(message -> ComponentMessage.fromString(message).sendMessage(sender));
+                commands.forEach(executeCommand -> {
+                    CommandSender thisSender;
+                    StringReplacer replacer = StringReplacer.create();
+                    if (sender instanceof Player player) {
+                        replacer.addReplacement("player", player.getName());
+                    }
+                    if (executeCommand.startsWith("console:")) {
+                        executeCommand = executeCommand.replace("console:", "");
+                        thisSender = Bukkit.getConsoleSender();
+                    } else {
+                        thisSender = sender;
+                    }
+                    Bukkit.dispatchCommand(thisSender, replacer.replace(executeCommand));
+                });
+            })
+            .register(Firefly.getInstance());
     }
 
     public String getCommandName() {
