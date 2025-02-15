@@ -2,17 +2,13 @@ package uk.firedev.firefly.database;
 
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.database.SQLiteDatabase;
 import uk.firedev.daisylib.api.database.exceptions.DatabaseLoadException;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class Database extends SQLiteDatabase {
 

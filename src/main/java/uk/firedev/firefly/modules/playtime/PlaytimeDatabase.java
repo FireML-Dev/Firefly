@@ -29,10 +29,11 @@ public class PlaytimeDatabase implements DatabaseModule {
 
     @Override
     public void init() {
-        try (Statement statement = Firefly.getInstance().getDatabase().getConnection().createStatement()) {
-            statement.execute("ALTER TABLE firefly_players ADD COLUMN playtime long");
-            Loggers.info(Firefly.getInstance().getComponentLogger(), "Created playtime database column.");
-        } catch (SQLException ignored) {}
+        try {
+            Firefly.getInstance().getDatabase().addColumn("firefly_players", "playtime", "long");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public @NotNull Map<UUID, Long> getPlaytimes() {

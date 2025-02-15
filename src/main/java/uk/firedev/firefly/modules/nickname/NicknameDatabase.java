@@ -29,10 +29,11 @@ public class NicknameDatabase implements DatabaseModule {
 
     @Override
     public void init() {
-        try (Statement statement = Firefly.getInstance().getDatabase().getConnection().createStatement()) {
-            statement.execute("ALTER TABLE firefly_players ADD COLUMN nickname varchar");
-            Loggers.info(Firefly.getInstance().getComponentLogger(), "Created nickname database column.");
-        } catch (SQLException ignored) {}
+        try {
+            Firefly.getInstance().getDatabase().addColumn("firefly_players", "nickname", "varchar");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public @NotNull Map<UUID, String> getNicknames() {

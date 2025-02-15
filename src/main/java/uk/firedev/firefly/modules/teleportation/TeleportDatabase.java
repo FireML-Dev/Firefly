@@ -31,10 +31,11 @@ public class TeleportDatabase implements DatabaseModule {
 
     @Override
     public void init() {
-        try (Statement statement = Firefly.getInstance().getDatabase().getConnection().createStatement()) {
-            statement.execute("ALTER TABLE firefly_players ADD COLUMN lastTeleportLocation VARCHAR(255)");
-            Loggers.info(Firefly.getInstance().getComponentLogger(), "Created last location database column.");
-        } catch (SQLException ignored) {}
+        try {
+            Firefly.getInstance().getDatabase().addColumn("firefly_players", "lastTeleportLocation", "VARCHAR(255)");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Last Location for /back
