@@ -5,6 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -15,6 +17,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.builders.ItemBuilder;
 import uk.firedev.daisylib.api.crafting.ShapedRecipe;
@@ -93,7 +96,7 @@ public class ElevatorModule implements Module {
 
     @Override
     public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
+        Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("elevator_level", audience -> {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -104,11 +107,10 @@ public class ElevatorModule implements Module {
                     return Component.text("N/A");
                 }
                 return Component.text(elevator.getCurrentPosition());
-            });
-        });
+            }));
     }
 
-    public void teleportPlayer(@NotNull Player player, Elevator elevator) {
+    public void teleportPlayer(@NotNull Player player, @Nullable Elevator elevator) {
         if (elevator == null || !elevator.isElevator()) {
             return;
         }
@@ -143,19 +145,14 @@ public class ElevatorModule implements Module {
     }
 
     public ItemStack getElevatorBlock() {
-        YamlConfiguration config = ElevatorConfig.getInstance().getConfig();
-        String material = config.getString("item.material", "IRON_BLOCK");
-        ItemStack item = ItemBuilder.create(material, Material.IRON_BLOCK)
-                .withStringDisplay(config.getString("item.display", "<aqua>Elevator Block</aqua>"), null)
-                .withStringLore(config.getStringList("item.lore"), null)
-                .addEnchantment(Enchantment.UNBREAKING, 10)
-                .addFlag(ItemFlag.HIDE_ENCHANTS)
-                .getItem();
-        ItemMeta meta = item.getItemMeta();
-        PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        pdc.set(getItemKey(), PersistentDataType.BOOLEAN, true);
-        item.setItemMeta(meta);
-        return item;
+        ConfigurationSection config = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item");
+
+        return ItemBuilder.createWithConfig(config, null, null)
+            .editItem(item -> {
+                item.editPersistentDataContainer(pdc -> pdc.set(getItemKey(), PersistentDataType.BOOLEAN, true));
+                return item;
+            })
+            .getItem();
     }
     
     private void registerRecipe() {

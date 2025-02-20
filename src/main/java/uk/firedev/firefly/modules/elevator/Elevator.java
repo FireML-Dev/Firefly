@@ -1,156 +1,188 @@
 package uk.firedev.firefly.modules.elevator;
 
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.daisylib.libs.customblockdata.CustomBlockData;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 public class Elevator {
 
-    private static final Map<Audience, BossBar> bossBars = new HashMap<>();
+    private static final Map<UUID, BossBar> bossBars = new HashMap<>();
+    private static final NamespacedKey elevatorKey = new NamespacedKey(Firefly.getInstance(), "elevator");
 
-    private final Location location;
-    private final PersistentDataContainer pdc;
+    private final Block block;
 
     public Elevator(@NotNull Location location) {
-        this.location = location.getBlock().getLocation();
-        this.pdc = location.getChunk().getPersistentDataContainer();
+        this.block = location.getBlock();
     }
 
     public Elevator(@NotNull Block block) {
-        this.location = block.getLocation();
-        this.pdc = block.getChunk().getPersistentDataContainer();
+        this.block = block;
     }
 
-    public NamespacedKey getStackKey() {
-        return new NamespacedKey(Firefly.getInstance(), "elevator-" + location.getBlock().getX() + "_" + location.getBlock().getZ());
+    /**
+     * @return The block of this elevator
+     */
+    public Block getBlock() {
+        return block;
     }
 
-    public NamespacedKey getMaterialKey() {
-        return new NamespacedKey(Firefly.getInstance(), "elevator-material");
+    /**
+     * @return The location to teleport players to
+     */
+    public Location getTPLocation() {
+        return block.getLocation().toCenterLocation().add(0D, 0.5D, 0D);
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
-    public Location getTPLocation() { return location.toCenterLocation().add(0D, 0.5D, 0D); }
-
+    /**
+     * @return Is this an elevator?
+     */
     public boolean isElevator() {
-        return getStack().contains(String.valueOf(location.getBlock().getY()));
+        return new CustomBlockData(block, Firefly.getInstance()).has(elevatorKey);
     }
 
-    public List<String> getStack() {
-        try {
-            List<String> stackList = new ArrayList<>(this.pdc.getOrDefault(getStackKey(), PersistentDataType.LIST.strings(), List.of()));
-            stackList.sort(Comparator.comparingInt(Integer::parseInt));
-            return stackList;
-        } catch (IllegalArgumentException ex) {
-            this.pdc.remove(getStackKey());
+    /**
+     * Gets this elevator's stack
+     * @return This elevator's stack, or an empty list if this is not an elevator.
+     */
+    public List<Elevator> getStack() {
+        if (!isElevator()) {
             return List.of();
         }
+        return CustomBlockData.getBlocksWithCustomData(Firefly.getInstance(), getBlock().getChunk()).stream()
+            .filter(this::isInStack)
+            .map(Elevator::new)
+            .filter(Elevator::isElevator)
+            .sorted(Comparator.comparing(elevator -> elevator.getBlock().getY()))
+            .toList();
     }
 
+    /**
+     * @param block The block to check
+     * @return Checks if the provided block is in the same stack as this elevator
+     */
+    private boolean isInStack(@NotNull Block block) {
+        return this.block.getX() == block.getX() && this.block.getZ() == block.getZ();
+    }
+
+    /**
+     * Shows the elevator bossbar
+     * @param player The player to show the bossbar to
+     */
     public void showBossBar(@NotNull Player player) {
         BossBar bossBar = ElevatorConfig.getInstance().getBossBar(this);
-        BossBar existing = bossBars.get(player);
+        UUID uuid = player.getUniqueId();
+        BossBar existing = bossBars.get(uuid);
         if (existing != null) {
-            bossBars.remove(player);
+            bossBars.remove(uuid);
             player.hideBossBar(existing);
         }
-        bossBars.put(player, bossBar);
+        bossBars.put(uuid, bossBar);
         player.showBossBar(bossBar);
     }
 
+    /**
+     * Hides the elevator bossbar
+     * @param player The player to hide the bossbar from
+     */
     public static void hideBossBar(@NotNull Player player) {
-        BossBar bossBar = bossBars.get(player);
+        UUID uuid = player.getUniqueId();
+        BossBar bossBar = bossBars.remove(uuid);
         if (bossBar == null) {
             return;
         }
-        bossBars.remove(player);
         player.hideBossBar(bossBar);
     }
 
+    /**
+     * Hides all elevator bossbars
+     */
     public static void hideAllBossBars() {
-        bossBars.forEach(Audience::hideBossBar);
-        bossBars.clear();
-    }
-
-    public void setElevator(boolean isElevator) {
-        List<String> stack = new ArrayList<>(getStack());
-        String y = String.valueOf(location.getBlock().getY());
-        if (isElevator) {
-            if (!stack.contains(y)) {
-                stack.add(y);
-            }
-        } else {
-            stack.remove(y);
+        Iterator<BossBar> barIterator = bossBars.values().iterator();
+        while (barIterator.hasNext()) {
+            BossBar bar = barIterator.next();
+            bar.viewers().forEach(viewer -> {
+                if (!(viewer instanceof Player player)) {
+                    return;
+                }
+                player.hideBossBar(bar);
+            });
+            barIterator.remove();
         }
-        this.pdc.set(getStackKey(), PersistentDataType.LIST.strings(), stack);
     }
 
+    /**
+     * Sets whether this block is an elevator
+     */
+    public void setElevator(boolean shouldBeElevator) {
+        CustomBlockData data = new CustomBlockData(block, Firefly.getInstance());
+        if (shouldBeElevator) {
+            data.set(elevatorKey, PersistentDataType.BOOLEAN, true);
+        } else {
+            data.remove(elevatorKey);
+        }
+    }
+
+    /**
+     * @return The current position of this elevator, or -1 if the elevator is not in the stack.
+     */
     public int getCurrentPosition() {
-        List<String> stack = getStack();
-        return stack.indexOf(String.valueOf(location.getBlock().getY()));
+        return getStack().indexOf(this);
     }
 
+    /**
+     * @return The next elevator in the stack, or null if this is the last elevator.
+     */
     @Nullable
     public Elevator getNext() {
-        List<String> stack = getStack();
-        int currentPos = getCurrentPosition();
-        if (currentPos == -1) {
-            return null;
-        }
-        String nextPos;
-        try {
-            nextPos = stack.get(currentPos + 1);
-        } catch (IndexOutOfBoundsException ex) {
-            return null;
-        }
-        if (!ObjectUtils.isDouble(nextPos)) {
-            return null;
-        }
-        Location location = this.location.getBlock().getLocation();
-        location.setY(Double.parseDouble(nextPos));
-        return new Elevator(location);
+        int index = getCurrentPosition() + 1;
+        return ObjectUtils.getOrDefault(getStack(), index, null);
     }
 
+    /**
+     * @return The previous elevator in the stack, or null if this is the first elevator.
+     */
     @Nullable
     public Elevator getPrevious() {
-        List<String> stack = getStack();
-        int currentPos = getCurrentPosition();
-        if (currentPos == -1) {
-            return null;
-        }
-        String previousPos;
-        try {
-            previousPos = stack.get(currentPos - 1);
-        } catch (IndexOutOfBoundsException ex) {
-            return null;
-        }
-        if (!ObjectUtils.isDouble(previousPos)) {
-            return null;
-        }
-        Location location = new Location(this.location.getBlock().getWorld(), this.location.getBlock().getX(), Double.parseDouble(previousPos), this.location.getBlock().getZ());
-        return new Elevator(location);
+        int index = getCurrentPosition() - 1;
+        return ObjectUtils.getOrDefault(getStack(), index, null);
     }
 
+    /**
+     * Shows or hides the bossbar for this elevator
+     */
     public void handleBossBar(@NotNull Player player) {
         if (isElevator()) {
             showBossBar(player);
         } else {
             hideBossBar(player);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return block.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Elevator other = (Elevator) obj;
+        return this.block.equals(other.block);
     }
 
 }
