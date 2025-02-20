@@ -1,7 +1,5 @@
 package uk.firedev.firefly.modules.elevator;
 
-import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.bossbar.BossBarViewer;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -12,6 +10,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
+import uk.firedev.daisylib.libs.customblockdata.CustomBlockData;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -19,6 +18,7 @@ import java.util.*;
 public class Elevator {
 
     private static final Map<UUID, BossBar> bossBars = new HashMap<>();
+    private static final Comparator<Elevator> comparator = Comparator.comparingInt(Elevator::getCurrentPosition);
 
     private final Location location;
     private final PersistentDataContainer pdc;
@@ -46,14 +46,20 @@ public class Elevator {
     }
 
     public boolean isElevator() {
-        return getStack().contains(location.getBlock().getY());
+        return new CustomBlockData(location.getBlock(), Firefly.getInstance()).has(getStackKey());
     }
 
-    public List<Integer> getStack() {
-        List<Integer> stack = this.pdc.getOrDefault(getStackKey(), PersistentDataType.LIST.integers(), List.of());
-        return stack.stream()
-            .sorted()
+    public List<Elevator> getStack() {
+        return CustomBlockData.getBlocksWithCustomData(Firefly.getInstance(), getLocation().getChunk()).stream()
+            .filter(this::isInStack)
+            .map(Elevator::new)
+            .filter(Elevator::isElevator)
+            .sorted(Comparator.comparing(elevator -> elevator.getLocation().getBlockY()))
             .toList();
+    }
+
+    private boolean isInStack(@NotNull Block block) {
+        return location.getBlockX() == getLocation().getBlockX() && location.getBlockZ() == getLocation().getBlockZ();
     }
 
     public void showBossBar(@NotNull Player player) {
@@ -92,62 +98,32 @@ public class Elevator {
         }
     }
 
-    public void setElevator(boolean isElevator) {
-        List<Integer> stack = new ArrayList<>(getStack());
-        int y = location.getBlock().getY();
-        if (isElevator) {
-            if (!stack.contains(y)) {
-                stack.add(y);
-            }
+    public void setElevator(boolean shouldBeElevator) {
+        CustomBlockData data = new CustomBlockData(location.getBlock(), Firefly.getInstance());
+        if (shouldBeElevator) {
+            data.set(getStackKey(), PersistentDataType.BOOLEAN, true);
         } else {
-            stack.remove(y);
+            data.remove(getStackKey());
         }
-        this.pdc.set(getStackKey(), PersistentDataType.LIST.integers(), stack);
     }
 
+    /**
+     * @return The current position of this elevator, or -1 if the elevator is not in the stack.
+     */
     public int getCurrentPosition() {
-        List<Integer> stack = getStack();
-        int index = stack.indexOf(location.getBlock().getY());
-        if (index == -1) {
-            return index;
-        }
-        return index + 1;
+        return getStack().indexOf(this);
     }
 
     @Nullable
     public Elevator getNext() {
-        List<Integer> stack = getStack();
-        int currentPos = getCurrentPosition();
-        if (currentPos == -1) {
-            return null;
-        }
-        int nextPos;
-        try {
-            nextPos = stack.get(currentPos + 1);
-        } catch (IndexOutOfBoundsException ex) {
-            return null;
-        }
-        Location location = this.location.clone();
-        location.setY(nextPos);
-        return new Elevator(location);
+        int index = getCurrentPosition() + 1;
+        return ObjectUtils.getOrDefault(getStack(), index, null);
     }
 
     @Nullable
     public Elevator getPrevious() {
-        List<Integer> stack = getStack();
-        int currentPos = getCurrentPosition();
-        if (currentPos == -1) {
-            return null;
-        }
-        int previousPos;
-        try {
-            previousPos = stack.get(currentPos - 1);
-        } catch (IndexOutOfBoundsException ex) {
-            return null;
-        }
-        Location location = this.location.clone();
-        location.setY(previousPos);
-        return new Elevator(location);
+        int index = getCurrentPosition() - 1;
+        return ObjectUtils.getOrDefault(getStack(), index, null);
     }
 
     public void handleBossBar(@NotNull Player player) {
@@ -156,6 +132,18 @@ public class Elevator {
         } else {
             hideBossBar(player);
         }
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Elevator other = (Elevator) obj;
+        return this.location.equals(other.location);
     }
 
 }
