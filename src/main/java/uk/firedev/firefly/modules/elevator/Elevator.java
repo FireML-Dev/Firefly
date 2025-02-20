@@ -1,6 +1,7 @@
 package uk.firedev.firefly.modules.elevator;
 
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.bossbar.BossBarViewer;
 import net.kyori.adventure.bossbar.BossBar;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -17,7 +18,7 @@ import java.util.*;
 
 public class Elevator {
 
-    private static final Map<Audience, BossBar> bossBars = new HashMap<>();
+    private static final Map<UUID, BossBar> bossBars = new HashMap<>();
 
     private final Location location;
     private final PersistentDataContainer pdc;
@@ -36,59 +37,64 @@ public class Elevator {
         return new NamespacedKey(Firefly.getInstance(), "elevator-" + location.getBlock().getX() + "_" + location.getBlock().getZ());
     }
 
-    public NamespacedKey getMaterialKey() {
-        return new NamespacedKey(Firefly.getInstance(), "elevator-material");
-    }
-
     public Location getLocation() {
         return location;
     }
 
-    public Location getTPLocation() { return location.toCenterLocation().add(0D, 0.5D, 0D); }
-
-    public boolean isElevator() {
-        return getStack().contains(String.valueOf(location.getBlock().getY()));
+    public Location getTPLocation() {
+        return location.toCenterLocation().add(0D, 0.5D, 0D);
     }
 
-    public List<String> getStack() {
-        try {
-            List<String> stackList = new ArrayList<>(this.pdc.getOrDefault(getStackKey(), PersistentDataType.LIST.strings(), List.of()));
-            stackList.sort(Comparator.comparingInt(Integer::parseInt));
-            return stackList;
-        } catch (IllegalArgumentException ex) {
-            this.pdc.remove(getStackKey());
-            return List.of();
-        }
+    public boolean isElevator() {
+        return getStack().contains(location.getBlock().getY());
+    }
+
+    public List<Integer> getStack() {
+        List<Integer> stack = this.pdc.getOrDefault(getStackKey(), PersistentDataType.LIST.integers(), List.of());
+        return stack.stream()
+            .sorted()
+            .toList();
     }
 
     public void showBossBar(@NotNull Player player) {
         BossBar bossBar = ElevatorConfig.getInstance().getBossBar(this);
-        BossBar existing = bossBars.get(player);
+        UUID uuid = player.getUniqueId();
+        BossBar existing = bossBars.get(uuid);
         if (existing != null) {
-            bossBars.remove(player);
+            bossBars.remove(uuid);
             player.hideBossBar(existing);
         }
-        bossBars.put(player, bossBar);
+        bossBars.put(uuid, bossBar);
         player.showBossBar(bossBar);
     }
 
     public static void hideBossBar(@NotNull Player player) {
-        BossBar bossBar = bossBars.get(player);
+        UUID uuid = player.getUniqueId();
+        BossBar bossBar = bossBars.get(uuid);
         if (bossBar == null) {
             return;
         }
-        bossBars.remove(player);
+        bossBars.remove(uuid);
         player.hideBossBar(bossBar);
     }
 
     public static void hideAllBossBars() {
-        bossBars.forEach(Audience::hideBossBar);
-        bossBars.clear();
+        Iterator<BossBar> barIterator = bossBars.values().iterator();
+        while (barIterator.hasNext()) {
+            BossBar bar = barIterator.next();
+            bar.viewers().forEach(viewer -> {
+                if (!(viewer instanceof Player player)) {
+                    return;
+                }
+                player.hideBossBar(bar);
+            });
+            barIterator.remove();
+        }
     }
 
     public void setElevator(boolean isElevator) {
-        List<String> stack = new ArrayList<>(getStack());
-        String y = String.valueOf(location.getBlock().getY());
+        List<Integer> stack = new ArrayList<>(getStack());
+        int y = location.getBlock().getY();
         if (isElevator) {
             if (!stack.contains(y)) {
                 stack.add(y);
@@ -96,52 +102,51 @@ public class Elevator {
         } else {
             stack.remove(y);
         }
-        this.pdc.set(getStackKey(), PersistentDataType.LIST.strings(), stack);
+        this.pdc.set(getStackKey(), PersistentDataType.LIST.integers(), stack);
     }
 
     public int getCurrentPosition() {
-        List<String> stack = getStack();
-        return stack.indexOf(String.valueOf(location.getBlock().getY()));
+        List<Integer> stack = getStack();
+        int index = stack.indexOf(location.getBlock().getY());
+        if (index == -1) {
+            return index;
+        }
+        return index + 1;
     }
 
     @Nullable
     public Elevator getNext() {
-        List<String> stack = getStack();
+        List<Integer> stack = getStack();
         int currentPos = getCurrentPosition();
         if (currentPos == -1) {
             return null;
         }
-        String nextPos;
+        int nextPos;
         try {
             nextPos = stack.get(currentPos + 1);
         } catch (IndexOutOfBoundsException ex) {
             return null;
         }
-        if (!ObjectUtils.isDouble(nextPos)) {
-            return null;
-        }
-        Location location = this.location.getBlock().getLocation();
-        location.setY(Double.parseDouble(nextPos));
+        Location location = this.location.clone();
+        location.setY(nextPos);
         return new Elevator(location);
     }
 
     @Nullable
     public Elevator getPrevious() {
-        List<String> stack = getStack();
+        List<Integer> stack = getStack();
         int currentPos = getCurrentPosition();
         if (currentPos == -1) {
             return null;
         }
-        String previousPos;
+        int previousPos;
         try {
             previousPos = stack.get(currentPos - 1);
         } catch (IndexOutOfBoundsException ex) {
             return null;
         }
-        if (!ObjectUtils.isDouble(previousPos)) {
-            return null;
-        }
-        Location location = new Location(this.location.getBlock().getWorld(), this.location.getBlock().getX(), Double.parseDouble(previousPos), this.location.getBlock().getZ());
+        Location location = this.location.clone();
+        location.setY(previousPos);
         return new Elevator(location);
     }
 
