@@ -13,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.api.builders.ItemBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.utils.ItemUtils;
@@ -29,36 +30,25 @@ public class Kit {
 
     private static final Random random = new Random();
 
-    private CooldownHelper cooldowns = CooldownHelper.create();
-    private String name;
-    private Material material;
-    private Component display;
-    private List<Component> lore;
-    private boolean singleRandomReward;
-    private boolean permissionOpen;
-    private List<Reward> rewards;
-    private String permission;
-    private long guiCooldown;
-    private boolean playerVisible;
+    private final CooldownHelper cooldowns = CooldownHelper.create();
+    private final @NotNull ConfigurationSection config;
+    private final String name;
+    private final boolean singleRandomReward;
+    private final boolean permissionOpen;
+    private final List<Reward> rewards;
+    private final String permission;
+    private final long guiCooldown;
+    private final boolean playerVisible;
 
     public Kit(@Nullable ConfigurationSection section) throws InvalidConfigurationException {
         if (section == null) {
             throw new InvalidConfigurationException("Kit config is not valid!");
         }
+        this.config = section;
         this.name = section.getName();
         this.permission = section.getString("permission", "");
-        this.material = ItemUtils.getMaterial(section.getString("material", ""), Material.SHULKER_BOX);
-        this.display = ComponentMessage.fromString(section.getString("display", "<gold><bold>Kit")).getMessage();
         this.guiCooldown = section.getLong("gui-cooldown");
         this.playerVisible = section.getBoolean("player-visible", true);
-        List<String> loreStrings = section.getStringList("lore");
-        if (loreStrings.isEmpty()) {
-            this.lore = List.of(
-                    ComponentMessage.fromString("<green>Right Click to Claim</green>").getMessage()
-            );
-        } else {
-            this.lore = loreStrings.stream().map(s -> ComponentMessage.fromString(s).getMessage()).toList();
-        }
         this.singleRandomReward = section.getBoolean("single-random-reward", false);
         this.permissionOpen = section.getBoolean("permission-open");
 
@@ -70,18 +60,6 @@ public class Kit {
 
     public Kit(@NotNull String name) throws InvalidConfigurationException {
         this(KitConfig.getInstance().getConfig().getConfigurationSection("kits." + name));
-    }
-
-    public @NotNull Material getMaterial() {
-        return this.material;
-    }
-
-    public @NotNull Component getDisplay() {
-        return this.display;
-    }
-
-    public @NotNull List<Component> getLore() {
-        return this.lore;
     }
 
     public boolean singleRandomReward() {
@@ -112,14 +90,15 @@ public class Kit {
     }
 
     public ItemStack buildItem() {
-        ItemStack item = ItemStack.of(getMaterial());
-        ItemMeta meta = item.getItemMeta();
-        PersistentDataContainer pdc = meta.getPersistentDataContainer();
-        meta.displayName(getDisplay());
-        meta.lore(getLore());
-        pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getName());
-        item.setItemMeta(meta);
-        return item;
+        ConfigurationSection itemSection = config.getConfigurationSection("item");
+        return ItemBuilder.createWithConfig(itemSection, null, null)
+            .editItem(item -> {
+                item.editPersistentDataContainer(pdc ->
+                    pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getName())
+                );
+                return item;
+            })
+            .getItem();
     }
 
     public void processRewards(@NotNull Player player) {
@@ -159,7 +138,7 @@ public class Kit {
         ItemUtils.giveItem(buildItem(), player);
         ComponentReplacer replacer = ComponentReplacer.create("kit", getName());
         KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
-        if (sender != null) {
+        if (sender != null && sender != player) {
             replacer.addReplacements("player", player.getName());
             KitConfig.getInstance().getAwardedCommandMessage().applyReplacer(replacer).sendMessage(sender);
         }
