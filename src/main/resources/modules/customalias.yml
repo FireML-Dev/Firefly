@@ -2,6 +2,7 @@
 # NOTE: These will override another plugin's commands if the names match.
 
 example:
+  disabled: true
   permission: "example.permission.1"
   aliases:
     - "exa"
