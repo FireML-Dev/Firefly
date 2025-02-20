@@ -18,7 +18,7 @@ public class KitGui extends PaginatedConfigGui {
                     return;
                 }
                 GuiItem item = new GuiItem(kit.buildItem(), click -> {
-                    kit.awardKit(player, false);
+                    kit.giveToPlayerWithCooldown(player, null);
                     player.closeInventory();
                 });
                 getGui().addItem(item);

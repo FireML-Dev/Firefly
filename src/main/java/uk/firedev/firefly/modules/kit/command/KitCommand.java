@@ -26,7 +26,7 @@ public class KitCommand {
                 KitArgument.createPredicate("kit", (player, kit) -> kit.isPlayerVisible())
                     .executesPlayer(info -> {
                         Kit kit = Objects.requireNonNull(info.args().getUnchecked("kit"));
-                        kit.awardKit(info.sender(), false);
+                        kit.giveToPlayerWithCooldown(info.sender(), null);
                     })
             )
             .then(getAwardBranch());

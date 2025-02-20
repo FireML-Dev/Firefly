@@ -123,14 +123,12 @@ public class Kit {
         return guiCooldown;
     }
 
-    public void awardKit(@NotNull Player player, boolean skipCooldown) {
-        if (!skipCooldown) {
-            if (isOnCooldown(player.getUniqueId())) {
-                KitConfig.getInstance().getGUIOnCooldownMessage().sendMessage(player);
-                return;
-            }
-            applyCooldown(player.getUniqueId());
+    public void giveToPlayerWithCooldown(@NotNull Player player, @Nullable CommandSender sender) {
+        if (isOnCooldown(player.getUniqueId())) {
+            KitConfig.getInstance().getOnCooldownMessage().sendMessage(player);
+            return;
         }
+        applyCooldown(player.getUniqueId());
         giveToPlayer(player, null);
     }
 

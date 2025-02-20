@@ -37,7 +37,7 @@ public class KitConfig extends ConfigBase {
         return message;
     }
 
-    public ComponentMessage getGUIOnCooldownMessage() {
+    public ComponentMessage getOnCooldownMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.gui.on-cooldown", "{prefix}<red>This kit is on cooldown! You can obtain it again in <yellow>{timeLeft}<red>!");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;

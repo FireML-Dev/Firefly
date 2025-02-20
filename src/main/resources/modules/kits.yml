@@ -27,8 +27,7 @@ messages:
   command:
      awarded-command: "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>"
      awarded-receive: "{prefix}<color:#F0E68C>You have been given the kit {kit}.</color>"
-  gui:
-    on-cooldown: "{prefix}<red>This kit is on cooldown!"
+     on-cooldown: "{prefix}<red>This kit is on cooldown!"
 
 # Kit Gui Config
 gui:
