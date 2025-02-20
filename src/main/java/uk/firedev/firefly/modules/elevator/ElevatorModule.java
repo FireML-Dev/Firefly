@@ -93,7 +93,7 @@ public class ElevatorModule implements Module {
 
     @Override
     public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
+        Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("elevator_level", audience -> {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -104,8 +104,7 @@ public class ElevatorModule implements Module {
                     return Component.text("N/A");
                 }
                 return Component.text(elevator.getCurrentPosition());
-            });
-        });
+            }));
     }
 
     public void teleportPlayer(@NotNull Player player, Elevator elevator) {

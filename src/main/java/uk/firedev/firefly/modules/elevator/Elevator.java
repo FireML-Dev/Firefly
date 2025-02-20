@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.utils.ObjectUtils;
@@ -18,50 +17,67 @@ import java.util.*;
 public class Elevator {
 
     private static final Map<UUID, BossBar> bossBars = new HashMap<>();
-    private static final Comparator<Elevator> comparator = Comparator.comparingInt(Elevator::getCurrentPosition);
+    private static final NamespacedKey elevatorKey = new NamespacedKey(Firefly.getInstance(), "elevator");
 
-    private final Location location;
-    private final PersistentDataContainer pdc;
+    private final Block block;
 
     public Elevator(@NotNull Location location) {
-        this.location = location.getBlock().getLocation();
-        this.pdc = location.getChunk().getPersistentDataContainer();
+        this.block = location.getBlock();
     }
 
     public Elevator(@NotNull Block block) {
-        this.location = block.getLocation();
-        this.pdc = block.getChunk().getPersistentDataContainer();
+        this.block = block;
     }
 
-    public NamespacedKey getStackKey() {
-        return new NamespacedKey(Firefly.getInstance(), "elevator-" + location.getBlock().getX() + "_" + location.getBlock().getZ());
+    /**
+     * @return The block of this elevator
+     */
+    public Block getBlock() {
+        return block;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
+    /**
+     * @return The location to teleport players to
+     */
     public Location getTPLocation() {
-        return location.toCenterLocation().add(0D, 0.5D, 0D);
+        return block.getLocation().toCenterLocation().add(0D, 0.5D, 0D);
     }
 
+    /**
+     * @return Is this an elevator?
+     */
     public boolean isElevator() {
-        return new CustomBlockData(location.getBlock(), Firefly.getInstance()).has(getStackKey());
+        return new CustomBlockData(block, Firefly.getInstance()).has(elevatorKey);
     }
 
+    /**
+     * Gets this elevator's stack
+     * @return This elevator's stack, or an empty list if this is not an elevator.
+     */
     public List<Elevator> getStack() {
-        return CustomBlockData.getBlocksWithCustomData(Firefly.getInstance(), getLocation().getChunk()).stream()
+        if (!isElevator()) {
+            return List.of();
+        }
+        return CustomBlockData.getBlocksWithCustomData(Firefly.getInstance(), getBlock().getChunk()).stream()
             .filter(this::isInStack)
             .map(Elevator::new)
             .filter(Elevator::isElevator)
-            .sorted(Comparator.comparing(elevator -> elevator.getLocation().getBlockY()))
+            .sorted(Comparator.comparing(elevator -> elevator.getBlock().getY()))
             .toList();
     }
 
+    /**
+     * @param block The block to check
+     * @return Checks if the provided block is in the same stack as this elevator
+     */
     private boolean isInStack(@NotNull Block block) {
-        return location.getBlockX() == getLocation().getBlockX() && location.getBlockZ() == getLocation().getBlockZ();
+        return this.block.getX() == block.getX() && this.block.getZ() == block.getZ();
     }
 
+    /**
+     * Shows the elevator bossbar
+     * @param player The player to show the bossbar to
+     */
     public void showBossBar(@NotNull Player player) {
         BossBar bossBar = ElevatorConfig.getInstance().getBossBar(this);
         UUID uuid = player.getUniqueId();
@@ -74,16 +90,22 @@ public class Elevator {
         player.showBossBar(bossBar);
     }
 
+    /**
+     * Hides the elevator bossbar
+     * @param player The player to hide the bossbar from
+     */
     public static void hideBossBar(@NotNull Player player) {
         UUID uuid = player.getUniqueId();
-        BossBar bossBar = bossBars.get(uuid);
+        BossBar bossBar = bossBars.remove(uuid);
         if (bossBar == null) {
             return;
         }
-        bossBars.remove(uuid);
         player.hideBossBar(bossBar);
     }
 
+    /**
+     * Hides all elevator bossbars
+     */
     public static void hideAllBossBars() {
         Iterator<BossBar> barIterator = bossBars.values().iterator();
         while (barIterator.hasNext()) {
@@ -98,12 +120,15 @@ public class Elevator {
         }
     }
 
+    /**
+     * Sets whether this block is an elevator
+     */
     public void setElevator(boolean shouldBeElevator) {
-        CustomBlockData data = new CustomBlockData(location.getBlock(), Firefly.getInstance());
+        CustomBlockData data = new CustomBlockData(block, Firefly.getInstance());
         if (shouldBeElevator) {
-            data.set(getStackKey(), PersistentDataType.BOOLEAN, true);
+            data.set(elevatorKey, PersistentDataType.BOOLEAN, true);
         } else {
-            data.remove(getStackKey());
+            data.remove(elevatorKey);
         }
     }
 
@@ -114,18 +139,27 @@ public class Elevator {
         return getStack().indexOf(this);
     }
 
+    /**
+     * @return The next elevator in the stack, or null if this is the last elevator.
+     */
     @Nullable
     public Elevator getNext() {
         int index = getCurrentPosition() + 1;
         return ObjectUtils.getOrDefault(getStack(), index, null);
     }
 
+    /**
+     * @return The previous elevator in the stack, or null if this is the first elevator.
+     */
     @Nullable
     public Elevator getPrevious() {
         int index = getCurrentPosition() - 1;
         return ObjectUtils.getOrDefault(getStack(), index, null);
     }
 
+    /**
+     * Shows or hides the bossbar for this elevator
+     */
     public void handleBossBar(@NotNull Player player) {
         if (isElevator()) {
             showBossBar(player);
@@ -143,7 +177,7 @@ public class Elevator {
             return false;
         }
         Elevator other = (Elevator) obj;
-        return this.location.equals(other.location);
+        return this.block.equals(other.block);
     }
 
 }

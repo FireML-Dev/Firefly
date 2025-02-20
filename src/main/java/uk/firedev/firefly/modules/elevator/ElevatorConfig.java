@@ -60,7 +60,7 @@ public class ElevatorConfig extends ConfigBase {
         ComponentReplacer replacer = ComponentReplacer.create(
                 "current", String.valueOf(elevator.getCurrentPosition() + 1),
                 "all", String.valueOf(elevator.getStack().size()),
-                "y", String.valueOf((int) elevator.getTPLocation().getY())
+                "y", String.valueOf(elevator.getTPLocation().getY())
         );
         return ComponentMessage.fromConfig(getConfig(), "bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
     }
@@ -82,7 +82,6 @@ public class ElevatorConfig extends ConfigBase {
     }
 
     public BossBar getBossBar(@NotNull Elevator elevator) {
-
         float progress;
         if (elevator.getCurrentPosition() == -1 || elevator.getStack().isEmpty()) {
             progress = 1F;
