@@ -22,6 +22,9 @@ public class KitCommand {
             .withPermission("firefly.command.kit")
             .withShortDescription("Get kits")
             .withFullDescription("Get kits")
+            .executesPlayer(info -> {
+                new KitGui(info.sender()).open();
+            })
             .then(
                 KitArgument.createPredicate("kit", (player, kit) -> kit.isPlayerVisible())
                     .executesPlayer(info -> {
