@@ -5,6 +5,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
+import uk.firedev.firefly.utils.CommandUtils;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -66,8 +67,8 @@ public abstract class Command implements SubModule {
             return;
         }
         if (command != null) {
-            CommandAPI.unregister(command.getName(), true);
-            Arrays.stream(command.getAliases()).forEach(alias -> CommandAPI.unregister(alias, true));
+            CommandUtils.unregisterCommand(command.getName());
+            Arrays.stream(command.getAliases()).forEach(CommandUtils::unregisterCommand);
         }
         loaded = false;
     }

@@ -9,6 +9,7 @@ import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.firefly.placeholders.Placeholders;
+import uk.firedev.firefly.utils.CommandUtils;
 
 public final class Firefly extends JavaPlugin {
 
@@ -43,6 +44,7 @@ public final class Firefly extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        CommandUtils.stopTask();
         ModuleManager.getInstance().unload();
         // DO THIS LAST!!!!
         database.unload();

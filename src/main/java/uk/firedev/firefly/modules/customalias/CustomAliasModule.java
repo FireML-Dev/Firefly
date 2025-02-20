@@ -3,6 +3,7 @@ package uk.firedev.firefly.modules.customalias;
 import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
+import uk.firedev.firefly.utils.CommandUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -75,7 +76,7 @@ public class CustomAliasModule implements Module {
         while (loadedCommandsIterator.hasNext()) {
             String command = loadedCommandsIterator.next();
             if (!configCommands.contains(command)) {
-                CommandAPI.unregister(command, true);
+                CommandUtils.unregisterCommand(command);
                 loadedCommandsIterator.remove();
             }
         }
