@@ -25,12 +25,6 @@ public class KitConfig extends ConfigBase {
         return instance;
     }
 
-    public ComponentMessage getNotFoundMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.kit-not-found", "{prefix}<red>Kit not found.");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
-    }
-
     public ComponentMessage getAwardedCommandMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-command", "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());

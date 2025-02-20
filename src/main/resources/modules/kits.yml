@@ -25,7 +25,6 @@ kits:
 
 messages:
   command:
-     kit-not-found: "{prefix}<red>Kit not found."
      awarded-command: "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>"
      awarded-receive: "{prefix}<color:#F0E68C>You have been given the kit {kit}.</color>"
   gui:
