@@ -1,11 +1,14 @@
 package uk.firedev.firefly.modules.kit.command;
 
-import org.bukkit.configuration.InvalidConfigurationException;
-import uk.firedev.daisylib.command.ArgumentBuilder;
+import org.bukkit.entity.Player;
+import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
+import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
+import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.modules.kit.*;
+
+import java.util.Objects;
 
 public class KitCommand {
 
@@ -13,43 +16,36 @@ public class KitCommand {
 
     private KitCommand() {}
 
-    public static CommandAPICommand getCommand() {
-        if (command == null) {
-            command = new CommandAPICommand("kit")
-                    .withAliases("kits")
-                    .withPermission("firefly.command.kit")
-                    .withShortDescription("Get kits")
-                    .withFullDescription("Get kits")
-                    .withSubcommand(KitAwardCommand.getCommand())
-                    .withArguments(getKitArgument())
-                    .executesPlayer((player, arguments) -> {
-                        Object kitNameObj = arguments.get("kit");
-                        if (kitNameObj == null) {
-                            new KitGui(player).open();
-                            return;
-                        }
-                        String kitName = (String) kitNameObj;
-                        Kit kit;
-                        try {
-                            kit = new Kit(kitName);
-                        } catch (InvalidConfigurationException ex) {
-                            KitConfig.getInstance().getNotFoundMessage().sendMessage(player);
-                            return;
-                        }
-                        if (!kit.isPlayerVisible()) {
-                            KitConfig.getInstance().getNotFoundMessage().sendMessage(player);
-                            return;
-                        }
-                        kit.awardKit(player, false);
-                    });
-        }
-        return command;
+    public static CommandTree getCommand() {
+        return new CommandTree("kit")
+            .withAliases("kits")
+            .withPermission("firefly.command.kit")
+            .withShortDescription("Get kits")
+            .withFullDescription("Get kits")
+            .then(
+                KitArgument.createPredicate("kit", (player, kit) -> kit.isPlayerVisible())
+                    .executesPlayer(info -> {
+                        Kit kit = Objects.requireNonNull(info.args().getUnchecked("kit"));
+                        kit.awardKit(info.sender(), false);
+                    })
+            )
+            .then(getAwardBranch());
     }
 
-    private static Argument<?> getKitArgument() {
-        return new StringArgument("kit").setOptional(true).includeSuggestions(ArgumentBuilder.getAsyncSuggestions(
-                info -> KitModule.getInstance().getKits().keySet().toArray(String[]::new)
-        ));
+    private static Argument<String> getAwardBranch() {
+        return new LiteralArgument("award")
+            .withPermission("firefly.command.kit.award")
+            .thenNested(
+                KitArgument.create("kit"),
+                PlayerArgument.create("player")
+                    .executes(info -> {
+                        Kit kit = Objects.requireNonNull(info.args().getUnchecked("kit"));
+                        Player target = Objects.requireNonNull(info.args().getUnchecked("player"));
+                        kit.giveToPlayer(target, info.sender());
+                    })
+            );
     }
+
+
 
 }
