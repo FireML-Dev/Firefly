@@ -1,11 +1,12 @@
 kits:
   example:
-    material: SHULKER_BOX
-    display: "<gold><bold>Example Kit"
-    lore:
-      - "<yellow>Example Kit"
-      - ""
-      - "<green>Right Click to Claim"
+    item:
+      material: SHULKER_BOX
+      display: "<gold><bold>Example Kit"
+      lore:
+        - "<yellow>Example Kit"
+        - ""
+        - "<green>Right Click to Claim"
     # Should this kit only award a single item from its contents?
     single-random-reward: false
     # The permission to get the kit via GUI
@@ -24,11 +25,9 @@ kits:
 
 messages:
   command:
-     kit-not-found: "{prefix}<red>Kit not found."
      awarded-command: "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>"
      awarded-receive: "{prefix}<color:#F0E68C>You have been given the kit {kit}.</color>"
-  gui:
-    on-cooldown: "{prefix}<red>This kit is on cooldown!"
+     on-cooldown: "{prefix}<red>This kit is on cooldown!"
 
 # Kit Gui Config
 gui:
