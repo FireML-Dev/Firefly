@@ -20,8 +20,8 @@ example:
 fly:
   enabled: true
   messages:
-    enabled: "{prefix}<color:#F0E68C>Flight is now enabled."
-    enabled-sender: "{prefix}<color:#F0E68C>Flight is now enabled for {target}."
+    enabled: "{prefix}<#F0E68C>Flight is now enabled."
+    enabled-sender: "{prefix}<#F0E68C>Flight is now enabled for {target}."
     disabled: "{prefix}<red>Flight is now disabled."
     disabled-sender: "{prefix}<red>Flight is now disabled for {target}."
 
@@ -79,8 +79,8 @@ itemframe:
 godmode:
   enabled: true
   messages:
-    enabled: "{prefix}<color:#F0E68C>Godmode is now enabled."
-    enabled-sender: "{prefix}<color:#F0E68C>Godmode is now enabled for {target}."
+    enabled: "{prefix}<#F0E68C>Godmode is now enabled."
+    enabled-sender: "{prefix}<#F0E68C>Godmode is now enabled for {target}."
     disabled: "{prefix}<red>Godmode is now disabled."
     disabled-sender: "{prefix}<red>Godmode is now disabled for {target}."
 
@@ -88,9 +88,16 @@ godmode:
 heal:
   enabled: true
   messages:
-    healed: "{prefix}<color:#F0E68C>You have been healed."
-    healed-sender: "{prefix}<color:#F0E68C>You have healed {target}."
+    healed: "{prefix}<#F0E68C>You have been healed."
+    healed-sender: "{prefix}<#F0E68C>You have healed {target}."
 
+# The /rename command - Changes the custom name of the item in your main hand
+rename:
+  enabled: true
+  messages:
+    hold-an-item: "{prefix}<red>Please hold an item."
+    renamed: "{prefix}<#F0E68C>Renamed your item to {newName}"
+    renamed-sender: "{prefix}<#F0E68C>Renamed {target}'s item to {newName}"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 4
+config-version: 5

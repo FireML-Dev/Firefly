@@ -4,10 +4,7 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.ModuleManager;
-import uk.firedev.firefly.modules.command.commands.GodmodeCommand;
-import uk.firedev.firefly.modules.command.commands.HealCommand;
-import uk.firedev.firefly.modules.command.commands.ItemFrameCommand;
-import uk.firedev.firefly.modules.command.commands.RideCommand;
+import uk.firedev.firefly.modules.command.commands.*;
 import uk.firedev.firefly.modules.command.commands.flight.FlyCommand;
 import uk.firedev.firefly.modules.command.commands.flight.FlySpeedCommand;
 import uk.firedev.firefly.modules.command.commands.workstations.*;
@@ -34,7 +31,8 @@ public class CommandModule implements Module {
         new RideCommand(),
         new ItemFrameCommand(),
         new GodmodeCommand(),
-        new HealCommand()
+        new HealCommand(),
+        new RenameCommand()
     );
 
     private CommandModule() {}

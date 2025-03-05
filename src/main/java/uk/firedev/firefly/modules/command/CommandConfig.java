@@ -183,4 +183,24 @@ public class CommandConfig extends ConfigBase {
         return message;
     }
 
+    // Rename Messages
+
+    public ComponentMessage getRenameHoldItemMessage() {
+        ComponentMessage message = getComponentMessage("rename.messages.hold-an-item", "{prefix}<red>Please hold an item.");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getRenamedMessage() {
+        ComponentMessage message = getComponentMessage("rename.messages.renamed", "{prefix}<#F0E68C>Renamed your item to {newName}");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getRenamedSenderMessage() {
+        ComponentMessage message = getComponentMessage("rename.messages.renamed-sender", "{prefix}<#F0E68C>Renamed {target}'s item to {newName}");
+        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        return message;
+    }
+
 }
