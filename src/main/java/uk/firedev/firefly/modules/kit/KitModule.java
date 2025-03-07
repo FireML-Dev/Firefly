@@ -112,7 +112,6 @@ public class KitModule implements Module {
             return null;
         }
         String kitName = item.getItemMeta().getPersistentDataContainer().get(getKitKey(), PersistentDataType.STRING);
-        System.out.println(kitName);
         if (kitName != null) {
             return getKit(kitName);
         }

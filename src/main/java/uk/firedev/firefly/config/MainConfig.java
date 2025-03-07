@@ -27,7 +27,7 @@ public class MainConfig extends ConfigBase {
 
     public Duration getDatabaseCacheInterval() {
         return Duration.ofSeconds(
-            getConfig().getInt("database-cache-interval")
+            getConfig().getInt("database-cache-duration", 20)
         );
     }
 

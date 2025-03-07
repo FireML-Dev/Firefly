@@ -16,9 +16,7 @@ import uk.firedev.firefly.config.MainConfig;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class Database extends SQLiteDatabase {
 
@@ -40,7 +38,14 @@ public class Database extends SQLiteDatabase {
 
     @Override
     public void save() {
-        playerDataCache.forEach((uuid, playerData) -> playerData.save());
+        List<UUID> unload = new ArrayList<>();
+        playerDataCache.forEach((uuid, playerData) -> {
+            playerData.save();
+            if (playerData.canUnload()) {
+                unload.add(uuid);
+            }
+        });
+        unload.forEach(this::unloadPlayerData);
     }
 
     @NotNull

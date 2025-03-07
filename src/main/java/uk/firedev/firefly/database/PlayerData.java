@@ -32,7 +32,7 @@ public class PlayerData {
         markAccessed();
     }
 
-    private void markAccessed() {
+    public void markAccessed() {
         this.unloadInstant = Instant.now().plus(MainConfig.getInstance().getDatabaseCacheInterval());
     }
 
@@ -54,10 +54,11 @@ public class PlayerData {
 
     public boolean canUnload() {
         Player onlinePlayer = Bukkit.getPlayer(uuid);
-        return onlinePlayer == null && unloadInstant.isBefore(Instant.now());
+        return onlinePlayer == null && Instant.now().isAfter(unloadInstant);
     }
 
     public void save() {
+        Instant unloadInstant = this.unloadInstant;
         Database database = Firefly.getInstance().getDatabase();
         database.getLoadedModules().forEach(module -> {
             if (module instanceof FireflyDatabaseModule fireflyModule) {
@@ -68,9 +69,7 @@ public class PlayerData {
                 }
             }
         });
-        if (canUnload()) {
-            Firefly.getInstance().getDatabase().unloadPlayerData(uuid);
-        }
+        this.unloadInstant = unloadInstant;
     }
 
     // Playtime Methods
