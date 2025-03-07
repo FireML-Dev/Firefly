@@ -12,6 +12,7 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
+import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
@@ -62,7 +63,6 @@ public class NicknameModule implements Module {
         NicknameAdminCommand.getCommand().register(Firefly.getInstance());
         NicknameCheckCommand.getCommand().register(Firefly.getInstance());
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
-        populateNicknameMap();
         loaded = true;
     }
 
@@ -94,10 +94,10 @@ public class NicknameModule implements Module {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
-                if (NicknameModule.getInstance().isLoaded()) {
-                    return NicknameModule.getInstance().getNickname(player);
+                if (isLoaded()) {
+                    return getNickname(player);
                 } else {
-                    return ComponentMessage.fromString(player.getName()).getMessage();
+                    return player.name();
                 }
             });
         });
@@ -105,97 +105,36 @@ public class NicknameModule implements Module {
 
     // Nickname Management
 
-    /**
-     * Gets a player's nickname as an Adventure Component
-     * @param player The player whose nickname to retrieve
-     * @return The player's nickname as an Adventure Component, or null if the manager is not loaded.
-     */
     public Component getNickname(@NotNull OfflinePlayer player) {
-        if (!isLoaded()) {
-            return null;
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return Component.text(Objects.requireNonNullElse(player.getName(), "N/A"));
         }
-        String savedName = getNicknameMap().get(player.getUniqueId());
-        if (savedName == null || savedName.isEmpty()) {
-            savedName = Objects.requireNonNull(player.getName());
-        }
-        Component component = StringUtils.getColorOnlyComponent(savedName);
-        ComponentMessage componentMessage = ComponentMessage.of(component);
-        if (componentMessage.matchesString(Objects.requireNonNull(player.getName()))) {
-            ComponentReplacer replacer = ComponentReplacer.create("username", player.getName());
-            component = component.hoverEvent(
-                    HoverEvent.hoverEvent(
-                            HoverEvent.Action.SHOW_TEXT,
-                            NicknameConfig.getInstance().getRealNameHoverMessage().applyReplacer(replacer).getMessage()
-                    )
-            );
-        }
-        return component;
+        return data.getNickname();
     }
 
-    /**
-     * Gets a player's nickname as a Legacy String
-     * @param player The player whose nickname to retrieve
-     * @return The player's nickname as a Legacy String, or null if the manager is not loaded.
-     */
-    public String getStringNickname(@NotNull OfflinePlayer player) {
-        if (!isLoaded()) {
-            return null;
+    public void setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
         }
-        return StringUtils.getColorOnlyMiniMessage().serialize(getNickname(player));
+        data.setNickname(nickname);
     }
 
-    /**
-     * Sets a player's nickname via an Adventure Component
-     * @param player The player to set
-     * @param nickname The nickname to set as an Adventure Component
-     */
-    public boolean setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
-        if (!isLoaded()) {
-            return false;
+    public void setNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
         }
-        return setStringNickname(player, StringUtils.getColorOnlyMiniMessage().serialize(nickname));
+        data.setRawNickname(nickname);
     }
 
-    /**
-     * Sets a player's nickname via a Legacy String
-     * @param player The player to set
-     * @param nickname The nickname to set, as a Legacy String
-     */
-    public boolean setStringNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
-        if (!isLoaded() || getNicknameMap().containsKey(player.getUniqueId())) {
-            return false;
-        }
-        nicknameMap.put(player.getUniqueId(), nickname);
-        return true;
-    }
-
-    /**
-     * Removes a player's custom nickname.
-     * @param player The player whose nickname to remove.
-     */
     public void removeNickname(@NotNull OfflinePlayer player) {
-        if (!isLoaded()) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
             return;
         }
-        if (!nicknameMap.containsKey(player.getUniqueId())) {
-            return;
-        }
-        nicknameMap.put(player.getUniqueId(), "");
-    }
-
-    public void populateNicknameMap() {
-        synchronized (nicknameMap) {
-            nicknameMap.clear();
-            nicknameMap.putAll(NicknameDatabase.getInstance().getNicknames());
-        }
-    }
-
-    public @NotNull Map<UUID, String> getNicknameMap() {
-        return Map.copyOf(nicknameMap);
-    }
-
-    public void saveAllNicknames() {
-        getNicknameMap().forEach(NicknameDatabase.getInstance()::saveToDatabase);
+        data.removeNickname();
     }
 
 }

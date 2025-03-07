@@ -95,17 +95,14 @@ public class NicknameCommand {
             NicknameConfig.getInstance().getCommandNoUniqueMessage().sendMessage(player);
             return;
         }
-        if (NicknameModule.getInstance().setNickname(target, finalNicknameMessage.getMessage())) {
-            ComponentReplacer replacer = ComponentReplacer.create("nickname", finalNicknameMessage.getMessage());
-            if (target.getPlayer() != null) {
-                NicknameConfig.getInstance().getCommandSetOwnNicknameMessage().applyReplacer(replacer).sendMessage(target.getPlayer());
-            }
-            if (target.getUniqueId() != player.getUniqueId()) {
-                replacer.addReplacements("target", targetName);
-                NicknameConfig.getInstance().getCommandAdminSetNicknameMessage().applyReplacer(replacer).sendMessage(player);
-            }
-        } else {
-            MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
+        NicknameModule.getInstance().setNickname(target, finalNicknameMessage.getMessage());
+        ComponentReplacer replacer = ComponentReplacer.create("nickname", finalNicknameMessage.getMessage());
+        if (target.getPlayer() != null) {
+            NicknameConfig.getInstance().getCommandSetOwnNicknameMessage().applyReplacer(replacer).sendMessage(target.getPlayer());
+        }
+        if (target.getUniqueId() != player.getUniqueId()) {
+            replacer.addReplacements("target", targetName);
+            NicknameConfig.getInstance().getCommandAdminSetNicknameMessage().applyReplacer(replacer).sendMessage(player);
         }
     }
 
