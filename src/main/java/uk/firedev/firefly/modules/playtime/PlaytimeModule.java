@@ -12,11 +12,16 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
+import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
 
-import java.util.Map;
-import java.util.UUID;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlaytimeModule implements Module {
@@ -24,12 +29,9 @@ public class PlaytimeModule implements Module {
     private static PlaytimeModule instance;
 
     private boolean loaded = false;
-    private final Map<UUID, Long> playtimeMap;
     private BukkitTask playtimeTask = null;
 
-    private PlaytimeModule() {
-        playtimeMap = new ConcurrentHashMap<>();
-    }
+    private PlaytimeModule() {}
 
     public static PlaytimeModule getInstance() {
         if (instance == null) {
@@ -58,7 +60,6 @@ public class PlaytimeModule implements Module {
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
         PlaytimeCommand.getCommand().register(Firefly.getInstance());
         new PlaytimeRequirement().register();
-        populatePlaytimeMap();
         startScheduler();
         loaded = true;
     }
@@ -120,46 +121,58 @@ public class PlaytimeModule implements Module {
             playtimeTask.cancel();
             playtimeTask = null;
         }
-        // Save all times so we don't lose them
-        saveAllPlaytimes();
     }
 
     public void incrementTime(@NotNull OfflinePlayer player) {
-        playtimeMap.put(player.getUniqueId(), (getTime(player) + 1));
+        setTime(player, getTime(player) + 1);
     }
 
     public void decrementTime(@NotNull OfflinePlayer player) {
         long currentTime = getTime(player);
         if (currentTime > 0) {
-            playtimeMap.put(player.getUniqueId(), currentTime - 1);
+            setTime(player, currentTime - 1);
         }
     }
 
     public void setTime(@NotNull OfflinePlayer player, long time) {
-        playtimeMap.put(player.getUniqueId(), time);
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
+        }
+        data.setPlaytime(time);
     }
 
     public long getTime(@NotNull OfflinePlayer player) {
-        return playtimeMap.getOrDefault(player.getUniqueId(), 0L);
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return 0L;
+        }
+        return data.getPlaytime();
     }
 
     public String getTimeFormatted(@NotNull OfflinePlayer player) {
         return DurationFormatter.formatSeconds(getTime(player));
     }
 
-    public void populatePlaytimeMap() {
-        synchronized (playtimeMap) {
-            playtimeMap.clear();
-            playtimeMap.putAll(PlaytimeDatabase.getInstance().getPlaytimes());
-        }
-    }
+    // Database
 
-    public @NotNull Map<UUID, Long> getPlaytimeMap() {
-        return Map.copyOf(playtimeMap);
-    }
-
-    public void saveAllPlaytimes() {
-        getPlaytimeMap().forEach(PlaytimeDatabase.getInstance()::saveToDatabase);
+    public CompletableFuture<TreeMap<UUID, Long>> getTopPlaytimes() {
+        return CompletableFuture.supplyAsync(() -> {
+            try (PreparedStatement ps = Firefly.getInstance().getDatabase().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
+                TreeMap<UUID, Long> top = new TreeMap<>();
+                ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    UUID uuid = UUID.fromString(resultSet.getString("uuid"));
+                    long value = resultSet.getLong("playtime");
+                    top.put(uuid, value);
+                }
+                resultSet.close();
+                return top;
+            } catch (SQLException exception) {
+                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to fetch top playtime data", exception);
+                return new TreeMap<>();
+            }
+        });
     }
 
 }

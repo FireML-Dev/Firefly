@@ -5,20 +5,23 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.database.DatabaseModule;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
+import uk.firedev.firefly.database.FireflyDatabaseModule;
+import uk.firedev.firefly.database.PlayerData;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class PlaytimeDatabase implements DatabaseModule {
+public class PlaytimeDatabase implements FireflyDatabaseModule {
 
     private static PlaytimeDatabase instance;
 
-    private PlaytimeDatabase() {}
+    private final Database database;
+
+    private PlaytimeDatabase() {
+        this.database = Firefly.getInstance().getDatabase();
+    }
 
     public static PlaytimeDatabase getInstance() {
         if (instance == null) {
@@ -30,43 +33,27 @@ public class PlaytimeDatabase implements DatabaseModule {
     @Override
     public void init() {
         try {
-            Firefly.getInstance().getDatabase().addColumn("firefly_players", "playtime", "long");
+            database.addColumn("firefly_players", "playtime", "long");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public @NotNull Map<UUID, Long> getPlaytimes() {
-        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
-            ResultSet set = statement.executeQuery();
-            Map<UUID, Long> playtimeMap = new HashMap<>();
-            while (set.next()) {
-                UUID uuid = UUID.fromString(set.getString("uuid"));
-                long playtime = set.getLong("playtime");
-                playtimeMap.put(uuid, playtime);
-            }
-            return playtimeMap;
-        } catch (SQLException ex) {
-            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to fetch user playtimes from Database.", ex);
-            return Map.of();
-        }
-    }
+    @Override
+    public void save() {}
 
-    public boolean saveToDatabase(@NotNull UUID playerUUID, final long playtime) {
-        try (PreparedStatement statement = Firefly.getInstance().getDatabase().getConnection().prepareStatement("UPDATE firefly_players SET playtime = ? WHERE uuid = ?")) {
-            statement.setLong(1, playtime);
-            statement.setString(2, playerUUID.toString());
-            statement.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to set playtime for player " + playerUUID, ex);
-            return false;
-        }
+    @Override
+    public void load(@NotNull PlayerData data, @NotNull ResultSet set) throws SQLException {
+        data.setPlaytime(set.getLong("playtime"));
     }
 
     @Override
-    public void save() {
-        PlaytimeModule.getInstance().saveAllPlaytimes();
+    public void save(@NotNull PlayerData data, @NotNull Connection connection) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement("UPDATE firefly_players SET playtime = ? WHERE uuid = ?")) {
+            ps.setLong(1, data.getPlaytime());
+            ps.setString(2, data.getUuid().toString());
+            ps.executeUpdate();
+        }
     }
 
 }

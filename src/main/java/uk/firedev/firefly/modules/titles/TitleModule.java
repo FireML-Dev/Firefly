@@ -1,9 +1,8 @@
 package uk.firedev.firefly.modules.titles;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.minimessage.ParsingException;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
@@ -20,15 +19,16 @@ import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
 import uk.firedev.firefly.placeholders.Placeholders;
+import uk.firedev.firefly.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TitleModule implements Module {
 
     private static TitleModule instance = null;
 
+    private Chat chat;
     private List<Prefix> prefixes = new ArrayList<>();
     private List<Suffix> suffixes = new ArrayList<>();
     private boolean loaded = false;
@@ -57,10 +57,12 @@ public class TitleModule implements Module {
         if (isLoaded()) {
             return;
         }
-        if (VaultManager.getInstance().getChat() == null) {
+        Chat chat = VaultManager.getInstance().getChat();
+        if (chat == null) {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please register one to use this module! (Something like LuckPerms should be fine)");
             return;
         }
+        this.chat = chat;
         TitleConfig.getInstance().init();
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Title Commands");
         PrefixCommand.getInstance().register(Firefly.getInstance());
@@ -103,7 +105,7 @@ public class TitleModule implements Module {
                 if (TitleModule.getInstance().isLoaded()) {
                     return TitleModule.getInstance().getPlayerPrefix(player);
                 } else {
-                    String prefix = Objects.requireNonNull(VaultManager.getInstance().getChat()).getPlayerPrefix(player);
+                    String prefix = chat.getPlayerPrefix(player);
                     return ComponentMessage.fromString(prefix).getMessage();
                 }
             });
@@ -114,7 +116,7 @@ public class TitleModule implements Module {
                 if (TitleModule.getInstance().isLoaded()) {
                     return TitleModule.getInstance().getPlayerSuffix(player);
                 } else {
-                    String prefix = Objects.requireNonNull(VaultManager.getInstance().getChat()).getPlayerSuffix(player);
+                    String prefix = chat.getPlayerSuffix(player);
                     return ComponentMessage.fromString(prefix).getMessage();
                 }
             });
@@ -154,19 +156,8 @@ public class TitleModule implements Module {
                 getPrefixKey(), PersistentDataType.STRING
         );
         if (prefix == null) {
-            if (VaultManager.getInstance().getChat() == null) {
-                return Component.empty();
-            } else {
-                // Horrible but necessary color parsing code
-                String vaultPrefix = VaultManager.getInstance().getChat().getPlayerPrefix(player);
-                Component componentPrefix;
-                try {
-                    componentPrefix = MiniMessage.miniMessage().deserialize(vaultPrefix);
-                } catch (ParsingException exception) {
-                    componentPrefix = LegacyComponentSerializer.legacySection().deserialize(vaultPrefix);
-                }
-                return componentPrefix;
-            }
+            String vaultPrefix = chat.getPlayerPrefix(player);
+            return StringUtils.getColorOnlyComponent(vaultPrefix);
         }
         return ComponentMessage.fromString(prefix).getMessage();
     }
@@ -200,19 +191,8 @@ public class TitleModule implements Module {
                 getSuffixKey(), PersistentDataType.STRING
         );
         if (suffix == null) {
-            if (VaultManager.getInstance().getChat() == null) {
-                return Component.empty();
-            } else {
-                // Horrible but necessary color parsing code
-                String vaultSuffix = VaultManager.getInstance().getChat().getPlayerSuffix(player);
-                Component componentSuffix;
-                try {
-                    componentSuffix = MiniMessage.miniMessage().deserialize(vaultSuffix);
-                } catch (ParsingException exception) {
-                    componentSuffix = LegacyComponentSerializer.legacySection().deserialize(vaultSuffix);
-                }
-                return componentSuffix;
-            }
+            String vaultSuffix = chat.getPlayerSuffix(player);
+            return StringUtils.getColorOnlyComponent(vaultSuffix);
         }
         return ComponentMessage.fromString(suffix).getMessage();
     }
