@@ -3,6 +3,8 @@ package uk.firedev.firefly.config;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
+import java.time.Duration;
+
 public class MainConfig extends ConfigBase {
 
     private static MainConfig instance = null;
@@ -19,8 +21,14 @@ public class MainConfig extends ConfigBase {
         return instance;
     }
 
-    public long getDatabaseSaveInterval() {
-        return getConfig().getLong("database-save-interval");
+    public int getDatabaseSaveInterval() {
+        return getConfig().getInt("database-save-interval");
+    }
+
+    public Duration getDatabaseCacheInterval() {
+        return Duration.ofSeconds(
+            getConfig().getInt("database-cache-interval")
+        );
     }
 
 }

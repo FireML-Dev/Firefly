@@ -2,5 +2,9 @@
 # Setting this too high comes with a risk of data loss if the server crashes.
 database-save-interval: 300
 
+# How long cached data should stay untouched until it's eligible for unloading.
+# If a cached object is eligible, it will be removed on the next database autosave.
+database-cache-duration: 20
+
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2

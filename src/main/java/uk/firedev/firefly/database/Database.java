@@ -1,6 +1,8 @@
 package uk.firedev.firefly.database;
 
+import com.google.common.cache.Cache;
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
@@ -22,6 +24,8 @@ public class Database extends SQLiteDatabase {
 
     private final Map<String, String> columns = new HashMap<>();
     private final Map<UUID, PlayerData> playerDataCache = new HashMap<>();
+
+    private BukkitTask unloadCacheTask;
 
     public Database(@NotNull Firefly firefly) {
         super(firefly);
@@ -60,6 +64,7 @@ public class Database extends SQLiteDatabase {
         try (PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM firefly_players WHERE uuid = ?")) {
             ps.setString(1, uuid.toString());
             ResultSet set = ps.executeQuery();
+            set.next();
             PlayerData data = new PlayerData(uuid);
             for (DatabaseModule module : getLoadedModules()) {
                 if (module instanceof FireflyDatabaseModule fireflyModule) {
@@ -67,7 +72,7 @@ public class Database extends SQLiteDatabase {
                 }
             }
             playerDataCache.put(uuid, data);
-            System.out.println("Loaded PlayerData for " + uuid);
+            Loggers.info(Firefly.getInstance().getComponentLogger(), "Loaded PlayerData for " + uuid);
         } catch (SQLException exception) {
             Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to load player data for " + uuid, exception);
         }
@@ -79,7 +84,7 @@ public class Database extends SQLiteDatabase {
             return;
         }
         cachedData.save();
-        System.out.println("Unloaded PlayerData for " + uuid);
+        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unloaded PlayerData for " + uuid);
     }
 
     public @Nullable PlayerData getPlayerData(@NotNull UUID uuid) {
@@ -87,7 +92,12 @@ public class Database extends SQLiteDatabase {
         if (PlayerHelper.getOfflinePlayer(uuid) == null) {
             return null;
         }
-        return playerDataCache.get(uuid);
+        PlayerData data = playerDataCache.get(uuid);
+        if (data == null) {
+            loadPlayerData(uuid);
+            data = playerDataCache.get(uuid);
+        }
+        return data;
     }
 
     public @NotNull PlayerData getPlayerDataOrThrow(@NotNull UUID uuid) {
