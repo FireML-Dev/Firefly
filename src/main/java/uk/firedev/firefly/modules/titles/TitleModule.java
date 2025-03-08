@@ -64,8 +64,8 @@ public class TitleModule implements Module {
         TitleConfig.getInstance().init();
         TitleDatabase.getInstance().register(Firefly.getInstance().getDatabase());
 
-        PrefixCommand.getInstance().register(Firefly.getInstance());
-        SuffixCommand.getInstance().register(Firefly.getInstance());
+        PrefixCommand.getCommand().register(Firefly.getInstance());
+        SuffixCommand.getCommand().register(Firefly.getInstance());
 
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
