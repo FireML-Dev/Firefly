@@ -6,8 +6,6 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
-import uk.firedev.firefly.modules.playtime.PlaytimeDatabase;
-import uk.firedev.firefly.utils.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

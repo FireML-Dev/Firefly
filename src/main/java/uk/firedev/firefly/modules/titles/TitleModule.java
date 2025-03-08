@@ -62,9 +62,11 @@ public class TitleModule implements Module {
         }
         this.chat = chat;
         TitleConfig.getInstance().init();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Title Commands");
+        TitleDatabase.getInstance().register(Firefly.getInstance().getDatabase());
+
         PrefixCommand.getInstance().register(Firefly.getInstance());
         SuffixCommand.getInstance().register(Firefly.getInstance());
+
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         loaded = true;
