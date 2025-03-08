@@ -26,6 +26,8 @@ public class PlayerData {
     private Instant unloadInstant;
     private long playtime = 0;
     private @Nullable String nickname = null;
+    private @Nullable ComponentMessage prefix = null;
+    private @Nullable ComponentMessage suffix = null;
 
     protected PlayerData(@NotNull UUID uuid) {
         this.uuid = uuid;
@@ -124,6 +126,38 @@ public class PlayerData {
     public @Nullable String getRawNickname() {
         markAccessed();
         return this.nickname;
+    }
+
+    // Title Methods
+
+    public @Nullable ComponentMessage getPrefix() {
+        markAccessed();
+        return this.prefix;
+    }
+
+    public void setPrefix(@NotNull ComponentMessage prefix) {
+        markAccessed();
+        this.prefix = prefix;
+    }
+
+    public void removePrefix() {
+        markAccessed();
+        this.prefix = null;
+    }
+
+    public @Nullable ComponentMessage getSuffix() {
+        markAccessed();
+        return this.suffix;
+    }
+
+    public void setSuffix(@NotNull ComponentMessage suffix) {
+        markAccessed();
+        this.suffix = suffix;
+    }
+
+    public void removeSuffix() {
+        markAccessed();
+        this.suffix = null;
     }
 
 }
