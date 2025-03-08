@@ -25,7 +25,7 @@ public class SuffixCommand extends CommandAPICommand {
     private CommandAPICommand getDisplayCommand() {
         return new CommandAPICommand("display")
                 .executesPlayer((player, arguments) -> {
-                    ComponentMessage suffix = ComponentMessage.of(TitleModule.getInstance().getPlayerPrefix(player));
+                    ComponentMessage suffix = ComponentMessage.of(TitleModule.getInstance().getPlayerSuffix(player));
                     if (suffix.isEmpty()) {
                         suffix = ComponentMessage.fromString("None");
                     }
