@@ -13,6 +13,7 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
+import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.teleportation.commands.back.BackCommand;
 import uk.firedev.firefly.modules.teleportation.commands.back.DBackCommand;
 import uk.firedev.firefly.modules.teleportation.commands.spawn.SetFirstSpawnCommand;
@@ -67,23 +68,18 @@ public class TeleportModule implements Module {
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
 
-        // Command Registering
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Location Commands");
+        SpawnCommand.getCommand().register(Firefly.getInstance());
+        SetSpawnCommand.getCommand().register(Firefly.getInstance());
+        SetFirstSpawnCommand.getCommand().register(Firefly.getInstance());
 
-        SpawnCommand.getInstance().register(Firefly.getInstance());
-        SetSpawnCommand.getInstance().register(Firefly.getInstance());
-        SetFirstSpawnCommand.getInstance().register(Firefly.getInstance());
+        BackCommand.getCommand().register(Firefly.getInstance());
+        DBackCommand.getCommand().register(Firefly.getInstance());
 
-        BackCommand.getInstance().register(Firefly.getInstance());
-        DBackCommand.getInstance().register(Firefly.getInstance());
+        TPACommand.getCommand().register(Firefly.getInstance());
+        TPAHereCommand.getCommand().register(Firefly.getInstance());
+        TPDenyCommand.getCommand().register(Firefly.getInstance());
+        TPAcceptCommand.getCommand().register(Firefly.getInstance());
 
-        TPACommand.getInstance().register(Firefly.getInstance());
-        TPAHereCommand.getInstance().register(Firefly.getInstance());
-        TPDenyCommand.getInstance().register(Firefly.getInstance());
-        TPAcceptCommand.getInstance().register(Firefly.getInstance());
-        // Command Registering
-
-        populateLastLocationMap();
         loaded = true;
     }
 
@@ -155,31 +151,24 @@ public class TeleportModule implements Module {
 
     // /back
 
-    public void populateLastLocationMap() {
-        synchronized (playerLastLocationMap) {
-            playerLastLocationMap.clear();
-            playerLastLocationMap.putAll(TeleportDatabase.getInstance().getLastLocations());
+    public void setLastLocation(@NotNull HumanEntity humanEntity, @Nullable Location location) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(humanEntity.getUniqueId());
+        if (data == null) {
+            return;
+        }
+        if (location == null) {
+            data.removeLastTeleportLocation();
+        } else {
+            data.setLastTeleportLocation(location);
         }
     }
 
-    public Map<UUID, Location> getPlayerLastLocationMap() {
-        return Map.copyOf(playerLastLocationMap);
-    }
-
-    private Map<UUID, Location> getEditablePlayerLastLocationMap() {
-        return playerLastLocationMap;
-    }
-
-    public void setLastLocation(@NotNull HumanEntity humanEntity, @NotNull Location location) {
-        getEditablePlayerLastLocationMap().put(humanEntity.getUniqueId(), location);
-    }
-
-    public Location getLastLocation(@NotNull HumanEntity humanEntity) {
-        return getEditablePlayerLastLocationMap().computeIfAbsent(humanEntity.getUniqueId(), handling -> humanEntity.getLocation());
-    }
-
-    public void saveAllLastLocations() {
-        getPlayerLastLocationMap().forEach(TeleportDatabase.getInstance()::saveLastLocationToDatabase);
+    public @Nullable Location getLastLocation(@NotNull HumanEntity humanEntity) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(humanEntity.getUniqueId());
+        if (data == null) {
+            return null;
+        }
+        return data.getLastTeleportLocation();
     }
 
 }

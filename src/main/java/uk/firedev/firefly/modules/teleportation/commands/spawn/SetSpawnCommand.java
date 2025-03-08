@@ -1,48 +1,40 @@
 package uk.firedev.firefly.modules.teleportation.commands.spawn;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandPermission;
+import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.LocationArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LocationType;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
-public class SetSpawnCommand extends CommandAPICommand {
+import java.util.Objects;
 
-    private static SetSpawnCommand instance;
+public class SetSpawnCommand {
 
-    private SetSpawnCommand() {
-        super("setspawn");
-        withArguments(
-                new LocationArgument("location", LocationType.PRECISE_POSITION, false).setOptional(true)
-        );
-        setPermission(CommandPermission.fromString("firefly.command.setspawn"));
-        withShortDescription("Set the server spawn location");
-        withFullDescription("Set the server spawn location");
-        executes((sender, arguments) -> {
-            Location location;
-            Object locationArg = arguments.get("location");
-            if (locationArg == null) {
-                if (!(sender instanceof Player player)) {
-                    ComponentMessage.fromString("Invalid location specified").sendMessage(sender);
-                    return;
-                }
-                location = player.getLocation();
-            } else {
-                location = (Location) locationArg;
-            }
-            TeleportConfig.getInstance().setSpawnLocation(false, location);
-            TeleportConfig.getInstance().getSpawnSetSpawnMessage().sendMessage(sender);
-        });
+    public static CommandTree getCommand() {
+        return new CommandTree("setspawn")
+            .withPermission("firefly.command.setspawn")
+            .withHelp("Set the server spawn location", "Set the server spawn location")
+            .executesPlayer(info -> {
+                setLocation(info.sender(), info.sender().getLocation());
+            })
+            .then(
+                new LocationArgument("location")
+                    .executes(info -> {
+                        Location location = Objects.requireNonNull(info.args().getUnchecked("location"));
+                        setLocation(info.sender(), location);
+                    })
+            );
     }
 
-    public static SetSpawnCommand getInstance() {
-        if (instance == null) {
-            instance = new SetSpawnCommand();
-        }
-        return instance;
+    private static void setLocation(@NotNull CommandSender sender, @NotNull Location location) {
+        TeleportConfig.getInstance().setSpawnLocation(false, location);
+        TeleportConfig.getInstance().getSpawnSetSpawnMessage().sendMessage(sender);
     }
     
 }

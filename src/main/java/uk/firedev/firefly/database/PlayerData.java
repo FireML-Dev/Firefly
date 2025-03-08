@@ -3,6 +3,7 @@ package uk.firedev.firefly.database;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +29,7 @@ public class PlayerData {
     private @Nullable String nickname = null;
     private @Nullable ComponentMessage prefix = null;
     private @Nullable ComponentMessage suffix = null;
+    private @Nullable Location lastTeleportLocation = null;
 
     protected PlayerData(@NotNull UUID uuid) {
         this.uuid = uuid;
@@ -158,6 +160,20 @@ public class PlayerData {
     public void removeSuffix() {
         markAccessed();
         this.suffix = null;
+    }
+
+    // Teleport Methods
+
+    public @Nullable Location getLastTeleportLocation() {
+        return lastTeleportLocation;
+    }
+
+    public void setLastTeleportLocation(@NotNull Location lastTeleportLocation) {
+        this.lastTeleportLocation = lastTeleportLocation;
+    }
+
+    public void removeLastTeleportLocation() {
+        this.lastTeleportLocation = null;
     }
 
 }

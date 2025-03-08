@@ -111,10 +111,6 @@ public class TeleportConfig extends ConfigBase {
 
     // TPA related things
 
-    public int getTpaMaximumCachedRequests() {
-        return getConfig().getInt("tpa.cached-requests", 3);
-    }
-
     public int getTpaRequestExpiry() {
         return getConfig().getInt("tpa.request-expiry", 15);
     }

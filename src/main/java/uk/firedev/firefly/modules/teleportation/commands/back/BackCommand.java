@@ -1,76 +1,53 @@
 package uk.firedev.firefly.modules.teleportation.commands.back;
 
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
+import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.libs.commandapi.CommandPermission;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.PlayerArgument;
-import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
-public class BackCommand extends CommandAPICommand {
+import java.util.Objects;
 
-    private static BackCommand instance;
+public class BackCommand {
 
-    private BackCommand() {
-        super("back");
-        withArguments(getPlayerArgument());
-        setPermission(CommandPermission.fromString("firefly.command.back"));
-        withShortDescription("Teleport to your last location");
-        withFullDescription("Teleport to your last location");
-        executesPlayer((player, arguments) -> {
-            Player targetPlayer;
-            Object playerArg = arguments.get("player");
-            if (playerArg == null) {
-                targetPlayer = player;
-            } else {
-                targetPlayer = (Player) playerArg;
-            }
-            targetPlayer.teleportAsync(TeleportModule.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
-                if (success) {
-                    TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
-                    if (targetPlayer.getUniqueId() != player.getUniqueId()) {
-                        ComponentReplacer replacer = ComponentReplacer.create("target", targetPlayer.getName());
-                        TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(player);
-                    }
-                } else {
-                    TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(player);
-                }
-            });
-        });
-        executesConsole((console, arguments) -> {
-            Object playerArg = arguments.get("player");
-            if (playerArg == null) {
-                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(console);
-                return;
-            }
-            Player targetPlayer = (Player) playerArg;
-            targetPlayer.teleportAsync(TeleportModule.getInstance().getLastLocation(targetPlayer)).thenAccept(success -> {
-                if (success) {
-                    TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(targetPlayer);
-
-                    ComponentReplacer replacer = ComponentReplacer.create("target", targetPlayer.getName());
-                    TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(console);
-                } else {
-                    TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(console);
-                }
-            });
-        });
+    public static CommandTree getCommand() {
+        return new CommandTree("back")
+            .withPermission("firefly.command.back")
+            .withHelp("Teleport to your last location", "Teleport to your last location")
+            .executesPlayer(info -> {
+                teleportPlayer(info.sender(), info.sender());
+            })
+            .then(
+                PlayerArgument.create("target")
+                    .executes(info -> {
+                        Player target = Objects.requireNonNull(info.args().getUnchecked("target"));
+                        teleportPlayer(info.sender(), target);
+                    })
+            );
     }
 
-    public static BackCommand getInstance() {
-        if (instance == null) {
-            instance = new BackCommand();
+    private static void teleportPlayer(@NotNull CommandSender sender, @NotNull Player target) {
+        Location location = TeleportModule.getInstance().getLastLocation(target);
+        if (location == null) {
+            TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
+            return;
         }
-        return instance;
-    }
-
-    private Argument<Player> getPlayerArgument() {
-        return new PlayerArgument("player")
-                .withPermission(CommandPermission.fromString("firefly.command.back.others"))
-                .setOptional(true);
+        target.teleportAsync(location).thenAccept(success -> {
+            if (success) {
+                TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(target);
+                if (target != sender) {
+                    ComponentReplacer replacer = ComponentReplacer.create("target", target.getName());
+                    TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(sender);
+                }
+            } else {
+                TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
+            }
+        });
     }
 
 }

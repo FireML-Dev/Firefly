@@ -3,8 +3,6 @@ back:
   save-death: true
 
 tpa:
-  # How many TPA requests to cache before discarding the oldest
-  cached-requests: 3
   # How long until a request should expire? (In seconds)
   request-expiry: 15
 
@@ -41,8 +39,8 @@ messages:
       denied-target: "<color:#F0E68C>Denied the teleport request!"
 
       # Shown in the request messages to the target player.
-      accept-click: "<green><click:run_command:'/tpaccept {sender}'>[Accept]"
-      deny-click: "<red><click:run_command:'/tpdeny {sender}'>[Deny]"
+      accept-click: "<green><click:run_command:'/tpaccept'>[Accept]"
+      deny-click: "<red><click:run_command:'/tpdeny'>[Deny]"
 
       # {target} is the player the request is sent to
       # {player} is the player who sent the request
