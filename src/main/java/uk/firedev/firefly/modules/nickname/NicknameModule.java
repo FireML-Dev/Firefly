@@ -13,8 +13,6 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.PlayerData;
-import uk.firedev.firefly.modules.nickname.command.NicknameAdminCommand;
-import uk.firedev.firefly.modules.nickname.command.NicknameCheckCommand;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
 import uk.firedev.firefly.utils.StringUtils;
@@ -28,12 +26,16 @@ public class NicknameModule implements Module {
 
     private static NicknameModule instance = null;
 
-    private boolean loaded;
-    private final Map<UUID, String> nicknameMap;
+    public static String COMMAND_PERMISSION = "firefly.command.nickname";
+    public static String COMMAND_LENGTH_BYPASS_PERMISSION = "firefly.command.nickname.bypass.length";
+    public static String COMMAND_BLACKLIST_BYPASS_PERMISSION = "firefly.command.nickname.bypass.blacklist";
+    public static String COMMAND_UNIQUE_PERMISSION = "firefly.command.nickname.unique";
 
-    private NicknameModule() {
-        nicknameMap = new ConcurrentHashMap<>();
-    }
+    public static String COMMAND_PERMISSION_ADMIN = "firefly.command.nickname.admin";
+
+    private boolean loaded;
+
+    private NicknameModule() {}
 
     public static NicknameModule getInstance() {
         if (instance == null) {
@@ -58,10 +60,8 @@ public class NicknameModule implements Module {
             return;
         }
         NicknameConfig.getInstance().init();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Nickname Commands");
+        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Nickname Command");
         NicknameCommand.getCommand().register(Firefly.getInstance());
-        NicknameAdminCommand.getCommand().register(Firefly.getInstance());
-        NicknameCheckCommand.getCommand().register(Firefly.getInstance());
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         loaded = true;
     }
