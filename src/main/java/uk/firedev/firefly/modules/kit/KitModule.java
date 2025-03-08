@@ -80,7 +80,7 @@ public class KitModule implements Module {
 
     @Override
     public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
+        Placeholders.manageProvider(provider ->
             provider.addAudienceDynamicPlaceholder("kit_available", (audience, value) -> {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -91,8 +91,7 @@ public class KitModule implements Module {
                 }
                 boolean available = kit.hasPermission(player) && !kit.isOnCooldown(player.getUniqueId());
                 return Component.text(available);
-            });
-        });
+            }));
     }
 
     public NamespacedKey getKitKey() {

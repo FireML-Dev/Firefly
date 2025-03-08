@@ -124,7 +124,7 @@ public class Kit {
             return;
         }
         applyCooldown(player.getUniqueId());
-        giveToPlayer(player, null);
+        giveToPlayer(player, sender);
     }
 
     public void giveToPlayer(@NotNull Player player, @Nullable CommandSender sender) {

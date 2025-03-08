@@ -51,14 +51,13 @@ public class FlyCommand extends Command {
 
     @Override
     public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
+        Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("can_fly", audience -> {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
                 return Component.text(player.getAllowFlight());
-            });
-        });
+            }));
     }
 
     @NotNull

@@ -87,7 +87,7 @@ public class AmethystProtection implements SubModule {
 
     @Override
     public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
+        Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("amethyst_protected", audience -> {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -97,8 +97,7 @@ public class AmethystProtection implements SubModule {
                 } else {
                     return Component.text(false);
                 }
-            });
-        });
+            }));
     }
 
     private NamespacedKey getAmethystProtectKey() {

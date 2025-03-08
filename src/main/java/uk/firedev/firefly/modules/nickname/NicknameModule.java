@@ -18,12 +18,12 @@ public class NicknameModule implements Module {
 
     private static NicknameModule instance = null;
 
-    public static String COMMAND_PERMISSION = "firefly.command.nickname";
-    public static String COMMAND_LENGTH_BYPASS_PERMISSION = "firefly.command.nickname.bypass.length";
-    public static String COMMAND_BLACKLIST_BYPASS_PERMISSION = "firefly.command.nickname.bypass.blacklist";
-    public static String COMMAND_UNIQUE_PERMISSION = "firefly.command.nickname.unique";
+    public static final String COMMAND_PERMISSION = "firefly.command.nickname";
+    public static final String COMMAND_LENGTH_BYPASS_PERMISSION = "firefly.command.nickname.bypass.length";
+    public static final String COMMAND_BLACKLIST_BYPASS_PERMISSION = "firefly.command.nickname.bypass.blacklist";
+    public static final String COMMAND_UNIQUE_PERMISSION = "firefly.command.nickname.unique";
 
-    public static String COMMAND_PERMISSION_ADMIN = "firefly.command.nickname.admin";
+    public static final String COMMAND_PERMISSION_ADMIN = "firefly.command.nickname.admin";
 
     private boolean loaded;
 
@@ -81,7 +81,7 @@ public class NicknameModule implements Module {
 
     @Override
     public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
+        Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("player_nickname", audience -> {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -91,8 +91,7 @@ public class NicknameModule implements Module {
                 } else {
                     return player.name();
                 }
-            });
-        });
+            }));
     }
 
     // Nickname Management

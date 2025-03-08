@@ -2,7 +2,6 @@ package uk.firedev.firefly.modules.kit.command;
 
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
@@ -12,8 +11,6 @@ import uk.firedev.firefly.modules.kit.KitGui;
 import java.util.Objects;
 
 public class KitCommand {
-
-    private static CommandAPICommand command;
 
     private KitCommand() {}
 

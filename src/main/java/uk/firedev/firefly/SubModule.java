@@ -28,8 +28,6 @@ public interface SubModule extends Listener {
         HandlerList.unregisterAll(this);
     }
 
-    default void registerPlaceholders() {
-        return;
-    }
+    default void registerPlaceholders() {}
 
 }

@@ -22,8 +22,6 @@ public class Database extends SQLiteDatabase {
     private final Map<String, String> columns = new HashMap<>();
     private final Map<UUID, PlayerData> playerDataCache = new HashMap<>();
 
-    private BukkitTask unloadCacheTask;
-
     public Database(@NotNull Firefly firefly) {
         super(firefly);
         columns.put("uuid", "VARCHAR(36) NOT NULL PRIMARY KEY");

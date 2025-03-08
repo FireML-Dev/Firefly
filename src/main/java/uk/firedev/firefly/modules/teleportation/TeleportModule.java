@@ -34,11 +34,8 @@ public class TeleportModule implements Module {
     private boolean loaded;
     private Location spawnLocation;
     private Location firstSpawnLocation;
-    private final Map<UUID, Location> playerLastLocationMap;
 
-    private TeleportModule() {
-        playerLastLocationMap = new ConcurrentHashMap<>();
-    }
+    private TeleportModule() {}
 
     public static TeleportModule getInstance() {
         if (instance == null) {
