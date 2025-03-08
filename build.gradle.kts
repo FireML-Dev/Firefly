@@ -59,6 +59,7 @@ paper {
     }
 
     permissions {
+        register("firefly.admin")
         register("firefly.command.nickname.bypass.blacklist")
         register("firefly.command.nickname.bypass.length")
         register("firefly.command.nickname.colors")

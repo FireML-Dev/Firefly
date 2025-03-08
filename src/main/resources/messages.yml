@@ -1,6 +1,12 @@
 prefix: "<gray>[Firefly]</gray> "
 player-not-found: "<red>Player not found."
 error-occurred: "<red>An error has occurred. Please try again."
+
+admin-mode:
+  enabled: "{prefix}<#F0E68C>Enabled Admin Mode!"
+  disabled: "{prefix}<#F0E68C>Disabled Admin Mode!"
+  no-permission: "{prefix}<red>You are not permitted to enter Admin Mode!"
+
 main-command:
   reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
   usage:
@@ -8,4 +14,4 @@ main-command:
     command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 2
+config-version: 3
