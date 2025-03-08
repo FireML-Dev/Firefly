@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
@@ -25,6 +26,12 @@ public class TPARequest {
 
     public void send() {
         activeRequests.put(target, this);
+        Bukkit.getScheduler().runTaskLater(Firefly.getInstance(), () -> {
+            TPARequest request = activeRequests.get(target);
+            if (request == this) {
+                activeRequests.remove(target);
+            }
+        }, TeleportConfig.getInstance().getTpaRequestExpiry() * 20L);
     }
 
     public void accept() {
