@@ -10,7 +10,12 @@ import org.jetbrains.annotations.NotNull;
 public class StringUtils {
 
     private static final MiniMessage miniMessage = MiniMessage.builder()
-            .tags(TagResolver.resolver(StandardTags.color(), StandardTags.decorations()))
+            .tags(TagResolver.resolver(
+                StandardTags.color(),
+                StandardTags.decorations(),
+                StandardTags.gradient(),
+                StandardTags.rainbow()
+            ))
             .build();
     private static final LegacyComponentSerializer legacyComponentSerializer = LegacyComponentSerializer.builder()
             .character('&')

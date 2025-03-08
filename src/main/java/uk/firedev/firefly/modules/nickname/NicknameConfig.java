@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.nickname;
 
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
@@ -23,16 +24,26 @@ public class NicknameConfig extends ConfigBase {
         return instance;
     }
 
+    public boolean isTooLong(@NotNull String nickname) {
+        return nickname.length() > getMaxLength();
+    }
+
     public int getMaxLength() {
         return getConfig().getInt("settings.max-length");
+    }
+
+    public boolean isTooShort(@NotNull String nickname) {
+        return nickname.length() < getMinLength();
     }
 
     public int getMinLength() {
         return getConfig().getInt("settings.min-length");
     }
 
-    public List<String> getBlacklistedNames() {
-        return getConfig().getStringList("nicknames.blacklisted-names");
+    public boolean isBlacklisted(@NotNull String nickname) {
+        return getConfig().getStringList("nicknames.blacklisted-names")
+            .stream()
+            .anyMatch(string -> string.equalsIgnoreCase(nickname));
     }
 
     public ComponentMessage getRealNameHoverMessage() {
@@ -73,12 +84,6 @@ public class NicknameConfig extends ConfigBase {
 
     public ComponentMessage getCommandRemovedNicknameMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.removed-nickname", "<color:#F0E68C>Removed your nickname.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
-    }
-
-    public ComponentMessage getCommandAdminUsageMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.usage", "<red>Usage: /nicknameadmin <player> <nickname>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
         return message;
     }
