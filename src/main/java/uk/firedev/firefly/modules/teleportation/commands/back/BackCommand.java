@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.teleportation.commands.back;
 
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +32,12 @@ public class BackCommand {
     }
 
     private static void teleportPlayer(@NotNull CommandSender sender, @NotNull Player target) {
-        target.teleportAsync(TeleportModule.getInstance().getLastLocation(target)).thenAccept(success -> {
+        Location location = TeleportModule.getInstance().getLastLocation(target);
+        if (location == null) {
+            TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
+            return;
+        }
+        target.teleportAsync(location).thenAccept(success -> {
             if (success) {
                 TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(target);
                 if (target != sender) {
