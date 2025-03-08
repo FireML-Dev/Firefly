@@ -1,45 +1,37 @@
 package uk.firedev.firefly.modules.titles.command;
 
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.libs.commandapi.CommandPermission;
+import uk.firedev.daisylib.libs.commandapi.CommandTree;
+import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
+import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 import uk.firedev.firefly.modules.titles.gui.SuffixGui;
 
-public class SuffixCommand extends CommandAPICommand {
+public class SuffixCommand {
 
-    private static SuffixCommand instance = null;
-
-    private SuffixCommand() {
-        super("suffix");
-        setPermission(CommandPermission.fromString("firefly.command.suffix"));
-        withShortDescription("Manage Suffix");
-        withFullDescription("Manage Suffix");
-        withSubcommand(getDisplayCommand());
-        executesPlayer((player, arguments) -> {
-            new SuffixGui(player).open();
-        });
+    public static CommandTree getCommand() {
+        return new CommandTree("suffix")
+            .withPermission("firefly.command.suffix")
+            .withHelp("Manage Suffix", "Manage Suffix")
+            .executesPlayer(info -> {
+                new SuffixGui(info.sender()).open();
+            })
+            .then(getDisplayBranch());
     }
 
-    private CommandAPICommand getDisplayCommand() {
-        return new CommandAPICommand("display")
-                .executesPlayer((player, arguments) -> {
-                    ComponentMessage suffix = ComponentMessage.of(TitleModule.getInstance().getPlayerPrefix(player));
-                    if (suffix.isEmpty()) {
-                        suffix = ComponentMessage.fromString("None");
-                    }
-                    TitleConfig.getInstance().getSuffixDisplayMessage()
-                            .replace("player-suffix", suffix.getMessage())
-                            .sendMessage(player);
-                });
-    }
 
-    public static SuffixCommand getInstance() {
-        if (instance == null) {
-            instance = new SuffixCommand();
-        }
-        return instance;
+    private static Argument<String> getDisplayBranch() {
+        return new StringArgument("display")
+            .executesPlayer((player, arguments) -> {
+                ComponentMessage suffix = ComponentMessage.of(TitleModule.getInstance().getPlayerSuffix(player));
+                if (suffix.isEmpty()) {
+                    suffix = ComponentMessage.fromString("None");
+                }
+                TitleConfig.getInstance().getSuffixDisplayMessage()
+                    .replace("player-suffix", suffix.getMessage())
+                    .sendMessage(player);
+            });
     }
 
 }

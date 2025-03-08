@@ -3,17 +3,15 @@ package uk.firedev.firefly.modules.titles;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault.chat.Chat;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
+import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.titles.command.PrefixCommand;
 import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
@@ -64,9 +62,11 @@ public class TitleModule implements Module {
         }
         this.chat = chat;
         TitleConfig.getInstance().init();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Title Commands");
-        PrefixCommand.getInstance().register(Firefly.getInstance());
-        SuffixCommand.getInstance().register(Firefly.getInstance());
+        TitleDatabase.getInstance().register(Firefly.getInstance().getDatabase());
+
+        PrefixCommand.getCommand().register(Firefly.getInstance());
+        SuffixCommand.getCommand().register(Firefly.getInstance());
+
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         loaded = true;
@@ -123,43 +123,41 @@ public class TitleModule implements Module {
         });
     }
 
-    public NamespacedKey getPrefixKey() {
-        return new NamespacedKey(Firefly.getInstance(), "player-prefix");
-    }
-
-    public NamespacedKey getSuffixKey() {
-        return new NamespacedKey(Firefly.getInstance(), "player-suffix");
-    }
-
     public void setPlayerPrefix(@NotNull Player player, @NotNull String prefix) {
-        setPlayerPrefix(player, ComponentMessage.fromString(prefix).getMessage());
+        setPlayerPrefix(player, ComponentMessage.fromString(prefix));
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull Prefix prefix) {
-        setPlayerPrefix(player, prefix.getDisplay().getMessage());
+        setPlayerPrefix(player, prefix.getDisplay());
     }
 
-    public void setPlayerPrefix(@NotNull Player player, @NotNull Component prefix) {
-        String stringPrefix = ComponentMessage.of(prefix).toStringMessage().getMessage();
-        player.getPersistentDataContainer().set(getPrefixKey(), PersistentDataType.STRING, stringPrefix);
-        ComponentReplacer replacer = ComponentReplacer.create("new-prefix", prefix);
-        TitleConfig.getInstance().getPrefixSetMessage().applyReplacer(replacer).sendMessage(player);
+    public void setPlayerPrefix(@NotNull Player player, @NotNull ComponentMessage prefix) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
+        }
+        data.setPrefix(prefix);
+        TitleConfig.getInstance().getPrefixSetMessage()
+            .replace("new-prefix", prefix.getMessage())
+            .sendMessage(player);
     }
 
     public void removePlayerPrefix(@NotNull Player player) {
-        player.getPersistentDataContainer().remove(getPrefixKey());
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
+        }
+        data.removePrefix();
         TitleConfig.getInstance().getPrefixRemovedMessage().sendMessage(player);
     }
 
     public Component getPlayerPrefix(@NotNull Player player) {
-        String prefix = player.getPersistentDataContainer().get(
-                getPrefixKey(), PersistentDataType.STRING
-        );
-        if (prefix == null) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null || data.getPrefix() == null) {
             String vaultPrefix = chat.getPlayerPrefix(player);
             return StringUtils.getColorOnlyComponent(vaultPrefix);
         }
-        return ComponentMessage.fromString(prefix).getMessage();
+        return data.getPrefix().getMessage();
     }
 
     public String getPlayerPrefixLegacy(@NotNull Player player) {
@@ -167,34 +165,40 @@ public class TitleModule implements Module {
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull String suffix) {
-        setPlayerSuffix(player, ComponentMessage.fromString(suffix).getMessage());
+        setPlayerSuffix(player, ComponentMessage.fromString(suffix));
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull Suffix suffix) {
-        setPlayerSuffix(player, suffix.getDisplay().getMessage());
+        setPlayerSuffix(player, suffix.getDisplay());
     }
 
-    public void setPlayerSuffix(@NotNull Player player, @NotNull Component suffix) {
-        String stringSuffix = ComponentMessage.of(suffix).toStringMessage().getMessage();
-        player.getPersistentDataContainer().set(getSuffixKey(), PersistentDataType.STRING, stringSuffix);
-        ComponentReplacer replacer = ComponentReplacer.create("new-suffix", suffix);
-        TitleConfig.getInstance().getSuffixSetMessage().applyReplacer(replacer).sendMessage(player);
+    public void setPlayerSuffix(@NotNull Player player, @NotNull ComponentMessage suffix) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
+        }
+        data.setSuffix(suffix);
+        TitleConfig.getInstance().getSuffixSetMessage()
+            .replace("new-suffix", suffix.getMessage())
+            .sendMessage(player);
     }
 
     public void removePlayerSuffix(@NotNull Player player) {
-        player.getPersistentDataContainer().remove(getSuffixKey());
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null) {
+            return;
+        }
+        data.removeSuffix();
         TitleConfig.getInstance().getSuffixRemovedMessage().sendMessage(player);
     }
 
     public Component getPlayerSuffix(@NotNull Player player) {
-        String suffix = player.getPersistentDataContainer().get(
-                getSuffixKey(), PersistentDataType.STRING
-        );
-        if (suffix == null) {
+        PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
+        if (data == null || data.getSuffix() == null) {
             String vaultSuffix = chat.getPlayerSuffix(player);
             return StringUtils.getColorOnlyComponent(vaultSuffix);
         }
-        return ComponentMessage.fromString(suffix).getMessage();
+        return data.getSuffix().getMessage();
     }
 
     public String getPlayerSuffixLegacy(@NotNull Player player) {
