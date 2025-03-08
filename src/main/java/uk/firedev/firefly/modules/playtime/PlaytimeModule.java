@@ -156,15 +156,15 @@ public class PlaytimeModule implements Module {
 
     // Database
 
-    public CompletableFuture<TreeMap<UUID, Long>> getTopPlaytimes() {
+    public CompletableFuture<TreeMap<Long, UUID>> getTopPlaytimes() {
         return CompletableFuture.supplyAsync(() -> {
             try (PreparedStatement ps = Firefly.getInstance().getDatabase().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
-                TreeMap<UUID, Long> top = new TreeMap<>();
+                TreeMap<Long, UUID> top = new TreeMap<>(Collections.reverseOrder());
                 ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     UUID uuid = UUID.fromString(resultSet.getString("uuid"));
                     long value = resultSet.getLong("playtime");
-                    top.put(uuid, value);
+                    top.put(value, uuid);
                 }
                 resultSet.close();
                 return top;

@@ -21,10 +21,6 @@ public class PlaytimeConfig extends ConfigBase {
         return instance;
     }
 
-    public long getSaveInterval() {
-        return getConfig().getLong("save-interval");
-    }
-
     public ComponentMessage getCheckPlaytimeMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.check-playtime", "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>");
         message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
