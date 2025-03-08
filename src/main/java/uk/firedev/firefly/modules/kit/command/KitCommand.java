@@ -6,7 +6,8 @@ import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
-import uk.firedev.firefly.modules.kit.*;
+import uk.firedev.firefly.modules.kit.Kit;
+import uk.firedev.firefly.modules.kit.KitGui;
 
 import java.util.Objects;
 

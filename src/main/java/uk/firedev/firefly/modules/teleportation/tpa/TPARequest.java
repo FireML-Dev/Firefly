@@ -8,7 +8,9 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class TPARequest {
 

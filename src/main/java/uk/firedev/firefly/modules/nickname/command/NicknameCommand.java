@@ -1,27 +1,21 @@
 package uk.firedev.firefly.modules.nickname.command;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.utils.PlayerHelper;
-import uk.firedev.daisylib.command.ArgumentBuilder;
 import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandAPICommand;
-import uk.firedev.daisylib.libs.commandapi.CommandPermission;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.*;
-import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
+import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
+import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
 
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
 
 public class NicknameCommand {
 

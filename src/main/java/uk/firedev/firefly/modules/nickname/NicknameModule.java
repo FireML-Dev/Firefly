@@ -1,26 +1,18 @@
 package uk.firedev.firefly.modules.nickname;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
-import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
-import uk.firedev.firefly.utils.StringUtils;
 
-import java.util.Map;
 import java.util.Objects;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class NicknameModule implements Module {
 

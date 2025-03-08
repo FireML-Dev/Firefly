@@ -1,17 +1,15 @@
 package uk.firedev.firefly.modules.playtime;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.database.DatabaseModule;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
 
-import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class PlaytimeDatabase implements FireflyDatabaseModule {
 

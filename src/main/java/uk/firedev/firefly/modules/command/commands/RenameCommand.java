@@ -10,7 +10,6 @@ import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
 import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
-import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
 import uk.firedev.firefly.utils.StringUtils;

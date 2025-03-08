@@ -7,7 +7,10 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class TeleportDatabase implements FireflyDatabaseModule {
 

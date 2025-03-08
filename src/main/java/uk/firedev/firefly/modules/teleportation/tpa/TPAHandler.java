@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
-import java.util.*;
+import java.util.Map;
 
 public class TPAHandler {
 

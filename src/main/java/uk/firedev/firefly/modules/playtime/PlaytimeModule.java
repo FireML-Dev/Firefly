@@ -11,7 +11,6 @@ import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
-import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
@@ -19,10 +18,10 @@ import uk.firedev.firefly.placeholders.Placeholders;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.*;
+import java.util.Collections;
+import java.util.TreeMap;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class PlaytimeModule implements Module {
 

@@ -10,7 +10,6 @@ import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitModule;
 
 import java.util.function.BiPredicate;
-import java.util.function.Predicate;
 
 public class KitArgument {
 

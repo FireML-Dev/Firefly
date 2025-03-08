@@ -1,7 +1,6 @@
 package uk.firedev.firefly.modules.command;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandAPI;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;

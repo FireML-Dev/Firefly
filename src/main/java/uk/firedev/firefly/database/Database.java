@@ -1,6 +1,5 @@
 package uk.firedev.firefly.database;
 
-import com.google.common.cache.Cache;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;

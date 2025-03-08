@@ -6,8 +6,6 @@ import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 
-import java.util.List;
-
 public class NicknameConfig extends ConfigBase {
 
     private static NicknameConfig instance;

@@ -1,14 +1,9 @@
 package uk.firedev.firefly.config;
 
-import org.checkerframework.checker.units.qual.C;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.command.HelpMessageBuilder;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
-
-import java.util.Map;
-import java.util.function.Supplier;
 
 public class MessageConfig extends ConfigBase {
 
