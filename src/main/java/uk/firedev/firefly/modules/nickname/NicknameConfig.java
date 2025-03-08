@@ -88,12 +88,6 @@ public class NicknameConfig extends ConfigBase {
         return message;
     }
 
-    public ComponentMessage getCommandAdminUsageMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.usage", "<red>Usage: /nicknameadmin <player> <nickname>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
-    }
-
     public ComponentMessage getCommandAdminSetNicknameMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-others-nickname", "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>");
         message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());

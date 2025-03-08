@@ -22,7 +22,6 @@ messages:
     set-own-nickname: "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>"
     removed-nickname: "<color:#F0E68C>Removed your nickname.</color>"
     admin:
-      usage: "{prefix}<red>Usage: /nicknameadmin <player> <nickname>"
       set-others-nickname: "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>"
       removed-others-nickname: "<color:#F0E68C>Removed {player}'s nickname.</color>"
 
