@@ -10,7 +10,6 @@ plugins {
 repositories {
     mavenCentral()
     gradlePluginPortal()
-    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.codemc.io/repository/FireML/")
     maven("https://jitpack.io")
@@ -25,8 +24,6 @@ dependencies {
     }
     compileOnly(libs.placeholderapi)
     compileOnly(libs.miniplaceholders)
-
-    paperLibrary(libs.adventure.pagination)
 }
 
 group = "uk.firedev"
@@ -41,9 +38,6 @@ paper {
     apiVersion = "1.21.4"
     author = "FireML"
     description = project.description.toString()
-
-    loader = "uk.firedev.firefly.LibraryLoader"
-    generateLibrariesJson = true
 
     serverDependencies {
         register("Vault") {
