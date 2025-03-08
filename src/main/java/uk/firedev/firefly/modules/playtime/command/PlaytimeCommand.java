@@ -30,14 +30,8 @@ public class PlaytimeCommand {
                     .executesPlayer(info -> {
                         sendPlaytime(info.sender(), info.sender());
                     })
-                    .then(
-                        OfflinePlayerArgument.createPlayedBefore("target")
-                            .executes((sender, arguments) -> {
-                                OfflinePlayer target = Objects.requireNonNull(arguments.getUnchecked("target"));
-                                sendPlaytime(sender, target);
-                            })
-                    )
-                    .then(getSetPlaytimeBranch());
+                    .then(getCheckBranch())
+                    .then(getSetBranch());
         }
         return command;
     }
@@ -55,7 +49,7 @@ public class PlaytimeCommand {
 
     // /playtime set Branch
 
-    private static Argument<String> getSetPlaytimeBranch() {
+    private static Argument<String> getSetBranch() {
         return new LiteralArgument("set")
                 .withPermission("firefly.command.playtime.admin")
                 .thenNested(
@@ -84,6 +78,19 @@ public class PlaytimeCommand {
                     .replace("playtime", formattedTime)
                     .sendMessage(admin);
         }
+    }
+
+    // /playtime check Branch
+
+    private static Argument<String> getCheckBranch() {
+        return new LiteralArgument("check")
+            .then(
+                OfflinePlayerArgument.createPlayedBefore("target")
+                    .executes((sender, arguments) -> {
+                        OfflinePlayer target = Objects.requireNonNull(arguments.getUnchecked("target"));
+                        sendPlaytime(sender, target);
+                    })
+            );
     }
 
 }
