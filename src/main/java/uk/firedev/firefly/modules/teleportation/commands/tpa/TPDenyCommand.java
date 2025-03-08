@@ -12,13 +12,10 @@ public class TPDenyCommand extends CommandAPICommand {
 
     private TPDenyCommand() {
         super("tpdeny");
-        withArguments(TPAHandler.getInstance().getTpaRequestsArgument());
-        setPermission(CommandPermission.fromString("firefly.command.tpdeny"));
         withShortDescription("Deny tpa requests.");
         withFullDescription("Deny tpa requests.");
         executesPlayer((player, arguments) -> {
-            String requester = (String) Objects.requireNonNull(arguments.get("request"));
-            TPAHandler.getInstance().denyRequest(player, requester);
+            TPAHandler.getInstance().denyRequest(player);
         });
     }
 

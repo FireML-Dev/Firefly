@@ -67,21 +67,17 @@ public class TeleportModule implements Module {
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
 
-        // Command Registering
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Location Commands");
+        SpawnCommand.getCommand().register(Firefly.getInstance());
+        SetSpawnCommand.getCommand().register(Firefly.getInstance());
+        SetFirstSpawnCommand.getCommand().register(Firefly.getInstance());
 
-        SpawnCommand.getInstance().register(Firefly.getInstance());
-        SetSpawnCommand.getInstance().register(Firefly.getInstance());
-        SetFirstSpawnCommand.getInstance().register(Firefly.getInstance());
-
-        BackCommand.getInstance().register(Firefly.getInstance());
-        DBackCommand.getInstance().register(Firefly.getInstance());
+        BackCommand.getCommand().register(Firefly.getInstance());
+        DBackCommand.getCommand().register(Firefly.getInstance());
 
         TPACommand.getInstance().register(Firefly.getInstance());
         TPAHereCommand.getInstance().register(Firefly.getInstance());
         TPDenyCommand.getInstance().register(Firefly.getInstance());
         TPAcceptCommand.getInstance().register(Firefly.getInstance());
-        // Command Registering
 
         populateLastLocationMap();
         loaded = true;
