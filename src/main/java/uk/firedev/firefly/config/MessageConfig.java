@@ -51,4 +51,24 @@ public class MessageConfig extends ConfigBase {
         return message;
     }
 
+    // Admin Mode Messages
+
+    public ComponentMessage getAdminModeEnabledMessage() {
+        ComponentMessage message = getComponentMessage("admin-mode.enabled", "{prefix}<#F0E68C>Enabled Admin Mode!");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getAdminModeDisabledMessage() {
+        ComponentMessage message = getComponentMessage("admin-mode.disabled", "{prefix}<#F0E68C>Disabled Admin Mode!");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getAdminModeNoPermissionMessage() {
+        ComponentMessage message = getComponentMessage("admin-mode.no-permission", "{prefix}<red>You are not permitted to enter Admin Mode!");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
 }

@@ -11,6 +11,7 @@ import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
+import uk.firedev.firefly.AdminMode;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
@@ -105,7 +106,7 @@ public class NicknameCommand {
 
     private static Argument<String> getSetOthersBranch() {
         return new LiteralArgument("setOther")
-            .withPermission(NicknameModule.COMMAND_PERMISSION_ADMIN)
+            .withRequirement(AdminMode::isAdminMode)
             .thenNested(
                 OfflinePlayerArgument.createPlayedBefore("target"),
                 new GreedyStringArgument("nickname")

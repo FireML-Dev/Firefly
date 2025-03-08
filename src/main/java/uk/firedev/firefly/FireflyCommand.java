@@ -6,12 +6,14 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
+import uk.firedev.daisylib.libs.commandapi.arguments.BooleanArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.ModuleManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FireflyCommand {
 
@@ -20,7 +22,8 @@ public class FireflyCommand {
             .withPermission("firefly.command.main")
             .withShortDescription("Manage the Plugin")
             .then(getReloadBranch())
-            .then(getModulesBranch());
+            .then(getModulesBranch())
+            .then(getAdminBranch());
     }
 
     private static Argument<String> getReloadBranch() {
@@ -36,6 +39,25 @@ public class FireflyCommand {
             .executes(info -> {
                 getModulesMessage().sendMessage(info.sender());
             });
+    }
+
+    private static Argument<String> getAdminBranch() {
+        return new LiteralArgument("admin")
+            .withPermission(AdminMode.PERMISSION)
+            .executesPlayer(info -> {
+                AdminMode.toggleAdminMode(info.sender());
+            })
+            .then(
+                new BooleanArgument("on/off")
+                    .executesPlayer((player, args) -> {
+                        boolean mode = Objects.requireNonNull(args.getUnchecked("on/off"));
+                        if (mode) {
+                            AdminMode.enableAdminMode(player);
+                        } else {
+                            AdminMode.disableAdminMode(player);
+                        }
+                    })
+            );
     }
 
     /**
