@@ -92,7 +92,6 @@ public class TeleportModule implements Module {
         if (!isLoaded()) {
             return;
         }
-        saveAllLastLocations();
         loaded = false;
     }
 
