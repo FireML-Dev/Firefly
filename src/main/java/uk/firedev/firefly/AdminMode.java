@@ -3,6 +3,7 @@ package uk.firedev.firefly;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.firefly.config.MessageConfig;
 
 import java.util.ArrayList;
@@ -40,7 +41,10 @@ public class AdminMode {
         MessageConfig.getInstance().getAdminModeDisabledMessage().sendMessage(admin);
     }
 
-    public static boolean isAdminMode(@NotNull CommandSender sender) {
+    public static boolean isAdminMode(@Nullable CommandSender sender) {
+        if (sender == null) {
+            return false;
+        }
         if (!(sender instanceof Player player)) {
             return sender.hasPermission(PERMISSION);
         }
