@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.reward.RewardType;
+import uk.firedev.daisylib.api.addons.reward.RewardAddon;
 import uk.firedev.firefly.Firefly;
 
-public class KitRewardType implements RewardType {
+public class KitRewardType extends RewardAddon {
 
     @Override
     public void doReward(@NotNull Player player, @NotNull String value) {
@@ -16,7 +16,7 @@ public class KitRewardType implements RewardType {
         try {
             kit = new Kit(value);
         } catch (InvalidConfigurationException exception) {
-            Loggers.info(getComponentLogger(), "Invalid kit specified for RewardType " + getIdentifier() + ": " + value);
+            Loggers.info(getClass(), "Invalid kit specified: " + value);
             return;
         }
         kit.giveToPlayer(player, null);
@@ -24,7 +24,7 @@ public class KitRewardType implements RewardType {
 
     @Override
     public @NotNull String getIdentifier() {
-        return "KIT";
+        return "Kit";
     }
 
     @Override
@@ -33,7 +33,7 @@ public class KitRewardType implements RewardType {
     }
 
     @Override
-    public @NotNull JavaPlugin getPlugin() {
+    public @NotNull JavaPlugin getOwningPlugin() {
         return Firefly.getInstance();
     }
 

@@ -9,11 +9,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
+import uk.firedev.daisylib.api.addons.reward.RewardAddon;
 import uk.firedev.daisylib.api.builders.ItemBuilder;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.command.CooldownHelper;
-import uk.firedev.daisylib.reward.Reward;
 import uk.firedev.firefly.Firefly;
 
 import java.time.Duration;
@@ -30,7 +30,7 @@ public class Kit {
     private final String name;
     private final boolean singleRandomReward;
     private final boolean permissionOpen;
-    private final List<Reward> rewards;
+    private final List<String> rewards;
     private final String permission;
     private final long guiCooldown;
     private final boolean playerVisible;
@@ -47,10 +47,7 @@ public class Kit {
         this.singleRandomReward = section.getBoolean("single-random-reward", false);
         this.permissionOpen = section.getBoolean("permission-open");
 
-        List<String> rewardsList = section.getStringList("contents");
-        this.rewards = rewardsList.stream()
-                .map(identifier -> new Reward(identifier, Firefly.getInstance()))
-                .toList();
+        this.rewards = section.getStringList("contents");
     }
 
     public Kit(@NotNull String name) throws InvalidConfigurationException {
@@ -67,7 +64,7 @@ public class Kit {
         return this.name;
     }
 
-    public @NotNull List<Reward> getRewards() {
+    public @NotNull List<String> getRewards() {
         return this.rewards;
     }
 
@@ -97,12 +94,13 @@ public class Kit {
     }
 
     public void processRewards(@NotNull Player player) {
-        List<Reward> rewardList = getRewards();
+        List<String> rewardList = getRewards();
         if (singleRandomReward()) {
             int index = random.nextInt(rewardList.size());
-            rewardList.get(index).rewardPlayer(player);
+            String random = rewardList.get(index);
+            RewardAddon.processString(random, player);
         } else {
-            rewardList.forEach(reward -> reward.rewardPlayer(player));
+            rewardList.forEach(reward -> RewardAddon.processString(reward, player));
         }
     }
 
