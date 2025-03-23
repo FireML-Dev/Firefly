@@ -22,8 +22,7 @@ public class FireflyCommand {
             .withPermission("firefly.command.main")
             .withShortDescription("Manage the Plugin")
             .then(getReloadBranch())
-            .then(getModulesBranch())
-            .then(getAdminBranch());
+            .then(getModulesBranch());
     }
 
     private static Argument<String> getReloadBranch() {
@@ -39,25 +38,6 @@ public class FireflyCommand {
             .executes(info -> {
                 getModulesMessage().sendMessage(info.sender());
             });
-    }
-
-    private static Argument<String> getAdminBranch() {
-        return new LiteralArgument("admin")
-            .withPermission(AdminMode.PERMISSION)
-            .executesPlayer(info -> {
-                AdminMode.toggleAdminMode(info.sender());
-            })
-            .then(
-                new BooleanArgument("on/off")
-                    .executesPlayer((player, args) -> {
-                        boolean mode = Objects.requireNonNull(args.getUnchecked("on/off"));
-                        if (mode) {
-                            AdminMode.enableAdminMode(player);
-                        } else {
-                            AdminMode.disableAdminMode(player);
-                        }
-                    })
-            );
     }
 
     /**

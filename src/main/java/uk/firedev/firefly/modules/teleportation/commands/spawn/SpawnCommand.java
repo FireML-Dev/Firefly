@@ -17,7 +17,7 @@ public class SpawnCommand {
             })
             .then(
                 uk.firedev.daisylib.command.arguments.PlayerArgument.create("target")
-                    .withPermission("firefly.command.spawn.others")
+                    .withPermission("firefly.command.spawn.other")
                     .executes(info -> {
                         Player target = Objects.requireNonNull(info.args().getUnchecked("target"));
                         TeleportModule.getInstance().sendToSpawn(false, target, info.sender(), true);

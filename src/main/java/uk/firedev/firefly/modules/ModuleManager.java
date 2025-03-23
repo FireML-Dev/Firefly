@@ -5,7 +5,6 @@ import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.command.CommandModule;
-import uk.firedev.firefly.modules.customalias.CustomAliasModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
@@ -27,7 +26,6 @@ public class ModuleManager {
         TitleModule.getInstance(),
         KitModule.getInstance(),
         NicknameModule.getInstance(),
-        CustomAliasModule.getInstance(),
         PlaytimeModule.getInstance(),
         TeleportModule.getInstance(),
         CommandModule.getInstance()

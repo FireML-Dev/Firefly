@@ -10,7 +10,6 @@ import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LongArgument;
-import uk.firedev.firefly.AdminMode;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 
@@ -52,7 +51,7 @@ public class PlaytimeCommand {
 
     private static Argument<String> getSetBranch() {
         return new LiteralArgument("set")
-                .withRequirement(AdminMode::isAdminMode)
+                .withPermission("firefly.command.playtime.set")
                 .thenNested(
                         OfflinePlayerArgument.createPlayedBefore("target"),
                         new LongArgument("playtime", 0)
