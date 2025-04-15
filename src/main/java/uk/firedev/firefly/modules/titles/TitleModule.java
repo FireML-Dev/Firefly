@@ -10,6 +10,7 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.titles.command.PrefixCommand;
@@ -99,6 +100,9 @@ public class TitleModule implements Module {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider -> {
             provider.addAudiencePlaceholder("player_prefix", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
@@ -110,6 +114,9 @@ public class TitleModule implements Module {
                 }
             });
             provider.addAudiencePlaceholder("player_suffix", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }

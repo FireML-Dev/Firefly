@@ -43,6 +43,12 @@ public class MessageConfig extends ConfigBase {
         return message;
     }
 
+    public ComponentMessage getFeatureDisabledMessage() {
+        ComponentMessage message = getComponentMessage("feature-disabled", "{prefix}<red>This feature is disabled.");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
     // MAIN COMMAND MESSAGES
 
     public ComponentMessage getMainCommandReloadedMessage() {

@@ -10,6 +10,7 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
@@ -91,12 +92,18 @@ public class PlaytimeModule implements Module {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider -> {
             provider.addAudiencePlaceholder("playtime", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
                 return Component.text(getTimeFormatted(player));
             });
             provider.addAudiencePlaceholder("playtime_raw", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }

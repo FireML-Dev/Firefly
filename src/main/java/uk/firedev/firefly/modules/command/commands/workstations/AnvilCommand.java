@@ -10,11 +10,12 @@ import uk.firedev.firefly.modules.command.Command;
 
 import java.util.Objects;
 
+@SuppressWarnings("UnstableApiUsage")
 public class AnvilCommand extends Command {
 
     private void open(@NotNull Player player) {
         player.openInventory(
-                MenuType.ANVIL.create(player, Component.empty())
+            MenuType.ANVIL.create(player, (Component) null)
         );
     }
 
@@ -26,20 +27,26 @@ public class AnvilCommand extends Command {
 
     @NotNull
     @Override
-    public CommandTree refreshCommand() {
+    public CommandTree loadCommand() {
         return new CommandTree(getName())
-                .withPermission(getPermission())
-                .withAliases(getAliases())
-                .executesPlayer(info -> {
-                    open(info.sender());
+            .withPermission(getPermission())
+            .withAliases(getAliases())
+            .executesPlayer(info -> {
+                if (disabledCheck(info.sender())) {
+                    return;
+                }
+                open(info.sender());
+            })
+            .then(new EntitySelectorArgument.OnePlayer("target")
+                .withPermission(getTargetPermission())
+                .executes(info -> {
+                    if (disabledCheck(info.sender())) {
+                        return;
+                    }
+                    Player player = (Player) Objects.requireNonNull(info.args().get("target"));
+                    open(player);
                 })
-                .then(new EntitySelectorArgument.OnePlayer("target")
-                        .withPermission(getTargetPermission())
-                        .executes((sender, arguments) -> {
-                            Player player = (Player) Objects.requireNonNull(arguments.get("target"));
-                            open(player);
-                        })
-                );
+            );
     }
 
 }

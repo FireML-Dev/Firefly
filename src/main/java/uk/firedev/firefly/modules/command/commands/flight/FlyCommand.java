@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
 import uk.firedev.firefly.placeholders.Placeholders;
@@ -35,8 +36,8 @@ public class FlyCommand extends Command {
         CommandConfig.getInstance().getFlightEnabledMessage().sendMessage(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlightEnabledSenderMessage()
-                    .replace("target", target.name())
-                    .sendMessage(sender);
+                .replace("target", target.name())
+                .sendMessage(sender);
         }
     }
 
@@ -44,8 +45,8 @@ public class FlyCommand extends Command {
         CommandConfig.getInstance().getFlightDisabledMessage().sendMessage(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlightDisabledSenderMessage()
-                    .replace("target", target.name())
-                    .sendMessage(sender);
+                .replace("target", target.name())
+                .sendMessage(sender);
         }
     }
 
@@ -53,6 +54,9 @@ public class FlyCommand extends Command {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("can_fly", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
@@ -62,23 +66,29 @@ public class FlyCommand extends Command {
 
     @NotNull
     @Override
-    public CommandTree refreshCommand() {
+    public CommandTree loadCommand() {
         return new CommandTree(getName())
-                .withPermission(getPermission())
-                .withAliases(getAliases())
-                .withShortDescription("Toggles flight")
-                .executesPlayer(info -> {
-                    toggleFlight(info.sender(), info.sender());
-                })
-                .then(
-                        new EntitySelectorArgument.OnePlayer("target")
-                                .withPermission(getTargetPermission())
-                                .executes((sender, arguments) -> {
-                                    // This should never be null.
-                                    Player player = (Player) Objects.requireNonNull(arguments.get("target"));
-                                    toggleFlight(sender, player);
-                                })
-                );
+            .withPermission(getPermission())
+            .withAliases(getAliases())
+            .withShortDescription("Toggles flight")
+            .executesPlayer(info -> {
+                if (disabledCheck(info.sender())) {
+                    return;
+                }
+                toggleFlight(info.sender(), info.sender());
+            })
+            .then(
+                new EntitySelectorArgument.OnePlayer("target")
+                    .withPermission(getTargetPermission())
+                    .executes(info -> {
+                        if (disabledCheck(info.sender())) {
+                            return;
+                        }
+                        // This should never be null.
+                        Player player = (Player) Objects.requireNonNull(info.args().get("target"));
+                        toggleFlight(info.sender(), player);
+                    })
+            );
     }
 
 }

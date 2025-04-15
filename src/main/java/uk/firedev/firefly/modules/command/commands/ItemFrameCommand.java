@@ -64,40 +64,49 @@ public class ItemFrameCommand extends Command {
 
     @NotNull
     @Override
-    public CommandTree refreshCommand() {
+    public CommandTree loadCommand() {
         return new CommandTree(getName())
-                .withAliases(getAliases())
-                .withPermission(getPermission())
-                .then(
-                        new LiteralArgument("invisible")
-                                .executesPlayer(info -> {
-                                    ItemFrame frame = getFrame(info.sender());
-                                    if (frame == null) {
-                                        return;
-                                    }
-                                    invisible(info.sender(), frame);
-                                })
-                )
-                .then(
-                        new LiteralArgument("fixed")
-                                .executesPlayer(info -> {
-                                    ItemFrame frame = getFrame(info.sender());
-                                    if (frame == null) {
-                                        return;
-                                    }
-                                    fixed(info.sender(), frame);
-                                })
-                )
-                .then(
-                        new LiteralArgument("invulnerable")
-                                .executesPlayer(info -> {
-                                    ItemFrame frame = getFrame(info.sender());
-                                    if (frame == null) {
-                                        return;
-                                    }
-                                    invulnerable(info.sender(), frame);
-                                })
-                );
+            .withAliases(getAliases())
+            .withPermission(getPermission())
+            .then(
+                new LiteralArgument("invisible")
+                    .executesPlayer(info -> {
+                        if (disabledCheck(info.sender())) {
+                            return;
+                        }
+                        ItemFrame frame = getFrame(info.sender());
+                        if (frame == null) {
+                            return;
+                        }
+                        invisible(info.sender(), frame);
+                    })
+            )
+            .then(
+                new LiteralArgument("fixed")
+                    .executesPlayer(info -> {
+                        if (disabledCheck(info.sender())) {
+                            return;
+                        }
+                        ItemFrame frame = getFrame(info.sender());
+                        if (frame == null) {
+                            return;
+                        }
+                        fixed(info.sender(), frame);
+                    })
+            )
+            .then(
+                new LiteralArgument("invulnerable")
+                    .executesPlayer(info -> {
+                        if (disabledCheck(info.sender())) {
+                            return;
+                        }
+                        ItemFrame frame = getFrame(info.sender());
+                        if (frame == null) {
+                            return;
+                        }
+                        invulnerable(info.sender(), frame);
+                    })
+            );
     }
 
 }

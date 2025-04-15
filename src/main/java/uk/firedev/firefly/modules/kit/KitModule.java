@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.kit.command.KitCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
@@ -82,6 +83,9 @@ public class KitModule implements Module {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudienceDynamicPlaceholder("kit_available", (audience, value) -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
