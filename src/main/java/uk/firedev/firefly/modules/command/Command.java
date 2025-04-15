@@ -1,23 +1,30 @@
 package uk.firedev.firefly.modules.command;
 
+import net.kyori.adventure.audience.Audience;
+import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
+import uk.firedev.daisylib.libs.commandapi.commandsenders.BukkitCommandSender;
+import uk.firedev.daisylib.libs.commandapi.executors.ExecutionInfo;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
-import uk.firedev.firefly.utils.CommandUtils;
+import uk.firedev.firefly.config.MessageConfig;
 
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 public abstract class Command implements SubModule {
 
     private boolean loaded;
-    private CommandTree command;
+    private final CommandTree command;
+
+    protected Command() {
+        this.command = loadCommand();
+    }
+
+    public abstract @NotNull CommandTree loadCommand();
 
     public @NotNull CommandTree getCommand() {
-        if (command == null) {
-            throw new RuntimeException("Command is not available! This should not be the case!");
-        }
         return command;
     }
 
@@ -31,7 +38,6 @@ public abstract class Command implements SubModule {
         if (isLoaded()) {
             return;
         }
-        command = refreshCommand();
         command.register(Firefly.getInstance());
         loaded = true;
     }
@@ -49,7 +55,13 @@ public abstract class Command implements SubModule {
         return CommandConfig.getInstance().getConfig().getStringList(getConfigName() + ".aliases").toArray(String[]::new);
     }
 
-    public abstract @NotNull CommandTree refreshCommand();
+    protected boolean disabledCheck(@NotNull Audience audience) {
+        if (!isLoaded()) {
+            MessageConfig.getInstance().getFeatureDisabledMessage().sendMessage(audience);
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void reload() {
@@ -64,10 +76,6 @@ public abstract class Command implements SubModule {
     public void unload() {
         if (!isLoaded()) {
             return;
-        }
-        if (command != null) {
-            CommandUtils.unregisterCommand(command.getName());
-            Arrays.stream(command.getAliases()).forEach(CommandUtils::unregisterCommand);
         }
         loaded = false;
     }

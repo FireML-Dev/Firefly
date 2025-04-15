@@ -12,6 +12,7 @@ import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.protection.ProtectionConfig;
 import uk.firedev.firefly.placeholders.Placeholders;
 
@@ -89,14 +90,13 @@ public class AmethystProtection implements SubModule {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("amethyst_protected", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
-                if (AmethystProtection.getInstance().isLoaded()) {
-                    return Component.text(!AmethystProtection.getInstance().isDisabled(player));
-                } else {
-                    return Component.text(false);
-                }
+                return Component.text(!isDisabled(player));
             }));
     }
 

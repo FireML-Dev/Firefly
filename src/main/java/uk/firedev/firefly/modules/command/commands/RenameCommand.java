@@ -30,10 +30,13 @@ public class RenameCommand extends Command {
 
     @NotNull
     @Override
-    public CommandTree refreshCommand() {
+    public CommandTree loadCommand() {
         Argument<String> greedy = new GreedyStringArgument("itemName")
             .includeSuggestions(ArgumentSuggestions.strings("remove"))
             .executesPlayer(info -> {
+                if (disabledCheck(info.sender())) {
+                    return;
+                }
                 Player player = info.sender();
                 Player target = Objects.requireNonNullElse(info.args().getUnchecked("target"), player);
                 String itemName = Objects.requireNonNull(info.args().getUnchecked("itemName"));

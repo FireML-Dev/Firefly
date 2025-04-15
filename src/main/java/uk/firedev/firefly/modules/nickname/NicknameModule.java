@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
@@ -83,6 +84,9 @@ public class NicknameModule implements Module {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("player_nickname", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
