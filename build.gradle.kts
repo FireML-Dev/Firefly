@@ -27,7 +27,7 @@ dependencies {
 }
 
 group = "uk.firedev"
-version = "1.2.0-SNAPSHOT"
+version = "1.3.0-SNAPSHOT"
 description = "A collection of helpful server features."
 java.sourceCompatibility = JavaVersion.VERSION_21
 
@@ -35,7 +35,7 @@ paper {
     name = project.name
     version = project.version.toString()
     main = "uk.firedev.firefly.Firefly"
-    apiVersion = "1.21.4"
+    apiVersion = "1.21.5"
     author = "FireML"
     description = project.description.toString()
 
