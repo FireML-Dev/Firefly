@@ -35,28 +35,34 @@ public class HealCommand extends Command {
         CommandConfig.getInstance().getHealedMessage().sendMessage(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getHealedSenderMessage()
-                    .replace("target", target.name())
-                    .sendMessage(sender);
+                .replace("target", target.name())
+                .sendMessage(sender);
         }
     }
 
     @NotNull
     @Override
-    public CommandTree refreshCommand() {
+    public CommandTree loadCommand() {
         return new CommandTree(getName())
-                .withAliases(getAliases())
-                .withPermission(getPermission())
-                .executesPlayer(info -> {
-                    heal(info.sender(), info.sender());
-                })
-                .then(
-                        new EntitySelectorArgument.OnePlayer("target")
-                                .withPermission(getTargetPermission())
-                                .executes((sender, arguments) -> {
-                                    Player player = Objects.requireNonNull(arguments.getUnchecked("target"));
-                                    heal(sender, player);
-                                })
-                );
+            .withAliases(getAliases())
+            .withPermission(getPermission())
+            .executesPlayer(info -> {
+                if (disabledCheck(info.sender())) {
+                    return;
+                }
+                heal(info.sender(), info.sender());
+            })
+            .then(
+                new EntitySelectorArgument.OnePlayer("target")
+                    .withPermission(getTargetPermission())
+                    .executes(info -> {
+                        if (disabledCheck(info.sender())) {
+                            return;
+                        }
+                        Player player = Objects.requireNonNull(info.args().getUnchecked("target"));
+                        heal(info.sender(), player);
+                    })
+            );
     }
 
 }

@@ -93,6 +93,9 @@ public class ElevatorModule implements Module {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("elevator_level", audience -> {
+                if (!isLoaded()) {
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }

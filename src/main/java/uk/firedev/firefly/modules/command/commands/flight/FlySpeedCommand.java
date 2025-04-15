@@ -21,13 +21,13 @@ public class FlySpeedCommand extends Command {
 
     private void sendSetMessage(@NotNull CommandSender sender, @NotNull Player target, int speed) {
         CommandConfig.getInstance().getFlySpeedSetMessage()
-                .replace("speed", String.valueOf(speed))
-                .sendMessage(target);
+            .replace("speed", String.valueOf(speed))
+            .sendMessage(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlySpeedSetSenderMessage()
-                    .replace("speed", String.valueOf(speed))
-                    .replace("target", target.name())
-                    .sendMessage(sender);
+                .replace("speed", String.valueOf(speed))
+                .replace("target", target.name())
+                .sendMessage(sender);
         }
     }
 
@@ -39,29 +39,35 @@ public class FlySpeedCommand extends Command {
 
     @NotNull
     @Override
-    public CommandTree refreshCommand() {
+    public CommandTree loadCommand() {
         return new CommandTree(getName())
-                .withPermission(getPermission())
-                .withAliases(getAliases())
-                .withShortDescription("Adjusts the speed of flight")
-                .then(
-                        new IntegerArgument("speed", 1, 10)
-                                .executesPlayer((player, arguments) -> {
-                                    int speed = (int) Objects.requireNonNull(arguments.get("speed"));
-                                    setSpeed(player, player, speed);
-                                })
-                                .then(new EntitySelectorArgument.OnePlayer("target")
-                                        .withPermission(getTargetPermission())
-                                        .executes((sender, arguments) -> {
-                                            Player player = (Player) arguments.get("target");
-                                            if (player == null) {
-                                                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(sender);
-                                                return;
-                                            }
-                                            int speed = (int) Objects.requireNonNull(arguments.get("speed"));
-                                            setSpeed(sender, player, speed);
-                                        }))
-                );
+            .withPermission(getPermission())
+            .withAliases(getAliases())
+            .withShortDescription("Adjusts the speed of flight")
+            .then(
+                new IntegerArgument("speed", 1, 10)
+                    .executesPlayer(info -> {
+                        if (disabledCheck(info.sender())) {
+                            return;
+                        }
+                        int speed = (int) Objects.requireNonNull(info.args().get("speed"));
+                        setSpeed(info.sender(), info.sender(), speed);
+                    })
+                    .then(new EntitySelectorArgument.OnePlayer("target")
+                        .withPermission(getTargetPermission())
+                        .executes(info -> {
+                            if (disabledCheck(info.sender())) {
+                                return;
+                            }
+                            Player player = (Player) info.args().get("target");
+                            if (player == null) {
+                                MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(info.sender());
+                                return;
+                            }
+                            int speed = (int) Objects.requireNonNull(info.args().get("speed"));
+                            setSpeed(info.sender(), player, speed);
+                        }))
+            );
     }
 
 }
