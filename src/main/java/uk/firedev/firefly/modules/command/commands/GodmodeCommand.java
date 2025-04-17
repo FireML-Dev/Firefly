@@ -93,6 +93,9 @@ public class GodmodeCommand extends Command {
 
     @EventHandler
     public void onHungerLoss(FoodLevelChangeEvent event) {
+        if (!event.getEntity().isInvulnerable()) {
+            return;
+        }
         if (CommandConfig.getInstance().getGodmodePreventHunger()) {
             event.setCancelled(true);
         }
