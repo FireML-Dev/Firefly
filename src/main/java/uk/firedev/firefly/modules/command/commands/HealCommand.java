@@ -28,6 +28,7 @@ public class HealCommand extends Command {
         }
         target.heal(maxHealth);
         target.setFoodLevel(20);
+        target.setSaturation(20);
         sendHealedMessage(sender, target);
     }
 
