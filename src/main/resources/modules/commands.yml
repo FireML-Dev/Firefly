@@ -5,10 +5,10 @@ example:
   # Enable this command? (true/false)
   enabled: false
   # The command's name. (Optional)
-  name: "mycommand"
+  name: mycommand
   # Additional names (aliases) for the command. (Optional)
   aliases:
-    - "definitelymycommand"
+    - definitelymycommand
   # Set a custom permission for this command. Defaults to `firefly.command.[name]` if not specified.
   permission: firefly.exampleperm
   # Permission for targeting other players with this command. Defaults to `firefly.command.[name].other` if not specified.
@@ -50,6 +50,8 @@ ride:
 # The /workbench command - Opens a workbench
 workbench:
   enabled: true
+  aliases:
+    - craft
 
 # The /anvil command - Opens an anvil
 anvil:
@@ -78,6 +80,10 @@ itemframe:
 # The /godmode command - Makes you invulnerable to all damage
 godmode:
   enabled: true
+  aliases:
+    - god
+  # Should god mode also prevent hunger?
+  prevent-hunger: true
   messages:
     enabled: "{prefix}<#F0E68C>Godmode is now enabled."
     enabled-sender: "{prefix}<#F0E68C>Godmode is now enabled for {target}."
@@ -100,4 +106,4 @@ rename:
     renamed-sender: "{prefix}<#F0E68C>Renamed {target}'s item to {newName}"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 5
+config-version: 6

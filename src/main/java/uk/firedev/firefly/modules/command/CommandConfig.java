@@ -169,6 +169,10 @@ public class CommandConfig extends ConfigBase {
         return message;
     }
 
+    public boolean getGodmodePreventHunger() {
+        return getConfig().getBoolean("godmode.prevent-hunger", true);
+    }
+
     // Heal Messages
 
     public ComponentMessage getHealedMessage() {

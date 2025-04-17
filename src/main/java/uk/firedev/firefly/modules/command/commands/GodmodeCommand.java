@@ -3,6 +3,9 @@ package uk.firedev.firefly.modules.command.commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
@@ -86,6 +89,13 @@ public class GodmodeCommand extends Command {
                         toggleGodmode(info.sender(), player);
                     })
             );
+    }
+
+    @EventHandler
+    public void onHungerLoss(FoodLevelChangeEvent event) {
+        if (CommandConfig.getInstance().getGodmodePreventHunger()) {
+            event.setCancelled(true);
+        }
     }
 
 }
