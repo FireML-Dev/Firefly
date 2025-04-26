@@ -3,6 +3,14 @@ player-not-found: "<red>Player not found."
 error-occurred: "<red>An error has occurred. Please try again."
 feature-disabled: "{prefix}<red>This feature is disabled."
 
+teleport-warmup:
+  complete: "{prefix}<#F0E68C>Successfully teleported!"
+  warmup: "{prefix}<#F0E68C>Teleporting in {time} seconds."
+  cancelled: "{prefix}<red>Teleportation cancelled."
+  already-teleporting: "{prefix}<red>You are already teleporting somewhere!"
+  # Choose whether these messages are shown in the action bar or chat
+  actionbar: true
+
 admin-mode:
   enabled: "{prefix}<#F0E68C>Enabled Admin Mode!"
   disabled: "{prefix}<#F0E68C>Disabled Admin Mode!"
@@ -15,4 +23,4 @@ main-command:
     command: "{prefix}<aqua>{command} <color:#F0E68C>- {description}"
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 4
+config-version: 5

@@ -25,7 +25,7 @@ public class MessageConfig extends ConfigBase {
         return ComponentReplacer.create("prefix", getPrefix().getMessage());
     }
 
-    // GENERAL MESSAGES
+    // General Messages
 
     public ComponentMessage getPrefix() {
         return ComponentMessage.fromConfig(getConfig(), "prefix", "<gray>[Firefly]</gray> ");
@@ -49,10 +49,40 @@ public class MessageConfig extends ConfigBase {
         return message;
     }
 
-    // MAIN COMMAND MESSAGES
+    // Main Command Messages
 
     public ComponentMessage getMainCommandReloadedMessage() {
         ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "main-command.reloaded", "<color:#F0E68C>Successfully reloaded the plugin");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
+    // Teleport Warmup Messages
+
+    public boolean isTeleportWarmupActionBar() {
+        return getConfig().getBoolean("teleport-warmup.actionbar", true);
+    }
+
+    public ComponentMessage getTeleportWarmupCompleteMessage() {
+        ComponentMessage message = getComponentMessage("teleport-warmup.complete", "{prefix}<#F0E68C>Successfully teleported!");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getTeleportWarmupMessage() {
+        ComponentMessage message = getComponentMessage("teleport-warmup.warmup", "{prefix}<#F0E68C>Teleporting in {time} seconds.");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getTeleportWarmupCancelledMessage() {
+        ComponentMessage message = getComponentMessage("teleport-warmup.cancelled", "{prefix}<red>Teleportation cancelled.");
+        message = message.applyReplacer(getPrefixReplacer());
+        return message;
+    }
+
+    public ComponentMessage getTeleportWarmupAlreadyTeleportingMessage() {
+        ComponentMessage message = getComponentMessage("teleport-warmup.already-teleporting", "{prefix}<red>You are already teleporting somewhere!");
         message = message.applyReplacer(getPrefixReplacer());
         return message;
     }
