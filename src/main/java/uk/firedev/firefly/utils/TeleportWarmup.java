@@ -41,7 +41,7 @@ public class TeleportWarmup {
             initial.setPitch(0);
             this.initialLocation = initial;
 
-            if (player.hasPermission("firefly.teleport.warmupbypass")) {
+            if (this.duration <= 0 || player.hasPermission("firefly.teleport.warmupbypass")) {
                 successfulTeleport();
             }
         }
