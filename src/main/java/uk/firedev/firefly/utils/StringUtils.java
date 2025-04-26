@@ -33,10 +33,10 @@ public class StringUtils {
      * @return A Component built from the String
      */
     public static Component getColorOnlyComponent(@NotNull String string) {
-        if (string.contains("<") && string.contains(">")) {
-            return miniMessage.deserialize(string);
+        if (miniMessage.stripTags(string).equals(string)) {
+            return legacyComponentSerializer.deserialize(string);
         }
-        return legacyComponentSerializer.deserialize(string);
+        return miniMessage.deserialize(string);
     }
 
     public static MiniMessage getColorOnlyMiniMessage() {
