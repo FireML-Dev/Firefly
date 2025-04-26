@@ -109,6 +109,10 @@ public class TeleportConfig extends ConfigBase {
         return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
     }
 
+    public int getSpawnWarmupSeconds() {
+        return getConfig().getInt("spawn.warmup", 0);
+    }
+
     // TPA related things
 
     public int getTpaRequestExpiry() {
@@ -230,6 +234,10 @@ public class TeleportConfig extends ConfigBase {
         return message.toComponentMessage();
     }
 
+    public int getTPAWarmupSeconds() {
+        return getConfig().getInt("tpa.warmup", 0);
+    }
+
     // /back related things
 
     public boolean shouldBackSaveDeath() {
@@ -270,6 +278,10 @@ public class TeleportConfig extends ConfigBase {
                 "<color:#F0E68C>You have teleported {target} to their last death location."
         );
         return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+    }
+
+    public int getBackWarmupSeconds() {
+        return getConfig().getInt("back.warmup", 0);
     }
 
 }

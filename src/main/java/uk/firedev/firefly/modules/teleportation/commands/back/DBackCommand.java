@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
+import uk.firedev.firefly.utils.TeleportWarmup;
 
 import java.util.Objects;
 
@@ -34,17 +35,15 @@ public class DBackCommand {
             TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
             return;
         }
-        target.teleportAsync(lastDeath).thenAccept(success -> {
-            if (success) {
-                TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(target);
-                if (target != sender) {
-                    ComponentReplacer replacer = ComponentReplacer.create("target", target.getName());
-                    TeleportConfig.getInstance().getDBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(sender);
-                }
-            } else {
-                TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
-            }
-        });
+        TeleportWarmup.teleportPlayer(
+            target,
+            lastDeath,
+            TeleportConfig.getInstance().getBackWarmupSeconds()
+        );
+        // TODO this needs to be part of TeleportWarmup when ready
+        TeleportConfig.getInstance().getDBackTeleportedSenderMessage()
+            .replace("target", target.getName())
+            .sendMessage(sender);
     }
     
 }

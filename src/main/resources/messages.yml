@@ -11,11 +11,6 @@ teleport-warmup:
   # Choose whether these messages are shown in the action bar or chat
   actionbar: true
 
-admin-mode:
-  enabled: "{prefix}<#F0E68C>Enabled Admin Mode!"
-  disabled: "{prefix}<#F0E68C>Disabled Admin Mode!"
-  no-permission: "{prefix}<red>You are not permitted to enter Admin Mode!"
-
 main-command:
   reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
   usage:

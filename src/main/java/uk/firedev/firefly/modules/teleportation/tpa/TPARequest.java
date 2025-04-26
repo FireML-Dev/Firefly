@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
+import uk.firedev.firefly.utils.TeleportWarmup;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,11 +64,11 @@ public class TPARequest {
         }
         TeleportConfig.getInstance().getTpaRequestAcceptedTargetMessage().sendMessage(teleportTarget);
         TeleportConfig.getInstance().getTpaRequestAcceptedTeleporterMessage().sendMessage(teleportingPlayer);
-        teleportingPlayer.teleportAsync(teleportTarget.getLocation()).thenAccept(success -> {
-            if (!success) {
-                MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(teleportingPlayer);
-            }
-        });
+        TeleportWarmup.teleportPlayer(
+            teleportingPlayer,
+            teleportTarget.getLocation(),
+            TeleportConfig.getInstance().getTPAWarmupSeconds()
+        );
     }
 
     public void deny() {

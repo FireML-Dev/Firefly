@@ -9,6 +9,7 @@ import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
+import uk.firedev.firefly.utils.TeleportWarmup;
 
 import java.util.Objects;
 
@@ -36,17 +37,15 @@ public class BackCommand {
             TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
             return;
         }
-        target.teleportAsync(location).thenAccept(success -> {
-            if (success) {
-                TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(target);
-                if (target != sender) {
-                    ComponentReplacer replacer = ComponentReplacer.create("target", target.getName());
-                    TeleportConfig.getInstance().getBackTeleportedSenderMessage().applyReplacer(replacer).sendMessage(sender);
-                }
-            } else {
-                TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
-            }
-        });
+        TeleportWarmup.teleportPlayer(
+            target,
+            location,
+            TeleportConfig.getInstance().getBackWarmupSeconds()
+        );
+        // TODO this needs to be part of TeleportWarmup when ready
+        TeleportConfig.getInstance().getBackTeleportedSenderMessage()
+            .replace("target", target.getName())
+            .sendMessage(sender);
     }
 
 }

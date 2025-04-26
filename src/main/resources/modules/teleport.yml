@@ -1,14 +1,21 @@
+# These settings also apply to /dback
 back:
   # Should your last location be set to your death location when you respawn?
   save-death: true
+  # How long should a player wait to teleport? (In seconds)
+  warmup: 3
 
 tpa:
   # How long until a request should expire? (In seconds)
   request-expiry: 15
+  # How long should a player wait to teleport? (In seconds)
+  warmup: 3
 
 spawn:
   # Should players be sent to spawn every time they log in?
   spawn-on-join: false
+  # How long should a player wait to teleport? (In seconds)
+  warmup: 3
   # Specify the locations for first spawn and /spawn
   # These can be done in-game with /setfirstspawn and /setspawn
   spawn-location:
@@ -65,4 +72,4 @@ messages:
       teleported-back-sender: "<color:#F0E68C>You have teleported {target} to their last death location."
 
 ## DO NOT TOUCH THIS VALUE!!!
-config-version: 1
+config-version: 2

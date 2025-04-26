@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+// TODO allow configurable messages
 public class TeleportWarmup {
 
     private static final List<UUID> teleportingPlayers = new ArrayList<>();

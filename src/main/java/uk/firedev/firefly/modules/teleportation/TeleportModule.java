@@ -22,6 +22,7 @@ import uk.firedev.firefly.modules.teleportation.commands.tpa.TPACommand;
 import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAHereCommand;
 import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAcceptCommand;
 import uk.firedev.firefly.modules.teleportation.commands.tpa.TPDenyCommand;
+import uk.firedev.firefly.utils.TeleportWarmup;
 
 import java.util.Map;
 import java.util.UUID;
@@ -125,16 +126,14 @@ public class TeleportModule implements Module {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), invalid);
             return false;
         }
-        player.teleportAsync(location).thenAccept(success -> {
-            if (!sendMessage) {
-                return;
-            }
-            if (success) {
-                TeleportConfig.getInstance().getSpawnTeleportedToSpawnMessage().sendMessage(player);
-            } else {
-                MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
-            }
-        });
+        int warmup = firstSpawn ? 0 : TeleportConfig.getInstance().getSpawnWarmupSeconds();
+        TeleportWarmup.teleportPlayer(
+            player,
+            location,
+            warmup
+        );
+        // TODO this needs to be part of TeleportWarmup when ready
+        TeleportConfig.getInstance().getSpawnTeleportedToSpawnMessage().sendMessage(player);
         return true;
     }
 
