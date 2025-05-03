@@ -116,11 +116,7 @@ public class TeleportWarmup {
         }
 
         private void sendMessage(@NotNull ComponentMessage message) {
-            if (MessageConfig.getInstance().isTeleportWarmupActionBar()) {
-                message.sendActionBar(player);
-            } else {
-                message.sendMessage(player);
-            }
+            message.sendMessage(player);
         }
 
     }

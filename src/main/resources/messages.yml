@@ -4,12 +4,18 @@ error-occurred: "<red>An error has occurred. Please try again."
 feature-disabled: "{prefix}<red>This feature is disabled."
 
 teleport-warmup:
-  complete: "{prefix}<#F0E68C>Successfully teleported!"
-  warmup: "{prefix}<#F0E68C>Teleporting in {time} seconds."
-  cancelled: "{prefix}<red>Teleportation cancelled."
-  already-teleporting: "{prefix}<red>You are already teleporting somewhere!"
-  # Choose whether these messages are shown in the action bar or chat
-  actionbar: true
+  complete:
+    type: action_bar
+    message: "{prefix}<#F0E68C>Successfully teleported!"
+  warmup:
+    type: action_bar
+    message: "{prefix}<#F0E68C>Teleporting in {time} seconds."
+  cancelled:
+    type: action_bar
+    message: "{prefix}<red>Teleportation cancelled."
+  already-teleporting:
+    type: action_bar
+    message: "{prefix}<red>You are already teleporting somewhere!"
 
 main-command:
   reloaded: "{prefix}<color:#F0E68C>Successfully reloaded the plugin"
