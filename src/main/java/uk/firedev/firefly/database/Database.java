@@ -73,6 +73,7 @@ public class Database extends SQLiteDatabase {
                     fireflyModule.load(data, set);
                 }
             }
+            set.close();
             playerDataCache.put(uuid, data);
             Loggers.info(Firefly.getInstance().getComponentLogger(), "Loaded PlayerData for " + uuid);
         } catch (SQLException exception) {
