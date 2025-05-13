@@ -7,6 +7,7 @@ import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.command.CommandModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
+import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 import uk.firedev.firefly.modules.protection.ProtectionModule;
@@ -28,7 +29,8 @@ public class ModuleManager {
         NicknameModule.getInstance(),
         PlaytimeModule.getInstance(),
         TeleportModule.getInstance(),
-        CommandModule.getInstance()
+        CommandModule.getInstance(),
+        MessagingModule.getInstance()
     );
 
     private ModuleManager() {}

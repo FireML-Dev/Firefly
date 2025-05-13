@@ -1,0 +1,15 @@
+message-command:
+  name: "message"
+  aliases:
+    - "msg"
+
+reply-command:
+  name: "reply"
+  aliases:
+    - "r"
+
+messages:
+  format: "<gray>[<white>{sender}</white> -> <white>{receiver}</white>]</gray> <white>{message}</white>"
+  cannot-reply: "<red>There is nobody to reply to!</red>"
+
+config-version: 1

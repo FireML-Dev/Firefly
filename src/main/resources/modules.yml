@@ -16,6 +16,8 @@ aliases: true
 playtime: true
 # Teleport-related commands (/spawn, /tpa, etc)
 teleportation: true
+# Message-related commands (/msg, /r, etc)
+messaging: true
 
 # DO NOT TOUCH THIS VALUE!!!
-config-version: 5
+config-version: 6
