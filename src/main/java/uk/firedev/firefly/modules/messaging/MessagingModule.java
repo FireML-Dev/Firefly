@@ -2,6 +2,8 @@ package uk.firedev.firefly.modules.messaging;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.firefly.Firefly;
@@ -88,6 +90,11 @@ public class MessagingModule implements Module {
             return null;
         }
         return player;
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent event) {
+        lastMessages.remove(event.getPlayer().getUniqueId());
     }
 
 }
