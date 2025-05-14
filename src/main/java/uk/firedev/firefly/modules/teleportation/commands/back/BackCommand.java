@@ -43,9 +43,13 @@ public class BackCommand {
             TeleportConfig.getInstance().getBackWarmupSeconds()
         );
         // TODO this needs to be part of TeleportWarmup when ready
-        TeleportConfig.getInstance().getBackTeleportedSenderMessage()
-            .replace("target", target.getName())
-            .sendMessage(sender);
+        if (sender instanceof Player player && player.equals(target)) {
+            TeleportConfig.getInstance().getBackTeleportedMessage().sendMessage(sender);
+        } else {
+            TeleportConfig.getInstance().getBackTeleportedSenderMessage()
+                .replace("target", target.getName())
+                .sendMessage(sender);
+        }
     }
 
 }

@@ -41,9 +41,13 @@ public class DBackCommand {
             TeleportConfig.getInstance().getBackWarmupSeconds()
         );
         // TODO this needs to be part of TeleportWarmup when ready
-        TeleportConfig.getInstance().getDBackTeleportedSenderMessage()
-            .replace("target", target.getName())
-            .sendMessage(sender);
+        if (sender instanceof Player player && player.equals(target)) {
+            TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(sender);
+        } else {
+            TeleportConfig.getInstance().getDBackTeleportedSenderMessage()
+                .replace("target", target.getName())
+                .sendMessage(sender);
+        }
     }
     
 }
