@@ -41,7 +41,7 @@ paper {
 
     serverDependencies {
         register("Vault") {
-            required = true
+            required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
         register("DaisyLib") {
