@@ -11,6 +11,7 @@ item:
   lore:
     - "<color:#F0E68C>Place multiple of these in a vertical</color>"
     - "<color:#F0E68C>line to teleport between them.</color>"
+  glowing: true
   recipe:
     - air
     - iron_block
