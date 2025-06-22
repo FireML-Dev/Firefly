@@ -87,6 +87,7 @@ public class ElevatorListener implements Listener {
         if (!elevator.isElevator()) {
             return;
         }
+        event.setDropItems(false);
         event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), ElevatorModule.getInstance().getElevatorBlock());
         elevator.setElevator(false);
     }
