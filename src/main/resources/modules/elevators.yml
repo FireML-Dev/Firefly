@@ -13,13 +13,13 @@ item:
     - "<color:#F0E68C>line to teleport between them.</color>"
   recipe:
     - air
-    - bone_block
+    - iron_block
     - air
-    - bone_block
+    - iron_block
     - ender_pearl
-    - bone_block
+    - iron_block
     - air
-    - bone_block
+    - iron_block
     - air
 
 messages:
