@@ -19,15 +19,13 @@ repositories {
 dependencies {
     compileOnly(libs.paper.api)
     compileOnly(libs.daisylib)
-    compileOnly(libs.vault) {
-        exclude("*", "*")
-    }
+    compileOnly(libs.vault)
     compileOnly(libs.placeholderapi)
     compileOnly(libs.miniplaceholders)
 }
 
 group = "uk.firedev"
-version = "1.3.0-SNAPSHOT"
+version = "1.4.0-SNAPSHOT"
 description = "A collection of helpful server features."
 java.sourceCompatibility = JavaVersion.VERSION_21
 
@@ -35,7 +33,7 @@ paper {
     name = project.name
     version = project.version.toString()
     main = "uk.firedev.firefly.Firefly"
-    apiVersion = "1.21.5"
+    apiVersion = "1.21.6"
     author = "FireML"
     description = project.description.toString()
 
