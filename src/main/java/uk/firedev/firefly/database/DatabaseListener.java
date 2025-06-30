@@ -1,16 +1,22 @@
 package uk.firedev.firefly.database;
 
+import io.papermc.paper.event.connection.configuration.PlayerConnectionInitialConfigureEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import uk.firedev.firefly.Firefly;
 
+import java.util.UUID;
+
+@SuppressWarnings("UnstableApiUsage")
 public class DatabaseListener implements Listener {
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event) {
-        // Cache this player's data
-        Firefly.getInstance().getDatabase().loadPlayerData(event.getPlayer().getUniqueId());
+    public void onLogin(PlayerConnectionInitialConfigureEvent event) {
+        UUID uuid = event.getConnection().getProfile().getId();
+        if (uuid == null) {
+            return; // This should never happen.
+        }
+        Firefly.getInstance().getDatabase().loadPlayerData(uuid);
     }
 
 }
