@@ -9,10 +9,6 @@ example:
   # Additional names (aliases) for the command. (Optional)
   aliases:
     - definitelymycommand
-  # Set a custom permission for this command. Defaults to `firefly.command.[name]` if not specified.
-  permission: firefly.exampleperm
-  # Permission for targeting other players with this command. Defaults to `firefly.command.[name].other` if not specified.
-  permission-target: firefly.exampleperm.target
   # Custom messages for this command. See each command for their specific messages.
   messages: []
 
