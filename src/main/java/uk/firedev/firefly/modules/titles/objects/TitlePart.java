@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.api.utils.ItemUtils;
@@ -20,8 +21,8 @@ public interface TitlePart {
     boolean isSuffix();
 
     default ItemStack generateIcon() {
-        Material material = ItemUtils.getMaterial(getSection().getString("icon.material"), Material.NAME_TAG);
-        ItemStack item = ItemStack.of(material);
+        ItemType itemType = ItemUtils.getItemType(getSection().getString("icon.material"), ItemType.NAME_TAG);
+        ItemStack item = itemType.createItemStack();
         item.editMeta(meta -> {
             Component display = getDisplay().getMessage();
             String displayString = getSection().getString("icon.display");

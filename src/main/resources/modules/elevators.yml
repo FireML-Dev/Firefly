@@ -13,15 +13,15 @@ item:
     - "<color:#F0E68C>line to teleport between them.</color>"
   glowing: true
   recipe:
-    - air
-    - iron_block
-    - air
-    - iron_block
-    - ender_pearl
-    - iron_block
-    - air
-    - iron_block
-    - air
+    type: shaped
+    shape:
+      - aia
+      - iei
+      - aia
+    ingredients:
+      a: air
+      i: iron_block
+      e: ender_pearl
 
 messages:
   command:

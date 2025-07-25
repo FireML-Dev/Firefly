@@ -15,7 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.api.Loggers;
 import uk.firedev.daisylib.api.builders.ItemBuilder;
-import uk.firedev.daisylib.api.crafting.ShapedRecipe;
+import uk.firedev.daisylib.api.recipe.AbstractRecipe;
+import uk.firedev.daisylib.api.recipe.RecipeUtil;
+import uk.firedev.daisylib.api.recipe.ShapedRecipe;
 import uk.firedev.daisylib.api.utils.ItemUtils;
 import uk.firedev.daisylib.api.utils.PlayerHelper;
 import uk.firedev.firefly.Firefly;
@@ -154,16 +156,18 @@ public class ElevatorModule implements Module {
     }
     
     private void registerRecipe() {
-        List<ItemStack> stackList = new ArrayList<>();
-        ElevatorConfig.getInstance().getConfig().getStringList("item.recipe").forEach(itemName ->
-                stackList.add(ItemStack.of(ItemUtils.getMaterial(itemName, Material.AIR)))
-        );
-        ShapedRecipe recipe = new ShapedRecipe(Firefly.getInstance(), getItemKey(), getElevatorBlock(), stackList);
-        if (recipe.register(true)) {
-            Loggers.info(Firefly.getInstance().getComponentLogger(), "Registered Elevator Recipe");
-        } else {
-            Loggers.warn(Firefly.getInstance().getComponentLogger(), "Elevator Recipe failed to register.");
+        ConfigurationSection section = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item.recipe");
+        if (section == null) {
+            Loggers.info(Firefly.getInstance().getComponentLogger(), "Elevator recipe not configured.");
+            return;
         }
+        AbstractRecipe<?> recipe = RecipeUtil.getRecipe(section, getItemKey(), getElevatorBlock());
+        if (recipe == null) {
+            Loggers.info(Firefly.getInstance().getComponentLogger(), "Elevator recipe invalid.");
+            return;
+        }
+        recipe.register();
+        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registered Elevator Recipe");
     }
 
 }
