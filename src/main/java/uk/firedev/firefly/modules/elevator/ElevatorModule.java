@@ -36,6 +36,7 @@ public class ElevatorModule implements Module {
     private static ElevatorModule instance;
     private final Firefly plugin;
     private boolean loaded = false;
+    private AbstractRecipe<?> recipe = null;
 
     private ElevatorModule() {
         plugin = Firefly.getInstance();
@@ -78,6 +79,7 @@ public class ElevatorModule implements Module {
             return;
         }
         ElevatorConfig.getInstance().reload();
+        registerRecipe();
     }
 
     @Override
@@ -156,6 +158,9 @@ public class ElevatorModule implements Module {
     }
     
     private void registerRecipe() {
+        if (this.recipe != null) {
+            this.recipe.unregister();
+        }
         ConfigurationSection section = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item.recipe");
         if (section == null) {
             Loggers.info(Firefly.getInstance().getComponentLogger(), "Elevator recipe not configured.");
@@ -167,6 +172,7 @@ public class ElevatorModule implements Module {
             return;
         }
         recipe.register();
+        this.recipe = recipe;
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registered Elevator Recipe");
     }
 
