@@ -36,7 +36,7 @@ public class FlyCommand extends Command {
         CommandConfig.getInstance().getFlightEnabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlightEnabledSenderMessage()
-                .replace("target", target.name())
+                .replace("{target}", target.name())
                 .send(sender);
         }
     }
@@ -45,7 +45,7 @@ public class FlyCommand extends Command {
         CommandConfig.getInstance().getFlightDisabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlightDisabledSenderMessage()
-                .replace("target", target.name())
+                .replace("{target}", target.name())
                 .send(sender);
         }
     }

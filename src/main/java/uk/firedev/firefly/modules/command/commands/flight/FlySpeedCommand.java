@@ -23,12 +23,12 @@ public class FlySpeedCommand extends Command {
 
     private void sendSetMessage(@NotNull CommandSender sender, @NotNull Player target, float speed) {
         CommandConfig.getInstance().getFlySpeedSetMessage()
-            .replace("speed", String.valueOf(speed))
+            .replace("{speed}", String.valueOf(speed))
             .send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlySpeedSetSenderMessage()
-                .replace("speed", String.valueOf(speed))
-                .replace("target", target.name())
+                .replace("{speed}", String.valueOf(speed))
+                .replace("{target}", target.name())
                 .send(sender);
         }
     }

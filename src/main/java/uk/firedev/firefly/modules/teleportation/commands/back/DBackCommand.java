@@ -40,7 +40,7 @@ public class DBackCommand {
                     return TeleportConfig.getInstance().getDBackTeleportedMessage();
                 } else {
                     return TeleportConfig.getInstance().getDBackTeleportedSenderMessage()
-                        .replace("target", target.getName());
+                        .replace("{target}", target.getName());
                 }
             })
             .start();

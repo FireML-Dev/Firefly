@@ -40,9 +40,9 @@ public class ReplyCommand {
 
         Component message = StringUtils.getColorOnlyComponent(str);
         ComponentMessage msg = MessagingConfig.getInstance().getMessageFormat()
-            .replace("sender", getNickname(sender))
-            .replace("receiver", getNickname(target))
-            .replace("message", message);
+            .replace("{sender}", getNickname(sender))
+            .replace("{receiver}", getNickname(target))
+            .replace("{message}", message);
 
         msg.send(sender);
         msg.send(target);

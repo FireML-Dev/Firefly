@@ -74,12 +74,12 @@ public class RenameCommand extends Command {
 
     private void sendRenamedMessage(@NotNull Component newName, @NotNull Player target, @NotNull CommandSender sender) {
         CommandConfig.getInstance().getRenamedMessage()
-            .replace("newName", newName)
+            .replace("{newName}", newName)
             .send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getRenamedSenderMessage()
-                .replace("newName", newName)
-                .replace("target", target.name())
+                .replace("{newName}", newName)
+                .replace("{target}", target.name())
                 .send(sender);
         }
     }

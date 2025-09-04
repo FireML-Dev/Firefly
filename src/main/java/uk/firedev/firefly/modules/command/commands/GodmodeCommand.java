@@ -38,7 +38,7 @@ public class GodmodeCommand extends Command {
         CommandConfig.getInstance().getGodmodeEnabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getGodmodeEnabledSenderMessage()
-                .replace("target", target.name())
+                .replace("{target}", target.name())
                 .send(sender);
         }
     }
@@ -47,7 +47,7 @@ public class GodmodeCommand extends Command {
         CommandConfig.getInstance().getGodmodeDisabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getGodmodeDisabledSenderMessage()
-                .replace("target", target.name())
+                .replace("{target}", target.name())
                 .send(sender);
         }
     }

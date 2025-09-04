@@ -28,7 +28,7 @@ public interface TitlePart {
             Component display = getDisplay().get();
             String displayString = getSection().getString("icon.display");
             if (displayString != null) {
-                display = ComponentMessage.componentMessage(displayString).replace("display", getDisplay()).get();
+                display = ComponentMessage.componentMessage(displayString).replace("{display}", getDisplay()).get();
             }
             meta.lore(ComponentMessage.componentMessage(getSection().getStringList("icon.lore")).get());
             meta.displayName(display);

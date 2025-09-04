@@ -146,7 +146,7 @@ public class TitleModule implements Module {
         }
         data.setPrefix(prefix);
         TitleConfig.getInstance().getPrefixSetMessage()
-            .replace("new-prefix", prefix.get())
+            .replace("{new-prefix}", prefix.get())
             .send(player);
     }
 
@@ -187,7 +187,7 @@ public class TitleModule implements Module {
         }
         data.setSuffix(suffix);
         TitleConfig.getInstance().getSuffixSetMessage()
-            .replace("new-suffix", suffix.get())
+            .replace("{new-suffix}", suffix.get())
             .send(player);
     }
 

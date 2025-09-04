@@ -33,7 +33,7 @@ public class PrefixCommand {
                         prefix = ComponentMessage.componentMessage(Component.text("None"));
                     }
                     TitleConfig.getInstance().getPrefixDisplayMessage()
-                            .replace("player-prefix", prefix)
+                            .replace("{player-prefix}", prefix)
                             .send(player);
                 });
     }

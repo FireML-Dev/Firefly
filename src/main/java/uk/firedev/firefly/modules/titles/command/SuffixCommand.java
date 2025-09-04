@@ -31,7 +31,7 @@ public class SuffixCommand {
                     suffix = ComponentMessage.componentMessage(Component.text("None"));
                 }
                 TitleConfig.getInstance().getSuffixDisplayMessage()
-                    .replace("player-suffix", suffix)
+                    .replace("{player-suffix}", suffix)
                     .send(player);
             });
     }

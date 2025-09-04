@@ -42,7 +42,7 @@ public class BackCommand {
                     return TeleportConfig.getInstance().getBackTeleportedMessage();
                 } else {
                     return TeleportConfig.getInstance().getBackTeleportedSenderMessage()
-                        .replace("target", target.getName());
+                        .replace("{target}", target.getName());
                     }
             })
             .start();

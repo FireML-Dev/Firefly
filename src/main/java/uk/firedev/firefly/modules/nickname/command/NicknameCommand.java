@@ -50,8 +50,8 @@ public class NicknameCommand {
     private static void checkNickname(@NotNull CommandSender sender, @NotNull OfflinePlayer target) {
         Component nickname = NicknameModule.getInstance().getNickname(target);
         NicknameConfig.getInstance().getCommandCheckInfoMessage()
-            .replace("nickname", nickname)
-            .replace("player", Objects.requireNonNullElse(target.getName(), "N/A"))
+            .replace("{nickname}", nickname)
+            .replace("{player}", Objects.requireNonNullElse(target.getName(), "N/A"))
             .send(sender);
     }
 
@@ -97,7 +97,7 @@ public class NicknameCommand {
                         }
                         NicknameModule.getInstance().setNickname(info.sender(), nickname);
                         NicknameConfig.getInstance().getCommandSetOwnNicknameMessage()
-                            .replace("nickname", componentNickname)
+                            .replace("{nickname}", componentNickname)
                             .send(info.sender());
                     })
             );
@@ -121,15 +121,15 @@ public class NicknameCommand {
                         Player onlineTarget = target.getPlayer();
                         if (onlineTarget != null) {
                             NicknameConfig.getInstance().getCommandSetOwnNicknameMessage()
-                                .replace("nickname", componentNickname)
+                                .replace("{nickname}", componentNickname)
                                 .send(onlineTarget);
                         }
 
                         // If target isn't the sender, tell them
                         if (target != info.sender()) {
                             NicknameConfig.getInstance().getCommandAdminSetNicknameMessage()
-                                    .replace("target", Objects.requireNonNull(target.getName()))
-                                    .replace("nickname", componentNickname)
+                                    .replace("{target}", Objects.requireNonNull(target.getName()))
+                                    .replace("{nickname}", componentNickname)
                                     .send(info.sender());
                         }
                     })
@@ -147,14 +147,14 @@ public class NicknameCommand {
         // Check if the name is too long
         if (!player.hasPermission(NicknameModule.COMMAND_LENGTH_BYPASS_PERMISSION) && NicknameConfig.getInstance().isTooLong(cleanString)) {
             NicknameConfig.getInstance().getCommandTooLongMessage()
-                .replace("max-length", String.valueOf(NicknameConfig.getInstance().getMaxLength()))
+                .replace("{max-length}", String.valueOf(NicknameConfig.getInstance().getMaxLength()))
                 .send(player);
             return false;
 
         // Check if the name is too short
         } else if (!player.hasPermission(NicknameModule.COMMAND_LENGTH_BYPASS_PERMISSION) && NicknameConfig.getInstance().isTooShort(cleanString)) {
             NicknameConfig.getInstance().getCommandTooShortMessage()
-                .replace("min-length", String.valueOf(NicknameConfig.getInstance().getMinLength()))
+                .replace("{min-length}", String.valueOf(NicknameConfig.getInstance().getMinLength()))
                 .send(player);
             return false;
 

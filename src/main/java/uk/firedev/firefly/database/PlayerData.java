@@ -119,7 +119,7 @@ public class PlayerData {
             component = component.hoverEvent(
                 HoverEvent.hoverEvent(
                     HoverEvent.Action.SHOW_TEXT,
-                    NicknameConfig.getInstance().getRealNameHoverMessage().replace("username", username).toSingleMessage().get()
+                    NicknameConfig.getInstance().getRealNameHoverMessage().replace("{username}", username).toSingleMessage().get()
                 )
             );
         }

@@ -47,7 +47,7 @@ public class RideCommand extends Command {
         }
         if (targetEntity instanceof Player) {
             CommandConfig.getInstance().getRideShakeMessage()
-                .replace("player", player.name())
+                .replace("{player}", player.name())
                 .send(targetEntity);
         }
     }

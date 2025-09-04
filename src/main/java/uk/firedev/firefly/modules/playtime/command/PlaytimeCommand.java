@@ -67,13 +67,13 @@ public class PlaytimeCommand {
         String formattedTime = PlaytimeModule.getInstance().getTimeFormatted(target);
         if (player != null) {
             PlaytimeConfig.getInstance().getAdminSetPlaytimeMessage()
-                    .replace("playtime", formattedTime)
+                    .replace("{playtime}", formattedTime)
                     .send(player);
         }
         if (admin != target) {
             PlaytimeConfig.getInstance().getAdminSetPlaytimeSenderMessage()
-                    .replace("target", Objects.requireNonNullElse(target.getName(), "N/A"))
-                    .replace("playtime", formattedTime)
+                    .replace("{target}", Objects.requireNonNullElse(target.getName(), "N/A"))
+                    .replace("{playtime}", formattedTime)
                     .send(admin);
         }
     }

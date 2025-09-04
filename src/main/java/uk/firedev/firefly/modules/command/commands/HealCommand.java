@@ -36,7 +36,7 @@ public class HealCommand extends Command {
         CommandConfig.getInstance().getHealedMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getHealedSenderMessage()
-                .replace("target", target.name())
+                .replace("{target}", target.name())
                 .send(sender);
         }
     }
