@@ -33,11 +33,11 @@ public class HealCommand extends Command {
     }
 
     private void sendHealedMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getHealedMessage().sendMessage(target);
+        CommandConfig.getInstance().getHealedMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getHealedSenderMessage()
                 .replace("target", target.name())
-                .sendMessage(sender);
+                .send(sender);
         }
     }
 

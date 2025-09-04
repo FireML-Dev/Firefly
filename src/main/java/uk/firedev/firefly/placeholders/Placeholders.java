@@ -1,7 +1,7 @@
 package uk.firedev.firefly.placeholders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.placeholders.PlaceholderProvider;
+import uk.firedev.daisylib.placeholders.PlaceholderProvider;
 import uk.firedev.firefly.Firefly;
 
 import java.util.function.Consumer;

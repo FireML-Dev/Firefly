@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.database.DatabaseModule;
-import uk.firedev.daisylib.api.database.SQLiteDatabase;
-import uk.firedev.daisylib.api.database.exceptions.DatabaseLoadException;
-import uk.firedev.daisylib.api.utils.PlayerHelper;
+import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.database.DatabaseModule;
+import uk.firedev.daisylib.database.SQLiteDatabase;
+import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
+import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 

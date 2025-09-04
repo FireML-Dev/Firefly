@@ -5,7 +5,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
@@ -14,6 +13,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 import java.util.Objects;
 
@@ -52,14 +52,14 @@ public class NicknameCommand {
         NicknameConfig.getInstance().getCommandCheckInfoMessage()
             .replace("nickname", nickname)
             .replace("player", Objects.requireNonNullElse(target.getName(), "N/A"))
-            .sendMessage(sender);
+            .send(sender);
     }
 
     private static Argument<String> getRemoveBranch() {
         return new LiteralArgument("remove")
             .executesPlayer(info -> {
                 NicknameModule.getInstance().removeNickname(info.sender());
-                NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(info.sender());
+                NicknameConfig.getInstance().getCommandRemovedNicknameMessage().send(info.sender());
             })
             .then(
                 OfflinePlayerArgument.createPlayedBefore("target")
@@ -73,12 +73,12 @@ public class NicknameCommand {
                         // If target is online, tell them
                         Player onlineTarget = target.getPlayer();
                         if (onlineTarget != null) {
-                            NicknameConfig.getInstance().getCommandRemovedNicknameMessage().sendMessage(onlineTarget);
+                            NicknameConfig.getInstance().getCommandRemovedNicknameMessage().send(onlineTarget);
                         }
 
                         // If target isn't the sender, tell them
                         if (target != info.sender()) {
-                            NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().sendMessage(info.sender());
+                            NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().send(info.sender());
                         }
                     })
             );
@@ -98,7 +98,7 @@ public class NicknameCommand {
                         NicknameModule.getInstance().setNickname(info.sender(), nickname);
                         NicknameConfig.getInstance().getCommandSetOwnNicknameMessage()
                             .replace("nickname", componentNickname)
-                            .sendMessage(info.sender());
+                            .send(info.sender());
                     })
             );
     }
@@ -122,7 +122,7 @@ public class NicknameCommand {
                         if (onlineTarget != null) {
                             NicknameConfig.getInstance().getCommandSetOwnNicknameMessage()
                                 .replace("nickname", componentNickname)
-                                .sendMessage(onlineTarget);
+                                .send(onlineTarget);
                         }
 
                         // If target isn't the sender, tell them
@@ -130,14 +130,14 @@ public class NicknameCommand {
                             NicknameConfig.getInstance().getCommandAdminSetNicknameMessage()
                                     .replace("target", Objects.requireNonNull(target.getName()))
                                     .replace("nickname", componentNickname)
-                                    .sendMessage(info.sender());
+                                    .send(info.sender());
                         }
                     })
             );
     }
 
     private static boolean validateNickname(@NotNull Player player, @NotNull Component nickname) {
-        String cleanString = ComponentMessage.of(nickname).toPlainText();
+        String cleanString = ComponentMessage.componentMessage(nickname).getAsPlainText();
 
         // Check if the player has admin perms
         if (player.hasPermission(NicknameModule.COMMAND_PERMISSION_ADMIN)) {
@@ -148,24 +148,24 @@ public class NicknameCommand {
         if (!player.hasPermission(NicknameModule.COMMAND_LENGTH_BYPASS_PERMISSION) && NicknameConfig.getInstance().isTooLong(cleanString)) {
             NicknameConfig.getInstance().getCommandTooLongMessage()
                 .replace("max-length", String.valueOf(NicknameConfig.getInstance().getMaxLength()))
-                .sendMessage(player);
+                .send(player);
             return false;
 
         // Check if the name is too short
         } else if (!player.hasPermission(NicknameModule.COMMAND_LENGTH_BYPASS_PERMISSION) && NicknameConfig.getInstance().isTooShort(cleanString)) {
             NicknameConfig.getInstance().getCommandTooShortMessage()
                 .replace("min-length", String.valueOf(NicknameConfig.getInstance().getMinLength()))
-                .sendMessage(player);
+                .send(player);
             return false;
 
         // Check if the name is blacklisted
         } else if (!player.hasPermission(NicknameModule.COMMAND_BLACKLIST_BYPASS_PERMISSION) && NicknameConfig.getInstance().isBlacklisted(cleanString)) {
-            NicknameConfig.getInstance().getCommandBlacklistedMessage().sendMessage(player);
+            NicknameConfig.getInstance().getCommandBlacklistedMessage().send(player);
             return false;
 
         // Check if the name is unique
         } else if (!player.hasPermission(NicknameModule.COMMAND_UNIQUE_PERMISSION) && !cleanString.equalsIgnoreCase(player.getName())) {
-            NicknameConfig.getInstance().getCommandNoUniqueMessage().sendMessage(player);
+            NicknameConfig.getInstance().getCommandNoUniqueMessage().send(player);
             return false;
         }
         return true;

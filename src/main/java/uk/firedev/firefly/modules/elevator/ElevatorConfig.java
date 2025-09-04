@@ -2,13 +2,17 @@ package uk.firedev.firefly.modules.elevator;
 
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Boss;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.builders.BossBarBuilder;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
+import uk.firedev.daisylib.builders.BossBarBuilder;
 import uk.firedev.daisylib.config.ConfigBase;
+import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.messagelib.replacer.Replacer;
+
+import java.util.Map;
 
 public class ElevatorConfig extends ConfigBase {
 
@@ -27,58 +31,48 @@ public class ElevatorConfig extends ConfigBase {
     }
 
     public ComponentMessage getCommandUsageMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.usage", "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.usage", "<color:#F0E68C>Usage: <aqua>/elevator giveblock/unsetElevator").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandGivenMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.block-given", "<color:#F0E68C>Given you an Elevator Block!</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.block-given", "<color:#F0E68C>Given you an Elevator Block!</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandUnregisterMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.unregistered-elevator", "<color:#F0E68C>Successfully removed elevator data from this block.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.unregistered-elevator", "<color:#F0E68C>Successfully removed elevator data from this block.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandInvalidMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.not-an-elevator", "<red>This block is not an elevator!</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.not-an-elevator", "<red>This block is not an elevator!</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getUnsafeLocationMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.unsafe-location", "<red>The target elevator is unsafe!</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.unsafe-location", "<red>The target elevator is unsafe!</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public Component getBossBarTitle(@NotNull Elevator elevator) {
-        ComponentReplacer replacer = ComponentReplacer.create(
-                "current", String.valueOf(elevator.getCurrentPosition() + 1),
-                "all", String.valueOf(elevator.getStack().size()),
-                "y", String.valueOf(elevator.getTPLocation().getY())
-        );
-        return ComponentMessage.fromConfig(getConfig(), "bossbar.title", "<yellow>Floor {current} of {all}</yellow>").applyReplacer(replacer).getMessage();
+        Replacer replacer = Replacer.replacer().addReplacements(Map.of(
+                "current", (elevator.getCurrentPosition() + 1),
+                "all", elevator.getStack().size(),
+                "y", elevator.getTPLocation().getY()
+        ));
+        return getComponentMessage("bossbar.title", "<yellow>Floor {current} of {all}</yellow>").replace(replacer).toSingleMessage().get();
     }
 
     public BossBar.Color getBossBarColor() {
-        try {
-            return BossBar.Color.valueOf(getConfig().getString("bossbar.color", "RED").toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            return BossBar.Color.RED;
-        }
+        return ObjectUtils.getEnumValue(
+            BossBar.Color.class,
+            getConfig().getString("bossbar.color"),
+            BossBar.Color.RED
+        );
     }
 
     public BossBar.Overlay getBossBarOverlay() {
-        try {
-            return BossBar.Overlay.valueOf(getConfig().getString("bossbar.overlay", "PROGRESS").toUpperCase());
-        } catch (IllegalArgumentException ex) {
-            return BossBar.Overlay.PROGRESS;
-        }
+        return ObjectUtils.getEnumValue(
+            BossBar.Overlay.class,
+            getConfig().getString("bossbar.overlay"),
+            BossBar.Overlay.PROGRESS
+        );
     }
 
     public BossBar getBossBar(@NotNull Elevator elevator) {

@@ -1,12 +1,16 @@
 package uk.firedev.firefly.modules.titles.command;
 
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import net.kyori.adventure.text.Component;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
 import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 import uk.firedev.firefly.modules.titles.gui.PrefixGui;
+import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.messagelib.message.ComponentSingleMessage;
+
+import java.awt.*;
 
 public class PrefixCommand {
 
@@ -24,13 +28,13 @@ public class PrefixCommand {
     private static Argument<String> getDisplayBranch() {
         return new StringArgument("display")
                 .executesPlayer((player, arguments) -> {
-                    ComponentMessage prefix = ComponentMessage.of(TitleModule.getInstance().getPlayerPrefix(player));
+                    ComponentSingleMessage prefix = ComponentMessage.componentMessage(TitleModule.getInstance().getPlayerPrefix(player));
                     if (prefix.isEmpty()) {
-                        prefix = ComponentMessage.fromString("None");
+                        prefix = ComponentMessage.componentMessage(Component.text("None"));
                     }
                     TitleConfig.getInstance().getPrefixDisplayMessage()
-                            .replace("player-prefix", prefix.getMessage())
-                            .sendMessage(player);
+                            .replace("player-prefix", prefix)
+                            .send(player);
                 });
     }
 

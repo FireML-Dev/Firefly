@@ -1,11 +1,12 @@
 package uk.firedev.firefly.modules.titles;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
+import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.messagelib.message.ComponentSingleMessage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -46,11 +47,11 @@ public class TitleDatabase implements FireflyDatabaseModule {
     public void load(@NotNull PlayerData data, @NotNull ResultSet set) throws SQLException {
         String prefix = set.getString("prefix");
         if (prefix != null) {
-            data.setPrefix(ComponentMessage.fromString(prefix));
+            data.setPrefix(ComponentMessage.componentMessage(prefix));
         }
         String suffix = set.getString("suffix");
         if (suffix != null) {
-            data.setSuffix(ComponentMessage.fromString(suffix));
+            data.setSuffix(ComponentMessage.componentMessage(suffix));
         }
     }
 
@@ -58,18 +59,18 @@ public class TitleDatabase implements FireflyDatabaseModule {
     public void save(@NotNull PlayerData data, @NotNull Connection connection) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE firefly_players SET prefix = ?, suffix = ? WHERE uuid = ?")) {
             // Set Prefix
-            ComponentMessage prefix = data.getPrefix();
+            ComponentSingleMessage prefix = data.getPrefix();
             String prefixStr = null;
             if (prefix != null) {
-                prefixStr = prefix.toStringMessage().getMessage();
+                prefixStr = prefix.getAsMiniMessage();
             }
             ps.setString(1, prefixStr);
 
             // Set Suffix
-            ComponentMessage suffix = data.getSuffix();
+            ComponentSingleMessage suffix = data.getSuffix();
             String suffixStr = null;
             if (suffix != null) {
-                suffixStr = suffix.toStringMessage().getMessage();
+                suffixStr = suffix.getAsMiniMessage();
             }
             ps.setString(2, suffixStr);
 

@@ -57,7 +57,7 @@ public abstract class Command implements SubModule {
 
     protected boolean disabledCheck(@NotNull Audience audience) {
         if (!isLoaded()) {
-            MessageConfig.getInstance().getFeatureDisabledMessage().sendMessage(audience);
+            MessageConfig.getInstance().getFeatureDisabledMessage().send(audience);
             return true;
         }
         return false;

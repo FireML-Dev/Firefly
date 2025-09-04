@@ -3,7 +3,7 @@ package uk.firedev.firefly;
 import com.google.common.base.Preconditions;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.database.exceptions.DatabaseLoadException;
+import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.Database;

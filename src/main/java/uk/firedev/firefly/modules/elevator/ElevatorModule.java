@@ -13,13 +13,13 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.builders.ItemBuilder;
-import uk.firedev.daisylib.api.recipe.AbstractRecipe;
-import uk.firedev.daisylib.api.recipe.RecipeUtil;
-import uk.firedev.daisylib.api.recipe.ShapedRecipe;
-import uk.firedev.daisylib.api.utils.ItemUtils;
-import uk.firedev.daisylib.api.utils.PlayerHelper;
+import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.builders.ItemBuilder;
+import uk.firedev.daisylib.recipe.AbstractRecipe;
+import uk.firedev.daisylib.recipe.RecipeUtil;
+import uk.firedev.daisylib.recipe.ShapedRecipe;
+import uk.firedev.daisylib.utils.ItemUtils;
+import uk.firedev.daisylib.utils.PlayerHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -98,7 +98,7 @@ public class ElevatorModule implements Module {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("elevator_level", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -120,7 +120,7 @@ public class ElevatorModule implements Module {
         location.setYaw(player.getYaw());
         location.setPitch(player.getPitch());
         if (!location.getBlock().isPassable()) {
-            ElevatorConfig.getInstance().getUnsafeLocationMessage().sendMessage(player);
+            ElevatorConfig.getInstance().getUnsafeLocationMessage().send(player);
             return;
         }
         boolean teleportManager = TeleportModule.getInstance().isLoaded();
@@ -132,7 +132,7 @@ public class ElevatorModule implements Module {
                     TeleportModule.getInstance().setLastLocation(player, lastLocation);
                 }
             } else {
-                MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
+                MessageConfig.getInstance().getErrorOccurredMessage().send(player);
             }
         });
     }

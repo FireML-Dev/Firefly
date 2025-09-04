@@ -4,7 +4,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
@@ -12,7 +11,9 @@ import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LongArgument;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
+import uk.firedev.messagelib.replacer.Replacer;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class PlaytimeCommand {
@@ -37,14 +38,11 @@ public class PlaytimeCommand {
     }
 
     private static void sendPlaytime(@NotNull CommandSender sender, @NotNull OfflinePlayer playerToCheck) {
-        ComponentReplacer replacer = ComponentReplacer.create(
+        Replacer replacer = Replacer.replacer().addReplacements(Map.of(
                 "player", Objects.requireNonNullElse(playerToCheck.getName(), "N/A"),
                 "playtime", PlaytimeModule.getInstance().getTimeFormatted(playerToCheck)
-        );
-        PlaytimeConfig.getInstance().getCheckPlaytimeMessage()
-            .replace("player", Objects.requireNonNull(playerToCheck.getName()))
-            .replace("playtime", PlaytimeModule.getInstance().getTimeFormatted(playerToCheck))
-            .applyReplacer(replacer).sendMessage(sender);
+        ));
+        PlaytimeConfig.getInstance().getCheckPlaytimeMessage().replace(replacer).send(sender);
     }
 
     // /playtime set Branch
@@ -70,13 +68,13 @@ public class PlaytimeCommand {
         if (player != null) {
             PlaytimeConfig.getInstance().getAdminSetPlaytimeMessage()
                     .replace("playtime", formattedTime)
-                    .sendMessage(player);
+                    .send(player);
         }
         if (admin != target) {
             PlaytimeConfig.getInstance().getAdminSetPlaytimeSenderMessage()
                     .replace("target", Objects.requireNonNullElse(target.getName(), "N/A"))
                     .replace("playtime", formattedTime)
-                    .sendMessage(admin);
+                    .send(admin);
         }
     }
 

@@ -1,7 +1,7 @@
 package uk.firedev.firefly.database;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.database.DatabaseModule;
+import uk.firedev.daisylib.database.DatabaseModule;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

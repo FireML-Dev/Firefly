@@ -35,20 +35,20 @@ public class GodmodeCommand extends Command {
     }
 
     private void sendEnabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getGodmodeEnabledMessage().sendMessage(target);
+        CommandConfig.getInstance().getGodmodeEnabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getGodmodeEnabledSenderMessage()
                 .replace("target", target.name())
-                .sendMessage(sender);
+                .send(sender);
         }
     }
 
     private void sendDisabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getGodmodeDisabledMessage().sendMessage(target);
+        CommandConfig.getInstance().getGodmodeDisabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getGodmodeDisabledSenderMessage()
                 .replace("target", target.name())
-                .sendMessage(sender);
+                .send(sender);
         }
     }
 
@@ -57,7 +57,7 @@ public class GodmodeCommand extends Command {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("is_godmode", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");

@@ -17,7 +17,7 @@ messages:
     check-info: "<color:#F0E68C>{player}'s Nickname:</color> <white>{nickname}</white>"
     too-long: "<red>That nickname is too long! Maximum length {max-length}</red>"
     too-short: "<red>That nickname is too short! Minimum length {min-length}</red>"
-    blacklisted: "<red>That name is blacklisted! Please try something else.</red>"
+    blacklisted: "<red>That name is not allowed! Please try something else.</red>"
     no-unique-name: "<red>You don't have permission to set a unique nickname!</red>"
     set-own-nickname: "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>"
     removed-nickname: "<color:#F0E68C>Removed your nickname.</color>"

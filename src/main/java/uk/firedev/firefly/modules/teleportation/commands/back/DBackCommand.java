@@ -4,7 +4,6 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.utils.TeleportWarmup;
@@ -32,7 +31,7 @@ public class DBackCommand {
     private static void teleportPlayer(@NotNull CommandSender sender, @NotNull Player target) {
         Location lastDeath = target.getLastDeathLocation();
         if (lastDeath == null) {
-            TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(sender);
+            TeleportConfig.getInstance().getLocationInvalidMessage().send(sender);
             return;
         }
         TeleportWarmup.teleportPlayer(
@@ -42,11 +41,11 @@ public class DBackCommand {
         );
         // TODO this needs to be part of TeleportWarmup when ready
         if (sender instanceof Player player && player.equals(target)) {
-            TeleportConfig.getInstance().getDBackTeleportedMessage().sendMessage(sender);
+            TeleportConfig.getInstance().getDBackTeleportedMessage().send(sender);
         } else {
             TeleportConfig.getInstance().getDBackTeleportedSenderMessage()
                 .replace("target", target.getName())
-                .sendMessage(sender);
+                .send(sender);
         }
     }
     

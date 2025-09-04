@@ -56,7 +56,7 @@ public class RenameCommand extends Command {
     private void setItemName(@NotNull String itemName, @NotNull Player target, @NotNull CommandSender sender) {
         ItemStack handItem = target.getInventory().getItemInMainHand();
         if (handItem.isEmpty()) {
-            CommandConfig.getInstance().getRenameHoldItemMessage().sendMessage(sender);
+            CommandConfig.getInstance().getRenameHoldItemMessage().send(sender);
             return;
         }
         Component newName;
@@ -75,12 +75,12 @@ public class RenameCommand extends Command {
     private void sendRenamedMessage(@NotNull Component newName, @NotNull Player target, @NotNull CommandSender sender) {
         CommandConfig.getInstance().getRenamedMessage()
             .replace("newName", newName)
-            .sendMessage(target);
+            .send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getRenamedSenderMessage()
                 .replace("newName", newName)
                 .replace("target", target.name())
-                .sendMessage(sender);
+                .send(sender);
         }
     }
 

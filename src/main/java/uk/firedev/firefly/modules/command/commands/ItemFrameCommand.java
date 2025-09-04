@@ -16,11 +16,11 @@ public class ItemFrameCommand extends Command {
         RayTraceResult result = player.rayTraceEntities(5);
         Entity entity;
         if (result == null || (entity = result.getHitEntity()) == null) {
-            CommandConfig.getInstance().getItemFrameLookAtFrameMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameLookAtFrameMessage().send(player);
             return null;
         }
         if (!(entity instanceof ItemFrame itemFrame)) {
-            CommandConfig.getInstance().getItemFrameLookAtFrameMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameLookAtFrameMessage().send(player);
             return null;
         }
         return itemFrame;
@@ -29,30 +29,30 @@ public class ItemFrameCommand extends Command {
     private void invisible(@NotNull Player player, @NotNull ItemFrame frame) {
         if (frame.isInvisible()) {
             frame.setInvisible(false);
-            CommandConfig.getInstance().getItemFrameInvisibleOffMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameInvisibleOffMessage().send(player);
         } else {
             frame.setInvisible(true);
-            CommandConfig.getInstance().getItemFrameInvisibleOnMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameInvisibleOnMessage().send(player);
         }
     }
 
     private void fixed(@NotNull Player player, @NotNull ItemFrame frame) {
         if (frame.isFixed()) {
             frame.setFixed(false);
-            CommandConfig.getInstance().getItemFrameFixedOffMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameFixedOffMessage().send(player);
         } else {
             frame.setFixed(true);
-            CommandConfig.getInstance().getItemFrameFixedOnMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameFixedOnMessage().send(player);
         }
     }
 
     private void invulnerable(@NotNull Player player, @NotNull ItemFrame frame) {
         if (frame.isInvulnerable()) {
             frame.setInvulnerable(false);
-            CommandConfig.getInstance().getItemFrameInvulnerableOffMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameInvulnerableOffMessage().send(player);
         } else {
             frame.setInvulnerable(true);
-            CommandConfig.getInstance().getItemFrameInvulnerableOnMessage().sendMessage(player);
+            CommandConfig.getInstance().getItemFrameInvulnerableOnMessage().send(player);
         }
     }
 

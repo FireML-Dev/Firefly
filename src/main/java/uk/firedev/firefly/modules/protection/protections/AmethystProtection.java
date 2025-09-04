@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
@@ -34,10 +34,10 @@ public class AmethystProtection implements SubModule {
             PersistentDataContainer pdc = player.getPersistentDataContainer();
             if (isDisabled(player)) {
                 pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-                ProtectionConfig.getInstance().getAmethystProtectEnabledMessage().sendMessage(player);
+                ProtectionConfig.getInstance().getAmethystProtectEnabledMessage().send(player);
             } else {
                 pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-                ProtectionConfig.getInstance().getAmethystProtectDisabledMessage().sendMessage(player);
+                ProtectionConfig.getInstance().getAmethystProtectDisabledMessage().send(player);
             }
         });
 
@@ -91,7 +91,7 @@ public class AmethystProtection implements SubModule {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("amethyst_protected", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -115,7 +115,7 @@ public class AmethystProtection implements SubModule {
             event.setCancelled(true);
             if (!warned.contains(player.getUniqueId())) {
                 warned.add(player.getUniqueId());
-                ProtectionConfig.getInstance().getAmethystProtectProtectedMessage().sendMessage(player);
+                ProtectionConfig.getInstance().getAmethystProtectProtectedMessage().send(player);
             }
         }
     }

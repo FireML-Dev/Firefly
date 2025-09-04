@@ -33,22 +33,22 @@ public class RideCommand extends Command {
 
     private void mount(@NotNull CommandSender sender, @NotNull Player player, @NotNull Entity targetEntity) {
         if (targetEntity.equals(player)) {
-            CommandConfig.getInstance().getRideNotPermittedMessage().sendMessage(player);
+            CommandConfig.getInstance().getRideNotPermittedMessage().send(player);
             return;
         }
         if (!targetEntity.addPassenger(player)) {
-            MessageConfig.getInstance().getErrorOccurredMessage().sendMessage(player);
+            MessageConfig.getInstance().getErrorOccurredMessage().send(player);
             return;
         }
-        CommandConfig.getInstance().getRideRidingMessage().sendMessage(player);
+        CommandConfig.getInstance().getRideRidingMessage().send(player);
         if (!player.equals(sender)) {
             CommandConfig.getInstance().getRideRidingSenderMessage()
-                .sendMessage(sender);
+                .send(sender);
         }
         if (targetEntity instanceof Player) {
             CommandConfig.getInstance().getRideShakeMessage()
                 .replace("player", player.name())
-                .sendMessage(targetEntity);
+                .send(targetEntity);
         }
     }
 
@@ -71,11 +71,11 @@ public class RideCommand extends Command {
                 RayTraceResult result = info.sender().rayTraceEntities(5);
                 Entity entity;
                 if (result == null || (entity = result.getHitEntity()) == null) {
-                    CommandConfig.getInstance().getRideTargetNotFoundMessage().sendMessage(info.sender());
+                    CommandConfig.getInstance().getRideTargetNotFoundMessage().send(info.sender());
                     return;
                 }
                 if (getBlacklistedEntities().contains(entity.getType())) {
-                    CommandConfig.getInstance().getRideNotPermittedMessage().sendMessage(info.sender());
+                    CommandConfig.getInstance().getRideNotPermittedMessage().send(info.sender());
                     return;
                 }
                 mount(info.sender(), info.sender(), entity);
@@ -91,7 +91,7 @@ public class RideCommand extends Command {
                                 info.sender().removePassenger(passenger);
                             }
                         });
-                        CommandConfig.getInstance().getRideShookMessage().sendMessage(info.sender());
+                        CommandConfig.getInstance().getRideShookMessage().send(info.sender());
                     })
             );
     }

@@ -1,10 +1,10 @@
 package uk.firedev.firefly.modules.nickname;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 public class NicknameConfig extends ConfigBase {
 
@@ -45,63 +45,43 @@ public class NicknameConfig extends ConfigBase {
     }
 
     public ComponentMessage getRealNameHoverMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.real-name-hover", "<color:#F0E68C>Real Username:</color> <white>{username}</white>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.real-name-hover", "<color:#F0E68C>Real Username:</color> <white>{username}</white>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandTooLongMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.too-long", "<red>That nickname is too long! Maximum length {max-length}</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.too-long", "<red>That nickname is too long! Maximum length {max-length}</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandTooShortMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.too-short", "<red>That nickname is too short! Minimum length {min-length}</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.too-short", "<red>That nickname is too short! Minimum length {min-length}</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandBlacklistedMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.blacklisted", "<red>That name is blacklisted! Please try something else.</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.blacklisted", "<red>That name is not allowed! Please try something else.</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandNoUniqueMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.no-unique-name", "<red>You don't have permission to set a unique nickname!</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.no-unique-name", "<red>You don't have permission to set a unique nickname!</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandSetOwnNicknameMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.set-own-nickname", "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.set-own-nickname", "<color:#F0E68C>Set your nickname to</color> <white>{nickname}</white>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandRemovedNicknameMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.removed-nickname", "<color:#F0E68C>Removed your nickname.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.removed-nickname", "<color:#F0E68C>Removed your nickname.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandAdminSetNicknameMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-others-nickname", "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.admin.set-others-nickname", "<color:#F0E68C>Set {target}'s nickname to</color> <white>{nickname}</white>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandAdminRemovedNicknameMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.removed-others-nickname", "<color:#F0E68C>Removed {player}'s nickname.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.admin.removed-others-nickname", "<color:#F0E68C>Removed {player}'s nickname.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCommandCheckInfoMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.check-info", "<color:#F0E68C>{player}'s Nickname:</color> <white>{nickname}</white>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.check-info", "<color:#F0E68C>{player}'s Nickname:</color> <white>{nickname}</white>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
 }

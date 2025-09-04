@@ -8,12 +8,13 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.utils.StringUtils;
+import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.messagelib.message.ComponentSingleMessage;
 
 import java.sql.SQLException;
 import java.time.Instant;
@@ -27,8 +28,8 @@ public class PlayerData {
     private Instant unloadInstant;
     private long playtime = 0;
     private @Nullable String nickname = null;
-    private @Nullable ComponentMessage prefix = null;
-    private @Nullable ComponentMessage suffix = null;
+    private @Nullable ComponentSingleMessage prefix = null;
+    private @Nullable ComponentSingleMessage suffix = null;
     private @Nullable Location lastTeleportLocation = null;
 
     protected PlayerData(@NotNull UUID uuid) {
@@ -113,12 +114,12 @@ public class PlayerData {
             finalName = username;
         }
         Component component = StringUtils.getColorOnlyComponent(finalName);
-        ComponentMessage componentMessage = ComponentMessage.of(component);
+        ComponentSingleMessage componentMessage = ComponentMessage.componentMessage(component);
         if (!componentMessage.matchesString(username)) {
             component = component.hoverEvent(
                 HoverEvent.hoverEvent(
                     HoverEvent.Action.SHOW_TEXT,
-                    NicknameConfig.getInstance().getRealNameHoverMessage().replace("username", username).getMessage()
+                    NicknameConfig.getInstance().getRealNameHoverMessage().replace("username", username).toSingleMessage().get()
                 )
             );
         }
@@ -132,12 +133,12 @@ public class PlayerData {
 
     // Title Methods
 
-    public @Nullable ComponentMessage getPrefix() {
+    public @Nullable ComponentSingleMessage getPrefix() {
         markAccessed();
         return this.prefix;
     }
 
-    public void setPrefix(@NotNull ComponentMessage prefix) {
+    public void setPrefix(@NotNull ComponentSingleMessage prefix) {
         markAccessed();
         this.prefix = prefix;
     }
@@ -147,12 +148,12 @@ public class PlayerData {
         this.prefix = null;
     }
 
-    public @Nullable ComponentMessage getSuffix() {
+    public @Nullable ComponentSingleMessage getSuffix() {
         markAccessed();
         return this.suffix;
     }
 
-    public void setSuffix(@NotNull ComponentMessage suffix) {
+    public void setSuffix(@NotNull ComponentSingleMessage suffix) {
         markAccessed();
         this.suffix = suffix;
     }

@@ -6,7 +6,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -93,7 +93,7 @@ public class PlaytimeModule implements Module {
         Placeholders.manageProvider(provider -> {
             provider.addAudiencePlaceholder("playtime", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -102,7 +102,7 @@ public class PlaytimeModule implements Module {
             });
             provider.addAudiencePlaceholder("playtime_raw", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");

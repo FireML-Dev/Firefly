@@ -33,20 +33,20 @@ public class FlyCommand extends Command {
     }
 
     private void sendEnabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getFlightEnabledMessage().sendMessage(target);
+        CommandConfig.getInstance().getFlightEnabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlightEnabledSenderMessage()
                 .replace("target", target.name())
-                .sendMessage(sender);
+                .send(sender);
         }
     }
 
     private void sendDisabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getFlightDisabledMessage().sendMessage(target);
+        CommandConfig.getInstance().getFlightDisabledMessage().send(target);
         if (!target.equals(sender)) {
             CommandConfig.getInstance().getFlightDisabledSenderMessage()
                 .replace("target", target.name())
-                .sendMessage(sender);
+                .send(sender);
         }
     }
 
@@ -55,7 +55,7 @@ public class FlyCommand extends Command {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("can_fly", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");

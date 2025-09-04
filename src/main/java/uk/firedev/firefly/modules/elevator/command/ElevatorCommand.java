@@ -3,7 +3,8 @@ package uk.firedev.firefly.modules.elevator.command;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
-import uk.firedev.daisylib.api.utils.ItemUtils;
+import uk.firedev.daisylib.command.HelpMessageBuilder;
+import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
@@ -24,7 +25,7 @@ public class ElevatorCommand {
             .withShortDescription("Manage Elevators")
             .withFullDescription("Manage Elevators")
             .executes((sender, arguments) -> {
-                ElevatorConfig.getInstance().getCommandUsageMessage().sendMessage(sender);
+                ElevatorConfig.getInstance().getCommandUsageMessage().send(sender);
             })
             .then(getGiveBlockBranch())
             .then(getRemoveBranch());
@@ -35,14 +36,14 @@ public class ElevatorCommand {
             .executesPlayer(info -> {
                 Player player = info.sender();
                 ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
-                ElevatorConfig.getInstance().getCommandGivenMessage().sendMessage(player);
+                ElevatorConfig.getInstance().getCommandGivenMessage().send(player);
             })
             .then(
                 PlayerArgument.create("target")
                     .executes((sender, args) -> {
                         Player player = Objects.requireNonNull(args.getUnchecked("target"));
                         ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
-                        ElevatorConfig.getInstance().getCommandGivenMessage().sendMessage(player);
+                        ElevatorConfig.getInstance().getCommandGivenMessage().send(player);
                     })
             );
     }
@@ -52,16 +53,16 @@ public class ElevatorCommand {
             .executesPlayer((player, arguments) -> {
                 RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);
                 if (traced == null || traced.getHitBlock() == null) {
-                    ElevatorConfig.getInstance().getCommandInvalidMessage().sendMessage(player);
+                    ElevatorConfig.getInstance().getCommandInvalidMessage().send(player);
                     return;
                 }
                 Elevator elevator = new Elevator(traced.getHitBlock());
                 if (!elevator.isElevator()) {
-                    ElevatorConfig.getInstance().getCommandInvalidMessage().sendMessage(player);
+                    ElevatorConfig.getInstance().getCommandInvalidMessage().send(player);
                     return;
                 }
                 elevator.setElevator(false);
-                ElevatorConfig.getInstance().getCommandUnregisterMessage().sendMessage(player);
+                ElevatorConfig.getInstance().getCommandUnregisterMessage().send(player);
             });
     }
 

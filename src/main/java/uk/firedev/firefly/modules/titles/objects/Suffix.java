@@ -4,15 +4,16 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.titles.TitleModule;
+import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.messagelib.message.ComponentSingleMessage;
 
 public class Suffix implements TitlePart {
 
     private final @NotNull ConfigurationSection section;
-    private final @NotNull ComponentMessage display;
+    private final @NotNull ComponentSingleMessage display;
     private final @NotNull String permission;
 
     public Suffix(@NotNull ConfigurationSection section) throws InvalidConfigurationException {
@@ -29,7 +30,7 @@ public class Suffix implements TitlePart {
             permission = defaultPermission;
         }
         this.section = section;
-        this.display = ComponentMessage.fromString(displayString);
+        this.display = ComponentMessage.componentMessage(displayString);
         this.permission = permission;
     }
 
@@ -39,7 +40,7 @@ public class Suffix implements TitlePart {
     }
 
     @Override
-    public @NotNull ComponentMessage getDisplay() {
+    public @NotNull ComponentSingleMessage getDisplay() {
         return display;
     }
 

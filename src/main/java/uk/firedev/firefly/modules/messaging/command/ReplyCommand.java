@@ -3,13 +3,13 @@ package uk.firedev.firefly.modules.messaging.command;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
 import uk.firedev.firefly.modules.messaging.MessagingConfig;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 import java.util.Objects;
 
@@ -34,7 +34,7 @@ public class ReplyCommand {
     private static void sendMessage(@NotNull Player sender, @NotNull String str) {
         Player target = MessagingModule.getInstance().getLastMessage(sender.getUniqueId());
         if (target == null) {
-            MessagingConfig.getInstance().getCannotReplyMessage().sendMessage(sender);
+            MessagingConfig.getInstance().getCannotReplyMessage().send(sender);
             return;
         }
 
@@ -44,8 +44,8 @@ public class ReplyCommand {
             .replace("receiver", getNickname(target))
             .replace("message", message);
 
-        msg.sendMessage(sender);
-        msg.sendMessage(target);
+        msg.send(sender);
+        msg.send(target);
         MessagingModule.getInstance().setLastMessage(target.getUniqueId(), sender.getUniqueId());
     }
 

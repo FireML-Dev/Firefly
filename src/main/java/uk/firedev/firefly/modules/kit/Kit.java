@@ -9,12 +9,11 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.api.addons.reward.RewardAddon;
-import uk.firedev.daisylib.api.builders.ItemBuilder;
-import uk.firedev.daisylib.api.message.component.ComponentReplacer;
-import uk.firedev.daisylib.api.utils.ItemUtils;
+import uk.firedev.daisylib.addons.reward.RewardAddon;
+import uk.firedev.daisylib.builders.ItemBuilder;
+import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.command.CooldownHelper;
-import uk.firedev.firefly.Firefly;
+import uk.firedev.messagelib.replacer.Replacer;
 
 import java.time.Duration;
 import java.util.List;
@@ -118,7 +117,7 @@ public class Kit {
 
     public void giveToPlayerWithCooldown(@NotNull Player player, @Nullable CommandSender sender) {
         if (isOnCooldown(player.getUniqueId())) {
-            KitConfig.getInstance().getOnCooldownMessage().sendMessage(player);
+            KitConfig.getInstance().getOnCooldownMessage().send(player);
             return;
         }
         applyCooldown(player.getUniqueId());
@@ -127,11 +126,11 @@ public class Kit {
 
     public void giveToPlayer(@NotNull Player player, @Nullable CommandSender sender) {
         ItemUtils.giveItem(buildItem(), player);
-        ComponentReplacer replacer = ComponentReplacer.create("kit", getName());
-        KitConfig.getInstance().getAwardedReceiverMessage().applyReplacer(replacer).sendMessage(player);
+        Replacer replacer = Replacer.replacer().addReplacement("kit", getName());
+        KitConfig.getInstance().getAwardedReceiverMessage().replace(replacer).send(player);
         if (sender != null && sender != player) {
-            replacer.addReplacements("player", player.getName());
-            KitConfig.getInstance().getAwardedCommandMessage().applyReplacer(replacer).sendMessage(sender);
+            replacer = replacer.addReplacement("player", player.getName());
+            KitConfig.getInstance().getAwardedCommandMessage().replace(replacer).send(sender);
         }
     }
 

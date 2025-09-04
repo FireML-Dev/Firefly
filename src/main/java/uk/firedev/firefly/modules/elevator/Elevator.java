@@ -7,8 +7,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.utils.ObjectUtils;
-import uk.firedev.daisylib.libs.customblockdata.CustomBlockData;
+import uk.firedev.daisylib.utils.ObjectUtils;
+import com.jeff_media.customblockdata.CustomBlockData;
 import uk.firedev.firefly.Firefly;
 
 import javax.annotation.Nullable;

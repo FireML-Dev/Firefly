@@ -3,17 +3,16 @@ package uk.firedev.firefly;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.NamedTextColor;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.BooleanArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.ModuleManager;
+import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.messagelib.message.ComponentSingleMessage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class FireflyCommand {
 
@@ -29,14 +28,14 @@ public class FireflyCommand {
         return new LiteralArgument("reload")
             .executes(info -> {
                 Firefly.getInstance().reload();
-                MessageConfig.getInstance().getMainCommandReloadedMessage().sendMessage(info.sender());
+                MessageConfig.getInstance().getMainCommandReloadedMessage().send(info.sender());
             });
     }
 
     private static Argument<String> getModulesBranch() {
         return new LiteralArgument("modules")
             .executes(info -> {
-                getModulesMessage().sendMessage(info.sender());
+                getModulesMessage().send(info.sender());
             });
     }
 
@@ -44,7 +43,7 @@ public class FireflyCommand {
      * Creates a message for the modules command.
      * This message is designed to look like /plugins
      */
-    private static ComponentMessage getModulesMessage() {
+    private static ComponentSingleMessage getModulesMessage() {
         List<Module> modules = ModuleManager.getInstance().getModules();
         List<Component> formattedModules = new ArrayList<>();
 
@@ -62,7 +61,7 @@ public class FireflyCommand {
                 .appendNewline()
                 .append(Component.join(JoinConfiguration.commas(true), formattedModules));
 
-        return ComponentMessage.of(finalComponent);
+        return ComponentMessage.componentMessage(finalComponent);
     }
 
 }

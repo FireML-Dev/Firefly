@@ -3,7 +3,7 @@ package uk.firedev.firefly.modules.kit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.gui.PaginatedConfigGui;
-import uk.firedev.daisylib.libs.triumphgui.guis.GuiItem;
+import dev.triumphteam.gui.guis.GuiItem;
 
 public class KitGui extends PaginatedConfigGui {
 

@@ -2,13 +2,13 @@ package uk.firedev.firefly.modules.titles;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,39 +65,27 @@ public class TitleConfig extends ConfigBase {
     // TITLE MESSAGES
 
     public ComponentMessage getPrefixSetMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.prefix-set", "<color:#F0E68C>Applied Prefix {prefix}.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.prefix-set", "<color:#F0E68C>Applied Prefix {prefix}.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getPrefixRemovedMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.prefix-removed", "<red>Removed Current Prefix.</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.prefix-removed", "<red>Removed Current Prefix.</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getPrefixDisplayMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.prefix-display", "<color:#F0E68C>Current Prefix: <white>{prefix}");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.prefix-display", "<color:#F0E68C>Current Prefix: <white>{prefix}").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getSuffixSetMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getSuffixRemovedMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-removed", "<red>Removed Current Suffix.</red>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.suffix-removed", "<red>Removed Current Suffix.</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getSuffixDisplayMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.suffix-display", "<color:#F0E68C>Current Suffix: <white>{suffix}");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.suffix-display", "<color:#F0E68C>Current Suffix: <white>{suffix}").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
 }

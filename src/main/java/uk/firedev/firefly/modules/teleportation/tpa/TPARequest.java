@@ -47,7 +47,7 @@ public class TPARequest {
         }
         // If sender is offline, send player not found message
         if (sender == null) {
-            MessageConfig.getInstance().getPlayerNotFoundMessage().sendMessage(target);
+            MessageConfig.getInstance().getPlayerNotFoundMessage().send(target);
             return;
         }
         // Attempt the teleport
@@ -59,11 +59,11 @@ public class TPARequest {
 
     private void attemptTeleportation(@NotNull Player teleportingPlayer, @NotNull Player teleportTarget) {
         if (teleportTarget.isFlying() || teleportTarget.isGliding()) {
-            TeleportConfig.getInstance().getTpaTargetFlyingMessage().sendMessage(teleportingPlayer);
+            TeleportConfig.getInstance().getTpaTargetFlyingMessage().send(teleportingPlayer);
             return;
         }
-        TeleportConfig.getInstance().getTpaRequestAcceptedTargetMessage().sendMessage(teleportTarget);
-        TeleportConfig.getInstance().getTpaRequestAcceptedTeleporterMessage().sendMessage(teleportingPlayer);
+        TeleportConfig.getInstance().getTpaRequestAcceptedTargetMessage().send(teleportTarget);
+        TeleportConfig.getInstance().getTpaRequestAcceptedTeleporterMessage().send(teleportingPlayer);
         TeleportWarmup.teleportPlayer(
             teleportingPlayer,
             teleportTarget.getLocation(),
@@ -80,10 +80,10 @@ public class TPARequest {
             return;
         }
         // Tell the target they denied the request
-        TeleportConfig.getInstance().getTpaRequestDeniedTargetMessage().sendMessage(target);
+        TeleportConfig.getInstance().getTpaRequestDeniedTargetMessage().send(target);
         // Tell the sender their request was denied if they are online
         if (sender != null) {
-            TeleportConfig.getInstance().getTpaRequestDeniedSenderMessage(target).sendMessage(sender);
+            TeleportConfig.getInstance().getTpaRequestDeniedSenderMessage(target).send(sender);
         }
     }
 

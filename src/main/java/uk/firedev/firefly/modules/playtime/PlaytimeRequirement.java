@@ -3,9 +3,9 @@ package uk.firedev.firefly.modules.playtime;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.addons.requirement.RequirementAddon;
-import uk.firedev.daisylib.api.addons.requirement.RequirementData;
-import uk.firedev.daisylib.api.utils.ObjectUtils;
+import uk.firedev.daisylib.addons.requirement.RequirementAddon;
+import uk.firedev.daisylib.addons.requirement.RequirementData;
+import uk.firedev.daisylib.utils.ObjectUtils;
 import uk.firedev.firefly.Firefly;
 
 import java.util.List;

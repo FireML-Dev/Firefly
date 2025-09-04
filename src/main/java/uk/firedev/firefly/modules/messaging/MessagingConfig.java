@@ -1,13 +1,10 @@
 package uk.firedev.firefly.modules.messaging;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-
-import java.util.Arrays;
-import java.util.List;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 public class MessagingConfig extends ConfigBase {
 
@@ -58,19 +55,17 @@ public class MessagingConfig extends ConfigBase {
     // Messages
 
     public ComponentMessage getMessageFormat() {
-        ComponentMessage message = getComponentMessage(
+        return getComponentMessage(
             "messages.format",
             "<gray>[<white>{sender}</white> -> <white>{receiver}</white>]</gray> <white>{message}"
-        );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        ).replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getCannotReplyMessage() {
-        ComponentMessage message = getComponentMessage(
+        return getComponentMessage(
             "messages.cannot-reply",
             "<red>There is nobody to reply to!</red>"
-        );
-        return message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
+        ).replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
 }

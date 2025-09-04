@@ -6,8 +6,7 @@ import net.milkbowl.vault.chat.Chat;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -19,6 +18,8 @@ import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
 import uk.firedev.firefly.placeholders.Placeholders;
 import uk.firedev.firefly.utils.StringUtils;
+import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.messagelib.message.ComponentSingleMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class TitleModule implements Module {
         Placeholders.manageProvider(provider -> {
             provider.addAudiencePlaceholder("player_prefix", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -110,12 +111,12 @@ public class TitleModule implements Module {
                     return TitleModule.getInstance().getPlayerPrefix(player);
                 } else {
                     String prefix = chat.getPlayerPrefix(player);
-                    return ComponentMessage.fromString(prefix).getMessage();
+                    return ComponentMessage.componentMessage(prefix).get();
                 }
             });
             provider.addAudiencePlaceholder("player_suffix", audience -> {
                 if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().getMessage();
+                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
@@ -124,29 +125,29 @@ public class TitleModule implements Module {
                     return TitleModule.getInstance().getPlayerSuffix(player);
                 } else {
                     String prefix = chat.getPlayerSuffix(player);
-                    return ComponentMessage.fromString(prefix).getMessage();
+                    return ComponentMessage.componentMessage(prefix).get();
                 }
             });
         });
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull String prefix) {
-        setPlayerPrefix(player, ComponentMessage.fromString(prefix));
+        setPlayerPrefix(player, ComponentMessage.componentMessage(prefix));
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull Prefix prefix) {
         setPlayerPrefix(player, prefix.getDisplay());
     }
 
-    public void setPlayerPrefix(@NotNull Player player, @NotNull ComponentMessage prefix) {
+    public void setPlayerPrefix(@NotNull Player player, @NotNull ComponentSingleMessage prefix) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
         }
         data.setPrefix(prefix);
         TitleConfig.getInstance().getPrefixSetMessage()
-            .replace("new-prefix", prefix.getMessage())
-            .sendMessage(player);
+            .replace("new-prefix", prefix.get())
+            .send(player);
     }
 
     public void removePlayerPrefix(@NotNull Player player) {
@@ -155,7 +156,7 @@ public class TitleModule implements Module {
             return;
         }
         data.removePrefix();
-        TitleConfig.getInstance().getPrefixRemovedMessage().sendMessage(player);
+        TitleConfig.getInstance().getPrefixRemovedMessage().send(player);
     }
 
     public Component getPlayerPrefix(@NotNull Player player) {
@@ -164,7 +165,7 @@ public class TitleModule implements Module {
             String vaultPrefix = chat.getPlayerPrefix(player);
             return StringUtils.getColorOnlyComponent(vaultPrefix);
         }
-        return data.getPrefix().getMessage();
+        return data.getPrefix().get();
     }
 
     public String getPlayerPrefixLegacy(@NotNull Player player) {
@@ -172,22 +173,22 @@ public class TitleModule implements Module {
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull String suffix) {
-        setPlayerSuffix(player, ComponentMessage.fromString(suffix));
+        setPlayerSuffix(player, ComponentMessage.componentMessage(suffix));
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull Suffix suffix) {
         setPlayerSuffix(player, suffix.getDisplay());
     }
 
-    public void setPlayerSuffix(@NotNull Player player, @NotNull ComponentMessage suffix) {
+    public void setPlayerSuffix(@NotNull Player player, @NotNull ComponentSingleMessage suffix) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
         }
         data.setSuffix(suffix);
         TitleConfig.getInstance().getSuffixSetMessage()
-            .replace("new-suffix", suffix.getMessage())
-            .sendMessage(player);
+            .replace("new-suffix", suffix.get())
+            .send(player);
     }
 
     public void removePlayerSuffix(@NotNull Player player) {
@@ -196,7 +197,7 @@ public class TitleModule implements Module {
             return;
         }
         data.removeSuffix();
-        TitleConfig.getInstance().getSuffixRemovedMessage().sendMessage(player);
+        TitleConfig.getInstance().getSuffixRemovedMessage().send(player);
     }
 
     public Component getPlayerSuffix(@NotNull Player player) {
@@ -205,7 +206,7 @@ public class TitleModule implements Module {
             String vaultSuffix = chat.getPlayerSuffix(player);
             return StringUtils.getColorOnlyComponent(vaultSuffix);
         }
-        return data.getSuffix().getMessage();
+        return data.getSuffix().get();
     }
 
     public String getPlayerSuffixLegacy(@NotNull Player player) {

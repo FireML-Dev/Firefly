@@ -29,7 +29,7 @@ public class SetFirstSpawnCommand {
 
     private static void setLocation(@NotNull CommandSender sender, @NotNull Location location) {
         TeleportConfig.getInstance().setSpawnLocation(true, location);
-        TeleportConfig.getInstance().getSpawnSetFirstSpawnMessage().sendMessage(sender);
+        TeleportConfig.getInstance().getSpawnSetFirstSpawnMessage().send(sender);
     }
 
 }

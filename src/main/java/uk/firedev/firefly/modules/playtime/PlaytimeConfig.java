@@ -1,9 +1,9 @@
 package uk.firedev.firefly.modules.playtime;
 
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 public class PlaytimeConfig extends ConfigBase {
 
@@ -22,21 +22,15 @@ public class PlaytimeConfig extends ConfigBase {
     }
 
     public ComponentMessage getCheckPlaytimeMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.check-playtime", "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>");
-        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.check-playtime", "<color:#F0E68C>{player}'s Playtime:</color> <white>{playtime}</white>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getAdminSetPlaytimeMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-playtime", "<#F0E68C>Your playtime has been set to <white>{playtime}");
-        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.admin.set-playtime", "<#F0E68C>Your playtime has been set to <white>{playtime}").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getAdminSetPlaytimeSenderMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.admin.set-playtime-sender", "<#F0E68C>Set {target}'s playtime to <white>{playtime}");
-        message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage( "messages.command.admin.set-playtime-sender", "<#F0E68C>Set {target}'s playtime to <white>{playtime}").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
 }

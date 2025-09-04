@@ -4,8 +4,8 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.Loggers;
-import uk.firedev.daisylib.api.addons.reward.RewardAddon;
+import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.firefly.Firefly;
 
 public class KitRewardType extends RewardAddon {

@@ -1,10 +1,10 @@
 package uk.firedev.firefly.modules.kit;
 
 import org.bukkit.configuration.ConfigurationSection;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,21 +26,15 @@ public class KitConfig extends ConfigBase {
     }
 
     public ComponentMessage getAwardedCommandMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-command", "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.awarded-command", "{prefix}<color:#F0E68C>Given {player} the kit {kit}.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getAwardedReceiverMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.command.awarded-receive", "{prefix}<color:#F0E68C>You have been given the kit {kit}.</color>");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.command.awarded-receive", "{prefix}<color:#F0E68C>You have been given the kit {kit}.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public ComponentMessage getOnCooldownMessage() {
-        ComponentMessage message = ComponentMessage.fromConfig(getConfig(), "messages.gui.on-cooldown", "{prefix}<red>This kit is on cooldown! You can obtain it again in <yellow>{timeLeft}<red>!");
-        message = message.applyReplacer(MessageConfig.getInstance().getPrefixReplacer());
-        return message;
+        return getComponentMessage("messages.gui.on-cooldown", "{prefix}<red>This kit is on cooldown! You can obtain it again in <yellow>{timeLeft}<red>!").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     public List<ConfigurationSection> getKitConfigs() {

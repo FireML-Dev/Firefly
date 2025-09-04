@@ -4,9 +4,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,7 +116,7 @@ public class TeleportWarmup {
         }
 
         private void sendMessage(@NotNull ComponentMessage message) {
-            message.sendMessage(player);
+            message.send(player);
         }
 
     }

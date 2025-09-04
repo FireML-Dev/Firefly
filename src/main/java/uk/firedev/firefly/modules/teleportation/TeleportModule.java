@@ -7,7 +7,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.api.Loggers;
+import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -121,7 +121,7 @@ public class TeleportModule implements Module {
         String invalid = firstSpawn ? "The first spawn location is not valid!" : "The spawn location is not valid!";
         if (location == null) {
             if (sendMessage) {
-                TeleportConfig.getInstance().getLocationInvalidMessage().sendMessage(player);
+                TeleportConfig.getInstance().getLocationInvalidMessage().send(player);
             }
             Loggers.warn(Firefly.getInstance().getComponentLogger(), invalid);
             return false;
@@ -133,13 +133,13 @@ public class TeleportModule implements Module {
             warmup
         );
         // TODO this needs to be part of TeleportWarmup when ready
-        TeleportConfig.getInstance().getSpawnTeleportedToSpawnMessage().sendMessage(player);
+        TeleportConfig.getInstance().getSpawnTeleportedToSpawnMessage().send(player);
         return true;
     }
 
     public void sendToSpawn(boolean firstSpawn, @NotNull Player player, @Nullable CommandSender sender, boolean sendMessage) {
         if (sendToSpawn(firstSpawn, player, sendMessage) && sender != null) {
-            TeleportConfig.getInstance().getSpawnSentPlayerToSpawnMessage(player).sendMessage(sender);
+            TeleportConfig.getInstance().getSpawnSentPlayerToSpawnMessage(player).send(sender);
         }
     }
 

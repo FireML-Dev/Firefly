@@ -3,7 +3,6 @@ package uk.firedev.firefly.modules.messaging.command;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.api.message.component.ComponentMessage;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
@@ -11,6 +10,7 @@ import uk.firedev.firefly.modules.messaging.MessagingConfig;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
+import uk.firedev.messagelib.message.ComponentMessage;
 
 import java.util.Objects;
 
@@ -41,8 +41,8 @@ public class MessageCommand {
             .replace("receiver", getNickname(target))
             .replace("message", message);
 
-        msg.sendMessage(sender);
-        msg.sendMessage(target);
+        msg.send(sender);
+        msg.send(target);
         MessagingModule.getInstance().setLastMessage(target.getUniqueId(), sender.getUniqueId());
     }
 
