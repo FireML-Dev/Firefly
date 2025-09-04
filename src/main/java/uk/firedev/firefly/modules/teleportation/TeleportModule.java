@@ -127,13 +127,9 @@ public class TeleportModule implements Module {
             return false;
         }
         int warmup = firstSpawn ? 0 : TeleportConfig.getInstance().getSpawnWarmupSeconds();
-        TeleportWarmup.teleportPlayer(
-            player,
-            location,
-            warmup
-        );
-        // TODO this needs to be part of TeleportWarmup when ready
-        TeleportConfig.getInstance().getSpawnTeleportedToSpawnMessage().send(player);
+        new TeleportWarmup(player, location, warmup)
+            .withSuccessMessage(TeleportConfig.getInstance()::getSpawnTeleportedToSpawnMessage)
+            .start();
         return true;
     }
 

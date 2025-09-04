@@ -34,19 +34,16 @@ public class DBackCommand {
             TeleportConfig.getInstance().getLocationInvalidMessage().send(sender);
             return;
         }
-        TeleportWarmup.teleportPlayer(
-            target,
-            lastDeath,
-            TeleportConfig.getInstance().getBackWarmupSeconds()
-        );
-        // TODO this needs to be part of TeleportWarmup when ready
-        if (sender instanceof Player player && player.equals(target)) {
-            TeleportConfig.getInstance().getDBackTeleportedMessage().send(sender);
-        } else {
-            TeleportConfig.getInstance().getDBackTeleportedSenderMessage()
-                .replace("target", target.getName())
-                .send(sender);
-        }
+        new TeleportWarmup(target, lastDeath, TeleportConfig.getInstance().getBackWarmupSeconds())
+            .withSuccessMessage(() -> {
+                if (sender instanceof Player player && player.equals(target)) {
+                    return TeleportConfig.getInstance().getDBackTeleportedMessage();
+                } else {
+                    return TeleportConfig.getInstance().getDBackTeleportedSenderMessage()
+                        .replace("target", target.getName());
+                }
+            })
+            .start();
     }
     
 }

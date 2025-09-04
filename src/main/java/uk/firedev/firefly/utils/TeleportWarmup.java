@@ -11,37 +11,62 @@ import uk.firedev.messagelib.message.ComponentMessage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
-// TODO allow configurable messages
 public class TeleportWarmup {
 
     private static final List<UUID> teleportingPlayers = new ArrayList<>();
 
-    public static void teleportPlayer(@NotNull Player player, @NotNull Location location, int duration) {
-        new TeleportRunnable(player, location, duration).start();
+    private final Player player;
+    private final Location location;
+    private final int duration;
+
+    private Supplier<ComponentMessage> waitingMessage;
+    private Supplier<ComponentMessage> failedMessage;
+    private Supplier<ComponentMessage> successMessage;
+
+    public TeleportWarmup(@NotNull Player player, @NotNull Location location, int duration) {
+        this.player = player;
+        this.location = location;
+        this.duration = duration;
+    }
+
+    public TeleportWarmup withWaitingMessage(@NotNull Supplier<ComponentMessage> message) {
+        this.waitingMessage = message;
+        return this;
+    }
+
+    public TeleportWarmup withFailedMessage(@NotNull Supplier<ComponentMessage> message) {
+        this.failedMessage = message;
+        return this;
+    }
+
+    public TeleportWarmup withSuccessMessage(@NotNull Supplier<ComponentMessage> message) {
+        this.successMessage = message;
+        return this;
+    }
+
+    public void start() {
+        new TeleportRunnable(this).start();
     }
 
     private static class TeleportRunnable extends BukkitRunnable {
 
+        private final TeleportWarmup warmup;
         private boolean complete = false;
-        private int duration;
+        private int remainingTime;
 
-        private final @NotNull Location location;
-        private final @NotNull Player player;
         private final @NotNull Location initialLocation;
 
-        public TeleportRunnable(@NotNull Player player, @NotNull Location location, int duration) {
-
-            this.location = location;
-            this.duration = duration;
-            this.player = player;
-
-            Location initial = player.getLocation();
+        public TeleportRunnable(@NotNull TeleportWarmup warmup) {
+            this.warmup = warmup;
+            this.remainingTime = warmup.duration;
+            Location initial = warmup.player.getLocation();
             initial.setYaw(0);
             initial.setPitch(0);
             this.initialLocation = initial;
 
-            if (this.duration <= 0 || player.hasPermission("firefly.teleport.warmupbypass")) {
+            if (warmup.duration <= 0 || warmup.player.hasPermission("firefly.teleport.warmupbypass")) {
                 successfulTeleport();
             }
         }
@@ -50,30 +75,34 @@ public class TeleportWarmup {
             if (complete) {
                 return;
             }
-            if (teleportingPlayers.contains(player.getUniqueId())) {
+            if (teleportingPlayers.contains(warmup.player.getUniqueId())) {
                 sendMessage(
                     MessageConfig.getInstance().getTeleportWarmupAlreadyTeleportingMessage()
                 );
                 return;
             }
-            teleportingPlayers.add(player.getUniqueId());
+            teleportingPlayers.add(warmup.player.getUniqueId());
             runTaskTimer(Firefly.getInstance(), 0, 20);
         }
 
         private void cancelTeleport() {
-            sendMessage(
-                MessageConfig.getInstance().getTeleportWarmupCancelledMessage()
-            );
+            if (warmup.failedMessage == null) {
+                sendMessage(MessageConfig.getInstance().getTeleportWarmupCancelledMessage());
+            } else {
+                sendMessage(warmup.failedMessage.get());
+            }
             complete = true;
-            teleportingPlayers.remove(player.getUniqueId());
+            teleportingPlayers.remove(warmup.player.getUniqueId());
         }
 
         private void successfulTeleport() {
-            player.teleportAsync(location).thenAccept(success -> {
+            warmup.player.teleportAsync(warmup.location).thenAccept(success -> {
                 if (success) {
-                    sendMessage(
-                        MessageConfig.getInstance().getTeleportWarmupCompleteMessage()
-                    );
+                    if (warmup.successMessage == null) {
+                        sendMessage(MessageConfig.getInstance().getTeleportWarmupCompleteMessage());
+                    } else {
+                        sendMessage(warmup.successMessage.get());
+                    }
                 } else {
                     sendMessage(
                         MessageConfig.getInstance().getErrorOccurredMessage()
@@ -81,7 +110,7 @@ public class TeleportWarmup {
                 }
             });
             complete = true;
-            teleportingPlayers.remove(player.getUniqueId());
+            teleportingPlayers.remove(warmup.player.getUniqueId());
         }
 
         @Override
@@ -92,9 +121,9 @@ public class TeleportWarmup {
                 return;
             }
 
-            if (duration > 0) {
+            if (remainingTime > 0) {
                 sendWaitingMessage();
-                duration--;
+                remainingTime--;
                 return;
             }
 
@@ -103,20 +132,22 @@ public class TeleportWarmup {
         }
 
         private void sendWaitingMessage() {
-            ComponentMessage message = MessageConfig.getInstance().getTeleportWarmupMessage();
-            message.replace("time", String.valueOf(duration));
-            sendMessage(message);
+            if (warmup.waitingMessage == null) {
+                sendMessage(MessageConfig.getInstance().getTeleportWarmupMessage().replace("{time}", remainingTime));
+            } else {
+                sendMessage(warmup.waitingMessage.get().replace("{time}", remainingTime));
+            }
         }
 
         private boolean hasMoved() {
-            Location playerLocation = player.getLocation();
+            Location playerLocation = warmup.player.getLocation();
             playerLocation.setYaw(0);
             playerLocation.setPitch(0);
             return !initialLocation.equals(playerLocation);
         }
 
         private void sendMessage(@NotNull ComponentMessage message) {
-            message.send(player);
+            message.send(warmup.player);
         }
 
     }

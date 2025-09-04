@@ -36,19 +36,16 @@ public class BackCommand {
             TeleportConfig.getInstance().getLocationInvalidMessage().send(sender);
             return;
         }
-        TeleportWarmup.teleportPlayer(
-            target,
-            location,
-            TeleportConfig.getInstance().getBackWarmupSeconds()
-        );
-        // TODO this needs to be part of TeleportWarmup when ready
-        if (sender instanceof Player player && player.equals(target)) {
-            TeleportConfig.getInstance().getBackTeleportedMessage().send(sender);
-        } else {
-            TeleportConfig.getInstance().getBackTeleportedSenderMessage()
-                .replace("target", target.getName())
-                .send(sender);
-        }
+        new TeleportWarmup(target, location, TeleportConfig.getInstance().getBackWarmupSeconds())
+            .withSuccessMessage(() -> {
+                if (sender instanceof Player player && player.equals(target)) {
+                    return TeleportConfig.getInstance().getBackTeleportedMessage();
+                } else {
+                    return TeleportConfig.getInstance().getBackTeleportedSenderMessage()
+                        .replace("target", target.getName());
+                    }
+            })
+            .start();
     }
 
 }
