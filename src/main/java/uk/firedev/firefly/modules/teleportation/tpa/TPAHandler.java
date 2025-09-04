@@ -31,8 +31,8 @@ public class TPAHandler {
 
         // Create the accept/deny message replacer
         Replacer acceptDenyReplacer = Replacer.replacer().addReplacements(Map.of(
-            "accept", TeleportConfig.getInstance().getTpaAcceptClickMessage(sender),
-            "deny", TeleportConfig.getInstance().getTpaDenyClickMessage(sender)
+            "{accept}", TeleportConfig.getInstance().getTpaAcceptClickMessage(sender),
+            "{deny}", TeleportConfig.getInstance().getTpaDenyClickMessage(sender)
         ));
 
         // Send the message

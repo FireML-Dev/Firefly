@@ -39,8 +39,8 @@ public class PlaytimeCommand {
 
     private static void sendPlaytime(@NotNull CommandSender sender, @NotNull OfflinePlayer playerToCheck) {
         Replacer replacer = Replacer.replacer().addReplacements(Map.of(
-                "player", Objects.requireNonNullElse(playerToCheck.getName(), "N/A"),
-                "playtime", PlaytimeModule.getInstance().getTimeFormatted(playerToCheck)
+                "{player}", Objects.requireNonNullElse(playerToCheck.getName(), "N/A"),
+                "{playtime}", PlaytimeModule.getInstance().getTimeFormatted(playerToCheck)
         ));
         PlaytimeConfig.getInstance().getCheckPlaytimeMessage().replace(replacer).send(sender);
     }

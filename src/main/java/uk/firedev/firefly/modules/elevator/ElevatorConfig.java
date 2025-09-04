@@ -52,9 +52,9 @@ public class ElevatorConfig extends ConfigBase {
 
     public Component getBossBarTitle(@NotNull Elevator elevator) {
         Replacer replacer = Replacer.replacer().addReplacements(Map.of(
-                "current", (elevator.getCurrentPosition() + 1),
-                "all", elevator.getStack().size(),
-                "y", elevator.getTPLocation().getY()
+                "{current}", (elevator.getCurrentPosition() + 1),
+                "{all}", elevator.getStack().size(),
+                "{y}", elevator.getTPLocation().getY()
         ));
         return getComponentMessage("bossbar.title", "<yellow>Floor {current} of {all}</yellow>").replace(replacer).toSingleMessage().get();
     }
