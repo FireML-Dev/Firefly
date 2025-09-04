@@ -64,11 +64,7 @@ public class TPARequest {
         }
         TeleportConfig.getInstance().getTpaRequestAcceptedTargetMessage().send(teleportTarget);
         TeleportConfig.getInstance().getTpaRequestAcceptedTeleporterMessage().send(teleportingPlayer);
-        TeleportWarmup.teleportPlayer(
-            teleportingPlayer,
-            teleportTarget.getLocation(),
-            TeleportConfig.getInstance().getTPAWarmupSeconds()
-        );
+        new TeleportWarmup(teleportingPlayer, teleportTarget.getLocation(), TeleportConfig.getInstance().getTPAWarmupSeconds()).start();
     }
 
     public void deny() {
