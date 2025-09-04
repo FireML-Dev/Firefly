@@ -24,7 +24,7 @@ public class MessageConfig extends ConfigBase {
     }
 
     public Replacer getPrefixReplacer() {
-        return Replacer.replacer().addReplacement("prefix", getPrefix());
+        return Replacer.replacer().addReplacement("{prefix}", getPrefix());
     }
 
     // General Messages
