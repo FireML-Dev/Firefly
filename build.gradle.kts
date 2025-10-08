@@ -25,7 +25,7 @@ dependencies {
 }
 
 group = "uk.firedev"
-version = "1.4.0-SNAPSHOT"
+version = properties["project-version"] as String
 description = "A collection of helpful server features."
 java.sourceCompatibility = JavaVersion.VERSION_21
 
