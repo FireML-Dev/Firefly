@@ -33,7 +33,7 @@ paper {
     name = project.name
     version = project.version.toString()
     main = "uk.firedev.firefly.Firefly"
-    apiVersion = "1.21.6"
+    apiVersion = "1.21.10"
     author = "FireML"
     description = project.description.toString()
 
