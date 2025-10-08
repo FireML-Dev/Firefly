@@ -12,7 +12,7 @@ repositories {
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.codemc.io/repository/FireML/")
-    maven("https://jitpack.io")
+    maven("https://repo.codemc.io/repository/creatorfromhell/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
