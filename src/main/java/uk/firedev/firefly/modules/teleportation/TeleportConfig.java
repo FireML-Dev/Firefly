@@ -140,12 +140,12 @@ public class TeleportConfig extends ConfigBase {
     }
 
     public ComponentMessage getTpaAcceptClickMessage(@NotNull Player sender) {
-        String message = getConfig().getString("messages.command.tpa.accept-click", "<green><click:run_command:'/tpaccept {sender}'>[Accept]").replace("{sender}", sender.getName());;
+        String message = getConfig().getString("messages.command.tpa.accept-click", "<green><click:run_command:'/tpaccept {sender}'>[Accept]").replace("{sender}", sender.getName())
         return ComponentMessage.componentMessage(message);
     }
 
     public ComponentMessage getTpaDenyClickMessage(@NotNull Player sender) {
-        String message = getConfig().getString("messages.command.tpa.deny-click", "<red><click:run_command:'/tpdeny {sender}'>[Deny]").replace("{sender}", sender.getName());;
+        String message = getConfig().getString("messages.command.tpa.deny-click", "<red><click:run_command:'/tpdeny {sender}'>[Deny]").replace("{sender}", sender.getName());
         return ComponentMessage.componentMessage(message);
     }
 

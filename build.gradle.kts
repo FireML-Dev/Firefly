@@ -12,7 +12,7 @@ repositories {
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.codemc.io/repository/FireML/")
-    maven("https://jitpack.io")
+    maven("https://repo.codemc.io/repository/creatorfromhell/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
@@ -25,7 +25,7 @@ dependencies {
 }
 
 group = "uk.firedev"
-version = "1.4.0-SNAPSHOT"
+version = properties["project-version"] as String
 description = "A collection of helpful server features."
 java.sourceCompatibility = JavaVersion.VERSION_21
 
@@ -33,7 +33,7 @@ paper {
     name = project.name
     version = project.version.toString()
     main = "uk.firedev.firefly.Firefly"
-    apiVersion = "1.21.6"
+    apiVersion = "1.21.10"
     author = "FireML"
     description = project.description.toString()
 
@@ -109,5 +109,8 @@ tasks {
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
+    }
+    generatePaperPluginDescription {
+        useGoogleMavenCentralProxy()
     }
 }

@@ -1,14 +1,14 @@
 package uk.firedev.firefly.modules.elevator;
 
 import net.kyori.adventure.bossbar.BossBar;
+import uk.firedev.daisylib.utils.ObjectUtils;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.ObjectUtils;
-import com.jeff_media.customblockdata.CustomBlockData;
+import uk.firedev.daisylib.libs.customblockdata.CustomBlockData;
 import uk.firedev.firefly.Firefly;
 
 import javax.annotation.Nullable;

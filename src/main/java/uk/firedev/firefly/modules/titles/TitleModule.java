@@ -2,7 +2,7 @@ package uk.firedev.firefly.modules.titles;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.milkbowl.vault.chat.Chat;
+import net.milkbowl.vault2.chat.Chat;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.VaultManager;
@@ -59,7 +59,7 @@ public class TitleModule implements Module {
         }
         Chat chat = VaultManager.getInstance().getChat();
         if (chat == null) {
-            Loggers.warn(Firefly.getInstance().getComponentLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please register one to use this module! (Something like LuckPerms should be fine)");
+            Loggers.warn(Firefly.getInstance().getComponentLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please install LuckPerms to resolve this!");
             return;
         }
         this.chat = chat;
