@@ -1,7 +1,6 @@
 package uk.firedev.firefly.modules.titles.objects;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -21,6 +20,7 @@ public interface TitlePart {
     boolean isPrefix();
     boolean isSuffix();
 
+    @SuppressWarnings("UnstableApiUsage")
     default ItemStack generateIcon() {
         ItemType itemType = ItemUtils.getItemType(getSection().getString("icon.material"), ItemType.NAME_TAG);
         ItemStack item = itemType.createItemStack();
