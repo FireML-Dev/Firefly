@@ -1,26 +1,32 @@
 package uk.firedev.firefly.modules.teleportation.commands.tpa;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.modules.teleportation.tpa.TPAHandler;
 import uk.firedev.firefly.modules.teleportation.tpa.TPARequest;
 
-import java.util.Objects;
-
 public class TPAHereCommand {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("tpahere")
-            .withPermission("firefly.command.tpa")
-            .withHelp("Request teleports to you.", "Request teleports to you.")
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("tpahere")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.tpa"))
             .then(
-                PlayerArgument.create("target")
-                    .executesPlayer(info -> {
-                        Player target = Objects.requireNonNull(info.args().getUnchecked("target"));
-                        TPAHandler.getInstance().sendRequest(target, info.sender(), TPARequest.TPADirection.TARGET_TO_SENDER);
+                Commands.argument("target", PlayerArgument.create())
+                    .executes(context -> {
+                        Player player = CommandUtils.requirePlayer(context.getSource());
+                        if (player == null) {
+                            return 1;
+                        }
+                        Player target = context.getArgument("target", Player.class);
+                        TPAHandler.getInstance().sendRequest(target, player, TPARequest.TPADirection.TARGET_TO_SENDER);
+                        return 1;
                     })
-            );
+            )
+            .build();
     }
     
 }

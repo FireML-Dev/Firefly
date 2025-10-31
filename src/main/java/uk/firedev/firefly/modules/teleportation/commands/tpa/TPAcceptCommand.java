@@ -5,7 +5,6 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.modules.teleportation.tpa.TPAHandler;
 
 public class TPAcceptCommand {
