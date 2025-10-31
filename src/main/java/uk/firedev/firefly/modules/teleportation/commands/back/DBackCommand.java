@@ -1,31 +1,39 @@
 package uk.firedev.firefly.modules.teleportation.commands.back;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
+import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.utils.TeleportWarmup;
 
-import java.util.Objects;
-
 public class DBackCommand {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("dback")
-            .withPermission("firefly.command.dback")
-            .withHelp("Teleport to your last death location", "Teleport to your last death location")
-            .executesPlayer(info -> {
-                teleportPlayer(info.sender(), info.sender());
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("dback")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.back"))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                teleportPlayer(player, player);
+                return 1;
             })
             .then(
-                uk.firedev.daisylib.command.arguments.PlayerArgument.create("target")
-                    .executes(info -> {
-                        Player target = Objects.requireNonNull(info.args().getUnchecked("target"));
-                        teleportPlayer(info.sender(), target);
+                Commands.argument("target", PlayerArgument.create())
+                    .executes(context -> {
+                        Player target = context.getArgument("target", Player.class);
+                        teleportPlayer(context.getSource().getSender(), target);
+                        return 1;
                     })
-            );
+            )
+            .build();
     }
 
     private static void teleportPlayer(@NotNull CommandSender sender, @NotNull Player target) {
