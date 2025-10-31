@@ -1,30 +1,45 @@
 package uk.firedev.firefly.modules.teleportation.commands.spawn;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.math.FinePosition;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.LocationArgument;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
-
-import java.util.Objects;
 
 public class SetFirstSpawnCommand {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("setfirstspawn")
-            .withPermission("firefly.command.setfirstspawn")
-            .withHelp("Set the server first spawn location", "Set the server first spawn location")
-            .executesPlayer(info -> {
-                setLocation(info.sender(), info.sender().getLocation());
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("setfirstspawn")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.setfirstspawn"))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                setLocation(player, player.getLocation());
+                return 1;
             })
             .then(
-                new LocationArgument("location")
-                    .executes(info -> {
-                        Location location = Objects.requireNonNull(info.args().getUnchecked("location"));
-                        setLocation(info.sender(), location);
-                    })
-            );
+                Commands.argument("world", ArgumentTypes.world())
+                    .then(
+                        Commands.argument("location", ArgumentTypes.finePosition())
+                            .executes(context -> {
+                                World world = context.getArgument("world", World.class);
+                                // TODO ensure this works how i want it to
+                                Location location = context.getArgument("location", FinePosition.class).toLocation(world);
+                                setLocation(context.getSource().getSender(), location);
+                                return 1;
+                            })
+                    )
+            )
+            .build();
     }
 
     private static void setLocation(@NotNull CommandSender sender, @NotNull Location location) {
