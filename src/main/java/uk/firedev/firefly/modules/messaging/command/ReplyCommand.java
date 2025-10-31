@@ -1,37 +1,41 @@
 package uk.firedev.firefly.modules.messaging.command;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.modules.messaging.MessagingConfig;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 
-import java.util.Objects;
-
 public class ReplyCommand {
 
-    public static CommandTree getCommand() {
-        MessagingConfig config = MessagingConfig.getInstance();
-        return new CommandTree(config.getReplyCommandName())
-            .withAliases(config.getReplyCommandAliases())
-            .withShortDescription("Reply to another player's message.")
-            .withPermission(MessagingModule.REPLY_PERMISSION)
+    // TODO aliases.
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal(MessagingConfig.getInstance().getReplyCommandName())
+            .requires(stack -> stack.getSender().hasPermission(MessagingModule.REPLY_PERMISSION))
             .then(
-                new GreedyStringArgument("reply")
-                    .executesPlayer(info -> {
-                        String str = Objects.requireNonNull(info.args().getUnchecked("reply"));
-
-                        sendMessage(info.sender(), str);
+                Commands.argument("message", StringArgumentType.greedyString())
+                    .executes(context -> {
+                        Player player = CommandUtils.requirePlayer(context.getSource());
+                        if (player == null) {
+                            return 1;
+                        }
+                        String string = context.getArgument("message", String.class);
+                        sendMessage(player, string);
+                        return 1;
                     })
-            );
+            )
+            .build();
     }
 
-    private static void sendMessage(@NotNull Player sender, @NotNull String str) {
+    private void sendMessage(@NotNull Player sender, @NotNull String str) {
         Player target = MessagingModule.getInstance().getLastMessage(sender.getUniqueId());
         if (target == null) {
             MessagingConfig.getInstance().getCannotReplyMessage().send(sender);
@@ -49,7 +53,7 @@ public class ReplyCommand {
         MessagingModule.getInstance().setLastMessage(target.getUniqueId(), sender.getUniqueId());
     }
 
-    private static @NotNull Component getNickname(@NotNull Player player) {
+    private @NotNull Component getNickname(@NotNull Player player) {
         if (NicknameModule.getInstance().isLoaded()) {
             return NicknameModule.getInstance().getNickname(player);
         }

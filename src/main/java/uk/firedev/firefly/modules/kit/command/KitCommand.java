@@ -12,6 +12,7 @@ import uk.firedev.firefly.modules.kit.KitGui;
 
 public class KitCommand {
 
+    // TODO /kits alias
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("kit")
             .requires(stack -> stack.getSender().hasPermission("firefly.command.kit"))
