@@ -1,17 +1,26 @@
 package uk.firedev.firefly.modules.teleportation.commands.tpa;
 
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import org.bukkit.entity.Player;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.modules.teleportation.tpa.TPAHandler;
 
 public class TPDenyCommand {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("tpdeny")
-            .withPermission("firefly.command.tpa")
-            .withHelp("Deny tpa requests.", "Deny tpa requests.")
-            .executesPlayer(info -> {
-                TPAHandler.getInstance().denyRequest(info.sender());
-            });
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("tpdeny")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.tpa"))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                TPAHandler.getInstance().denyRequest(player);
+                return 1;
+            })
+            .build();
     }
 
 }
