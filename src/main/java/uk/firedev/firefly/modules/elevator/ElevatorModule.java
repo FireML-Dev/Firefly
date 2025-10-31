@@ -60,7 +60,7 @@ public class ElevatorModule implements Module {
     }
 
     @Override
-    public void load() {
+    public void init() {
         if (isLoaded()) {
             return;
         }

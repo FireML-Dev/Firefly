@@ -18,8 +18,8 @@ import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
 import uk.firedev.firefly.placeholders.Placeholders;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class TitleModule implements Module {
     }
 
     @Override
-    public void load() {
+    public void init() {
         if (isLoaded()) {
             return;
         }

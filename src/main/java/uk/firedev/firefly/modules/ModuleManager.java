@@ -1,8 +1,6 @@
 package uk.firedev.firefly.modules;
 
-import org.jetbrains.annotations.NotNull;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.command.CommandModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
@@ -47,7 +45,15 @@ public class ModuleManager {
             return;
         }
         ModuleConfig.getInstance().init();
-        modules.forEach(this::registerOrUnregisterModule);
+        ProtectionModule.getInstance().load();
+        ElevatorModule.getInstance().load();
+        TitleModule.getInstance().load();
+        KitModule.getInstance().load();
+        NicknameModule.getInstance().load();
+        PlaytimeModule.getInstance().load();
+        TeleportModule.getInstance().load();
+        CommandModule.getInstance().load();
+        MessagingModule.getInstance().load();
         loaded = true;
     }
 
@@ -56,14 +62,22 @@ public class ModuleManager {
             return;
         }
         ModuleConfig.getInstance().reload();
-        modules.forEach(this::registerOrUnregisterModule);
+        ProtectionModule.getInstance().reload();
+        ElevatorModule.getInstance().reload();
+        TitleModule.getInstance().reload();
+        KitModule.getInstance().reload();
+        NicknameModule.getInstance().reload();
+        PlaytimeModule.getInstance().reload();
+        TeleportModule.getInstance().reload();
+        CommandModule.getInstance().reload();
+        MessagingModule.getInstance().reload();
     }
 
     public void unload() {
         if (!isLoaded()) {
             return;
         }
-        modules.forEach(Module::unregister);
+        modules.forEach(Module::unload);
     }
 
     public boolean isLoaded() {
@@ -72,16 +86,6 @@ public class ModuleManager {
 
     public List<Module> getModules() {
         return List.copyOf(modules);
-    }
-
-    public void registerOrUnregisterModule(@NotNull SubModule module) {
-        if (module.isConfigEnabled()) {
-            module.register();
-        } else {
-            module.unregister();
-        }
-        // Ensure we reload after this
-        module.reload();
     }
 
 }

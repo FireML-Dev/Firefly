@@ -48,7 +48,7 @@ public class NicknameModule implements Module {
     }
 
     @Override
-    public void load() {
+    public void init() {
         if (isLoaded()) {
             return;
         }

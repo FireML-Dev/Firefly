@@ -13,7 +13,7 @@ import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.command.CooldownHelper;
-import uk.firedev.messagelib.replacer.Replacer;
+import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
 
 import java.time.Duration;
 import java.util.List;

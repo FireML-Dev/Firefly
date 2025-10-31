@@ -3,7 +3,7 @@ package uk.firedev.firefly.modules.teleportation.tpa;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
-import uk.firedev.messagelib.replacer.Replacer;
+import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
 
 import java.util.Map;
 

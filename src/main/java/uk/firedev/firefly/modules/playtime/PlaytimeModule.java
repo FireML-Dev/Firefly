@@ -51,7 +51,7 @@ public class PlaytimeModule implements Module {
     }
 
     @Override
-    public void load() {
+    public void init() {
         if (isLoaded()) {
             return;
         }

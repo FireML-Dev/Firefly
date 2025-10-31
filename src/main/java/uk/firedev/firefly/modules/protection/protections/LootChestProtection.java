@@ -6,6 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -18,15 +19,11 @@ import uk.firedev.firefly.modules.protection.ProtectionConfig;
 import java.util.List;
 import java.util.Objects;
 
-public class LootChestProtection implements SubModule {
+public class LootChestProtection implements SubModule, Listener {
 
     private static LootChestProtection instance = null;
 
-    private boolean loaded = false;
-
-    private LootChestProtection() {
-        Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
-    }
+    private LootChestProtection() {}
 
     public static LootChestProtection getInstance() {
         if (instance == null) {
@@ -41,39 +38,24 @@ public class LootChestProtection implements SubModule {
     }
 
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
-        Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
-        loaded = true;
-    }
+    public void init() {}
 
     @Override
-    public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
-        // There is nothing to reload here :)
-    }
+    public void reload() {}
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        // Unregister the event listener
-        HandlerList.unregisterAll(this);
-        loaded = false;
-    }
+    public void unload() {}
 
     @Override
     public boolean isLoaded() {
-        return loaded;
+        return true;
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         Block block = event.getBlock();
         if (block.getState() instanceof Lootable lootable && lootable.getLootTable() != null && getProtectedWorlds().contains(block.getWorld())) {
             event.setCancelled(true);
@@ -82,6 +64,9 @@ public class LootChestProtection implements SubModule {
 
     @EventHandler
     public void onDestroy(VehicleDestroyEvent event) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         Entity entity = event.getVehicle();
         if (entity instanceof Lootable lootable && lootable.getLootTable() != null && getProtectedWorlds().contains(entity.getWorld())) {
             event.setCancelled(true);
@@ -90,6 +75,9 @@ public class LootChestProtection implements SubModule {
 
     @EventHandler
     public void onBlockExplodes(BlockExplodeEvent event) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         event.blockList().removeIf(
                 block -> block.getState() instanceof Lootable lootable && lootable.getLootTable() != null && getProtectedWorlds().contains(block.getWorld())
         );
@@ -97,6 +85,9 @@ public class LootChestProtection implements SubModule {
 
     @EventHandler
     public void onEntityExplodes(EntityExplodeEvent event) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         event.blockList().removeIf(
                 block -> block.getState() instanceof Lootable lootable && lootable.getLootTable() != null && getProtectedWorlds().contains(block.getWorld())
         );

@@ -55,12 +55,12 @@ public class CommandModule implements Module {
     }
 
     @Override
-    public void load() {
+    public void init() {
         if (isLoaded()) {
             return;
         }
         CommandConfig.getInstance().init();
-        commands.forEach(command -> ModuleManager.getInstance().registerOrUnregisterModule(command));
+        commands.forEach(SubModule::load);
         loaded = true;
     }
 
@@ -70,7 +70,7 @@ public class CommandModule implements Module {
             return;
         }
         CommandConfig.getInstance().reload();
-        commands.forEach(command -> ModuleManager.getInstance().registerOrUnregisterModule(command));
+        commands.forEach(SubModule::reload);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class CommandModule implements Module {
         if (!isLoaded()) {
             return;
         }
-        commands.forEach(SubModule::unregister);
+        commands.forEach(SubModule::unload);
         loaded = false;
     }
 

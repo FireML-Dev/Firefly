@@ -7,8 +7,8 @@ import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 import uk.firedev.firefly.modules.titles.gui.PrefixGui;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
 import java.awt.*;
 

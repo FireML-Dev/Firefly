@@ -56,7 +56,7 @@ public class AmethystProtection implements SubModule {
     }
 
     @Override
-    public void load() {
+    public void init() {
         if (isLoaded()) {
             return;
         }

@@ -11,7 +11,7 @@ import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.daisylib.libs.commandapi.arguments.LongArgument;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
-import uk.firedev.messagelib.replacer.Replacer;
+import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
 
 import java.util.Map;
 import java.util.Objects;

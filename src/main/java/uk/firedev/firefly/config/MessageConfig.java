@@ -2,10 +2,10 @@ package uk.firedev.firefly.config;
 
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.replacer.Replacer;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
 
-import static uk.firedev.messagelib.message.ComponentMessage.componentMessage;
+import static uk.firedev.daisylib.libs.messagelib.message.ComponentMessage.componentMessage;
 
 public class MessageConfig extends ConfigBase {
 
