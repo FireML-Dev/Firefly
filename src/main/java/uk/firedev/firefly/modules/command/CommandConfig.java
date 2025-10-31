@@ -22,14 +22,4 @@ public class CommandConfig extends ConfigBase {
         return instance;
     }
 
-    // FlySpeed Messages
-
-    public ComponentMessage getFlySpeedSetMessage() {
-        return getComponentMessage("flyspeed.messages.set", "{prefix}<color:#F0E68C>Your fly speed has been set to {speed}.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getFlySpeedSetSenderMessage() {
-        return getComponentMessage("flyspeed.messages.set-sender", "{prefix}<color:#F0E68C>{target}'s fly speed has been set to {speed}.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
 }
