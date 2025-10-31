@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
+import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.command.CooldownHelper;
@@ -97,9 +98,9 @@ public class Kit {
         if (singleRandomReward()) {
             int index = random.nextInt(rewardList.size());
             String random = rewardList.get(index);
-            RewardAddon.processString(random, player);
+            RewardAddonRegistry.get().processString(random, player);
         } else {
-            rewardList.forEach(reward -> RewardAddon.processString(reward, player));
+            rewardList.forEach(reward -> RewardAddonRegistry.get().processString(reward, player));
         }
     }
 

@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.protection.protections;
 
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -12,6 +13,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.protection.ProtectionConfig;
@@ -41,15 +43,13 @@ public class LootChestProtection implements SubModule, Listener {
     public void init() {}
 
     @Override
+    public void registerCommands(@NotNull Commands registrar) {}
+
+    @Override
     public void reload() {}
 
     @Override
     public void unload() {}
-
-    @Override
-    public boolean isLoaded() {
-        return true;
-    }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {

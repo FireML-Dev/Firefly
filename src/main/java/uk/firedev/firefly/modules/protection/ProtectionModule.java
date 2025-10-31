@@ -1,5 +1,7 @@
 package uk.firedev.firefly.modules.protection;
 
+import io.papermc.paper.command.brigadier.Commands;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
@@ -47,6 +49,9 @@ public class ProtectionModule implements Module {
         protections.forEach(SubModule::load);
         loaded = true;
     }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {}
 
     @Override
     public void reload() {

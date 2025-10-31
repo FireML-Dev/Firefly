@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.nickname;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -53,10 +54,13 @@ public class NicknameModule implements Module {
             return;
         }
         NicknameConfig.getInstance().init();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Nickname Command");
-        NicknameCommand.getCommand().register(Firefly.getInstance());
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         loaded = true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(new NicknameCommand().get());
     }
 
     @Override

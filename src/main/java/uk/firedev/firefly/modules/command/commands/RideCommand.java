@@ -68,6 +68,11 @@ public class RideCommand implements Command {
             .build();
     }
 
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(get());
+    }
+
     // Convenience
 
     private void mount(@NotNull CommandSender sender, @NotNull Player player, @NotNull Entity targetEntity) {

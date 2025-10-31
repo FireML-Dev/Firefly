@@ -56,6 +56,11 @@ public class FlyCommand implements Command {
             .build();
     }
 
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(get());
+    }
+
     // Convenience
 
     private void toggleFlight(@NotNull CommandSender sender, @NotNull Player target) {

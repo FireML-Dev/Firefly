@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.playtime;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -57,11 +58,14 @@ public class PlaytimeModule implements Module {
         }
         PlaytimeConfig.getInstance().init();
         PlaytimeDatabase.getInstance().register(Firefly.getInstance().getDatabase());
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Playtime Commands");
-        PlaytimeCommand.getCommand().register(Firefly.getInstance());
         new PlaytimeRequirement().register();
         startScheduler();
         loaded = true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(new PlaytimeCommand().get());
     }
 
     @Override

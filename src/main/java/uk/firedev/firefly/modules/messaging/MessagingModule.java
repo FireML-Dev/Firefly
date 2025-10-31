@@ -1,8 +1,10 @@
 package uk.firedev.firefly.modules.messaging;
 
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class MessagingModule implements Module {
+public class MessagingModule implements Module, Listener {
 
     private static MessagingModule instance;
     public static final String MESSAGE_PERMISSION = "firefly.command.message";
@@ -50,9 +52,13 @@ public class MessagingModule implements Module {
             return;
         }
         MessagingConfig.getInstance().init();
-        MessageCommand.getCommand().register(Firefly.getInstance());
-        ReplyCommand.getCommand().register(Firefly.getInstance());
         loaded = true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(new MessageCommand().get());
+        registrar.register(new ReplyCommand().get());
     }
 
     @Override

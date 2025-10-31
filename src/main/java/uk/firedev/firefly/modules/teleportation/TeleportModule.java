@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.teleportation;
 
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -65,19 +66,22 @@ public class TeleportModule implements Module {
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
 
-        SpawnCommand.getCommand().register(Firefly.getInstance());
-        SetSpawnCommand.getCommand().register(Firefly.getInstance());
-        SetFirstSpawnCommand.getCommand().register(Firefly.getInstance());
-
-        BackCommand.getCommand().register(Firefly.getInstance());
-        DBackCommand.getCommand().register(Firefly.getInstance());
-
-        TPACommand.getCommand().register(Firefly.getInstance());
-        TPAHereCommand.getCommand().register(Firefly.getInstance());
-        TPDenyCommand.getCommand().register(Firefly.getInstance());
-        TPAcceptCommand.getCommand().register(Firefly.getInstance());
-
         loaded = true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(new SpawnCommand().get());
+        registrar.register(new SetSpawnCommand().get());
+        registrar.register(new SetFirstSpawnCommand().get());
+
+        registrar.register(new BackCommand().get());
+        registrar.register(new DBackCommand().get());
+
+        registrar.register(new TPACommand().get());
+        registrar.register(new TPAHereCommand().get());
+        registrar.register(new TPDenyCommand().get());
+        registrar.register(new TPAcceptCommand().get());
     }
 
     @Override

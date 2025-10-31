@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.titles;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault2.chat.Chat;
@@ -66,12 +67,15 @@ public class TitleModule implements Module {
         TitleConfig.getInstance().init();
         TitleDatabase.getInstance().register(Firefly.getInstance().getDatabase());
 
-        PrefixCommand.getCommand().register(Firefly.getInstance());
-        SuffixCommand.getCommand().register(Firefly.getInstance());
-
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         loaded = true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(new PrefixCommand().get());
+        registrar.register(new SuffixCommand().get());
     }
 
     @Override

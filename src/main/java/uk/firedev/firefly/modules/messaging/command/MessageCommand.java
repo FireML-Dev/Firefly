@@ -20,7 +20,7 @@ public class MessageCommand {
     // TODO aliases.
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(MessagingConfig.getInstance().getMessageCommandName())
-            .requires(stack -> stack.getSender().hasPermission(MessagingModule.REPLY_PERMISSION))
+            .requires(stack -> stack.getSender().hasPermission(MessagingModule.MESSAGE_PERMISSION))
             .then(
                 Commands.argument("target", PlayerArgument.create())
                     .then(

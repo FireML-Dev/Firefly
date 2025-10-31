@@ -15,7 +15,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.MessageConfig;
@@ -64,9 +63,6 @@ public class AmethystProtection implements SubModule, Listener {
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("amethyst_protected", audience -> {
-                if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
@@ -95,9 +91,6 @@ public class AmethystProtection implements SubModule, Listener {
     }
 
     public boolean isDisabled(Player player) {
-        if (!isLoaded()) {
-            return true;
-        }
         return player.getPersistentDataContainer().getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
     }
 
@@ -118,7 +111,8 @@ public class AmethystProtection implements SubModule, Listener {
                     ProtectionConfig.getInstance().getAmethystProtectDisabledMessage().send(player);
                 }
                 return 1;
-            });
+            })
+            .build();
     }
 
  }

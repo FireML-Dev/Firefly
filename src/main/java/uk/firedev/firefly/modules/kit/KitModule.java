@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.kit;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -53,10 +54,13 @@ public class KitModule implements Module {
         }
         KitConfig.getInstance().init();
         loadKits();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Kit Commands");
-        KitCommand.getCommand().register(Firefly.getInstance());
         new KitRewardType().register();
         loaded = true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(new KitCommand().get());
     }
 
     @Override

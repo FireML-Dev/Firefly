@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.elevator;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,10 +68,13 @@ public class ElevatorModule implements Module {
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new ElevatorListener(), this.plugin);
         ElevatorConfig.getInstance().init();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Elevator Command");
-        ElevatorCommand.getCommand().register(Firefly.getInstance());
         registerRecipe();
         loaded = true;
+    }
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(new ElevatorCommand().get());
     }
 
     @Override

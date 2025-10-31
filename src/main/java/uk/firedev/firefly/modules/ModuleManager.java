@@ -1,5 +1,8 @@
 package uk.firedev.firefly.modules;
 
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import org.jetbrains.annotations.NotNull;
+import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.command.CommandModule;
@@ -45,16 +48,23 @@ public class ModuleManager {
             return;
         }
         ModuleConfig.getInstance().init();
-        ProtectionModule.getInstance().load();
-        ElevatorModule.getInstance().load();
-        TitleModule.getInstance().load();
-        KitModule.getInstance().load();
-        NicknameModule.getInstance().load();
-        PlaytimeModule.getInstance().load();
-        TeleportModule.getInstance().load();
-        CommandModule.getInstance().load();
-        MessagingModule.getInstance().load();
+        loadModule(ProtectionModule.getInstance());
+        loadModule(ElevatorModule.getInstance());
+        loadModule(TitleModule.getInstance());
+        loadModule(KitModule.getInstance());
+        loadModule(NicknameModule.getInstance());
+        loadModule(PlaytimeModule.getInstance());
+        loadModule(TeleportModule.getInstance());
+        loadModule(CommandModule.getInstance());
+        loadModule(MessagingModule.getInstance());
         loaded = true;
+    }
+
+    private void loadModule(@NotNull Module module) {
+        module.load();
+        Firefly.getInstance().getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands ->
+            module.registerCommands(commands.registrar())
+        );
     }
 
     public void reload() {

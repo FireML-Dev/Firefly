@@ -50,6 +50,11 @@ public class FlySpeedCommand implements Command {
             .build();
     }
 
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(get());
+    }
+
     // Convenience
 
     private void setSpeed(@NotNull CommandSender sender, @NotNull Player target, float speed) {

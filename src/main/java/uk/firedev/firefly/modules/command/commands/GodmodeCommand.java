@@ -60,6 +60,11 @@ public class GodmodeCommand implements Command, Listener {
             .build();
     }
 
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
+        registrar.register(get());
+    }
+
     @EventHandler
     public void onHungerLoss(FoodLevelChangeEvent event) {
         if (!event.getEntity().isInvulnerable()) {
