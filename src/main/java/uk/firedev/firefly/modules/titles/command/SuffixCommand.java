@@ -1,31 +1,43 @@
 package uk.firedev.firefly.modules.titles.command;
 
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.StringArgument;
+import org.bukkit.entity.Player;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
+import uk.firedev.firefly.modules.titles.gui.PrefixGui;
 import uk.firedev.firefly.modules.titles.gui.SuffixGui;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
 public class SuffixCommand {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("suffix")
-            .withPermission("firefly.command.suffix")
-            .withHelp("Manage Suffix", "Manage Suffix")
-            .executesPlayer(info -> {
-                new SuffixGui(info.sender()).open();
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("suffix")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.suffix"))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                new SuffixGui(player).open();
+                return 1;
             })
-            .then(getDisplayBranch());
+            .then(display())
+            .build();
     }
 
-
-    private static Argument<String> getDisplayBranch() {
-        return new StringArgument("display")
-            .executesPlayer((player, arguments) -> {
+    private static ArgumentBuilder<CommandSourceStack, ?> display() {
+        return Commands.literal("display")
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
                 ComponentSingleMessage suffix = ComponentMessage.componentMessage(TitleModule.getInstance().getPlayerSuffix(player));
                 if (suffix.isEmpty()) {
                     suffix = ComponentMessage.componentMessage(Component.text("None"));
@@ -33,6 +45,7 @@ public class SuffixCommand {
                 TitleConfig.getInstance().getSuffixDisplayMessage()
                     .replace("{player-suffix}", suffix)
                     .send(player);
+                return 1;
             });
     }
 
