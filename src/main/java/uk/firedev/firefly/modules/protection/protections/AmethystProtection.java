@@ -1,14 +1,20 @@
 package uk.firedev.firefly.modules.protection.protections;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.libs.commandapi.CommandTree;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
@@ -20,26 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AmethystProtection implements SubModule {
+public class AmethystProtection implements SubModule, Listener {
 
     private static AmethystProtection instance = null;
     private static final List<UUID> warned = new ArrayList<>();
-
-    private boolean loaded = false;
-    private final CommandTree command = new CommandTree("amethystprotect")
-        .withPermission("firefly.command.amethystprotect")
-        .withHelp("Protects Amethyst", "Protects Amethyst")
-        .executesPlayer(info -> {
-            Player player = info.sender();
-            PersistentDataContainer pdc = player.getPersistentDataContainer();
-            if (isDisabled(player)) {
-                pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
-                ProtectionConfig.getInstance().getAmethystProtectEnabledMessage().send(player);
-            } else {
-                pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
-                ProtectionConfig.getInstance().getAmethystProtectDisabledMessage().send(player);
-            }
-        });
 
     private AmethystProtection() {}
 
@@ -56,35 +46,19 @@ public class AmethystProtection implements SubModule {
     }
 
     @Override
-    public void init() {
-        if (isLoaded()) {
-            return;
-        }
+    public void init() {}
+
+    @Override
+    public void registerCommands(@NotNull Commands registrar) {
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering AmethystProtect Command");
-        command.register(Firefly.getInstance());
-        loaded = true;
+        registrar.register(getCommand());
     }
 
     @Override
-    public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
-        // There is nothing to reload here :)
-    }
+    public void reload() {}
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
+    public void unload() {}
 
     @Override
     public void registerPlaceholders() {
@@ -127,4 +101,24 @@ public class AmethystProtection implements SubModule {
         return player.getPersistentDataContainer().getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
     }
 
-}
+    private LiteralCommandNode<CommandSourceStack> getCommand() {
+        return Commands.literal("amethystprotect")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.amethystprotect"))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                PersistentDataContainer pdc = player.getPersistentDataContainer();
+                if (isDisabled(player)) {
+                    pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
+                    ProtectionConfig.getInstance().getAmethystProtectEnabledMessage().send(player);
+                } else {
+                    pdc.set(getAmethystProtectKey(), PersistentDataType.BOOLEAN, true);
+                    ProtectionConfig.getInstance().getAmethystProtectDisabledMessage().send(player);
+                }
+                return 1;
+            });
+    }
+
+ }
