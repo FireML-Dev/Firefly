@@ -22,28 +22,6 @@ public class CommandConfig extends ConfigBase {
         return instance;
     }
 
-    // Fly Messages
-    
-    private ComponentMessage get(@NotNull String path, @NotNull String def) {
-        return getComponentMessage(path, def).replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getFlightEnabledMessage() {
-        return getComponentMessage("fly.messages.enabled", "{prefix}<color:#F0E68C>Flight is now enabled.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getFlightEnabledSenderMessage() {
-        return getComponentMessage("fly.messages.enabled-sender", "{prefix}<color:#F0E68C>Flight is now enabled for {target}.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getFlightDisabledMessage() {
-        return getComponentMessage("fly.messages.disabled", "{prefix}<red>Flight is now disabled.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getFlightDisabledSenderMessage() {
-        return getComponentMessage("fly.messages.disabled-sender", "{prefix}<red>Flight is now disabled for {target}.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
     // FlySpeed Messages
 
     public ComponentMessage getFlySpeedSetMessage() {
