@@ -1,11 +1,12 @@
 package uk.firedev.firefly;
 
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.NamedTextColor;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
@@ -16,26 +17,28 @@ import java.util.List;
 
 public class FireflyCommand {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("firefly")
-            .withPermission("firefly.command.main")
-            .withShortDescription("Manage the Plugin")
-            .then(getReloadBranch())
-            .then(getModulesBranch());
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("firefly")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.main"))
+            .then(reload())
+            .then(modules())
+            .build();
     }
 
-    private static Argument<String> getReloadBranch() {
-        return new LiteralArgument("reload")
-            .executes(info -> {
+    private static ArgumentBuilder<CommandSourceStack, ?> reload() {
+        return Commands.literal("reload")
+            .executes(context -> {
                 Firefly.getInstance().reload();
-                MessageConfig.getInstance().getMainCommandReloadedMessage().send(info.sender());
+                MessageConfig.getInstance().getMainCommandReloadedMessage().send(context.getSource().getSender());
+                return 1;
             });
     }
 
-    private static Argument<String> getModulesBranch() {
-        return new LiteralArgument("modules")
-            .executes(info -> {
-                getModulesMessage().send(info.sender());
+    private static ArgumentBuilder<CommandSourceStack, ?> modules() {
+        return Commands.literal("modules")
+            .executes(context -> {
+                getModulesMessage().send(context.getSource().getSender());
+                return 1;
             });
     }
 
@@ -51,15 +54,15 @@ public class FireflyCommand {
 
         for (Module module : ModuleManager.getInstance().getModules()) {
             Component formatted = Component
-                    .text(module.getIdentifier())
-                    .color(module.isLoaded() ? NamedTextColor.GREEN : NamedTextColor.RED);
+                .text(module.getIdentifier())
+                .color(module.isLoaded() ? NamedTextColor.GREEN : NamedTextColor.RED);
             formattedModules.add(formatted);
         }
 
         Component finalComponent = Component
-                .text("Modules (" + loadedModules + "):")
-                .appendNewline()
-                .append(Component.join(JoinConfiguration.commas(true), formattedModules));
+            .text("Modules (" + loadedModules + "):")
+            .appendNewline()
+            .append(Component.join(JoinConfiguration.commas(true), formattedModules));
 
         return ComponentMessage.componentMessage(finalComponent);
     }
