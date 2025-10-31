@@ -1,49 +1,63 @@
 package uk.firedev.firefly.modules.kit.command;
 
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitGui;
 
-import java.util.Objects;
-
 public class KitCommand {
 
-    private KitCommand() {}
-
-    public static CommandTree getCommand() {
-        return new CommandTree("kit")
-            .withAliases("kits")
-            .withPermission("firefly.command.kit")
-            .withShortDescription("Get kits")
-            .withFullDescription("Get kits")
-            .executesPlayer(info -> {
-                new KitGui(info.sender()).open();
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("kit")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.kit"))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                new KitGui(player).open();
+                return 1;
             })
-            .then(
-                KitArgument.createPredicate("kit", (player, kit) -> kit.isPlayerVisible())
-                    .executesPlayer(info -> {
-                        Kit kit = Objects.requireNonNull(info.args().getUnchecked("kit"));
-                        kit.giveToPlayerWithCooldown(info.sender(), null);
-                    })
-            )
-            .then(getAwardBranch());
+            .then(getArg())
+            .then(award())
+            .build();
     }
 
-    private static Argument<String> getAwardBranch() {
-        return new LiteralArgument("award")
-            .withPermission("firefly.command.kit.award")
-            .thenNested(
-                KitArgument.create("kit"),
-                PlayerArgument.create("player")
-                    .executes(info -> {
-                        Kit kit = Objects.requireNonNull(info.args().getUnchecked("kit"));
-                        Player target = Objects.requireNonNull(info.args().getUnchecked("player"));
-                        kit.giveToPlayer(target, info.sender());
+    private ArgumentBuilder<CommandSourceStack, ?> getArg() {
+        return Commands.literal("get")
+            .then(
+                Commands.argument("kit", KitArgument.create((player, kit) -> kit.isPlayerVisible()))
+                    .executes(context -> {
+                        Player player = CommandUtils.requirePlayer(context.getSource());
+                        if (player == null) {
+                            return 1;
+                        }
+                        Kit kit = context.getArgument("kit", Kit.class);
+                        kit.giveToPlayerWithCooldown(player, null);
+                        return 1;
                     })
+            );
+    }
+
+    private static ArgumentBuilder<CommandSourceStack, ?> award() {
+        return Commands.literal("award")
+            .requires(stack -> stack.getSender().hasPermission("firefly.command.kit.award"))
+            .then(
+                Commands.argument("kit", KitArgument.create())
+                    .then(
+                        Commands.argument("player", PlayerArgument.create())
+                            .executes(context -> {
+                                Kit kit = context.getArgument("kit", Kit.class);
+                                Player target = context.getArgument("player", Player.class);
+                                kit.giveToPlayer(target, context.getSource().getSender());
+                                return 1;
+                            })
+                    )
             );
     }
 
