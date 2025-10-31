@@ -14,7 +14,6 @@ import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.firefly.modules.command.Command;
-import uk.firedev.firefly.modules.command.CommandConfig;
 import uk.firedev.firefly.utils.StringUtils;
 
 public class RenameCommand implements Command {

@@ -11,11 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
-import uk.firedev.firefly.modules.command.CommandConfig;
-
-import java.util.Objects;
 
 public class HealCommand implements Command {
 
