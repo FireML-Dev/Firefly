@@ -80,36 +80,6 @@ public class CommandConfig extends ConfigBase {
         return getComponentMessage("ride.messages.shook", "{prefix}<#F0E68C>Successfully shook off all players!").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    // ItemFrame Messages
-
-    public ComponentMessage getItemFrameLookAtFrameMessage() {
-        return getComponentMessage("itemframe.messages.look-at-frame", "{prefix}<red>You must be looking at an item frame!").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getItemFrameInvisibleOnMessage() {
-        return getComponentMessage("itemframe.messages.invisible-on", "{prefix}<#F0E68C>Item Frame is now invisible!").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getItemFrameInvisibleOffMessage() {
-        return getComponentMessage("itemframe.messages.invisible-off", "{prefix}<#F0E68C>Item Frame is no longer invisible!").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getItemFrameFixedOnMessage() {
-        return getComponentMessage("itemframe.messages.fixed-on", "{prefix}<#F0E68C>Item Frame is now fixed!").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getItemFrameFixedOffMessage() {
-        return getComponentMessage("itemframe.messages.fixed-off", "{prefix}<#F0E68C>Item Frame is no longer fixed!").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getItemFrameInvulnerableOnMessage() {
-        return getComponentMessage("itemframe.messages.invulnerable-on", "{prefix}<#F0E68C>Item Frame is now invulnerable!").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getItemFrameInvulnerableOffMessage() {
-        return getComponentMessage("itemframe.messages.invulnerable-off", "{prefix}<#F0E68C>Item Frame is no longer invulnerable!").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
     // Godmode Messages
 
     public ComponentMessage getGodmodeEnabledMessage() {
@@ -140,20 +110,6 @@ public class CommandConfig extends ConfigBase {
 
     public ComponentMessage getHealedSenderMessage() {
         return getComponentMessage("heal.messages.healed-sender", "{prefix}<color:#F0E68C>You have healed {target}.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    // Rename Messages
-
-    public ComponentMessage getRenameHoldItemMessage() {
-        return getComponentMessage("rename.messages.hold-an-item", "{prefix}<red>Please hold an item.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getRenamedMessage() {
-        return getComponentMessage("rename.messages.renamed", "{prefix}<#F0E68C>Renamed your item to {newName}").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getRenamedSenderMessage() {
-        return getComponentMessage("rename.messages.renamed-sender", "{prefix}<#F0E68C>Renamed {target}'s item to {newName}").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
 }
