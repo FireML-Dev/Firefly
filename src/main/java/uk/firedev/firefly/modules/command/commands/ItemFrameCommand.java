@@ -134,31 +134,31 @@ public class ItemFrameCommand implements Command {
     // Messages
 
     public ComponentMessage getLookAtFrameMessage() {
-        return getMessage("itemframe.messages.look-at-frame", "{prefix}<red>You must be looking at an item frame!");
+        return getMessage("look-at-frame", "{prefix}<red>You must be looking at an item frame!");
     }
 
     public ComponentMessage getInvisibleOnMessage() {
-        return getMessage("itemframe.messages.invisible-on", "{prefix}<#F0E68C>Item Frame is now invisible!");
+        return getMessage("invisible-on", "{prefix}<#F0E68C>Item Frame is now invisible!");
     }
 
     public ComponentMessage getInvisibleOffMessage() {
-        return getMessage("itemframe.messages.invisible-off", "{prefix}<#F0E68C>Item Frame is no longer invisible!");
+        return getMessage("invisible-off", "{prefix}<#F0E68C>Item Frame is no longer invisible!");
     }
 
     public ComponentMessage getFixedOnMessage() {
-        return getMessage("itemframe.messages.fixed-on", "{prefix}<#F0E68C>Item Frame is now fixed!");
+        return getMessage("fixed-on", "{prefix}<#F0E68C>Item Frame is now fixed!");
     }
 
     public ComponentMessage getFixedOffMessage() {
-        return getMessage("itemframe.messages.fixed-off", "{prefix}<#F0E68C>Item Frame is no longer fixed!");
+        return getMessage("fixed-off", "{prefix}<#F0E68C>Item Frame is no longer fixed!");
     }
 
     public ComponentMessage getInvulnerableOnMessage() {
-        return getMessage("itemframe.messages.invulnerable-on", "{prefix}<#F0E68C>Item Frame is now invulnerable!");
+        return getMessage("invulnerable-on", "{prefix}<#F0E68C>Item Frame is now invulnerable!");
     }
 
     public ComponentMessage getInvulnerableOffMessage() {
-        return getMessage("itemframe.messages.invulnerable-off", "{prefix}<#F0E68C>Item Frame is no longer invulnerable!");
+        return getMessage("invulnerable-off", "{prefix}<#F0E68C>Item Frame is no longer invulnerable!");
     }
 
 }

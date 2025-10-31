@@ -114,19 +114,19 @@ public class GodmodeCommand implements Command, Listener {
     // Messages
 
     public ComponentMessage getEnabledMessage() {
-        return getMessage("godmode.messages.enabled", "{prefix}<color:#F0E68C>Godmode is now enabled.");
+        return getMessage("enabled", "{prefix}<color:#F0E68C>Godmode is now enabled.");
     }
 
     public ComponentMessage getEnabledSenderMessage() {
-        return getMessage("godmode.messages.enabled-sender", "{prefix}<color:#F0E68C>Godmode is now enabled for {target}.");
+        return getMessage("enabled-sender", "{prefix}<color:#F0E68C>Godmode is now enabled for {target}.");
     }
 
     public ComponentMessage getDisabledMessage() {
-        return getMessage("godmode.messages.disabled", "{prefix}<red>Godmode is now disabled.");
+        return getMessage("disabled", "{prefix}<red>Godmode is now disabled.");
     }
 
     public ComponentMessage getDisabledSenderMessage() {
-        return getMessage("godmode.messages.disabled-sender", "{prefix}<red>Godmode is now disabled for {target}.");
+        return getMessage("disabled-sender", "{prefix}<red>Godmode is now disabled for {target}.");
     }
 
 }

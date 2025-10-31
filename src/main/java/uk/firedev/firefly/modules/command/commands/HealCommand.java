@@ -77,11 +77,11 @@ public class HealCommand implements Command {
     // Messages
 
     public ComponentMessage getHealedMessage() {
-        return getMessage("heal.messages.healed", "{prefix}<color:#F0E68C>You have been healed.");
+        return getMessage("healed", "{prefix}<color:#F0E68C>You have been healed.");
     }
 
     public ComponentMessage getHealedSenderMessage() {
-        return getMessage("heal.messages.healed-sender", "{prefix}<color:#F0E68C>You have healed {target}.");
+        return getMessage("healed-sender", "{prefix}<color:#F0E68C>You have healed {target}.");
     }
 
 }

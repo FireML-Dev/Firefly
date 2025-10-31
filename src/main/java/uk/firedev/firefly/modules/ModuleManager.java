@@ -48,15 +48,7 @@ public class ModuleManager {
             return;
         }
         ModuleConfig.getInstance().init();
-        loadModule(ProtectionModule.getInstance());
-        loadModule(ElevatorModule.getInstance());
-        loadModule(TitleModule.getInstance());
-        loadModule(KitModule.getInstance());
-        loadModule(NicknameModule.getInstance());
-        loadModule(PlaytimeModule.getInstance());
-        loadModule(TeleportModule.getInstance());
-        loadModule(CommandModule.getInstance());
-        loadModule(MessagingModule.getInstance());
+        modules.forEach(this::loadModule);
         loaded = true;
     }
 
@@ -71,16 +63,7 @@ public class ModuleManager {
         if (!isLoaded()) {
             return;
         }
-        ModuleConfig.getInstance().reload();
-        ProtectionModule.getInstance().reload();
-        ElevatorModule.getInstance().reload();
-        TitleModule.getInstance().reload();
-        KitModule.getInstance().reload();
-        NicknameModule.getInstance().reload();
-        PlaytimeModule.getInstance().reload();
-        TeleportModule.getInstance().reload();
-        CommandModule.getInstance().reload();
-        MessagingModule.getInstance().reload();
+        modules.forEach(Module::reload);
     }
 
     public void unload() {
