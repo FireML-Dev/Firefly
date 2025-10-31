@@ -1,24 +1,56 @@
 package uk.firedev.firefly.modules.command.commands;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
+import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.command.CommandConfig;
 
 import java.util.Objects;
 
-public class HealCommand extends Command {
+public class HealCommand implements Command {
 
     @NotNull
     @Override
     public String getConfigName() {
         return "heal";
     }
+
+    @NotNull
+    @Override
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal(getCommandName())
+            .requires(stack -> stack.getSender().hasPermission(getPermission()))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                heal(player, player);
+                return 1;
+            })
+            .then(
+                Commands.argument("target", PlayerArgument.create())
+                    .requires(stack -> stack.getSender().hasPermission(getTargetPermission()))
+                    .executes(context -> {
+                        Player player = context.getArgument("target", Player.class);
+                        heal(context.getSource().getSender(), player);
+                        return 1;
+                    })
+            )
+            .build();
+    }
+    
+    // Convenience
 
     private void heal(@NotNull CommandSender sender, @NotNull Player target) {
         double maxHealth = 20;
@@ -33,37 +65,22 @@ public class HealCommand extends Command {
     }
 
     private void sendHealedMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getHealedMessage().send(target);
+        getHealedMessage().send(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getHealedSenderMessage()
+            getHealedSenderMessage()
                 .replace("{target}", target.name())
                 .send(sender);
         }
     }
+    
+    // Messages
 
-    @NotNull
-    @Override
-    public CommandTree loadCommand() {
-        return new CommandTree(getName())
-            .withAliases(getAliases())
-            .withPermission(getPermission())
-            .executesPlayer(info -> {
-                if (disabledCheck(info.sender())) {
-                    return;
-                }
-                heal(info.sender(), info.sender());
-            })
-            .then(
-                new EntitySelectorArgument.OnePlayer("target")
-                    .withPermission(getTargetPermission())
-                    .executes(info -> {
-                        if (disabledCheck(info.sender())) {
-                            return;
-                        }
-                        Player player = Objects.requireNonNull(info.args().getUnchecked("target"));
-                        heal(info.sender(), player);
-                    })
-            );
+    public ComponentMessage getHealedMessage() {
+        return getMessage("heal.messages.healed", "{prefix}<color:#F0E68C>You have been healed.");
+    }
+
+    public ComponentMessage getHealedSenderMessage() {
+        return getMessage("heal.messages.healed-sender", "{prefix}<color:#F0E68C>You have healed {target}.");
     }
 
 }

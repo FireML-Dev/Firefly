@@ -102,14 +102,4 @@ public class CommandConfig extends ConfigBase {
         return getConfig().getBoolean("godmode.prevent-hunger", true);
     }
 
-    // Heal Messages
-
-    public ComponentMessage getHealedMessage() {
-        return getComponentMessage("heal.messages.healed", "{prefix}<color:#F0E68C>You have been healed.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
-    public ComponentMessage getHealedSenderMessage() {
-        return getComponentMessage("heal.messages.healed-sender", "{prefix}<color:#F0E68C>You have healed {target}.").replace(MessageConfig.getInstance().getPrefixReplacer());
-    }
-
 }
