@@ -57,8 +57,8 @@ public class MessagingModule implements Module, Listener {
 
     @Override
     public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new MessageCommand().get());
-        registrar.register(new ReplyCommand().get());
+        registrar.register(new MessageCommand().get(), null, , MessagingConfig.getInstance().getMessageCommandAliases());
+        registrar.register(new ReplyCommand().get(), null, MessagingConfig.getInstance().getReplyCommandAliases());
     }
 
     @Override

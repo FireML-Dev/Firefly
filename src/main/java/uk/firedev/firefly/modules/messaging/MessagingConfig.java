@@ -6,25 +6,27 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 
+import java.util.List;
+
 public class MessagingConfig extends ConfigBase {
 
     private static MessagingConfig instance;
 
     private final @NotNull String messageCommandName;
-    private final @NotNull String[] messageCommandAliases;
+    private final @NotNull List<String> messageCommandAliases;
 
     private final @NotNull String replyCommandName;
-    private final @NotNull String[] replyCommandAliases;
+    private final @NotNull List<String> replyCommandAliases;
 
     private MessagingConfig() {
         super("modules/messaging.yml", "modules/messaging.yml", Firefly.getInstance());
         withDefaultUpdaterSettings();
 
         this.messageCommandName = getConfig().getString("message-command.name", "message");
-        this.messageCommandAliases = getConfig().getStringList("message-command.aliases").toArray(String[]::new);
+        this.messageCommandAliases = getConfig().getStringList("message-command.aliases");
 
         this.replyCommandName = getConfig().getString("reply-command.name", "reply");
-        this.replyCommandAliases = getConfig().getStringList("reply-command.aliases").toArray(String[]::new);
+        this.replyCommandAliases = getConfig().getStringList("reply-command.aliases");
     }
 
     public static MessagingConfig getInstance() {
@@ -40,7 +42,7 @@ public class MessagingConfig extends ConfigBase {
         return messageCommandName;
     }
 
-    public @NotNull String[] getMessageCommandAliases() {
+    public @NotNull List<String> getMessageCommandAliases() {
         return messageCommandAliases;
     }
 
@@ -48,7 +50,7 @@ public class MessagingConfig extends ConfigBase {
         return replyCommandName;
     }
 
-    public @NotNull String[] getReplyCommandAliases() {
+    public @NotNull List<String> getReplyCommandAliases() {
         return replyCommandAliases;
     }
 
