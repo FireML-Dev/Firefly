@@ -7,6 +7,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.daisylib.libs.messagelib.Utils;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
@@ -41,9 +42,9 @@ public class PrefixCommand {
                 if (player == null) {
                     return 1;
                 }
-                ComponentSingleMessage prefix = ComponentMessage.componentMessage(TitleModule.getInstance().getPlayerPrefix(player));
-                if (prefix.isEmpty()) {
-                    prefix = ComponentMessage.componentMessage(Component.text("None"));
+                Component prefix = TitleModule.getInstance().getPlayerPrefix(player);
+                if (prefix == null || ComponentMessage.componentMessage(prefix).isEmpty()) {
+                    prefix = Component.text("None");
                 }
                 TitleConfig.getInstance().getPrefixDisplayMessage()
                     .replace("{player-prefix}", prefix)

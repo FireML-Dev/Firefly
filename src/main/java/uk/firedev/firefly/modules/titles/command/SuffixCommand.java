@@ -38,9 +38,9 @@ public class SuffixCommand {
                 if (player == null) {
                     return 1;
                 }
-                ComponentSingleMessage suffix = ComponentMessage.componentMessage(TitleModule.getInstance().getPlayerSuffix(player));
-                if (suffix.isEmpty()) {
-                    suffix = ComponentMessage.componentMessage(Component.text("None"));
+                Component suffix = TitleModule.getInstance().getPlayerPrefix(player);
+                if (suffix == null || ComponentMessage.componentMessage(suffix).isEmpty()) {
+                    suffix = Component.text("None");
                 }
                 TitleConfig.getInstance().getSuffixDisplayMessage()
                     .replace("{player-suffix}", suffix)
