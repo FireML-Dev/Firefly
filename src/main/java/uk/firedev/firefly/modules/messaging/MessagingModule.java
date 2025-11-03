@@ -65,10 +65,16 @@ public class MessagingModule implements Module, Listener {
     public void unload() {}
 
     public void setLastMessage(@NotNull UUID receiver, @NotNull UUID sender) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         lastMessages.put(receiver, sender);
     }
 
     public @Nullable Player getLastMessage(@NotNull UUID sender) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         UUID uuid = lastMessages.get(sender);
         if (uuid == null) {
             return null;

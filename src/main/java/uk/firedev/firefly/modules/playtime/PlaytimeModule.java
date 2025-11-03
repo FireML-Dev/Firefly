@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -102,6 +103,9 @@ public class PlaytimeModule implements Module {
     // Playtime Management
 
     private void startScheduler() {
+        if (!isConfigEnabled()) {
+            return;
+        }
         if (playtimeTask == null) {
             playtimeTask = Bukkit.getScheduler().runTaskTimer(Firefly.getInstance(), () ->
                     Bukkit.getOnlinePlayers().forEach(this::incrementTime), 20L, 20L
@@ -117,10 +121,16 @@ public class PlaytimeModule implements Module {
     }
 
     public void incrementTime(@NotNull OfflinePlayer player) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         setTime(player, getTime(player) + 1);
     }
 
     public void decrementTime(@NotNull OfflinePlayer player) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         long currentTime = getTime(player);
         if (currentTime > 0) {
             setTime(player, currentTime - 1);
@@ -128,6 +138,9 @@ public class PlaytimeModule implements Module {
     }
 
     public void setTime(@NotNull OfflinePlayer player, long time) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -136,6 +149,9 @@ public class PlaytimeModule implements Module {
     }
 
     public long getTime(@NotNull OfflinePlayer player) {
+        if (!isConfigEnabled()) {
+            return 0L;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return 0L;
@@ -149,10 +165,13 @@ public class PlaytimeModule implements Module {
 
     // Database
 
-    public CompletableFuture<TreeMap<Long, UUID>> getTopPlaytimes() {
+    public CompletableFuture<Map<Long, UUID>> getTopPlaytimes() {
+        if (!isConfigEnabled()) {
+            return CompletableFuture.completedFuture(Map.of());
+        }
         return CompletableFuture.supplyAsync(() -> {
             try (PreparedStatement ps = Firefly.getInstance().getDatabase().getConnection().prepareStatement("SELECT * FROM firefly_players")) {
-                TreeMap<Long, UUID> top = new TreeMap<>(Collections.reverseOrder());
+                Map<Long, UUID> top = new TreeMap<>(Collections.reverseOrder());
                 ResultSet resultSet = ps.executeQuery();
                 while (resultSet.next()) {
                     UUID uuid = UUID.fromString(resultSet.getString("uuid"));

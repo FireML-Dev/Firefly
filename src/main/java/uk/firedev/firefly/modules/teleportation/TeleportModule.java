@@ -84,6 +84,11 @@ public class TeleportModule implements Module {
     // /spawn
 
     public void refreshSpawnLocations() {
+        if (!isConfigEnabled()) {
+            spawnLocation = null;
+            firstSpawnLocation = null;
+            return;
+        }
         spawnLocation = TeleportConfig.getInstance().getSpawnLocation(false);
         firstSpawnLocation = TeleportConfig.getInstance().getSpawnLocation(true);
     }
@@ -97,6 +102,9 @@ public class TeleportModule implements Module {
     }
 
     public boolean sendToSpawn(boolean firstSpawn, @NotNull Player player, boolean sendMessage) {
+        if (!isConfigEnabled()) {
+            return false;
+        }
         Location location = firstSpawn ? getFirstSpawnLocation() : getSpawnLocation();
         String invalid = firstSpawn ? "The first spawn location is not valid!" : "The spawn location is not valid!";
         if (location == null) {
@@ -114,6 +122,9 @@ public class TeleportModule implements Module {
     }
 
     public void sendToSpawn(boolean firstSpawn, @NotNull Player player, @Nullable CommandSender sender, boolean sendMessage) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         if (sendToSpawn(firstSpawn, player, sendMessage) && sender != null) {
             TeleportConfig.getInstance().getSpawnSentPlayerToSpawnMessage(player).send(sender);
         }
@@ -122,6 +133,9 @@ public class TeleportModule implements Module {
     // /back
 
     public void setLastLocation(@NotNull HumanEntity humanEntity, @Nullable Location location) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(humanEntity.getUniqueId());
         if (data == null) {
             return;
@@ -134,6 +148,9 @@ public class TeleportModule implements Module {
     }
 
     public @Nullable Location getLastLocation(@NotNull HumanEntity humanEntity) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(humanEntity.getUniqueId());
         if (data == null) {
             return null;

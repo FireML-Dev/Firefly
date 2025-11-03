@@ -120,6 +120,9 @@ public class TitleModule implements Module {
     }
 
     public void setPlayerPrefix(@NotNull Player player, @NotNull ComponentSingleMessage prefix) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -131,6 +134,9 @@ public class TitleModule implements Module {
     }
 
     public void removePlayerPrefix(@NotNull Player player) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -140,6 +146,9 @@ public class TitleModule implements Module {
     }
 
     public @Nullable Component getPlayerPrefix(@NotNull Player player) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null || data.getPrefix() == null) {
             if (chat == null) {
@@ -168,6 +177,9 @@ public class TitleModule implements Module {
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull ComponentSingleMessage suffix) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -179,6 +191,9 @@ public class TitleModule implements Module {
     }
 
     public void removePlayerSuffix(@NotNull Player player) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -188,6 +203,9 @@ public class TitleModule implements Module {
     }
 
     public @Nullable Component getPlayerSuffix(@NotNull Player player) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null || data.getSuffix() == null) {
             if (chat == null) {
@@ -208,6 +226,9 @@ public class TitleModule implements Module {
     }
 
     public List<Prefix> getPrefixes() {
+        if (!isConfigEnabled()) {
+            return List.of();
+        }
         if (prefixes == null || prefixes.isEmpty()) {
             this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         }
@@ -215,6 +236,9 @@ public class TitleModule implements Module {
     }
 
     public List<Suffix> getSuffixes() {
+        if (!isConfigEnabled()) {
+            return List.of();
+        }
         if (suffixes == null || suffixes.isEmpty()) {
             this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         }

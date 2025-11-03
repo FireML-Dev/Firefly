@@ -15,7 +15,6 @@ public class ProtectionModule implements Module {
 
     private static ProtectionModule instance;
 
-    private boolean loaded;
     private final List<SubModule> protections = List.of(
             AmethystProtection.getInstance(),
             LootChestProtection.getInstance()

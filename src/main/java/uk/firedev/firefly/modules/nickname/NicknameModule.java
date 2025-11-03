@@ -83,7 +83,7 @@ public class NicknameModule implements Module {
 
     public Component getNickname(@NotNull OfflinePlayer player) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
-        if (data == null) {
+        if (!isConfigEnabled() || data == null) {
             String name = player.getName();
             return Component.text(name == null ? "N/A" : name);
         }
@@ -91,6 +91,9 @@ public class NicknameModule implements Module {
     }
 
     public void setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -99,6 +102,9 @@ public class NicknameModule implements Module {
     }
 
     public void setNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -107,6 +113,9 @@ public class NicknameModule implements Module {
     }
 
     public void removeNickname(@NotNull OfflinePlayer player) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;

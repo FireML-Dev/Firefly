@@ -92,10 +92,16 @@ public class KitModule implements Module, Listener {
     }
 
     public boolean isKit(ItemStack item) {
+        if (!isConfigEnabled()) {
+            return false;
+        }
         return item.getItemMeta().getPersistentDataContainer().has(getKitKey());
     }
 
     public @Nullable Kit getKit(@NotNull String name) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         return loadedKits.get(name);
     }
 
@@ -119,6 +125,9 @@ public class KitModule implements Module, Listener {
 
     private void loadKits() {
         loadedKits.clear();
+        if (!isConfigEnabled()) {
+            return;
+        }
         KitConfig.getInstance().getKitConfigs().forEach(section -> {
             String name = section.getName();
             try {

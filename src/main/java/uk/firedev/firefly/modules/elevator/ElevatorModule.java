@@ -130,11 +130,18 @@ public class ElevatorModule implements Module {
     }
 
     public boolean isElevatorBlock(ItemStack itemStack) {
+        if (!isConfigEnabled()) {
+            return false;
+        }
         PersistentDataContainer pdc = itemStack.getItemMeta().getPersistentDataContainer();
         return pdc.getOrDefault(getItemKey(), PersistentDataType.BOOLEAN, false);
     }
 
     public ItemStack getElevatorBlock() {
+        if (!isConfigEnabled()) {
+            return ItemStack.empty();
+        }
+
         ConfigurationSection config = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item");
 
         return ItemBuilder.createWithConfig(config, null, null)
@@ -148,6 +155,10 @@ public class ElevatorModule implements Module {
     private void registerRecipe() {
         if (this.recipe != null) {
             this.recipe.unregister();
+            this.recipe = null;
+        }
+        if (!isConfigEnabled()) {
+            return;
         }
         ConfigurationSection section = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item.recipe");
         if (section == null) {
