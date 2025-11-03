@@ -24,7 +24,6 @@ public class MessagingModule implements Module, Listener {
     public static final String MESSAGE_PERMISSION = "firefly.command.message";
     public static final String REPLY_PERMISSION = "firefly.command.reply";
 
-    private boolean loaded = false;
     private final Map<UUID, UUID> lastMessages = new HashMap<>();
 
     private MessagingModule() {}
@@ -48,11 +47,7 @@ public class MessagingModule implements Module, Listener {
 
     @Override
     public void init() {
-        if (isLoaded()) {
-            return;
-        }
         MessagingConfig.getInstance().init();
-        loaded = true;
     }
 
     @Override
@@ -63,24 +58,11 @@ public class MessagingModule implements Module, Listener {
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         MessagingConfig.getInstance().reload();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
+    public void unload() {}
 
     public void setLastMessage(@NotNull UUID receiver, @NotNull UUID sender) {
         lastMessages.put(receiver, sender);

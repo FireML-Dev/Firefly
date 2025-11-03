@@ -4,6 +4,4 @@ public interface Module extends SubModule {
 
     String getIdentifier();
 
-    boolean isLoaded();
-
 }

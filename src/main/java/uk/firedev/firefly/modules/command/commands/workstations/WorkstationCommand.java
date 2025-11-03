@@ -14,7 +14,7 @@ public interface WorkstationCommand extends Command {
     @Override
     default @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() &&  stack.getSender().hasPermission(getPermission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -25,7 +25,7 @@ public interface WorkstationCommand extends Command {
             })
             .then(
                 Commands.argument("target", PlayerArgument.create())
-                    .requires(stack -> stack.getSender().hasPermission(getTargetPermission()))
+                    .requires(stack ->  stack.getSender().hasPermission(getTargetPermission()))
                     .executes(context -> {
                         Player player = context.getArgument("target", Player.class);
                         open(player);

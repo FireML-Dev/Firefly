@@ -25,7 +25,7 @@ public class NicknameCommand {
     // TODO /nick alias.
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("nickname")
-            .requires(stack -> stack.getSender().hasPermission(NicknameModule.COMMAND_PERMISSION))
+            .requires(stack -> NicknameModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(NicknameModule.COMMAND_PERMISSION))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

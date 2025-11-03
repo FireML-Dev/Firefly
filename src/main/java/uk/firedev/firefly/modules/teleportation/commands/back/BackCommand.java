@@ -17,7 +17,7 @@ public class BackCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("back")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.back"))
+            .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.back"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

@@ -76,6 +76,9 @@ public class AmethystProtection implements SubModule, Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         if (event.getBlock().getType() != Material.BUDDING_AMETHYST) {
             return;
         }
@@ -96,7 +99,7 @@ public class AmethystProtection implements SubModule, Listener {
 
     private LiteralCommandNode<CommandSourceStack> getCommand() {
         return Commands.literal("amethystprotect")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.amethystprotect"))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission("firefly.command.amethystprotect"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

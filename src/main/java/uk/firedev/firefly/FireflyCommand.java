@@ -53,16 +53,18 @@ public class FireflyCommand {
         int loadedModules = modules.size();
 
         for (Module module : ModuleManager.getInstance().getModules()) {
-            Component formatted = Component
-                .text(module.getIdentifier())
-                .color(module.isLoaded() ? NamedTextColor.GREEN : NamedTextColor.RED);
+            Component formatted = Component.text()
+                .content(module.getIdentifier())
+                .color(NamedTextColor.GREEN)
+                .build();
             formattedModules.add(formatted);
         }
 
-        Component finalComponent = Component
-            .text("Modules (" + loadedModules + "):")
+        Component finalComponent = Component.text()
+            .content("Modules (" + loadedModules + "):")
             .appendNewline()
-            .append(Component.join(JoinConfiguration.commas(true), formattedModules));
+            .append(Component.join(JoinConfiguration.commas(true), formattedModules))
+            .build();
 
         return ComponentMessage.componentMessage(finalComponent);
     }

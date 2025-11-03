@@ -24,7 +24,7 @@ public class FlySpeedCommand implements Command {
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(getPermission()))
             .then(
                 Commands.argument("speed", FloatArgumentType.floatArg(1, 10))
                     .executes(context -> {

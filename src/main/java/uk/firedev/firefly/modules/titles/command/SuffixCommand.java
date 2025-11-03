@@ -18,7 +18,7 @@ public class SuffixCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("suffix")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.suffix"))
+            .requires(stack -> TitleModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.suffix"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

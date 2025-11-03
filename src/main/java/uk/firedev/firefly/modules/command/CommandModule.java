@@ -25,7 +25,6 @@ public class CommandModule implements Module {
 
     private static CommandModule instance;
 
-    private boolean loaded = false;
     private final List<SubModule> commands = List.of(
         // Flight
         new FlyCommand(),
@@ -67,12 +66,8 @@ public class CommandModule implements Module {
 
     @Override
     public void init() {
-        if (isLoaded()) {
-            return;
-        }
         CommandConfig.getInstance().init();
         commands.forEach(SubModule::load);
-        loaded = true;
     }
 
     @Override
@@ -80,25 +75,13 @@ public class CommandModule implements Module {
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         CommandConfig.getInstance().reload();
         commands.forEach(SubModule::reload);
     }
 
     @Override
     public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
         commands.forEach(SubModule::unload);
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
     }
 
 }

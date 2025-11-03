@@ -14,6 +14,7 @@ import uk.firedev.daisylib.command.ArgumentBase;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
 import uk.firedev.daisylib.utils.PlayerHelper;
+import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
@@ -25,7 +26,7 @@ public class PlaytimeCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("playtime")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.playtime"))
+            .requires(stack -> PlaytimeModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.playtime"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

@@ -12,13 +12,14 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
+import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
 @SuppressWarnings("UnstableApiUsage")
 public class SetSpawnCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("setspawn")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.setspawn"))
+            .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.setspawn"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

@@ -20,7 +20,7 @@ public class ElevatorCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("elevator")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.elevator"))
+            .requires(stack -> ElevatorModule.getInstance().isConfigEnabled() &&  stack.getSender().hasPermission("firefly.command.elevator"))
             .executes(context -> {
                 ElevatorConfig.getInstance().getCommandUsageMessage().send(context.getSource().getSender());
                 return 1;

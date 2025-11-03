@@ -27,8 +27,6 @@ public class NicknameModule implements Module {
 
     public static final String COMMAND_PERMISSION_ADMIN = "firefly.command.nickname.admin";
 
-    private boolean loaded;
-
     private NicknameModule() {}
 
     public static NicknameModule getInstance() {
@@ -50,12 +48,8 @@ public class NicknameModule implements Module {
 
     @Override
     public void init() {
-        if (isLoaded()) {
-            return;
-        }
         NicknameConfig.getInstance().init();
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
-        loaded = true;
     }
 
     @Override
@@ -65,40 +59,23 @@ public class NicknameModule implements Module {
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         NicknameConfig.getInstance().reload();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
+    public void unload() {}
 
     @Override
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("player_nickname", audience -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
-                if (isLoaded()) {
-                    return getNickname(player);
-                } else {
-                    return player.name();
-                }
+                return getNickname(player);
             }));
     }
 
@@ -107,7 +84,8 @@ public class NicknameModule implements Module {
     public Component getNickname(@NotNull OfflinePlayer player) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
-            return Component.text(Objects.requireNonNullElse(player.getName(), "N/A"));
+            String name = player.getName();
+            return Component.text(name == null ? "N/A" : name);
         }
         return data.getNickname();
     }

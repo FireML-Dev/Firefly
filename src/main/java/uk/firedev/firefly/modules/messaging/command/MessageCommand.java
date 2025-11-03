@@ -20,7 +20,7 @@ public class MessageCommand {
     // TODO aliases.
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(MessagingConfig.getInstance().getMessageCommandName())
-            .requires(stack -> stack.getSender().hasPermission(MessagingModule.MESSAGE_PERMISSION))
+            .requires(stack -> MessagingModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(MessagingModule.MESSAGE_PERMISSION))
             .then(
                 Commands.argument("target", PlayerArgument.create())
                     .then(
@@ -53,7 +53,7 @@ public class MessageCommand {
     }
 
     private @NotNull Component getNickname(@NotNull Player player) {
-        if (NicknameModule.getInstance().isLoaded()) {
+        if (NicknameModule.getInstance().isConfigEnabled()) {
             return NicknameModule.getInstance().getNickname(player);
         }
         return player.name();

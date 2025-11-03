@@ -6,6 +6,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault2.chat.Chat;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
@@ -32,7 +33,6 @@ public class TitleModule implements Module {
     private Chat chat;
     private List<Prefix> prefixes = new ArrayList<>();
     private List<Suffix> suffixes = new ArrayList<>();
-    private boolean loaded = false;
 
     private TitleModule() {}
 
@@ -55,9 +55,6 @@ public class TitleModule implements Module {
 
     @Override
     public void init() {
-        if (isLoaded()) {
-            return;
-        }
         Chat chat = VaultManager.getInstance().getChat();
         if (chat == null) {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please install LuckPerms to resolve this!");
@@ -69,7 +66,6 @@ public class TitleModule implements Module {
 
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
-        loaded = true;
     }
 
     @Override
@@ -80,9 +76,6 @@ public class TitleModule implements Module {
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         TitleConfig.getInstance().reload();
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
@@ -90,47 +83,30 @@ public class TitleModule implements Module {
 
     @Override
     public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
         this.prefixes = new ArrayList<>();
         this.suffixes = new ArrayList<>();
-        loaded = false;
     }
-
-    @Override
-    public boolean isLoaded() { return loaded; }
 
     @Override
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider -> {
             provider.addAudiencePlaceholder("player_prefix", audience -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
-                if (TitleModule.getInstance().isLoaded()) {
-                    return TitleModule.getInstance().getPlayerPrefix(player);
-                } else {
-                    String prefix = chat.getPlayerPrefix(player);
-                    return ComponentMessage.componentMessage(prefix).get();
-                }
+                return getPlayerPrefix(player);
             });
             provider.addAudiencePlaceholder("player_suffix", audience -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
-                if (TitleModule.getInstance().isLoaded()) {
-                    return TitleModule.getInstance().getPlayerSuffix(player);
-                } else {
-                    String prefix = chat.getPlayerSuffix(player);
-                    return ComponentMessage.componentMessage(prefix).get();
-                }
+                return TitleModule.getInstance().getPlayerSuffix(player);
             });
         });
     }
@@ -163,17 +139,24 @@ public class TitleModule implements Module {
         TitleConfig.getInstance().getPrefixRemovedMessage().send(player);
     }
 
-    public Component getPlayerPrefix(@NotNull Player player) {
+    public @Nullable Component getPlayerPrefix(@NotNull Player player) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null || data.getPrefix() == null) {
+            if (chat == null) {
+                return null;
+            }
             String vaultPrefix = chat.getPlayerPrefix(player);
-            return StringUtils.getColorOnlyComponent(vaultPrefix);
+            return ComponentMessage.componentMessage(vaultPrefix).get();
         }
         return data.getPrefix().get();
     }
 
-    public String getPlayerPrefixLegacy(@NotNull Player player) {
-        return LegacyComponentSerializer.legacySection().serialize(getPlayerPrefix(player));
+    public @Nullable String getPlayerPrefixLegacy(@NotNull Player player) {
+        Component prefix = getPlayerPrefix(player);
+        if (prefix == null) {
+            return null;
+        }
+        return LegacyComponentSerializer.legacySection().serialize(prefix);
     }
 
     public void setPlayerSuffix(@NotNull Player player, @NotNull String suffix) {
@@ -204,17 +187,24 @@ public class TitleModule implements Module {
         TitleConfig.getInstance().getSuffixRemovedMessage().send(player);
     }
 
-    public Component getPlayerSuffix(@NotNull Player player) {
+    public @Nullable Component getPlayerSuffix(@NotNull Player player) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null || data.getSuffix() == null) {
+            if (chat == null) {
+                return null;
+            }
             String vaultSuffix = chat.getPlayerSuffix(player);
-            return StringUtils.getColorOnlyComponent(vaultSuffix);
+            return ComponentMessage.componentMessage(vaultSuffix).get();
         }
         return data.getSuffix().get();
     }
 
-    public String getPlayerSuffixLegacy(@NotNull Player player) {
-        return LegacyComponentSerializer.legacySection().serialize(getPlayerSuffix(player));
+    public @Nullable String getPlayerSuffixLegacy(@NotNull Player player) {
+        Component suffix = getPlayerSuffix(player);
+        if (suffix == null) {
+            return null;
+        }
+        return LegacyComponentSerializer.legacySection().serialize(suffix);
     }
 
     public List<Prefix> getPrefixes() {

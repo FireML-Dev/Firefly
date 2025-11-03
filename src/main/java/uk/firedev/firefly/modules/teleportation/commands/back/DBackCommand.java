@@ -10,13 +10,14 @@ import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
+import uk.firedev.firefly.modules.teleportation.TeleportModule;
 import uk.firedev.firefly.utils.TeleportWarmup;
 
 public class DBackCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("dback")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.back"))
+            .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.back"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

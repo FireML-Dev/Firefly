@@ -11,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.teleportation.commands.back.BackCommand;
@@ -25,15 +24,10 @@ import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAcceptCommand;
 import uk.firedev.firefly.modules.teleportation.commands.tpa.TPDenyCommand;
 import uk.firedev.firefly.utils.TeleportWarmup;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class TeleportModule implements Module {
 
     private static TeleportModule instance;
 
-    private boolean loaded;
     private Location spawnLocation;
     private Location firstSpawnLocation;
 
@@ -58,15 +52,10 @@ public class TeleportModule implements Module {
 
     @Override
     public void init() {
-        if (isLoaded()) {
-            return;
-        }
         TeleportConfig.getInstance().init();
         TeleportDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
-
-        loaded = true;
     }
 
     @Override
@@ -86,24 +75,11 @@ public class TeleportModule implements Module {
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         TeleportConfig.getInstance().reload();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
+    public void unload() {}
 
     // /spawn
 

@@ -21,7 +21,7 @@ public class PrefixCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("prefix")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.prefix"))
+            .requires(stack -> TitleModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.prefix"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

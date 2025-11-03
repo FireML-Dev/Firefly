@@ -29,7 +29,6 @@ public class PlaytimeModule implements Module {
 
     private static PlaytimeModule instance;
 
-    private boolean loaded = false;
     private BukkitTask playtimeTask = null;
 
     private PlaytimeModule() {}
@@ -53,14 +52,10 @@ public class PlaytimeModule implements Module {
 
     @Override
     public void init() {
-        if (isLoaded()) {
-            return;
-        }
         PlaytimeConfig.getInstance().init();
         PlaytimeDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         new PlaytimeRequirement().register();
         startScheduler();
-        loaded = true;
     }
 
     @Override
@@ -70,9 +65,6 @@ public class PlaytimeModule implements Module {
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         stopScheduler();
         PlaytimeConfig.getInstance().reload();
         startScheduler();
@@ -80,23 +72,14 @@ public class PlaytimeModule implements Module {
 
     @Override
     public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
         stopScheduler();
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
     }
 
     @Override
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider -> {
             provider.addAudiencePlaceholder("playtime", audience -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
@@ -105,7 +88,7 @@ public class PlaytimeModule implements Module {
                 return Component.text(getTimeFormatted(player));
             });
             provider.addAudiencePlaceholder("playtime_raw", audience -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {

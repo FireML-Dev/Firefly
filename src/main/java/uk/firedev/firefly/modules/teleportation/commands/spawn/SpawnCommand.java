@@ -14,7 +14,7 @@ public class SpawnCommand {
 
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("spawn")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.spawn"))
+            .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.spawn"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

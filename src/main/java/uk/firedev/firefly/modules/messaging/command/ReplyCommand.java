@@ -19,7 +19,7 @@ public class ReplyCommand {
     // TODO aliases.
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(MessagingConfig.getInstance().getReplyCommandName())
-            .requires(stack -> stack.getSender().hasPermission(MessagingModule.REPLY_PERMISSION))
+            .requires(stack -> MessagingModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(MessagingModule.REPLY_PERMISSION))
             .then(
                 Commands.argument("message", StringArgumentType.greedyString())
                     .executes(context -> {
@@ -54,7 +54,7 @@ public class ReplyCommand {
     }
 
     private @NotNull Component getNickname(@NotNull Player player) {
-        if (NicknameModule.getInstance().isLoaded()) {
+        if (NicknameModule.getInstance().isConfigEnabled()) {
             return NicknameModule.getInstance().getNickname(player);
         }
         return player.name();

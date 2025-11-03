@@ -42,12 +42,8 @@ public class ProtectionModule implements Module {
 
     @Override
     public void init() {
-        if (isLoaded()) {
-            return;
-        }
         ProtectionConfig.getInstance().init();
         protections.forEach(SubModule::load);
-        loaded = true;
     }
 
     @Override
@@ -55,25 +51,13 @@ public class ProtectionModule implements Module {
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         ProtectionConfig.getInstance().reload();
         protections.forEach(SubModule::reload);
     }
 
     @Override
     public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
         protections.forEach(SubModule::unload);
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
     }
 
 }

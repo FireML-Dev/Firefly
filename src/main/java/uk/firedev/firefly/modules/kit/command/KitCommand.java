@@ -9,13 +9,14 @@ import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitGui;
+import uk.firedev.firefly.modules.kit.KitModule;
 
 public class KitCommand {
 
     // TODO /kits alias
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("kit")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.kit"))
+            .requires(stack -> KitModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.kit"))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
