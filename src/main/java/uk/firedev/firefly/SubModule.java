@@ -24,6 +24,9 @@ public interface SubModule {
         if (this instanceof Listener listener) {
             Bukkit.getPluginManager().registerEvents(listener, Firefly.getInstance());
         }
+        if (this instanceof CommandHolder commandHolder) {
+            commandHolder.initCommand();
+        }
         registerPlaceholders();
     }
 

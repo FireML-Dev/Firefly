@@ -24,7 +24,7 @@ public class FlySpeedCommand implements Command {
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .then(
                 Commands.argument("speed", FloatArgumentType.floatArg(1, 10))
                     .executes(context -> {
@@ -38,7 +38,7 @@ public class FlySpeedCommand implements Command {
                     })
                     .then(
                         Commands.argument("target", PlayerArgument.create())
-                            .requires(stack -> stack.getSender().hasPermission(getTargetPermission()))
+                            .requires(stack -> stack.getSender().hasPermission(targetPermission()))
                             .executes(context -> {
                                 Player player = context.getArgument("target", Player.class);
                                 float speed = context.getArgument("speed", float.class);

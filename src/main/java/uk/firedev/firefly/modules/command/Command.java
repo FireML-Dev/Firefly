@@ -2,18 +2,20 @@ package uk.firedev.firefly.modules.command;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.libs.messagelib.config.PaperConfigLoader;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.MessageConfig;
 
 import java.util.List;
 
-public interface Command extends SubModule {
+public interface Command extends SubModule, CommandHolder {
 
     @NotNull String getConfigName();
 
@@ -21,8 +23,18 @@ public interface Command extends SubModule {
         return getConfig().getString("name", getConfigName());
     }
 
-    default @NotNull List<String> getAliases() {
+    @Override
+    default @NotNull List<String> aliases() {
         return getConfig().getStringList("aliases");
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    default String description() {
+        return null;
     }
 
     default @NotNull ConfigurationSection getConfig() {
@@ -38,14 +50,10 @@ public interface Command extends SubModule {
         return getConfig().getBoolean("enabled", true);
     }
 
-    @NotNull LiteralCommandNode<CommandSourceStack> get();
-
     @Override
-    default void init() {
-        Firefly.getInstance().getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
-            commands.registrar().register(get(), null, getAliases());
-        });
-    }
+    default void init() {}
+
+    @NotNull LiteralCommandNode<CommandSourceStack> get();
 
     @Override
     default void reload() {}
@@ -60,11 +68,13 @@ public interface Command extends SubModule {
             .replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    default @NotNull String getPermission() {
+    @Override
+    default @NotNull String permission() {
         return getConfig().getString("permission", "firefly.command." + getConfigName().toLowerCase());
     }
 
-    default @NotNull String getTargetPermission() {
+    @Override
+    default @NotNull String targetPermission() {
         return getConfig().getString("target-permission", "firefly.command." + getConfigName().toLowerCase() + ".other");
     }
 

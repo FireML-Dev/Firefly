@@ -39,7 +39,7 @@ public class GodmodeCommand implements Command, Listener {
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> isConfigEnabled() &&  stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() &&  stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -50,7 +50,7 @@ public class GodmodeCommand implements Command, Listener {
             })
             .then(
                 Commands.argument("target", PlayerArgument.create())
-                    .requires(stack -> stack.getSender().hasPermission(getTargetPermission()))
+                    .requires(stack -> stack.getSender().hasPermission(targetPermission()))
                     .executes(context -> {
                         Player player = context.getArgument("target", Player.class);
                         toggleGodmode(context.getSource().getSender(), player);

@@ -28,11 +28,11 @@ public class RenameCommand implements Command {
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .then(greedyArg())
             .then(
                 Commands.argument("target", PlayerArgument.create())
-                    .requires(stack -> stack.getSender().hasPermission(getTargetPermission()))
+                    .requires(stack -> stack.getSender().hasPermission(targetPermission()))
                     .then(greedyArg())
             )
             .build();

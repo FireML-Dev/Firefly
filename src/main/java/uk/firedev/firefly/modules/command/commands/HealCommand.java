@@ -25,7 +25,7 @@ public class HealCommand implements Command {
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -36,7 +36,7 @@ public class HealCommand implements Command {
             })
             .then(
                 Commands.argument("target", PlayerArgument.create())
-                    .requires(stack -> stack.getSender().hasPermission(getTargetPermission()))
+                    .requires(stack -> stack.getSender().hasPermission(targetPermission()))
                     .executes(context -> {
                         Player player = context.getArgument("target", Player.class);
                         heal(context.getSource().getSender(), player);

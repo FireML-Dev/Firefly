@@ -30,7 +30,7 @@ public class RideCommand implements Command {
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {

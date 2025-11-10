@@ -25,7 +25,7 @@ public class ItemFrameCommand implements Command {
     @Override
     public LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(getCommandName())
-            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(getPermission()))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .then(invisibleArg())
             .then(fixedArg())
             .then(invulnerableArg())
