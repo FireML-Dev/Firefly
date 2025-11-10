@@ -16,6 +16,7 @@ public final class Firefly extends JavaPlugin {
     private static Firefly instance;
 
     private final Database database = new Database(this);
+    private final CommandRefreshTimer refreshTimer = new CommandRefreshTimer();
 
     @Override
     public void onLoad() {
@@ -43,10 +44,13 @@ public final class Firefly extends JavaPlugin {
         Placeholders.init();
         ModuleManager.getInstance().load();
         Placeholders.register();
+
+        refreshTimer.start();
     }
 
     @Override
     public void onDisable() {
+        refreshTimer.stop();
         ModuleManager.getInstance().unload();
         // DO THIS LAST!!!!
         database.unload();
