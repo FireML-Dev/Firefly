@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.nickname;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -26,8 +27,6 @@ public class NicknameModule implements Module {
 
     public static final String COMMAND_PERMISSION_ADMIN = "firefly.command.nickname.admin";
 
-    private boolean loaded;
-
     private NicknameModule() {}
 
     public static NicknameModule getInstance() {
@@ -48,53 +47,31 @@ public class NicknameModule implements Module {
     }
 
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
+    public void init() {
         NicknameConfig.getInstance().init();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Nickname Command");
-        NicknameCommand.getCommand().register(Firefly.getInstance());
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
-        loaded = true;
+        new NicknameCommand().initCommand();
     }
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         NicknameConfig.getInstance().reload();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
+    public void unload() {}
 
     @Override
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("player_nickname", audience -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
-                if (isLoaded()) {
-                    return getNickname(player);
-                } else {
-                    return player.name();
-                }
+                return getNickname(player);
             }));
     }
 
@@ -102,13 +79,17 @@ public class NicknameModule implements Module {
 
     public Component getNickname(@NotNull OfflinePlayer player) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
-        if (data == null) {
-            return Component.text(Objects.requireNonNullElse(player.getName(), "N/A"));
+        if (!isConfigEnabled() || data == null) {
+            String name = player.getName();
+            return Component.text(name == null ? "N/A" : name);
         }
         return data.getNickname();
     }
 
     public void setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -117,6 +98,9 @@ public class NicknameModule implements Module {
     }
 
     public void setNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;
@@ -125,6 +109,9 @@ public class NicknameModule implements Module {
     }
 
     public void removeNickname(@NotNull OfflinePlayer player) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null) {
             return;

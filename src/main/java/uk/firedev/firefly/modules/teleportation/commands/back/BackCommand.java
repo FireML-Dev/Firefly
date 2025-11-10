@@ -1,36 +1,85 @@
 package uk.firedev.firefly.modules.teleportation.commands.back;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 import uk.firedev.firefly.utils.TeleportWarmup;
 
-import java.util.Objects;
+import java.util.List;
 
-public class BackCommand {
+public class BackCommand implements CommandHolder {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("back")
-            .withPermission("firefly.command.back")
-            .withHelp("Teleport to your last location", "Teleport to your last location")
-            .executesPlayer(info -> {
-                teleportPlayer(info.sender(), info.sender());
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("back")
+            .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                teleportPlayer(player, player);
+                return 1;
             })
             .then(
-                PlayerArgument.create("target")
-                    .executes(info -> {
-                        Player target = Objects.requireNonNull(info.args().getUnchecked("target"));
-                        teleportPlayer(info.sender(), target);
+                Commands.argument("target", PlayerArgument.create())
+                    .requires(stack -> stack.getSender().hasPermission(targetPermission()))
+                    .executes(context -> {
+                        Player target = context.getArgument("target", Player.class);
+                        teleportPlayer(context.getSource().getSender(), target);
+                        return 1;
                     })
-            );
+            )
+            .build();
     }
 
-    private static void teleportPlayer(@NotNull CommandSender sender, @NotNull Player target) {
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of();
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.back";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.back.other";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
+    }
+
+    private void teleportPlayer(@NotNull CommandSender sender, @NotNull Player target) {
         Location location = TeleportModule.getInstance().getLastLocation(target);
         if (location == null) {
             TeleportConfig.getInstance().getLocationInvalidMessage().send(sender);

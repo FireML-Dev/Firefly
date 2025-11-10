@@ -5,8 +5,8 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

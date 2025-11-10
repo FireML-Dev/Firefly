@@ -8,7 +8,7 @@ import uk.firedev.daisylib.utils.LocationHelper;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 
 public class TeleportConfig extends ConfigBase {
 
@@ -140,7 +140,7 @@ public class TeleportConfig extends ConfigBase {
     }
 
     public ComponentMessage getTpaAcceptClickMessage(@NotNull Player sender) {
-        String message = getConfig().getString("messages.command.tpa.accept-click", "<green><click:run_command:'/tpaccept {sender}'>[Accept]").replace("{sender}", sender.getName())
+        String message = getConfig().getString("messages.command.tpa.accept-click", "<green><click:run_command:'/tpaccept {sender}'>[Accept]").replace("{sender}", sender.getName());
         return ComponentMessage.componentMessage(message);
     }
 

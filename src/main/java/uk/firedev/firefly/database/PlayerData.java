@@ -13,8 +13,8 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.messagelib.message.ComponentMessage;
-import uk.firedev.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
 import java.sql.SQLException;
 import java.time.Instant;

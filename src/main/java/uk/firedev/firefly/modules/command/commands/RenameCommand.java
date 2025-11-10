@@ -1,26 +1,22 @@
 package uk.firedev.firefly.modules.command.commands;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.ArgumentSuggestions;
-import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.firefly.modules.command.Command;
-import uk.firedev.firefly.modules.command.CommandConfig;
 import uk.firedev.firefly.utils.StringUtils;
 
-import java.util.Objects;
-
-public class RenameCommand extends Command {
-
-    public RenameCommand() {
-        super();
-    }
+public class RenameCommand implements Command {
 
     @NotNull
     @Override
@@ -30,33 +26,43 @@ public class RenameCommand extends Command {
 
     @NotNull
     @Override
-    public CommandTree loadCommand() {
-        Argument<String> greedy = new GreedyStringArgument("itemName")
-            .includeSuggestions(ArgumentSuggestions.strings("remove"))
-            .executesPlayer(info -> {
-                if (disabledCheck(info.sender())) {
-                    return;
-                }
-                Player player = info.sender();
-                Player target = Objects.requireNonNullElse(info.args().getUnchecked("target"), player);
-                String itemName = Objects.requireNonNull(info.args().getUnchecked("itemName"));
-                setItemName(itemName, target, player);
-            });
-
-        return new CommandTree(getName())
-            .withAliases(getAliases())
-            .withPermission(getPermission())
-            .then(greedy)
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal(getCommandName())
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
+            .then(greedyArg())
             .then(
-                PlayerArgument.create("target")
-                    .withPermission(getTargetPermission()))
-                    .then(greedy);
+                Commands.argument("target", PlayerArgument.create())
+                    .requires(stack -> stack.getSender().hasPermission(targetPermission()))
+                    .then(greedyArg())
+            )
+            .build();
+    }
+
+    // Convenience
+
+    private ArgumentBuilder<CommandSourceStack, ?> greedyArg() {
+        return Commands.argument("name", StringArgumentType.greedyString())
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                Player target;
+                try {
+                    target = context.getArgument("target", Player.class);
+                } catch (Exception exception) {
+                    target = player;
+                }
+                String name = context.getArgument("name", String.class);
+                setItemName(name, target, player);
+                return 1;
+            });
     }
 
     private void setItemName(@NotNull String itemName, @NotNull Player target, @NotNull CommandSender sender) {
         ItemStack handItem = target.getInventory().getItemInMainHand();
         if (handItem.isEmpty()) {
-            CommandConfig.getInstance().getRenameHoldItemMessage().send(sender);
+            getHoldItemMessage().send(sender);
             return;
         }
         Component newName;
@@ -73,15 +79,29 @@ public class RenameCommand extends Command {
     }
 
     private void sendRenamedMessage(@NotNull Component newName, @NotNull Player target, @NotNull CommandSender sender) {
-        CommandConfig.getInstance().getRenamedMessage()
+        getRenamedMessage()
             .replace("{newName}", newName)
             .send(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getRenamedSenderMessage()
+            getRenamedSenderMessage()
                 .replace("{newName}", newName)
                 .replace("{target}", target.name())
                 .send(sender);
         }
+    }
+
+    // Messages
+
+    public ComponentMessage getHoldItemMessage() {
+        return getMessage("hold-an-item", "{prefix}<red>Please hold an item.");
+    }
+
+    public ComponentMessage getRenamedMessage() {
+        return getMessage("renamed", "{prefix}<#F0E68C>Renamed your item to {newName}");
+    }
+
+    public ComponentMessage getRenamedSenderMessage() {
+        return getMessage("renamed-sender", "{prefix}<#F0E68C>Renamed {target}'s item to {newName}");
     }
 
 }

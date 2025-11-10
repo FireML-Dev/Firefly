@@ -1,36 +1,49 @@
 package uk.firedev.firefly;
 
-import net.kyori.adventure.audience.Audience;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.firefly.config.MessageConfig;
 
-public interface SubModule extends Listener {
+public interface SubModule {
 
     boolean isConfigEnabled();
 
-    void load();
+    void init();
+
+    default void load() {
+        if (!isConfigEnabled()) {
+            return;
+        }
+        init();
+        if (this instanceof Listener listener) {
+            Bukkit.getPluginManager().registerEvents(listener, Firefly.getInstance());
+        }
+        if (this instanceof CommandHolder commandHolder) {
+            commandHolder.initCommand();
+        }
+        registerPlaceholders();
+    }
 
     void reload();
 
     void unload();
 
-    boolean isLoaded();
+    default void registerPlaceholders() {}
 
-    default boolean register() {
-        load();
-        Bukkit.getPluginManager().registerEvents(this, Firefly.getInstance());
-        registerPlaceholders();
+    /**
+     * Checks if the submodule is enabled and sends a message if not.
+     * @param sender The relevant sender
+     */
+    default boolean checkEnabled(@Nullable CommandSender sender) {
+        if (!isConfigEnabled()) {
+            MessageConfig.getInstance().getFeatureDisabledMessage().send(sender);
+            return false;
+        }
         return true;
     }
-
-    default void unregister() {
-        unload();
-        HandlerList.unregisterAll(this);
-    }
-
-    default void registerPlaceholders() {}
 
 }

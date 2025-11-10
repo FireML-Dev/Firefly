@@ -1,8 +1,10 @@
 package uk.firedev.firefly.modules.messaging;
 
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,13 +18,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class MessagingModule implements Module {
+public class MessagingModule implements Module, Listener {
 
     private static MessagingModule instance;
-    public static final String MESSAGE_PERMISSION = "firefly.command.message";
-    public static final String REPLY_PERMISSION = "firefly.command.reply";
 
-    private boolean loaded = false;
     private final Map<UUID, UUID> lastMessages = new HashMap<>();
 
     private MessagingModule() {}
@@ -45,42 +44,31 @@ public class MessagingModule implements Module {
     }
 
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
+    public void init() {
         MessagingConfig.getInstance().init();
-        MessageCommand.getCommand().register(Firefly.getInstance());
-        ReplyCommand.getCommand().register(Firefly.getInstance());
-        loaded = true;
+        new MessageCommand().initCommand();
+        new ReplyCommand().initCommand();
     }
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         MessagingConfig.getInstance().reload();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
+    public void unload() {}
 
     public void setLastMessage(@NotNull UUID receiver, @NotNull UUID sender) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         lastMessages.put(receiver, sender);
     }
 
     public @Nullable Player getLastMessage(@NotNull UUID sender) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         UUID uuid = lastMessages.get(sender);
         if (uuid == null) {
             return null;

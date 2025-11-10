@@ -1,68 +1,119 @@
 package uk.firedev.firefly.modules.elevator.command;
 
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
-import uk.firedev.daisylib.command.HelpMessageBuilder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
+import uk.firedev.firefly.CommandHolder;
+import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.elevator.Elevator;
 import uk.firedev.firefly.modules.elevator.ElevatorConfig;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 
+import java.util.List;
 import java.util.Objects;
 
-public class ElevatorCommand {
+public class ElevatorCommand implements CommandHolder {
 
-    private ElevatorCommand() {}
-
-    public static CommandTree getCommand() {
-        return new CommandTree("elevator")
-            .withPermission("firefly.command.elevator")
-            .withShortDescription("Manage Elevators")
-            .withFullDescription("Manage Elevators")
-            .executes((sender, arguments) -> {
-                ElevatorConfig.getInstance().getCommandUsageMessage().send(sender);
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("elevator")
+            .requires(stack -> ElevatorModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
+            .executes(context -> {
+                ElevatorConfig.getInstance().getCommandUsageMessage().send(context.getSource().getSender());
+                return 1;
             })
-            .then(getGiveBlockBranch())
-            .then(getRemoveBranch());
+            .then(giveBlock())
+            .then(remove())
+            .build();
     }
 
-    private static Argument<String> getGiveBlockBranch() {
-        return new LiteralArgument("giveBlock")
-            .executesPlayer(info -> {
-                Player player = info.sender();
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of();
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.elevator";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.elevator";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
+    }
+
+    private ArgumentBuilder<CommandSourceStack, ?> giveBlock() {
+        return Commands.literal("giveBlock")
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
                 ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
                 ElevatorConfig.getInstance().getCommandGivenMessage().send(player);
+                return 1;
             })
             .then(
-                PlayerArgument.create("target")
-                    .executes((sender, args) -> {
-                        Player player = Objects.requireNonNull(args.getUnchecked("target"));
+                Commands.argument("target", PlayerArgument.create())
+                    .executes(context -> {
+                        Player player = context.getArgument("target", Player.class);
                         ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
                         ElevatorConfig.getInstance().getCommandGivenMessage().send(player);
+                        return 1;
                     })
             );
     }
 
-    private static Argument<String> getRemoveBranch() {
-        return new LiteralArgument("remove")
-            .executesPlayer((player, arguments) -> {
+    private ArgumentBuilder<CommandSourceStack, ?> remove() {
+        return Commands.literal("remove")
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
                 RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);
                 if (traced == null || traced.getHitBlock() == null) {
                     ElevatorConfig.getInstance().getCommandInvalidMessage().send(player);
-                    return;
+                    return 1;
                 }
                 Elevator elevator = new Elevator(traced.getHitBlock());
                 if (!elevator.isElevator()) {
                     ElevatorConfig.getInstance().getCommandInvalidMessage().send(player);
-                    return;
+                    return 1;
                 }
                 elevator.setElevator(false);
                 ElevatorConfig.getInstance().getCommandUnregisterMessage().send(player);
+                return 1;
             });
     }
 

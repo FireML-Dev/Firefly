@@ -1,8 +1,9 @@
 package uk.firedev.firefly.modules;
 
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.jetbrains.annotations.NotNull;
+import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.command.CommandModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
@@ -47,23 +48,26 @@ public class ModuleManager {
             return;
         }
         ModuleConfig.getInstance().init();
-        modules.forEach(this::registerOrUnregisterModule);
+        modules.forEach(this::loadModule);
         loaded = true;
+    }
+
+    private void loadModule(@NotNull Module module) {
+        module.load();
     }
 
     public void reload() {
         if (!isLoaded()) {
             return;
         }
-        ModuleConfig.getInstance().reload();
-        modules.forEach(this::registerOrUnregisterModule);
+        modules.forEach(Module::reload);
     }
 
     public void unload() {
         if (!isLoaded()) {
             return;
         }
-        modules.forEach(Module::unregister);
+        modules.forEach(Module::unload);
     }
 
     public boolean isLoaded() {
@@ -72,16 +76,6 @@ public class ModuleManager {
 
     public List<Module> getModules() {
         return List.copyOf(modules);
-    }
-
-    public void registerOrUnregisterModule(@NotNull SubModule module) {
-        if (module.isConfigEnabled()) {
-            module.register();
-        } else {
-            module.unregister();
-        }
-        // Ensure we reload after this
-        module.reload();
     }
 
 }

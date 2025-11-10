@@ -1,71 +1,121 @@
 package uk.firedev.firefly.modules.nickname.command;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.Argument;
-import uk.firedev.daisylib.libs.commandapi.arguments.GreedyStringArgument;
-import uk.firedev.daisylib.libs.commandapi.arguments.LiteralArgument;
+import uk.firedev.daisylib.utils.PlayerHelper;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 
+import java.util.List;
 import java.util.Objects;
 
-public class NicknameCommand {
+public class NicknameCommand implements CommandHolder {
 
-    public static CommandTree getCommand() {
-        return new CommandTree("nickname")
-            .withAliases("nick")
-            .withPermission(NicknameModule.COMMAND_PERMISSION)
-            .withFullDescription("Manage Nickname")
-            .executesPlayer(info -> {
-                checkNickname(info.sender(), info.sender());
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal("nickname")
+            .requires(stack -> NicknameModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                checkNickname(player, player);
+                return 1;
             })
-            .then(getCheckBranch())
-            .then(getSetBranch())
-            .then(getSetOthersBranch())
-            .then(getRemoveBranch());
+            .then(check())
+            .then(set())
+            .then(setOther())
+            .then(remove())
+            .build();
     }
 
-    private static Argument<String> getCheckBranch() {
-        return new LiteralArgument("check")
-            .executesPlayer(info -> {
-                checkNickname(info.sender(), info.sender());
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of("nick");
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.nickname";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.nickname";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
+    }
+
+    private ArgumentBuilder<CommandSourceStack, ?> check() {
+        return Commands.literal("check")
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                checkNickname(player, player);
+                return 1;
             })
             .then(
-                OfflinePlayerArgument.createPlayedBefore("target")
-                    .executes(info -> {
-                        OfflinePlayer target = Objects.requireNonNull(info.args().getUnchecked("target"));
-                        checkNickname(info.sender(), target);
+                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                    .executes(context -> {
+                        OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
+                        checkNickname(context.getSource().getSender(), target);
+                        return 1;
                     })
             );
     }
 
-    private static void checkNickname(@NotNull CommandSender sender, @NotNull OfflinePlayer target) {
-        Component nickname = NicknameModule.getInstance().getNickname(target);
-        NicknameConfig.getInstance().getCommandCheckInfoMessage()
-            .replace("{nickname}", nickname)
-            .replace("{player}", Objects.requireNonNullElse(target.getName(), "N/A"))
-            .send(sender);
-    }
-
-    private static Argument<String> getRemoveBranch() {
-        return new LiteralArgument("remove")
-            .executesPlayer(info -> {
-                NicknameModule.getInstance().removeNickname(info.sender());
-                NicknameConfig.getInstance().getCommandRemovedNicknameMessage().send(info.sender());
+    private ArgumentBuilder<CommandSourceStack, ?> remove() {
+        return Commands.literal("remove")
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                NicknameModule.getInstance().removeNickname(player);
+                NicknameConfig.getInstance().getCommandRemovedNicknameMessage().send(player);
+                return 1;
             })
             .then(
-                OfflinePlayerArgument.createPlayedBefore("target")
-                    .withPermission("firefly")
-                    .executes(info -> {
-                        OfflinePlayer target = Objects.requireNonNull(info.args().getUnchecked("target"));
+                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                    .requires(stack -> stack.getSender().hasPermission(NicknameModule.COMMAND_PERMISSION_ADMIN))
+                    .executes(context -> {
+                        OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
 
                         // Remove nickname
                         NicknameModule.getInstance().removeNickname(target);
@@ -76,67 +126,84 @@ public class NicknameCommand {
                             NicknameConfig.getInstance().getCommandRemovedNicknameMessage().send(onlineTarget);
                         }
 
+                        CommandSender sender = context.getSource().getSender();
                         // If target isn't the sender, tell them
-                        if (target != info.sender()) {
-                            NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().send(info.sender());
+                        if (target != sender) {
+                            NicknameConfig.getInstance().getCommandAdminRemovedNicknameMessage().send(sender);
                         }
+                        return 1;
                     })
             );
     }
 
-    private static Argument<String> getSetBranch() {
-        return new LiteralArgument("set")
+    private ArgumentBuilder<CommandSourceStack, ?> set() {
+        return Commands.literal("set")
             .then(
-                new GreedyStringArgument("nickname")
-                    .executesPlayer(info -> {
-                        String nickname = Objects.requireNonNull(info.args().getUnchecked("nickname"));
-                        nickname = nickname.split(" ")[0]; // Only use the name before the first space
-                        Component componentNickname = StringUtils.getColorOnlyComponent(nickname);
-                        if (!validateNickname(info.sender(), componentNickname)) {
-                            return;
+                Commands.argument("nickname", StringArgumentType.greedyString())
+                    .executes(context -> {
+                        Player player = CommandUtils.requirePlayer(context.getSource());
+                        if (player == null) {
+                            return 1;
                         }
-                        NicknameModule.getInstance().setNickname(info.sender(), nickname);
+                        String nickname = context.getArgument("nickname", String.class).split(" ")[0]; // Only use the name before the first space
+                        Component componentNickname = StringUtils.getColorOnlyComponent(nickname);
+                        if (!validateNickname(player, componentNickname)) {
+                            return 1;
+                        }
+                        NicknameModule.getInstance().setNickname(player, nickname);
                         NicknameConfig.getInstance().getCommandSetOwnNicknameMessage()
                             .replace("{nickname}", componentNickname)
-                            .send(info.sender());
+                            .send(player);
+                        return 1;
                     })
             );
     }
 
-    private static Argument<String> getSetOthersBranch() {
-        return new LiteralArgument("setOther")
-            .withPermission("firefly.command.nickname.other")
-            .thenNested(
-                OfflinePlayerArgument.createPlayedBefore("target"),
-                new GreedyStringArgument("nickname")
-                    .executes(info -> {
-                        OfflinePlayer target = Objects.requireNonNull(info.args().getUnchecked("target"));
+    private ArgumentBuilder<CommandSourceStack, ?> setOther() {
+        return Commands.literal("setOther")
+            .requires(stack -> stack.getSender().hasPermission(NicknameModule.COMMAND_PERMISSION_ADMIN))
+            .then(
+                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                    .then(
+                        Commands.argument("nickname", StringArgumentType.greedyString())
+                            .executes(context -> {
+                                OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
+                                String nickname = context.getArgument("nickname", String.class).split(" ")[0]; // Only use the name before the first space
+                                Component componentNickname = StringUtils.getColorOnlyComponent(nickname);
+                                NicknameModule.getInstance().setNickname(target, nickname);
+                                // If target is online, tell them
+                                Player onlineTarget = target.getPlayer();
+                                if (onlineTarget != null) {
+                                    NicknameConfig.getInstance().getCommandSetOwnNicknameMessage()
+                                        .replace("{nickname}", componentNickname)
+                                        .send(onlineTarget);
+                                }
 
-                        String nickname = Objects.requireNonNull(info.args().getUnchecked("nickname"));
-                        nickname = nickname.split(" ")[0]; // Only use the name before the first space
-                        Component componentNickname = StringUtils.getColorOnlyComponent(nickname);
-                        NicknameModule.getInstance().setNickname(target, componentNickname);
-
-                        // If target is online, tell them
-                        Player onlineTarget = target.getPlayer();
-                        if (onlineTarget != null) {
-                            NicknameConfig.getInstance().getCommandSetOwnNicknameMessage()
-                                .replace("{nickname}", componentNickname)
-                                .send(onlineTarget);
-                        }
-
-                        // If target isn't the sender, tell them
-                        if (target != info.sender()) {
-                            NicknameConfig.getInstance().getCommandAdminSetNicknameMessage()
-                                    .replace("{target}", Objects.requireNonNull(target.getName()))
-                                    .replace("{nickname}", componentNickname)
-                                    .send(info.sender());
-                        }
-                    })
+                                CommandSender sender = context.getSource().getSender();
+                                // If target isn't the sender, tell them
+                                if (target != sender) {
+                                    NicknameConfig.getInstance().getCommandAdminSetNicknameMessage()
+                                        .replace("{target}", Objects.requireNonNull(target.getName()))
+                                        .replace("{nickname}", componentNickname)
+                                        .send(sender);
+                                }
+                                return 1;
+                            })
+                    )
             );
     }
 
-    private static boolean validateNickname(@NotNull Player player, @NotNull Component nickname) {
+    // Convenience
+
+    private void checkNickname(@NotNull CommandSender sender, @NotNull OfflinePlayer target) {
+        Component nickname = NicknameModule.getInstance().getNickname(target);
+        NicknameConfig.getInstance().getCommandCheckInfoMessage()
+            .replace("{nickname}", nickname)
+            .replace("{player}", Objects.requireNonNullElse(target.getName(), "N/A"))
+            .send(sender);
+    }
+
+    private boolean validateNickname(@NotNull Player player, @NotNull Component nickname) {
         String cleanString = ComponentMessage.componentMessage(nickname).getAsPlainText();
 
         // Check if the player has admin perms
@@ -151,19 +218,19 @@ public class NicknameCommand {
                 .send(player);
             return false;
 
-        // Check if the name is too short
+            // Check if the name is too short
         } else if (!player.hasPermission(NicknameModule.COMMAND_LENGTH_BYPASS_PERMISSION) && NicknameConfig.getInstance().isTooShort(cleanString)) {
             NicknameConfig.getInstance().getCommandTooShortMessage()
                 .replace("{min-length}", String.valueOf(NicknameConfig.getInstance().getMinLength()))
                 .send(player);
             return false;
 
-        // Check if the name is blacklisted
+            // Check if the name is blacklisted
         } else if (!player.hasPermission(NicknameModule.COMMAND_BLACKLIST_BYPASS_PERMISSION) && NicknameConfig.getInstance().isBlacklisted(cleanString)) {
             NicknameConfig.getInstance().getCommandBlacklistedMessage().send(player);
             return false;
 
-        // Check if the name is unique
+            // Check if the name is unique
         } else if (!player.hasPermission(NicknameModule.COMMAND_UNIQUE_PERMISSION) && !cleanString.equalsIgnoreCase(player.getName())) {
             NicknameConfig.getInstance().getCommandNoUniqueMessage().send(player);
             return false;

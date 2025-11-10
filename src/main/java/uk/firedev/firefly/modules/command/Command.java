@@ -1,96 +1,81 @@
 package uk.firedev.firefly.modules.command;
 
-import net.kyori.adventure.audience.Audience;
-import org.bukkit.command.CommandSender;
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.commandsenders.BukkitCommandSender;
-import uk.firedev.daisylib.libs.commandapi.executors.ExecutionInfo;
-import uk.firedev.firefly.Firefly;
+import org.jetbrains.annotations.Nullable;
+import uk.firedev.daisylib.libs.messagelib.config.PaperConfigLoader;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.MessageConfig;
 
-import java.util.Objects;
-import java.util.function.Consumer;
+import java.util.List;
 
-public abstract class Command implements SubModule {
+public interface Command extends SubModule, CommandHolder {
 
-    private boolean loaded;
-    private final CommandTree command;
+    @NotNull String getConfigName();
 
-    protected Command() {
-        this.command = loadCommand();
-    }
-
-    public abstract @NotNull CommandTree loadCommand();
-
-    public @NotNull CommandTree getCommand() {
-        return command;
+    default @NotNull String getCommandName() {
+        return getConfig().getString("name", getConfigName());
     }
 
     @Override
-    public boolean isConfigEnabled() {
-        return CommandConfig.getInstance().getConfig().getBoolean(getConfigName() + ".enabled", true);
+    default @NotNull List<String> aliases() {
+        return getConfig().getStringList("aliases");
     }
 
+    /**
+     * @return This command's description.
+     */
+    @Nullable
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
+    default String description() {
+        return null;
+    }
+
+    default @NotNull ConfigurationSection getConfig() {
+        ConfigurationSection section = CommandConfig.getInstance().getConfig().getConfigurationSection(getConfigName());
+        if (section == null) {
+            return CommandConfig.getInstance().getConfig().createSection(getConfigName());
         }
-        command.register(Firefly.getInstance());
-        loaded = true;
-    }
-
-    public abstract @NotNull String getConfigName();
-
-    public @NotNull String getName() {
-        return Objects.requireNonNullElse(
-                CommandConfig.getInstance().getConfig().getString(getConfigName() + ".name"),
-                getConfigName()
-        );
-    }
-
-    public String[] getAliases() {
-        return CommandConfig.getInstance().getConfig().getStringList(getConfigName() + ".aliases").toArray(String[]::new);
-    }
-
-    protected boolean disabledCheck(@NotNull Audience audience) {
-        if (!isLoaded()) {
-            MessageConfig.getInstance().getFeatureDisabledMessage().send(audience);
-            return true;
-        }
-        return false;
+        return section;
     }
 
     @Override
-    public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
-        unload();
-        load();
+    default boolean isConfigEnabled() {
+        return getConfig().getBoolean("enabled", true);
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
+    default void init() {}
+
+    @NotNull LiteralCommandNode<CommandSourceStack> get();
+
+    @Override
+    default void reload() {}
+
+    @Override
+    default void unload() {}
+
+    default @NotNull ComponentMessage getMessage(@NotNull String path, @NotNull String def) {
+        PaperConfigLoader loader = new PaperConfigLoader(getConfig());
+        String message = loader.getString("messages." + path);
+        return ComponentMessage.componentMessage(message == null ? def : message)
+            .replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
     @Override
-    public boolean isLoaded() {
-        return loaded;
+    default @NotNull String permission() {
+        return getConfig().getString("permission", "firefly.command." + getConfigName().toLowerCase());
     }
 
-    public @NotNull String getPermission() {
-        return "firefly.command." + getConfigName().toLowerCase();
-    }
-
-    public @NotNull String getTargetPermission() {
-        return getPermission() + ".other";
+    @Override
+    default @NotNull String targetPermission() {
+        return getConfig().getString("target-permission", "firefly.command." + getConfigName().toLowerCase() + ".other");
     }
 
 }

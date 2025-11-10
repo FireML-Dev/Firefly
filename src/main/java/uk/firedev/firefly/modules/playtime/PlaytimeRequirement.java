@@ -31,8 +31,8 @@ public class PlaytimeRequirement extends RequirementAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
-        return "PLAYTIME";
+    public @NotNull String getKey() {
+        return "Playtime";
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PlaytimeRequirement extends RequirementAddon {
     }
 
     @Override
-    public @NotNull Plugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return Firefly.getInstance();
     }
 

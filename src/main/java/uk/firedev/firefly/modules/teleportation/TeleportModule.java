@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.teleportation;
 
+import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -10,7 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.teleportation.commands.back.BackCommand;
@@ -24,15 +24,10 @@ import uk.firedev.firefly.modules.teleportation.commands.tpa.TPAcceptCommand;
 import uk.firedev.firefly.modules.teleportation.commands.tpa.TPDenyCommand;
 import uk.firedev.firefly.utils.TeleportWarmup;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class TeleportModule implements Module {
 
     private static TeleportModule instance;
 
-    private boolean loaded;
     private Location spawnLocation;
     private Location firstSpawnLocation;
 
@@ -56,54 +51,44 @@ public class TeleportModule implements Module {
     }
 
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
+    public void init() {
         TeleportConfig.getInstance().init();
         TeleportDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
+        registerCommands();
+    }
 
-        SpawnCommand.getCommand().register(Firefly.getInstance());
-        SetSpawnCommand.getCommand().register(Firefly.getInstance());
-        SetFirstSpawnCommand.getCommand().register(Firefly.getInstance());
+    private void registerCommands() {
+        new SpawnCommand().initCommand();
+        new SetSpawnCommand().initCommand();
+        new SetFirstSpawnCommand().initCommand();
 
-        BackCommand.getCommand().register(Firefly.getInstance());
-        DBackCommand.getCommand().register(Firefly.getInstance());
+        new BackCommand().initCommand();
+        new DBackCommand().initCommand();
 
-        TPACommand.getCommand().register(Firefly.getInstance());
-        TPAHereCommand.getCommand().register(Firefly.getInstance());
-        TPDenyCommand.getCommand().register(Firefly.getInstance());
-        TPAcceptCommand.getCommand().register(Firefly.getInstance());
-
-        loaded = true;
+        new TPACommand().initCommand();
+        new TPAHereCommand().initCommand();
+        new TPDenyCommand().initCommand();
+        new TPAcceptCommand().initCommand();
     }
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         TeleportConfig.getInstance().reload();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
-    }
+    public void unload() {}
 
     // /spawn
 
     public void refreshSpawnLocations() {
+        if (!isConfigEnabled()) {
+            spawnLocation = null;
+            firstSpawnLocation = null;
+            return;
+        }
         spawnLocation = TeleportConfig.getInstance().getSpawnLocation(false);
         firstSpawnLocation = TeleportConfig.getInstance().getSpawnLocation(true);
     }
@@ -117,6 +102,9 @@ public class TeleportModule implements Module {
     }
 
     public boolean sendToSpawn(boolean firstSpawn, @NotNull Player player, boolean sendMessage) {
+        if (!isConfigEnabled()) {
+            return false;
+        }
         Location location = firstSpawn ? getFirstSpawnLocation() : getSpawnLocation();
         String invalid = firstSpawn ? "The first spawn location is not valid!" : "The spawn location is not valid!";
         if (location == null) {
@@ -134,6 +122,9 @@ public class TeleportModule implements Module {
     }
 
     public void sendToSpawn(boolean firstSpawn, @NotNull Player player, @Nullable CommandSender sender, boolean sendMessage) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         if (sendToSpawn(firstSpawn, player, sendMessage) && sender != null) {
             TeleportConfig.getInstance().getSpawnSentPlayerToSpawnMessage(player).send(sender);
         }
@@ -142,6 +133,9 @@ public class TeleportModule implements Module {
     // /back
 
     public void setLastLocation(@NotNull HumanEntity humanEntity, @Nullable Location location) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(humanEntity.getUniqueId());
         if (data == null) {
             return;
@@ -154,6 +148,9 @@ public class TeleportModule implements Module {
     }
 
     public @Nullable Location getLastLocation(@NotNull HumanEntity humanEntity) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(humanEntity.getUniqueId());
         if (data == null) {
             return null;

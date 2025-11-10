@@ -1,5 +1,7 @@
 package uk.firedev.firefly.modules.protection;
 
+import io.papermc.paper.command.brigadier.Commands;
+import org.jetbrains.annotations.NotNull;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
@@ -13,7 +15,6 @@ public class ProtectionModule implements Module {
 
     private static ProtectionModule instance;
 
-    private boolean loaded;
     private final List<SubModule> protections = List.of(
             AmethystProtection.getInstance(),
             LootChestProtection.getInstance()
@@ -39,36 +40,20 @@ public class ProtectionModule implements Module {
     }
 
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
+    public void init() {
         ProtectionConfig.getInstance().init();
-        protections.forEach(protection -> ModuleManager.getInstance().registerOrUnregisterModule(protection));
-        loaded = true;
+        protections.forEach(SubModule::load);
     }
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         ProtectionConfig.getInstance().reload();
-        protections.forEach(protection -> ModuleManager.getInstance().registerOrUnregisterModule(protection));
+        protections.forEach(SubModule::reload);
     }
 
     @Override
     public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        protections.forEach(SubModule::unregister);
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() {
-        return loaded;
+        protections.forEach(SubModule::unload);
     }
 
 }

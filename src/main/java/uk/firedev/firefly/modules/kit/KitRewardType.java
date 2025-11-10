@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.kit;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.Loggers;
@@ -23,7 +24,7 @@ public class KitRewardType extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getIdentifier() {
+    public @NotNull String getKey() {
         return "Kit";
     }
 
@@ -33,7 +34,7 @@ public class KitRewardType extends RewardAddon {
     }
 
     @Override
-    public @NotNull JavaPlugin getOwningPlugin() {
+    public @NotNull Plugin getPlugin() {
         return Firefly.getInstance();
     }
 

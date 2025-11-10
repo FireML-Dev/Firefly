@@ -4,7 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 
 import java.util.List;
 import java.util.Objects;

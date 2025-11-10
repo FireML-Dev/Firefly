@@ -1,10 +1,12 @@
 package uk.firedev.firefly.modules.kit;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -22,11 +24,10 @@ import uk.firedev.firefly.placeholders.Placeholders;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class KitModule implements Module {
+public class KitModule implements Module, Listener {
 
     private static KitModule instance = null;
 
-    private boolean loaded = false;
     private final TreeMap<String, Kit> loadedKits = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     public static KitModule getInstance() {
@@ -47,43 +48,27 @@ public class KitModule implements Module {
     }
 
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
+    public void init() {
         KitConfig.getInstance().init();
         loadKits();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Kit Commands");
-        KitCommand.getCommand().register(Firefly.getInstance());
         new KitRewardType().register();
-        loaded = true;
+        new KitCommand().initCommand();
     }
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         KitConfig.getInstance().reload();
         loadKits();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() { return loaded; }
+    public void unload() {}
 
     @Override
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudienceDynamicPlaceholder("kit_available", (audience, value) -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
@@ -103,14 +88,23 @@ public class KitModule implements Module {
     }
 
     public boolean isKit(ItemStack item) {
+        if (!isConfigEnabled()) {
+            return false;
+        }
         return item.getItemMeta().getPersistentDataContainer().has(getKitKey());
     }
 
     public @Nullable Kit getKit(@NotNull String name) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         return loadedKits.get(name);
     }
 
-    public Kit getKit(ItemStack item) {
+    public @Nullable Kit getKit(ItemStack item) {
+        if (!isConfigEnabled()) {
+            return null;
+        }
         if (!isKit(item)) {
             return null;
         }
@@ -122,11 +116,14 @@ public class KitModule implements Module {
     }
 
     public Map<String, Kit> getKits() {
-        return Map.copyOf(loadedKits);
+        return isConfigEnabled() ? Map.of() : Map.copyOf(loadedKits);
     }
 
     private void loadKits() {
         loadedKits.clear();
+        if (!isConfigEnabled()) {
+            return;
+        }
         KitConfig.getInstance().getKitConfigs().forEach(section -> {
             String name = section.getName();
             try {
@@ -142,6 +139,9 @@ public class KitModule implements Module {
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
+        if (!isConfigEnabled()) {
+            return;
+        }
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         if (item == null) {

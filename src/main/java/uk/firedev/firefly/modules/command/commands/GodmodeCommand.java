@@ -1,28 +1,76 @@
 package uk.firedev.firefly.modules.command.commands;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerEvent;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
-import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.firefly.modules.command.Command;
-import uk.firedev.firefly.modules.command.CommandConfig;
 import uk.firedev.firefly.placeholders.Placeholders;
 
-import java.util.Objects;
-
-public class GodmodeCommand extends Command {
+public class GodmodeCommand implements Command, Listener {
 
     @NotNull
     @Override
     public String getConfigName() {
         return "godmode";
     }
+
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider ->
+            provider.addAudiencePlaceholder("is_godmode", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                return Component.text(player.isInvulnerable());
+            }));
+    }
+
+    @NotNull
+    @Override
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal(getCommandName())
+            .requires(stack -> isConfigEnabled() &&  stack.getSender().hasPermission(permission()))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                toggleGodmode(player, player);
+                return 1;
+            })
+            .then(
+                Commands.argument("target", PlayerArgument.create())
+                    .requires(stack -> stack.getSender().hasPermission(targetPermission()))
+                    .executes(context -> {
+                        Player player = context.getArgument("target", Player.class);
+                        toggleGodmode(context.getSource().getSender(), player);
+                        return 1;
+                    })
+            )
+            .build();
+    }
+
+    @EventHandler
+    public void onHungerLoss(FoodLevelChangeEvent event) {
+        if (!event.getEntity().isInvulnerable()) {
+            return;
+        }
+        if (shouldPreventHunger()) {
+            event.setCancelled(true);
+        }
+    }
+
+    // Convenience
 
     private void toggleGodmode(@NotNull CommandSender sender, @NotNull Player target) {
         if (target.isInvulnerable()) {
@@ -35,70 +83,45 @@ public class GodmodeCommand extends Command {
     }
 
     private void sendEnabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getGodmodeEnabledMessage().send(target);
+        getEnabledMessage().send(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getGodmodeEnabledSenderMessage()
+            getEnabledSenderMessage()
                 .replace("{target}", target.name())
                 .send(sender);
         }
     }
 
     private void sendDisabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getGodmodeDisabledMessage().send(target);
+        getDisabledMessage().send(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getGodmodeDisabledSenderMessage()
+            getDisabledSenderMessage()
                 .replace("{target}", target.name())
                 .send(sender);
         }
     }
 
-    @Override
-    public void registerPlaceholders() {
-        Placeholders.manageProvider(provider ->
-            provider.addAudiencePlaceholder("is_godmode", audience -> {
-                if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return Component.text(player.isInvulnerable());
-            }));
+    // Config
+
+    public boolean shouldPreventHunger() {
+        return getConfig().getBoolean("prevent-hunger", true);
+    }
+    
+    // Messages
+
+    public ComponentMessage getEnabledMessage() {
+        return getMessage("enabled", "{prefix}<color:#F0E68C>Godmode is now enabled.");
     }
 
-    @NotNull
-    @Override
-    public CommandTree loadCommand() {
-        return new CommandTree(getName())
-            .withAliases(getAliases())
-            .withPermission(getPermission())
-            .executesPlayer(info -> {
-                if (disabledCheck(info.sender())) {
-                    return;
-                }
-                toggleGodmode(info.sender(), info.sender());
-            })
-            .then(
-                new EntitySelectorArgument.OnePlayer("target")
-                    .withPermission(getTargetPermission())
-                    .executes(info -> {
-                        if (disabledCheck(info.sender())) {
-                            return;
-                        }
-                        Player player = (Player) Objects.requireNonNull(info.args().get("target"));
-                        toggleGodmode(info.sender(), player);
-                    })
-            );
+    public ComponentMessage getEnabledSenderMessage() {
+        return getMessage("enabled-sender", "{prefix}<color:#F0E68C>Godmode is now enabled for {target}.");
     }
 
-    @EventHandler
-    public void onHungerLoss(FoodLevelChangeEvent event) {
-        if (!event.getEntity().isInvulnerable()) {
-            return;
-        }
-        if (CommandConfig.getInstance().getGodmodePreventHunger()) {
-            event.setCancelled(true);
-        }
+    public ComponentMessage getDisabledMessage() {
+        return getMessage("disabled", "{prefix}<red>Godmode is now disabled.");
+    }
+
+    public ComponentMessage getDisabledSenderMessage() {
+        return getMessage("disabled-sender", "{prefix}<red>Godmode is now disabled for {target}.");
     }
 
 }

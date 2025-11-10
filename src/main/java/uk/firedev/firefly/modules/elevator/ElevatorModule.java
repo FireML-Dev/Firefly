@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.elevator;
 
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -35,7 +36,6 @@ public class ElevatorModule implements Module {
 
     private static ElevatorModule instance;
     private final Firefly plugin;
-    private boolean loaded = false;
     private AbstractRecipe<?> recipe = null;
 
     private ElevatorModule() {
@@ -60,44 +60,28 @@ public class ElevatorModule implements Module {
     }
 
     @Override
-    public void load() {
-        if (isLoaded()) {
-            return;
-        }
+    public void init() {
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new ElevatorListener(), this.plugin);
         ElevatorConfig.getInstance().init();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering Elevator Command");
-        ElevatorCommand.getCommand().register(Firefly.getInstance());
         registerRecipe();
-        loaded = true;
+        new ElevatorCommand().initCommand();
     }
 
     @Override
     public void reload() {
-        if (!isLoaded()) {
-            return;
-        }
         ElevatorConfig.getInstance().reload();
         registerRecipe();
     }
 
     @Override
-    public void unload() {
-        if (!isLoaded()) {
-            return;
-        }
-        loaded = false;
-    }
-
-    @Override
-    public boolean isLoaded() { return loaded; }
+    public void unload() {}
 
     @Override
     public void registerPlaceholders() {
         Placeholders.manageProvider(provider ->
             provider.addAudiencePlaceholder("elevator_level", audience -> {
-                if (!isLoaded()) {
+                if (!isConfigEnabled()) {
                     return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
                 }
                 if (!(audience instanceof Player player)) {
@@ -105,7 +89,7 @@ public class ElevatorModule implements Module {
                 }
                 Block block = PlayerHelper.getPlayerStandingOn(player);
                 Elevator elevator = new Elevator(block);
-                if (elevator.isElevator()) {
+                if (!elevator.isElevator()) {
                     return Component.text("N/A");
                 }
                 return Component.text(elevator.getCurrentPosition());
@@ -113,7 +97,7 @@ public class ElevatorModule implements Module {
     }
 
     public void teleportPlayer(@NotNull Player player, @Nullable Elevator elevator) {
-        if (elevator == null || !elevator.isElevator()) {
+        if (!isConfigEnabled() || elevator == null || !elevator.isElevator()) {
             return;
         }
         Location location = elevator.getTPLocation();
@@ -123,7 +107,7 @@ public class ElevatorModule implements Module {
             ElevatorConfig.getInstance().getUnsafeLocationMessage().send(player);
             return;
         }
-        boolean teleportManager = TeleportModule.getInstance().isLoaded();
+        boolean teleportManager = TeleportModule.getInstance().isConfigEnabled();
         final Location lastLocation = teleportManager ? TeleportModule.getInstance().getLastLocation(player) : null;
         player.teleportAsync(location).thenAccept(success -> {
             if (success) {
@@ -142,11 +126,18 @@ public class ElevatorModule implements Module {
     }
 
     public boolean isElevatorBlock(ItemStack itemStack) {
+        if (!isConfigEnabled()) {
+            return false;
+        }
         PersistentDataContainer pdc = itemStack.getItemMeta().getPersistentDataContainer();
         return pdc.getOrDefault(getItemKey(), PersistentDataType.BOOLEAN, false);
     }
 
     public ItemStack getElevatorBlock() {
+        if (!isConfigEnabled()) {
+            return ItemStack.empty();
+        }
+
         ConfigurationSection config = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item");
 
         return ItemBuilder.createWithConfig(config, null, null)
@@ -160,6 +151,10 @@ public class ElevatorModule implements Module {
     private void registerRecipe() {
         if (this.recipe != null) {
             this.recipe.unregister();
+            this.recipe = null;
+        }
+        if (!isConfigEnabled()) {
+            return;
         }
         ConfigurationSection section = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item.recipe");
         if (section == null) {

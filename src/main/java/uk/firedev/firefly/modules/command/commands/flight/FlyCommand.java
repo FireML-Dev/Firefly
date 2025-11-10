@@ -1,25 +1,62 @@
 package uk.firedev.firefly.modules.command.commands.flight;
 
+import com.mojang.brigadier.tree.LiteralCommandNode;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
+import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.libs.commandapi.CommandTree;
-import uk.firedev.daisylib.libs.commandapi.arguments.EntitySelectorArgument;
-import uk.firedev.firefly.config.MessageConfig;
+import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.firefly.modules.command.Command;
-import uk.firedev.firefly.modules.command.CommandConfig;
 import uk.firedev.firefly.placeholders.Placeholders;
 
-import java.util.Objects;
-
-public class FlyCommand extends Command {
+public class FlyCommand implements Command {
 
     @NotNull
     @Override
     public String getConfigName() {
         return "fly";
     }
+
+    @Override
+    public void registerPlaceholders() {
+        Placeholders.manageProvider(provider ->
+            provider.addAudiencePlaceholder("can_fly", audience -> {
+                if (!(audience instanceof Player player)) {
+                    return Component.text("Player is not available.");
+                }
+                return Component.text(player.getAllowFlight());
+            }));
+    }
+
+    @NotNull
+    @Override
+    public LiteralCommandNode<CommandSourceStack> get() {
+        return Commands.literal(getCommandName())
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
+            .executes(context -> {
+                Player player = CommandUtils.requirePlayer(context.getSource());
+                if (player == null) {
+                    return 1;
+                }
+                toggleFlight(player, player);
+                return 1;
+            })
+            .then(
+                Commands.argument("target", PlayerArgument.create())
+                    .executes(context -> {
+                        Player player = context.getArgument("target", Player.class);
+                        toggleFlight(context.getSource().getSender(), player);
+                        return 1;
+                    })
+            )
+            .build();
+    }
+
+    // Convenience
 
     private void toggleFlight(@NotNull CommandSender sender, @NotNull Player target) {
         if (target.getAllowFlight()) {
@@ -33,62 +70,39 @@ public class FlyCommand extends Command {
     }
 
     private void sendEnabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getFlightEnabledMessage().send(target);
+        getEnabledMessage().send(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getFlightEnabledSenderMessage()
+            getEnabledSenderMessage()
                 .replace("{target}", target.name())
                 .send(sender);
         }
     }
 
     private void sendDisabledMessage(@NotNull CommandSender sender, @NotNull Player target) {
-        CommandConfig.getInstance().getFlightDisabledMessage().send(target);
+        getDisabledMessage().send(target);
         if (!target.equals(sender)) {
-            CommandConfig.getInstance().getFlightDisabledSenderMessage()
+            getDisabledSenderMessage()
                 .replace("{target}", target.name())
                 .send(sender);
         }
     }
+    
+    // Messages
 
-    @Override
-    public void registerPlaceholders() {
-        Placeholders.manageProvider(provider ->
-            provider.addAudiencePlaceholder("can_fly", audience -> {
-                if (!isLoaded()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return Component.text(player.getAllowFlight());
-            }));
+    public ComponentMessage getEnabledMessage() {
+        return getMessage("enabled", "{prefix}<color:#F0E68C>Flight is now enabled.");
     }
 
-    @NotNull
-    @Override
-    public CommandTree loadCommand() {
-        return new CommandTree(getName())
-            .withPermission(getPermission())
-            .withAliases(getAliases())
-            .withShortDescription("Toggles flight")
-            .executesPlayer(info -> {
-                if (disabledCheck(info.sender())) {
-                    return;
-                }
-                toggleFlight(info.sender(), info.sender());
-            })
-            .then(
-                new EntitySelectorArgument.OnePlayer("target")
-                    .withPermission(getTargetPermission())
-                    .executes(info -> {
-                        if (disabledCheck(info.sender())) {
-                            return;
-                        }
-                        // This should never be null.
-                        Player player = (Player) Objects.requireNonNull(info.args().get("target"));
-                        toggleFlight(info.sender(), player);
-                    })
-            );
+    public ComponentMessage getEnabledSenderMessage() {
+        return getMessage("enabled-sender", "{prefix}<color:#F0E68C>Flight is now enabled for {target}.");
+    }
+
+    public ComponentMessage getDisabledMessage() {
+        return getMessage("disabled", "{prefix}<red>Flight is now disabled.");
+    }
+
+    public ComponentMessage getDisabledSenderMessage() {
+        return getMessage("disabled-sender", "{prefix}<red>Flight is now disabled for {target}.");
     }
 
 }

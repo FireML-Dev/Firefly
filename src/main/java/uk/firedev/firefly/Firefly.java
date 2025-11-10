@@ -1,6 +1,7 @@
 package uk.firedev.firefly;
 
 import com.google.common.base.Preconditions;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
@@ -33,7 +34,10 @@ public final class Firefly extends JavaPlugin {
             throw new RuntimeException(exception);
         }
 
-        FireflyCommand.getCommand().register(this);
+        // Register command
+        this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
+            commands.registrar().register(new FireflyCommand().get());
+        });
 
         // Handle module loading and their placeholders
         Placeholders.init();
