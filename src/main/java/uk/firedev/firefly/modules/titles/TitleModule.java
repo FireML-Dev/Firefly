@@ -1,14 +1,10 @@
 package uk.firedev.firefly.modules.titles;
 
-import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.milkbowl.vault2.chat.Chat;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.VaultManager;
-import uk.firedev.daisylib.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -19,7 +15,6 @@ import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
 import uk.firedev.firefly.placeholders.Placeholders;
-import uk.firedev.firefly.utils.StringUtils;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
@@ -30,7 +25,6 @@ public class TitleModule implements Module {
 
     private static TitleModule instance = null;
 
-    private Chat chat;
     private List<Prefix> prefixes = new ArrayList<>();
     private List<Suffix> suffixes = new ArrayList<>();
 
@@ -55,12 +49,6 @@ public class TitleModule implements Module {
 
     @Override
     public void init() {
-        Chat chat = VaultManager.getInstance().getChat();
-        if (chat == null) {
-            Loggers.warn(Firefly.getInstance().getComponentLogger(), "The Title Module cannot load because there is no Vault Chat manager detected. Please install LuckPerms to resolve this!");
-            return;
-        }
-        this.chat = chat;
         TitleConfig.getInstance().init();
         TitleDatabase.getInstance().register(Firefly.getInstance().getDatabase());
 
@@ -148,11 +136,7 @@ public class TitleModule implements Module {
         }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null || data.getPrefix() == null) {
-            if (chat == null) {
-                return null;
-            }
-            String vaultPrefix = chat.getPlayerPrefix(player);
-            return ComponentMessage.componentMessage(vaultPrefix).get();
+            return null;
         }
         return data.getPrefix().get();
     }
@@ -205,11 +189,7 @@ public class TitleModule implements Module {
         }
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (data == null || data.getSuffix() == null) {
-            if (chat == null) {
-                return null;
-            }
-            String vaultSuffix = chat.getPlayerSuffix(player);
-            return ComponentMessage.componentMessage(vaultSuffix).get();
+            return null;
         }
         return data.getSuffix().get();
     }
