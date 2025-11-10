@@ -1,7 +1,6 @@
 package uk.firedev.firefly.modules.elevator;
 
 import net.kyori.adventure.bossbar.BossBar;
-import org.bukkit.persistence.PersistentDataContainer;
 import uk.firedev.daisylib.utils.ObjectUtils;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
@@ -48,7 +47,6 @@ public class Elevator {
      * @return Is this an elevator?
      */
     public boolean isElevator() {
-        updateOldLocations();
         return new CustomBlockData(block, Firefly.getInstance()).has(elevatorKey);
     }
 
@@ -185,29 +183,6 @@ public class Elevator {
         }
         Elevator other = (Elevator) obj;
         return this.block.equals(other.block);
-    }
-
-    // Compatibility with old system
-
-    private void updateOldLocations() {
-        NamespacedKey stackKey = new NamespacedKey(Firefly.getInstance(), "elevator-" + block.getX() + "_" + block.getZ());
-        PersistentDataContainer pdc = block.getChunk().getPersistentDataContainer();
-        // No update needed.
-        if (!pdc.has(stackKey)) {
-            return;
-        }
-
-        Location location = block.getLocation();
-        List<String> stackList = new ArrayList<>(pdc.getOrDefault(stackKey, PersistentDataType.LIST.strings(), List.of()));
-        stackList.forEach(yStr -> {
-            Integer y = ObjectUtils.getInt(yStr);
-            if (y == null) {
-                return;
-            }
-            location.setY(y);
-            new Elevator(location.getBlock()).setElevator(true);
-        });
-        pdc.remove(stackKey);
     }
 
 }
