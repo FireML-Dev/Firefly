@@ -45,11 +45,6 @@ public class HealCommand implements Command {
             )
             .build();
     }
-
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(get());
-    }
     
     // Convenience
 

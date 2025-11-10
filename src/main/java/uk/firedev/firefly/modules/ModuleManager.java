@@ -54,9 +54,6 @@ public class ModuleManager {
 
     private void loadModule(@NotNull Module module) {
         module.load();
-        Firefly.getInstance().getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands ->
-            module.registerCommands(commands.registrar())
-        );
     }
 
     public void reload() {

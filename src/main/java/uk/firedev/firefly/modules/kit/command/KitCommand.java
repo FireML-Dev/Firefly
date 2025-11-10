@@ -5,18 +5,23 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitGui;
 import uk.firedev.firefly.modules.kit.KitModule;
 
-public class KitCommand {
+import java.util.List;
 
-    // TODO /kits alias
-    public LiteralCommandNode<CommandSourceStack> get() {
+public class KitCommand implements CommandHolder {
+
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("kit")
-            .requires(stack -> KitModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.kit"))
+            .requires(stack -> KitModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -28,6 +33,42 @@ public class KitCommand {
             .then(getArg())
             .then(award())
             .build();
+    }
+
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of("kits");
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.kit";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.kit";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
     }
 
     private ArgumentBuilder<CommandSourceStack, ?> getArg() {

@@ -65,13 +65,10 @@ public class TitleModule implements Module {
         TitleDatabase.getInstance().register(Firefly.getInstance().getDatabase());
 
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();
-        this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
-    }
+        new PrefixCommand().initCommand();
 
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new PrefixCommand().get());
-        registrar.register(new SuffixCommand().get());
+        this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
+        new SuffixCommand().initCommand();
     }
 
     @Override

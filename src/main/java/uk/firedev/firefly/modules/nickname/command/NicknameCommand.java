@@ -10,22 +10,25 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
 import uk.firedev.daisylib.utils.PlayerHelper;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 
+import java.util.List;
 import java.util.Objects;
 
-public class NicknameCommand {
+public class NicknameCommand implements CommandHolder {
 
-    // TODO /nick alias.
-    public LiteralCommandNode<CommandSourceStack> get() {
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("nickname")
-            .requires(stack -> NicknameModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(NicknameModule.COMMAND_PERMISSION))
+            .requires(stack -> NicknameModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -39,6 +42,42 @@ public class NicknameCommand {
             .then(setOther())
             .then(remove())
             .build();
+    }
+
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of("nick");
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.nickname";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.nickname";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
     }
 
     private ArgumentBuilder<CommandSourceStack, ?> check() {

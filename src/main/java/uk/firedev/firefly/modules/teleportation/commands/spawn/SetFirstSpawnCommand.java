@@ -10,15 +10,20 @@ import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
-public class SetFirstSpawnCommand {
+import java.util.List;
 
-    public LiteralCommandNode<CommandSourceStack> get() {
+public class SetFirstSpawnCommand implements CommandHolder {
+
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("setfirstspawn")
-            .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.setfirstspawn"))
+            .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -27,20 +32,43 @@ public class SetFirstSpawnCommand {
                 setLocation(player, player.getLocation());
                 return 1;
             })
-            .then(
-                Commands.argument("world", ArgumentTypes.world())
-                    .then(
-                        Commands.argument("location", ArgumentTypes.finePosition())
-                            .executes(context -> {
-                                World world = context.getArgument("world", World.class);
-                                // TODO ensure this works how i want it to
-                                Location location = context.getArgument("location", FinePosition.class).toLocation(world);
-                                setLocation(context.getSource().getSender(), location);
-                                return 1;
-                            })
-                    )
-            )
             .build();
+    }
+
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of();
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.setfirstspawn";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.setfirstspawn";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
     }
 
     private static void setLocation(@NotNull CommandSender sender, @NotNull Location location) {

@@ -57,11 +57,7 @@ public class PlaytimeModule implements Module {
         PlaytimeDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         new PlaytimeRequirement().register();
         startScheduler();
-    }
-
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new PlaytimeCommand().get());
+        new PlaytimeCommand().initCommand();
     }
 
     @Override

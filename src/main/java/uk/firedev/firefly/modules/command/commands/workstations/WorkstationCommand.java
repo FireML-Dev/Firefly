@@ -35,11 +35,6 @@ public interface WorkstationCommand extends Command {
             .build();
     }
 
-    @Override
-    default void registerCommands(@NotNull Commands registrar) {
-        registrar.register(get());
-    }
-
     void open(@NotNull Player player);
 
 }

@@ -32,11 +32,6 @@ public class ItemFrameCommand implements Command {
             .build();
     }
 
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(get());
-    }
-
     private ArgumentBuilder<CommandSourceStack, ?> invisibleArg() {
         return Commands.literal("invisible")
             .executes(context -> {

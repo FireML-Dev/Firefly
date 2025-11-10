@@ -71,9 +71,6 @@ public class CommandModule implements Module {
     }
 
     @Override
-    public void registerCommands(@NotNull Commands registrar) {}
-
-    @Override
     public void reload() {
         CommandConfig.getInstance().reload();
         commands.forEach(SubModule::reload);

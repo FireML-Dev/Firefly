@@ -6,7 +6,10 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 import uk.firedev.firefly.modules.titles.gui.PrefixGui;
@@ -14,11 +17,14 @@ import uk.firedev.firefly.modules.titles.gui.SuffixGui;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
-public class SuffixCommand {
+import java.util.List;
 
-    public LiteralCommandNode<CommandSourceStack> get() {
+public class SuffixCommand implements CommandHolder {
+
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("suffix")
-            .requires(stack -> TitleModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.suffix"))
+            .requires(stack -> TitleModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -29,6 +35,42 @@ public class SuffixCommand {
             })
             .then(display())
             .build();
+    }
+
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of();
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.suffix";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.suffix";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
     }
 
     private static ArgumentBuilder<CommandSourceStack, ?> display() {

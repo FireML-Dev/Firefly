@@ -43,9 +43,6 @@ public class LootChestProtection implements SubModule, Listener {
     public void init() {}
 
     @Override
-    public void registerCommands(@NotNull Commands registrar) {}
-
-    @Override
     public void reload() {}
 
     @Override

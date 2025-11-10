@@ -50,11 +50,7 @@ public class NicknameModule implements Module {
     public void init() {
         NicknameConfig.getInstance().init();
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
-    }
-
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new NicknameCommand().get());
+        new NicknameCommand().initCommand();
     }
 
     @Override

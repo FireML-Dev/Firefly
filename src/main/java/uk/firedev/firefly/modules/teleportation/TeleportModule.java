@@ -56,21 +56,21 @@ public class TeleportModule implements Module {
         TeleportDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());
+        registerCommands();
     }
 
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new SpawnCommand().get());
-        registrar.register(new SetSpawnCommand().get());
-        registrar.register(new SetFirstSpawnCommand().get());
+    private void registerCommands() {
+        new SpawnCommand().initCommand();
+        new SetSpawnCommand().initCommand();
+        new SetFirstSpawnCommand().initCommand();
 
-        registrar.register(new BackCommand().get());
-        registrar.register(new DBackCommand().get());
+        new BackCommand().initCommand();
+        new DBackCommand().initCommand();
 
-        registrar.register(new TPACommand().get());
-        registrar.register(new TPAHereCommand().get());
-        registrar.register(new TPDenyCommand().get());
-        registrar.register(new TPAcceptCommand().get());
+        new TPACommand().initCommand();
+        new TPAHereCommand().initCommand();
+        new TPDenyCommand().initCommand();
+        new TPAcceptCommand().initCommand();
     }
 
     @Override

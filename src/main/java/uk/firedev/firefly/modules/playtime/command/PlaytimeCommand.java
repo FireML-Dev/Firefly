@@ -8,25 +8,26 @@ import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.command.ArgumentBase;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
 import uk.firedev.daisylib.utils.PlayerHelper;
-import uk.firedev.firefly.modules.nickname.NicknameModule;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
 import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class PlaytimeCommand {
+public class PlaytimeCommand implements CommandHolder {
 
-    public LiteralCommandNode<CommandSourceStack> get() {
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("playtime")
-            .requires(stack -> PlaytimeModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission("firefly.command.playtime"))
+            .requires(stack -> PlaytimeModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -40,9 +41,49 @@ public class PlaytimeCommand {
             .build();
     }
 
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of();
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.playtime";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.playtime";
+    }
+
+    public String setPermission() {
+        return "firefly.command.playtime.set";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
+    }
+
     private ArgumentBuilder<CommandSourceStack, ?> set() {
         return Commands.literal("set")
-            .requires(stack -> stack.getSender().hasPermission("firefly.command.playtime.set"))
+            .requires(stack -> stack.getSender().hasPermission(setPermission()))
             .then(
                 Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
                     .then(

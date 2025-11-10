@@ -38,11 +38,6 @@ public class RenameCommand implements Command {
             .build();
     }
 
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(get());
-    }
-
     // Convenience
 
     private ArgumentBuilder<CommandSourceStack, ?> greedyArg() {

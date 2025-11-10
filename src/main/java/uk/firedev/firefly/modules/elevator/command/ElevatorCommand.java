@@ -7,20 +7,26 @@ import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.utils.ItemUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.firefly.CommandHolder;
+import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.elevator.Elevator;
 import uk.firedev.firefly.modules.elevator.ElevatorConfig;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 
+import java.util.List;
 import java.util.Objects;
 
-public class ElevatorCommand {
+public class ElevatorCommand implements CommandHolder {
 
-    public LiteralCommandNode<CommandSourceStack> get() {
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("elevator")
-            .requires(stack -> ElevatorModule.getInstance().isConfigEnabled() &&  stack.getSender().hasPermission("firefly.command.elevator"))
+            .requires(stack -> ElevatorModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 ElevatorConfig.getInstance().getCommandUsageMessage().send(context.getSource().getSender());
                 return 1;
@@ -28,6 +34,42 @@ public class ElevatorCommand {
             .then(giveBlock())
             .then(remove())
             .build();
+    }
+
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of();
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.elevator";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.elevator";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
     }
 
     private ArgumentBuilder<CommandSourceStack, ?> giveBlock() {

@@ -13,11 +13,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.protection.ProtectionConfig;
 import uk.firedev.firefly.placeholders.Placeholders;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class AmethystProtection implements SubModule, Listener {
+public class AmethystProtection implements SubModule, Listener, CommandHolder {
 
     private static AmethystProtection instance = null;
     private static final List<UUID> warned = new ArrayList<>();
@@ -46,12 +46,6 @@ public class AmethystProtection implements SubModule, Listener {
 
     @Override
     public void init() {}
-
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registering AmethystProtect Command");
-        registrar.register(getCommand());
-    }
 
     @Override
     public void reload() {}
@@ -97,9 +91,10 @@ public class AmethystProtection implements SubModule, Listener {
         return player.getPersistentDataContainer().getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
     }
 
-    private LiteralCommandNode<CommandSourceStack> getCommand() {
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("amethystprotect")
-            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission("firefly.command.amethystprotect"))
+            .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
                 if (player == null) {
@@ -118,4 +113,36 @@ public class AmethystProtection implements SubModule, Listener {
             .build();
     }
 
- }
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return List.of();
+    }
+
+    @Override
+    public @NotNull String permission() {
+        return "firefly.command.amethystprotect";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.amethystprotect";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
+    }
+
+}

@@ -65,11 +65,7 @@ public class ElevatorModule implements Module {
         pm.registerEvents(new ElevatorListener(), this.plugin);
         ElevatorConfig.getInstance().init();
         registerRecipe();
-    }
-
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new ElevatorCommand().get());
+        new ElevatorCommand().initCommand();
     }
 
     @Override

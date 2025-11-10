@@ -14,8 +14,6 @@ public interface SubModule {
 
     void init();
 
-    void registerCommands(@NotNull Commands registrar);
-
     default void load() {
         if (!isConfigEnabled()) {
             return;

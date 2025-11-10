@@ -7,20 +7,24 @@ import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.messaging.MessagingConfig;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 
-public class MessageCommand {
+import java.util.List;
 
-    // TODO aliases.
-    public LiteralCommandNode<CommandSourceStack> get() {
+public class MessageCommand implements CommandHolder {
+
+    @Override
+    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(MessagingConfig.getInstance().getMessageCommandName())
-            .requires(stack -> MessagingModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(MessagingModule.MESSAGE_PERMISSION))
+            .requires(stack -> MessagingModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .then(
                 Commands.argument("target", PlayerArgument.create())
                     .then(
@@ -38,6 +42,42 @@ public class MessageCommand {
                     )
             )
             .build();
+    }
+
+    /**
+     * @return The list of aliases this command should have.
+     */
+    @NotNull
+    @Override
+    public List<String> aliases() {
+        return MessagingConfig.getInstance().getMessageCommandAliases();
+    }
+
+    /**
+     * @return The permission for executing this command on yourself.
+     */
+    @NotNull
+    @Override
+    public String permission() {
+        return "firefly.command.message";
+    }
+
+    /**
+     * @return The permission for executing this command on another player.
+     */
+    @NotNull
+    @Override
+    public String targetPermission() {
+        return "firefly.command.message";
+    }
+
+    /**
+     * @return This command's description.
+     */
+    @Nullable
+    @Override
+    public String description() {
+        return null;
     }
 
     private void sendMessage(@NotNull Player sender, @NotNull Player target, @NotNull String str) {

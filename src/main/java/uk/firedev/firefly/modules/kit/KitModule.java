@@ -52,11 +52,7 @@ public class KitModule implements Module, Listener {
         KitConfig.getInstance().init();
         loadKits();
         new KitRewardType().register();
-    }
-
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new KitCommand().get());
+        new KitCommand().initCommand();
     }
 
     @Override

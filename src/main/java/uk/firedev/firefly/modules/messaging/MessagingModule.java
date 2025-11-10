@@ -21,8 +21,6 @@ import java.util.UUID;
 public class MessagingModule implements Module, Listener {
 
     private static MessagingModule instance;
-    public static final String MESSAGE_PERMISSION = "firefly.command.message";
-    public static final String REPLY_PERMISSION = "firefly.command.reply";
 
     private final Map<UUID, UUID> lastMessages = new HashMap<>();
 
@@ -48,12 +46,8 @@ public class MessagingModule implements Module, Listener {
     @Override
     public void init() {
         MessagingConfig.getInstance().init();
-    }
-
-    @Override
-    public void registerCommands(@NotNull Commands registrar) {
-        registrar.register(new MessageCommand().get(), null, MessagingConfig.getInstance().getMessageCommandAliases());
-        registrar.register(new ReplyCommand().get(), null, MessagingConfig.getInstance().getReplyCommandAliases());
+        new MessageCommand().initCommand();
+        new ReplyCommand().initCommand();
     }
 
     @Override

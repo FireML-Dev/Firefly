@@ -46,9 +46,6 @@ public class ProtectionModule implements Module {
     }
 
     @Override
-    public void registerCommands(@NotNull Commands registrar) {}
-
-    @Override
     public void reload() {
         ProtectionConfig.getInstance().reload();
         protections.forEach(SubModule::reload);
