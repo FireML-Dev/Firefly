@@ -12,16 +12,20 @@ public class MessagingConfig extends ConfigBase {
 
     private static MessagingConfig instance;
 
-    private final @NotNull String messageCommandName;
-    private final @NotNull List<String> messageCommandAliases;
+    private @NotNull String messageCommandName = "message";
+    private @NotNull List<String> messageCommandAliases = List.of();
 
-    private final @NotNull String replyCommandName;
-    private final @NotNull List<String> replyCommandAliases;
+    private @NotNull String replyCommandName = "reply";
+    private @NotNull List<String> replyCommandAliases = List.of();
 
     private MessagingConfig() {
         super("modules/messaging.yml", "modules/messaging.yml", Firefly.getInstance());
         withDefaultUpdaterSettings();
+    }
 
+    @Override
+    public void init() {
+        super.init();
         this.messageCommandName = getConfig().getString("message-command.name", "message");
         this.messageCommandAliases = getConfig().getStringList("message-command.aliases");
 
