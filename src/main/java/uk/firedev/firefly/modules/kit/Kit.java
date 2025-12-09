@@ -1,10 +1,12 @@
 package uk.firedev.firefly.modules.kit;
 
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ItemType;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -37,7 +39,7 @@ public class Kit {
 
     public Kit(@Nullable ConfigurationSection section) throws InvalidConfigurationException {
         if (section == null) {
-            throw new InvalidConfigurationException("Kit config is not valid!");
+            throw new InvalidConfigurationException("Kit config is null!");
         }
         this.config = section;
         this.name = section.getName();
@@ -83,7 +85,7 @@ public class Kit {
 
     public ItemStack buildItem() {
         ConfigurationSection itemSection = config.getConfigurationSection("item");
-        return ItemBuilder.createWithConfig(itemSection, null, null)
+        return ItemBuilder.fromConfigWithBaseItem(ItemStack.of(Material.SHULKER_BOX), itemSection, null, null)
             .editItem(item -> {
                 item.editPersistentDataContainer(pdc ->
                     pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getName())

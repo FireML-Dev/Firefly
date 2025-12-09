@@ -140,7 +140,7 @@ public class ElevatorModule implements Module {
 
         ConfigurationSection config = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item");
 
-        return ItemBuilder.createWithConfig(config, null, null)
+        return ItemBuilder.fromConfigWithBaseItem(ItemStack.of(Material.IRON_BLOCK), config, null, null)
             .editItem(item -> {
                 item.editPersistentDataContainer(pdc -> pdc.set(getItemKey(), PersistentDataType.BOOLEAN, true));
                 return item;
