@@ -41,7 +41,6 @@ public class ProtectionModule implements Module {
 
     @Override
     public void init() {
-        ProtectionConfig.getInstance().init();
         protections.forEach(SubModule::load);
     }
 

@@ -11,7 +11,6 @@ public class MainConfig extends ConfigBase {
 
     private MainConfig() {
         super("config.yml", "config.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static MainConfig getInstance() {

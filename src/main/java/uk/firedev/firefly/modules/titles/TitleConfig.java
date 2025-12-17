@@ -20,7 +20,6 @@ public class TitleConfig extends ConfigBase {
 
     private TitleConfig() {
         super("modules/titles.yml", "modules/titles.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static TitleConfig getInstance() {

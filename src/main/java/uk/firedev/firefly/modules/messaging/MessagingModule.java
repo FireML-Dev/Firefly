@@ -1,6 +1,5 @@
 package uk.firedev.firefly.modules.messaging;
 
-import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.messaging.command.MessageCommand;
@@ -23,8 +21,6 @@ public class MessagingModule implements Module, Listener {
     private static MessagingModule instance;
 
     private final Map<UUID, UUID> lastMessages = new HashMap<>();
-
-    private MessagingModule() {}
 
     public static MessagingModule getInstance() {
         if (instance == null) {
@@ -45,7 +41,6 @@ public class MessagingModule implements Module, Listener {
 
     @Override
     public void init() {
-        MessagingConfig.getInstance().init();
         new MessageCommand().initCommand();
         new ReplyCommand().initCommand();
     }

@@ -13,7 +13,6 @@ public class MessageConfig extends ConfigBase {
 
     private MessageConfig() {
         super("messages.yml", "messages.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static MessageConfig getInstance() {

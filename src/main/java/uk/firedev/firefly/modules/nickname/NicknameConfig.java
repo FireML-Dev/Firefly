@@ -12,7 +12,6 @@ public class NicknameConfig extends ConfigBase {
 
     private NicknameConfig() {
         super("modules/nicknames.yml", "modules/nicknames.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static NicknameConfig getInstance() {

@@ -49,7 +49,6 @@ public class KitModule implements Module, Listener {
 
     @Override
     public void init() {
-        KitConfig.getInstance().init();
         loadKits();
         new KitRewardType().register();
         new KitCommand().initCommand();

@@ -48,7 +48,6 @@ public class NicknameModule implements Module {
 
     @Override
     public void init() {
-        NicknameConfig.getInstance().init();
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         new NicknameCommand().initCommand();
     }

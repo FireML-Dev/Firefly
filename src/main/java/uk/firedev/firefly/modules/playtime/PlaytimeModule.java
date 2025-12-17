@@ -53,7 +53,6 @@ public class PlaytimeModule implements Module {
 
     @Override
     public void init() {
-        PlaytimeConfig.getInstance().init();
         PlaytimeDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         new PlaytimeRequirement().register();
         startScheduler();

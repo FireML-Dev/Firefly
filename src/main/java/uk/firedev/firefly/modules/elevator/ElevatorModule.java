@@ -63,7 +63,6 @@ public class ElevatorModule implements Module {
     public void init() {
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new ElevatorListener(), this.plugin);
-        ElevatorConfig.getInstance().init();
         registerRecipe();
         new ElevatorCommand().initCommand();
     }

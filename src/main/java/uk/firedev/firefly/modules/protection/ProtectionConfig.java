@@ -13,7 +13,6 @@ public class ProtectionConfig extends ConfigBase {
 
     private ProtectionConfig() {
         super("modules/protection.yml", "modules/protection.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static ProtectionConfig getInstance() {

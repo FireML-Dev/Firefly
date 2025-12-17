@@ -49,7 +49,6 @@ public class TitleModule implements Module {
 
     @Override
     public void init() {
-        TitleConfig.getInstance().init();
         TitleDatabase.getInstance().register(Firefly.getInstance().getDatabase());
 
         this.prefixes = TitleConfig.getInstance().getPrefixesFromFile();

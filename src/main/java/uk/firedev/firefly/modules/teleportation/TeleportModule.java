@@ -52,7 +52,6 @@ public class TeleportModule implements Module {
 
     @Override
     public void init() {
-        TeleportConfig.getInstance().init();
         TeleportDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         refreshSpawnLocations();
         Bukkit.getPluginManager().registerEvents(new TeleportListener(), Firefly.getInstance());

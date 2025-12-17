@@ -66,7 +66,6 @@ public class CommandModule implements Module {
 
     @Override
     public void init() {
-        CommandConfig.getInstance().init();
         commands.forEach(SubModule::load);
     }
 

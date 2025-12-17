@@ -20,12 +20,7 @@ public class MessagingConfig extends ConfigBase {
 
     private MessagingConfig() {
         super("modules/messaging.yml", "modules/messaging.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
-    }
 
-    @Override
-    public void init() {
-        super.init();
         this.messageCommandName = getConfig().getString("message-command.name", "message");
         this.messageCommandAliases = getConfig().getStringList("message-command.aliases");
 

@@ -47,7 +47,6 @@ public class ModuleManager {
         if (isLoaded()) {
             return;
         }
-        ModuleConfig.getInstance().init();
         modules.forEach(this::loadModule);
         loaded = true;
     }

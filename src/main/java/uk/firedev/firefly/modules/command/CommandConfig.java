@@ -9,7 +9,6 @@ public class CommandConfig extends ConfigBase {
 
     private CommandConfig() {
         super("modules/commands.yml", "modules/commands.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static CommandConfig getInstance() {

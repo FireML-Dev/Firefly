@@ -11,7 +11,6 @@ public class PlaytimeConfig extends ConfigBase {
 
     private PlaytimeConfig() {
         super("modules/playtime.yml", "modules/playtime.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static PlaytimeConfig getInstance() {

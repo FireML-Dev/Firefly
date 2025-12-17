@@ -15,7 +15,6 @@ public class KitConfig extends ConfigBase {
 
     private KitConfig() {
         super("modules/kits.yml", "modules/kits.yml", Firefly.getInstance());
-        withDefaultUpdaterSettings();
     }
 
     public static KitConfig getInstance() {
