@@ -3,9 +3,9 @@ package uk.firedev.firefly.modules.teleportation;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.utils.LocationHelper;
+import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.config.ConfigBase;
+import uk.firedev.daisylib.util.Utils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
@@ -39,7 +39,7 @@ public class TeleportConfig extends ConfigBase {
 
     public void setSpawnLocation(boolean firstSpawn, @NotNull Location location) {
         String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
-        LocationHelper.addToConfig(getConfig(), spawnLocKey, location);
+        Utils.addLocationToConfig(getConfig(), spawnLocKey, location);
         save();
         TeleportModule.getInstance().refreshSpawnLocations();
     }
@@ -48,7 +48,7 @@ public class TeleportConfig extends ConfigBase {
         String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
         String invalidLocation = firstSpawn ? "The first spawn location is not valid!" : "The spawn location is not valid!";
 
-        Location location = LocationHelper.getFromConfig(getConfig(), spawnLocKey);
+        Location location = Utils.getLocationFromConfig(getConfig(), spawnLocKey);
         if (location == null) {
             Loggers.warn(Firefly.getInstance().getComponentLogger(), invalidLocation);
             return null;

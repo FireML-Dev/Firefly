@@ -11,7 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.firefly.modules.command.Command;
 import uk.firedev.firefly.placeholders.Placeholders;

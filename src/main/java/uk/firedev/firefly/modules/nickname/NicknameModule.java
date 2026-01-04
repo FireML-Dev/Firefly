@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;

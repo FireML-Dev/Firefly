@@ -1,7 +1,7 @@
 package uk.firedev.firefly.placeholders;
 
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.placeholders.PlaceholderProvider;
+import uk.firedev.daisylib.placeholder.PlaceholderProvider;
 import uk.firedev.firefly.Firefly;
 
 import java.util.function.Consumer;
@@ -19,7 +19,7 @@ public class Placeholders {
         if (provider != null) {
             return;
         }
-        provider = PlaceholderProvider.create(Firefly.getInstance());
+        provider = new PlaceholderProvider(Firefly.getInstance());
     }
 
     /**

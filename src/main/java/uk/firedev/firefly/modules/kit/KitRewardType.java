@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.firefly.Firefly;
 

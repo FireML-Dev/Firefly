@@ -8,7 +8,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;

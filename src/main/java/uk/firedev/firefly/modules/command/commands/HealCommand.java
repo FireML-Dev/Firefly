@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.firefly.modules.command.Command;
 
@@ -28,9 +28,6 @@ public class HealCommand implements Command {
             .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 heal(player, player);
                 return 1;
             })

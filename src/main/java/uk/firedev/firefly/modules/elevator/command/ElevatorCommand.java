@@ -10,8 +10,8 @@ import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.util.Utils;
+import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.elevator.Elevator;
@@ -76,10 +76,7 @@ public class ElevatorCommand implements CommandHolder {
         return Commands.literal("giveBlock")
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
-                ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
+                player.give(ElevatorModule.getInstance().getElevatorBlock());
                 ElevatorConfig.getInstance().getCommandGivenMessage().send(player);
                 return 1;
             })
@@ -87,7 +84,7 @@ public class ElevatorCommand implements CommandHolder {
                 Commands.argument("target", PlayerArgument.create())
                     .executes(context -> {
                         Player player = context.getArgument("target", Player.class);
-                        ItemUtils.giveItem(ElevatorModule.getInstance().getElevatorBlock(), player);
+                        player.give(ElevatorModule.getInstance().getElevatorBlock());
                         ElevatorConfig.getInstance().getCommandGivenMessage().send(player);
                         return 1;
                     })
@@ -98,9 +95,6 @@ public class ElevatorCommand implements CommandHolder {
         return Commands.literal("remove")
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 RayTraceResult traced = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 5, FluidCollisionMode.NEVER, true);
                 if (traced == null || traced.getHitBlock() == null) {
                     ElevatorConfig.getInstance().getCommandInvalidMessage().send(player);

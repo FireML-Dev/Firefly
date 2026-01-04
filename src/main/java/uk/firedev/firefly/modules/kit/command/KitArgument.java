@@ -12,7 +12,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.command.ArgumentBase;
+import uk.firedev.daisylib.command.argument.ArgumentBase;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitModule;
 

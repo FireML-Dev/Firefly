@@ -5,7 +5,7 @@ import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.util.Utils;
 import uk.firedev.firefly.Firefly;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class PlaytimeRequirement extends RequirementAddon {
             return false;
         }
         for (String value : values) {
-            if (!ObjectUtils.isLong(value)) {
+            if (!Utils.isLong(value)) {
                 return false;
             }
             long playtimeNeeded = Long.parseLong(value);

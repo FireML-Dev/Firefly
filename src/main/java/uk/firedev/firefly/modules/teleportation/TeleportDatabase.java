@@ -2,7 +2,7 @@ package uk.firedev.firefly.modules.teleportation;
 
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.utils.DatabaseUtils;
+import uk.firedev.daisylib.util.JsonStorage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
@@ -43,7 +43,7 @@ public class TeleportDatabase implements FireflyDatabaseModule {
         if (locationStr == null) {
             return;
         }
-        Location location = DatabaseUtils.parseLocation(locationStr);
+        Location location = JsonStorage.parseLocation(locationStr);
         if (location == null) {
             return;
         }
@@ -57,7 +57,7 @@ public class TeleportDatabase implements FireflyDatabaseModule {
             return;
         }
         try (PreparedStatement ps = connection.prepareStatement("UPDATE firefly_players SET lastTeleportLocation = ? WHERE uuid = ?")) {
-            ps.setString(1, DatabaseUtils.prepareLocation(location));
+            ps.setString(1, JsonStorage.prepareLocation(location));
             ps.setString(2, data.getUuid().toString());
             ps.executeUpdate();
         }

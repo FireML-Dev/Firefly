@@ -6,7 +6,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.modules.command.Command;
 
 public interface WorkstationCommand extends Command {

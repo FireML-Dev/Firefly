@@ -1,7 +1,7 @@
 package uk.firedev.firefly.modules.elevator;
 
 import net.kyori.adventure.bossbar.BossBar;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.util.Utils;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -145,7 +145,7 @@ public class Elevator {
     @Nullable
     public Elevator getNext() {
         int index = getCurrentPosition() + 1;
-        return ObjectUtils.getOrDefault(getStack(), index, null);
+        return Utils.getOrDefault(getStack(), index, null);
     }
 
     /**
@@ -154,7 +154,7 @@ public class Elevator {
     @Nullable
     public Elevator getPrevious() {
         int index = getCurrentPosition() - 1;
-        return ObjectUtils.getOrDefault(getStack(), index, null);
+        return Utils.getOrDefault(getStack(), index, null);
     }
 
     /**

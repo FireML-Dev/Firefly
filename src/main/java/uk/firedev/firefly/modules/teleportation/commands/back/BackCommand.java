@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.arguments.PlayerArgument;
+import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;

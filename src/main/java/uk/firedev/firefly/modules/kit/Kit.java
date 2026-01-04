@@ -10,13 +10,13 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import uk.firedev.daisylib.VaultManager;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
 import uk.firedev.daisylib.builders.ItemBuilder;
-import uk.firedev.daisylib.utils.ItemUtils;
-import uk.firedev.daisylib.command.CooldownHelper;
+import uk.firedev.daisylib.util.CooldownHelper;
+import uk.firedev.daisylib.util.Utils;
 import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
+import uk.firedev.daisylib.util.VaultManager;
 
 import java.time.Duration;
 import java.util.List;
@@ -27,7 +27,7 @@ public class Kit {
 
     private static final Random random = new Random();
 
-    private final CooldownHelper cooldowns = CooldownHelper.create();
+    private final CooldownHelper cooldowns = CooldownHelper.cooldownHelper();
     private final @NotNull ConfigurationSection config;
     private final String name;
     private final boolean singleRandomReward;
@@ -107,11 +107,11 @@ public class Kit {
     }
 
     public boolean isOnCooldown(@NotNull UUID uuid) {
-        return cooldowns.hasCooldown(uuid);
+        return cooldowns.has(uuid);
     }
 
     public void applyCooldown(@NotNull UUID uuid) {
-        cooldowns.applyCooldown(uuid, Duration.ofSeconds(getGuiCooldown()));
+        cooldowns.apply(uuid, Duration.ofSeconds(getGuiCooldown()));
     }
 
     public long getGuiCooldown() {
@@ -128,7 +128,7 @@ public class Kit {
     }
 
     public void giveToPlayer(@NotNull Player player, @Nullable CommandSender sender) {
-        ItemUtils.giveItem(buildItem(), player);
+        player.give(buildItem());
         Replacer replacer = Replacer.replacer().addReplacement("kit", getName());
         KitConfig.getInstance().getAwardedReceiverMessage().replace(replacer).send(player);
         if (sender != null && sender != player) {

@@ -1,14 +1,13 @@
 package uk.firedev.firefly.modules.playtime;
 
-import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.daisylib.Loggers;
-import uk.firedev.daisylib.utils.DurationFormatter;
+import uk.firedev.daisylib.util.Loggers;
+import uk.firedev.daisylib.util.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -25,6 +24,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public class PlaytimeModule implements Module {
 
@@ -81,7 +81,7 @@ public class PlaytimeModule implements Module {
                 if (!(audience instanceof Player player)) {
                     return Component.text("Player is not available.");
                 }
-                return Component.text(getTimeFormatted(player));
+                return getTimeFormatted(player);
             });
             provider.addAudiencePlaceholder("playtime_raw", audience -> {
                 if (!isConfigEnabled()) {
@@ -154,8 +154,8 @@ public class PlaytimeModule implements Module {
         return data.getPlaytime();
     }
 
-    public String getTimeFormatted(@NotNull OfflinePlayer player) {
-        return DurationFormatter.formatSeconds(getTime(player));
+    public Component getTimeFormatted(@NotNull OfflinePlayer player) {
+        return new DurationFormatter(TimeUnit.SECONDS).format(getTime(player));
     }
 
     // Database

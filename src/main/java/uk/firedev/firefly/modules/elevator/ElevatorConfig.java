@@ -6,7 +6,7 @@ import org.bukkit.entity.Boss;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.builders.BossBarBuilder;
 import uk.firedev.daisylib.config.ConfigBase;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.util.Utils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
@@ -59,7 +59,7 @@ public class ElevatorConfig extends ConfigBase {
     }
 
     public BossBar.Color getBossBarColor() {
-        return ObjectUtils.getEnumValue(
+        return Utils.getEnumValue(
             BossBar.Color.class,
             getConfig().getString("bossbar.color"),
             BossBar.Color.RED
@@ -67,7 +67,7 @@ public class ElevatorConfig extends ConfigBase {
     }
 
     public BossBar.Overlay getBossBarOverlay() {
-        return ObjectUtils.getEnumValue(
+        return Utils.getEnumValue(
             BossBar.Overlay.class,
             getConfig().getString("bossbar.overlay"),
             BossBar.Overlay.PROGRESS

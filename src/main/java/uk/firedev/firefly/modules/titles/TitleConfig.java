@@ -2,7 +2,7 @@ package uk.firedev.firefly.modules.titles;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import uk.firedev.daisylib.Loggers;
+import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;

@@ -5,14 +5,15 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.arguments.OfflinePlayerArgument;
-import uk.firedev.daisylib.utils.PlayerHelper;
+import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
+import uk.firedev.daisylib.util.PlayerHelper;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
@@ -123,7 +124,7 @@ public class PlaytimeCommand implements CommandHolder {
 
     private void sendSetPlaytimeMessage(@NotNull CommandSender admin, @NotNull OfflinePlayer target) {
         Player player = target.getPlayer();
-        String formattedTime = PlaytimeModule.getInstance().getTimeFormatted(target);
+        Component formattedTime = PlaytimeModule.getInstance().getTimeFormatted(target);
         if (player != null) {
             PlaytimeConfig.getInstance().getAdminSetPlaytimeMessage()
                 .replace("{playtime}", formattedTime)

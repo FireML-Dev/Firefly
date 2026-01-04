@@ -11,7 +11,7 @@ import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.utils.ObjectUtils;
+import uk.firedev.daisylib.util.Utils;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.command.Command;
 
@@ -96,7 +96,7 @@ public class RideCommand implements Command {
     private List<EntityType> getBlacklistedEntities() {
         return getConfig().getStringList("entity-blacklist")
             .stream()
-            .map(typeName -> ObjectUtils.getEnumValue(EntityType.class, typeName))
+            .map(typeName -> Utils.getEnumValue(EntityType.class, typeName))
             .filter(Objects::nonNull)
             .toList();
     }
