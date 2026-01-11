@@ -12,22 +12,6 @@ example:
   # Custom messages for this command. See each command for their specific messages.
   messages: []
 
-# The /fly command - Toggles flight
-fly:
-  enabled: true
-  messages:
-    enabled: "{prefix}<#F0E68C>Flight is now enabled."
-    enabled-sender: "{prefix}<#F0E68C>Flight is now enabled for {target}."
-    disabled: "{prefix}<red>Flight is now disabled."
-    disabled-sender: "{prefix}<red>Flight is now disabled for {target}."
-
-# The /flyspeed command - Adjusts the speed of flight
-flyspeed:
-  enabled: true
-  messages:
-    set: "{prefix}<#F0E68C>Your fly speed has been set to {speed}."
-    set-sender: "{prefix}<#F0E68C>{target}'s fly speed has been set to {speed}."
-
 # The /ride command - Allows you to sit on entities and other players
 ride:
   enabled: true
