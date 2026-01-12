@@ -27,24 +27,6 @@ ride:
     shake: "{prefix}<#F0E68C>{player} is now riding you. Type <gold><click:run_command:'/ride shake'>/ride shake</click> <#F0E68C>to get them off!"
     shook: "{prefix}<#F0E68C>Successfully shook off all players!"
 
-# The /workbench command - Opens a workbench
-workbench:
-  enabled: true
-  aliases:
-    - craft
-
-# The /anvil command - Opens an anvil
-anvil:
-  enabled: true
-
-# The /grindstone command - Opens a grindstone
-grindstone:
-  enabled: true
-
-# The /loom command - Opens a loom
-loom:
-  enabled: true
-
 # The /itemframe command - Allows modification of item frames
 itemframe:
   enabled: true
