@@ -1,11 +1,7 @@
 package uk.firedev.firefly.modules;
 
-import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import org.jetbrains.annotations.NotNull;
-import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.config.ModuleConfig;
-import uk.firedev.firefly.modules.command.CommandModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
@@ -30,7 +26,6 @@ public class ModuleManager {
         NicknameModule.getInstance(),
         PlaytimeModule.getInstance(),
         TeleportModule.getInstance(),
-        CommandModule.getInstance(),
         MessagingModule.getInstance()
     );
 
