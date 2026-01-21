@@ -10,6 +10,7 @@ public class ModuleConfig extends ConfigBase {
 
     private ModuleConfig() {
         super("modules.yml", "modules.yml", Firefly.getInstance());
+        init();
     }
 
     public static ModuleConfig getInstance() {
