@@ -16,7 +16,6 @@ public class TeleportConfig extends ConfigBase {
 
     private TeleportConfig() {
         super("modules/teleport.yml", "modules/teleport.yml", Firefly.getInstance());
-        init();
     }
 
     public static TeleportConfig getInstance() {
