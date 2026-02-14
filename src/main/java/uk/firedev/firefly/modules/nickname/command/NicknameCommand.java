@@ -9,8 +9,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
 import uk.firedev.daisylib.util.PlayerHelper;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class NicknameCommand implements CommandHolder {
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("nickname")
             .requires(stack -> NicknameModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
@@ -47,7 +47,7 @@ public class NicknameCommand implements CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return List.of("nick");
@@ -56,7 +56,7 @@ public class NicknameCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull
+    @NonNull
     @Override
     public String permission() {
         return "firefly.command.nickname";
@@ -65,7 +65,7 @@ public class NicknameCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.nickname";
@@ -195,7 +195,7 @@ public class NicknameCommand implements CommandHolder {
 
     // Convenience
 
-    private void checkNickname(@NotNull CommandSender sender, @NotNull OfflinePlayer target) {
+    private void checkNickname(@NonNull CommandSender sender, @NonNull OfflinePlayer target) {
         Component nickname = NicknameModule.getInstance().getNickname(target);
         NicknameConfig.getInstance().getCommandCheckInfoMessage()
             .replace("{nickname}", nickname)
@@ -203,7 +203,7 @@ public class NicknameCommand implements CommandHolder {
             .send(sender);
     }
 
-    private boolean validateNickname(@NotNull Player player, @NotNull Component nickname) {
+    private boolean validateNickname(@NonNull Player player, @NonNull Component nickname) {
         String cleanString = ComponentMessage.componentMessage(nickname).getAsPlainText();
 
         // Check if the player has admin perms

@@ -3,8 +3,8 @@ package uk.firedev.firefly.modules.titles;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
@@ -95,15 +95,15 @@ public class TitleModule implements Module {
         });
     }
 
-    public void setPlayerPrefix(@NotNull Player player, @NotNull String prefix) {
+    public void setPlayerPrefix(@NonNull Player player, @NonNull String prefix) {
         setPlayerPrefix(player, ComponentMessage.componentMessage(prefix));
     }
 
-    public void setPlayerPrefix(@NotNull Player player, @NotNull Prefix prefix) {
+    public void setPlayerPrefix(@NonNull Player player, @NonNull Prefix prefix) {
         setPlayerPrefix(player, prefix.getDisplay());
     }
 
-    public void setPlayerPrefix(@NotNull Player player, @NotNull ComponentSingleMessage prefix) {
+    public void setPlayerPrefix(@NonNull Player player, @NonNull ComponentSingleMessage prefix) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -117,7 +117,7 @@ public class TitleModule implements Module {
             .send(player);
     }
 
-    public void removePlayerPrefix(@NotNull Player player) {
+    public void removePlayerPrefix(@NonNull Player player) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -129,7 +129,7 @@ public class TitleModule implements Module {
         TitleConfig.getInstance().getPrefixRemovedMessage().send(player);
     }
 
-    public @Nullable Component getPlayerPrefix(@NotNull Player player) {
+    public @Nullable Component getPlayerPrefix(@NonNull Player player) {
         if (!isConfigEnabled()) {
             return null;
         }
@@ -140,7 +140,7 @@ public class TitleModule implements Module {
         return data.getPrefix().get();
     }
 
-    public @Nullable String getPlayerPrefixLegacy(@NotNull Player player) {
+    public @Nullable String getPlayerPrefixLegacy(@NonNull Player player) {
         Component prefix = getPlayerPrefix(player);
         if (prefix == null) {
             return null;
@@ -148,15 +148,15 @@ public class TitleModule implements Module {
         return LegacyComponentSerializer.legacySection().serialize(prefix);
     }
 
-    public void setPlayerSuffix(@NotNull Player player, @NotNull String suffix) {
+    public void setPlayerSuffix(@NonNull Player player, @NonNull String suffix) {
         setPlayerSuffix(player, ComponentMessage.componentMessage(suffix));
     }
 
-    public void setPlayerSuffix(@NotNull Player player, @NotNull Suffix suffix) {
+    public void setPlayerSuffix(@NonNull Player player, @NonNull Suffix suffix) {
         setPlayerSuffix(player, suffix.getDisplay());
     }
 
-    public void setPlayerSuffix(@NotNull Player player, @NotNull ComponentSingleMessage suffix) {
+    public void setPlayerSuffix(@NonNull Player player, @NonNull ComponentSingleMessage suffix) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -170,7 +170,7 @@ public class TitleModule implements Module {
             .send(player);
     }
 
-    public void removePlayerSuffix(@NotNull Player player) {
+    public void removePlayerSuffix(@NonNull Player player) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -182,7 +182,7 @@ public class TitleModule implements Module {
         TitleConfig.getInstance().getSuffixRemovedMessage().send(player);
     }
 
-    public @Nullable Component getPlayerSuffix(@NotNull Player player) {
+    public @Nullable Component getPlayerSuffix(@NonNull Player player) {
         if (!isConfigEnabled()) {
             return null;
         }
@@ -193,7 +193,7 @@ public class TitleModule implements Module {
         return data.getSuffix().get();
     }
 
-    public @Nullable String getPlayerSuffixLegacy(@NotNull Player player) {
+    public @Nullable String getPlayerSuffixLegacy(@NonNull Player player) {
         Component suffix = getPlayerSuffix(player);
         if (suffix == null) {
             return null;

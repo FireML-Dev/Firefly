@@ -6,8 +6,8 @@ import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
@@ -20,7 +20,7 @@ import java.util.List;
 public class BackCommand implements CommandHolder {
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("back")
             .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
@@ -46,7 +46,7 @@ public class BackCommand implements CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return List.of();
@@ -55,7 +55,7 @@ public class BackCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull
+    @NonNull
     @Override
     public String permission() {
         return "firefly.command.back";
@@ -64,7 +64,7 @@ public class BackCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.back.other";
@@ -79,7 +79,7 @@ public class BackCommand implements CommandHolder {
         return null;
     }
 
-    private void teleportPlayer(@NotNull CommandSender sender, @NotNull Player target) {
+    private void teleportPlayer(@NonNull CommandSender sender, @NonNull Player target) {
         Location location = TeleportModule.getInstance().getLastLocation(target);
         if (location == null) {
             TeleportConfig.getInstance().getLocationInvalidMessage().send(sender);

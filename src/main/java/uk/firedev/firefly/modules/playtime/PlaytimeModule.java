@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.util.DurationFormatter;
 import uk.firedev.firefly.Firefly;
@@ -115,14 +115,14 @@ public class PlaytimeModule implements Module {
         }
     }
 
-    public void incrementTime(@NotNull OfflinePlayer player) {
+    public void incrementTime(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return;
         }
         setTime(player, getTime(player) + 1);
     }
 
-    public void decrementTime(@NotNull OfflinePlayer player) {
+    public void decrementTime(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -132,7 +132,7 @@ public class PlaytimeModule implements Module {
         }
     }
 
-    public void setTime(@NotNull OfflinePlayer player, long time) {
+    public void setTime(@NonNull OfflinePlayer player, long time) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -143,7 +143,7 @@ public class PlaytimeModule implements Module {
         data.setPlaytime(time);
     }
 
-    public long getTime(@NotNull OfflinePlayer player) {
+    public long getTime(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return 0L;
         }
@@ -154,7 +154,7 @@ public class PlaytimeModule implements Module {
         return data.getPlaytime();
     }
 
-    public Component getTimeFormatted(@NotNull OfflinePlayer player) {
+    public Component getTimeFormatted(@NonNull OfflinePlayer player) {
         return new DurationFormatter(TimeUnit.SECONDS).format(getTime(player));
     }
 

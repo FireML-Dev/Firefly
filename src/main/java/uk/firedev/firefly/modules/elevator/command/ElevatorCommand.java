@@ -7,8 +7,8 @@ import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.util.Utils;
 import uk.firedev.daisylib.command.argument.PlayerArgument;
@@ -24,7 +24,7 @@ import java.util.Objects;
 public class ElevatorCommand implements CommandHolder {
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("elevator")
             .requires(stack -> ElevatorModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
@@ -39,7 +39,7 @@ public class ElevatorCommand implements CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return List.of();
@@ -48,7 +48,7 @@ public class ElevatorCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull
+    @NonNull
     @Override
     public String permission() {
         return "firefly.command.elevator";
@@ -57,7 +57,7 @@ public class ElevatorCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.elevator";

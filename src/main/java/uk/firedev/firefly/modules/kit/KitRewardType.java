@@ -4,7 +4,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.firefly.Firefly;
@@ -12,7 +12,7 @@ import uk.firedev.firefly.Firefly;
 public class KitRewardType extends RewardAddon {
 
     @Override
-    public void doReward(@NotNull Player player, @NotNull String value) {
+    public void doReward(@NonNull Player player, @NonNull String value) {
         Kit kit;
         try {
             kit = new Kit(value);
@@ -24,17 +24,17 @@ public class KitRewardType extends RewardAddon {
     }
 
     @Override
-    public @NotNull String getKey() {
+    public @NonNull String getKey() {
         return "Kit";
     }
 
     @Override
-    public @NotNull String getAuthor() {
+    public @NonNull String getAuthor() {
         return "FireML";
     }
 
     @Override
-    public @NotNull Plugin getPlugin() {
+    public @NonNull Plugin getPlugin() {
         return Firefly.getInstance();
     }
 

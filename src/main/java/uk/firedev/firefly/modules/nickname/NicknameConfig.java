@@ -1,6 +1,6 @@
 package uk.firedev.firefly.modules.nickname;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
@@ -21,7 +21,7 @@ public class NicknameConfig extends ConfigBase {
         return instance;
     }
 
-    public boolean isTooLong(@NotNull String nickname) {
+    public boolean isTooLong(@NonNull String nickname) {
         return nickname.length() > getMaxLength();
     }
 
@@ -29,7 +29,7 @@ public class NicknameConfig extends ConfigBase {
         return getConfig().getInt("settings.max-length");
     }
 
-    public boolean isTooShort(@NotNull String nickname) {
+    public boolean isTooShort(@NonNull String nickname) {
         return nickname.length() < getMinLength();
     }
 
@@ -37,7 +37,7 @@ public class NicknameConfig extends ConfigBase {
         return getConfig().getInt("settings.min-length");
     }
 
-    public boolean isBlacklisted(@NotNull String nickname) {
+    public boolean isBlacklisted(@NonNull String nickname) {
         return getConfig().getStringList("nicknames.blacklisted-names")
             .stream()
             .anyMatch(string -> string.equalsIgnoreCase(nickname));

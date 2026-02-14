@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.addons.reward.RewardAddon;
 import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
 import uk.firedev.daisylib.builders.ItemBuilder;
@@ -28,7 +28,7 @@ public class Kit {
     private static final Random random = new Random();
 
     private final CooldownHelper cooldowns = CooldownHelper.cooldownHelper();
-    private final @NotNull ConfigurationSection config;
+    private final @NonNull ConfigurationSection config;
     private final String name;
     private final boolean singleRandomReward;
     private final boolean permissionOpen;
@@ -52,7 +52,7 @@ public class Kit {
         this.rewards = section.getStringList("contents");
     }
 
-    public Kit(@NotNull String name) throws InvalidConfigurationException {
+    public Kit(@NonNull String name) throws InvalidConfigurationException {
         this(KitConfig.getInstance().getConfig().getConfigurationSection("kits." + name));
     }
 
@@ -62,17 +62,17 @@ public class Kit {
 
     public boolean permissionOpen() { return this.permissionOpen; }
 
-    public @NotNull String getName() {
+    public @NonNull String getName() {
         return this.name;
     }
 
-    public @NotNull List<String> getRewards() {
+    public @NonNull List<String> getRewards() {
         return this.rewards;
     }
 
     public boolean isPlayerVisible() { return playerVisible; }
 
-    public boolean hasPermission(@NotNull Player player) {
+    public boolean hasPermission(@NonNull Player player) {
         if (this.permission.isEmpty()) {
             return true;
         }
@@ -95,7 +95,7 @@ public class Kit {
             .getItem();
     }
 
-    public void processRewards(@NotNull Player player) {
+    public void processRewards(@NonNull Player player) {
         List<String> rewardList = getRewards();
         if (singleRandomReward()) {
             int index = random.nextInt(rewardList.size());
@@ -106,11 +106,11 @@ public class Kit {
         }
     }
 
-    public boolean isOnCooldown(@NotNull UUID uuid) {
+    public boolean isOnCooldown(@NonNull UUID uuid) {
         return cooldowns.has(uuid);
     }
 
-    public void applyCooldown(@NotNull UUID uuid) {
+    public void applyCooldown(@NonNull UUID uuid) {
         cooldowns.apply(uuid, Duration.ofSeconds(getGuiCooldown()));
     }
 
@@ -118,7 +118,7 @@ public class Kit {
         return guiCooldown;
     }
 
-    public void giveToPlayerWithCooldown(@NotNull Player player, @Nullable CommandSender sender) {
+    public void giveToPlayerWithCooldown(@NonNull Player player, @Nullable CommandSender sender) {
         if (isOnCooldown(player.getUniqueId())) {
             KitConfig.getInstance().getOnCooldownMessage().send(player);
             return;
@@ -127,7 +127,7 @@ public class Kit {
         giveToPlayer(player, sender);
     }
 
-    public void giveToPlayer(@NotNull Player player, @Nullable CommandSender sender) {
+    public void giveToPlayer(@NonNull Player player, @Nullable CommandSender sender) {
         player.give(buildItem());
         Replacer replacer = Replacer.replacer().addReplacement("kit", getName());
         KitConfig.getInstance().getAwardedReceiverMessage().replace(replacer).send(player);

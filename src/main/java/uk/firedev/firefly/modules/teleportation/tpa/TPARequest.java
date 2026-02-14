@@ -2,8 +2,8 @@ package uk.firedev.firefly.modules.teleportation.tpa;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
@@ -21,7 +21,7 @@ public class TPARequest {
     private final UUID target;
     private final TPADirection direction;
 
-    public TPARequest(@NotNull Player sender, @NotNull Player target, @NotNull TPADirection direction) {
+    public TPARequest(@NonNull Player sender, @NonNull Player target, @NonNull TPADirection direction) {
         this.sender = sender.getUniqueId();
         this.target = target.getUniqueId();
         this.direction = direction;
@@ -57,7 +57,7 @@ public class TPARequest {
         }
     }
 
-    private void attemptTeleportation(@NotNull Player teleportingPlayer, @NotNull Player teleportTarget) {
+    private void attemptTeleportation(@NonNull Player teleportingPlayer, @NonNull Player teleportTarget) {
         if (teleportTarget.isFlying() || teleportTarget.isGliding()) {
             TeleportConfig.getInstance().getTpaTargetFlyingMessage().send(teleportingPlayer);
             return;
@@ -88,7 +88,7 @@ public class TPARequest {
         SENDER_TO_TARGET
     }
 
-    public static @Nullable TPARequest getRequest(@NotNull UUID target) {
+    public static @Nullable TPARequest getRequest(@NonNull UUID target) {
         return activeRequests.get(target);
     }
 

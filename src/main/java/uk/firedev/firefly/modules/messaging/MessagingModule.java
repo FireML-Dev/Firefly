@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.messaging.command.MessageCommand;
@@ -53,14 +53,14 @@ public class MessagingModule implements Module, Listener {
     @Override
     public void unload() {}
 
-    public void setLastMessage(@NotNull UUID receiver, @NotNull UUID sender) {
+    public void setLastMessage(@NonNull UUID receiver, @NonNull UUID sender) {
         if (!isConfigEnabled()) {
             return;
         }
         lastMessages.put(receiver, sender);
     }
 
-    public @Nullable Player getLastMessage(@NotNull UUID sender) {
+    public @Nullable Player getLastMessage(@NonNull UUID sender) {
         if (!isConfigEnabled()) {
             return null;
         }

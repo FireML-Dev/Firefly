@@ -1,6 +1,6 @@
 package uk.firedev.firefly.modules.messaging;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
@@ -12,11 +12,11 @@ public class MessagingConfig extends ConfigBase {
 
     private static MessagingConfig instance;
 
-    private @NotNull String messageCommandName = "message";
-    private @NotNull List<String> messageCommandAliases = List.of();
+    private @NonNull String messageCommandName = "message";
+    private @NonNull List<String> messageCommandAliases = List.of();
 
-    private @NotNull String replyCommandName = "reply";
-    private @NotNull List<String> replyCommandAliases = List.of();
+    private @NonNull String replyCommandName = "reply";
+    private @NonNull List<String> replyCommandAliases = List.of();
 
     private MessagingConfig() {
         super("modules/messaging.yml", "modules/messaging.yml", Firefly.getInstance());
@@ -37,19 +37,19 @@ public class MessagingConfig extends ConfigBase {
 
     // Commands
 
-    public @NotNull String getMessageCommandName() {
+    public @NonNull String getMessageCommandName() {
         return messageCommandName;
     }
 
-    public @NotNull List<String> getMessageCommandAliases() {
+    public @NonNull List<String> getMessageCommandAliases() {
         return messageCommandAliases;
     }
 
-    public @NotNull String getReplyCommandName() {
+    public @NonNull String getReplyCommandName() {
         return replyCommandName;
     }
 
-    public @NotNull List<String> getReplyCommandAliases() {
+    public @NonNull List<String> getReplyCommandAliases() {
         return replyCommandAliases;
     }
 

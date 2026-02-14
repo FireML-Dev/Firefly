@@ -9,8 +9,8 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
 import uk.firedev.daisylib.util.PlayerHelper;
@@ -26,7 +26,7 @@ import java.util.Objects;
 public class PlaytimeCommand implements CommandHolder {
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("playtime")
             .requires(stack -> PlaytimeModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
@@ -45,7 +45,7 @@ public class PlaytimeCommand implements CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return List.of();
@@ -54,7 +54,7 @@ public class PlaytimeCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull
+    @NonNull
     @Override
     public String permission() {
         return "firefly.command.playtime";
@@ -63,7 +63,7 @@ public class PlaytimeCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.playtime";
@@ -114,7 +114,7 @@ public class PlaytimeCommand implements CommandHolder {
 
     // Convenience
 
-    private void sendPlaytime(@NotNull CommandSender sender, @NotNull OfflinePlayer playerToCheck) {
+    private void sendPlaytime(@NonNull CommandSender sender, @NonNull OfflinePlayer playerToCheck) {
         Replacer replacer = Replacer.replacer().addReplacements(Map.of(
             "{player}", Objects.requireNonNullElse(playerToCheck.getName(), "N/A"),
             "{playtime}", PlaytimeModule.getInstance().getTimeFormatted(playerToCheck)
@@ -122,7 +122,7 @@ public class PlaytimeCommand implements CommandHolder {
         PlaytimeConfig.getInstance().getCheckPlaytimeMessage().replace(replacer).send(sender);
     }
 
-    private void sendSetPlaytimeMessage(@NotNull CommandSender admin, @NotNull OfflinePlayer target) {
+    private void sendSetPlaytimeMessage(@NonNull CommandSender admin, @NonNull OfflinePlayer target) {
         Player player = target.getPlayer();
         Component formattedTime = PlaytimeModule.getInstance().getTimeFormatted(target);
         if (player != null) {

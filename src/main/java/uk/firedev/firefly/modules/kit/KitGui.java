@@ -1,13 +1,13 @@
 package uk.firedev.firefly.modules.kit;
 
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.gui.PaginatedConfigGui;
 import uk.firedev.daisylib.libs.triumphgui.guis.GuiItem;
 
 public class KitGui extends PaginatedConfigGui {
 
-    public KitGui(@NotNull Player player) {
+    public KitGui(@NonNull Player player) {
         super(
             KitConfig.getInstance().getConfig().getConfigurationSection("gui"),
             player

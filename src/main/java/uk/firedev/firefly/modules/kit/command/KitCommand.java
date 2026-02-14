@@ -5,8 +5,8 @@ import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
@@ -19,7 +19,7 @@ import java.util.List;
 public class KitCommand implements CommandHolder {
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("kit")
             .requires(stack -> KitModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
@@ -38,7 +38,7 @@ public class KitCommand implements CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return List.of("kits");
@@ -47,7 +47,7 @@ public class KitCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull
+    @NonNull
     @Override
     public String permission() {
         return "firefly.command.kit";
@@ -56,7 +56,7 @@ public class KitCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.kit";

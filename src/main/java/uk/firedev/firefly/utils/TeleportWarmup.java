@@ -3,7 +3,7 @@ package uk.firedev.firefly.utils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
@@ -25,23 +25,23 @@ public class TeleportWarmup {
     private Supplier<ComponentMessage> failedMessage;
     private Supplier<ComponentMessage> successMessage;
 
-    public TeleportWarmup(@NotNull Player player, @NotNull Location location, int duration) {
+    public TeleportWarmup(@NonNull Player player, @NonNull Location location, int duration) {
         this.player = player;
         this.location = location;
         this.duration = duration;
     }
 
-    public TeleportWarmup withWaitingMessage(@NotNull Supplier<ComponentMessage> message) {
+    public TeleportWarmup withWaitingMessage(@NonNull Supplier<ComponentMessage> message) {
         this.waitingMessage = message;
         return this;
     }
 
-    public TeleportWarmup withFailedMessage(@NotNull Supplier<ComponentMessage> message) {
+    public TeleportWarmup withFailedMessage(@NonNull Supplier<ComponentMessage> message) {
         this.failedMessage = message;
         return this;
     }
 
-    public TeleportWarmup withSuccessMessage(@NotNull Supplier<ComponentMessage> message) {
+    public TeleportWarmup withSuccessMessage(@NonNull Supplier<ComponentMessage> message) {
         this.successMessage = message;
         return this;
     }
@@ -56,9 +56,9 @@ public class TeleportWarmup {
         private boolean complete = false;
         private int remainingTime;
 
-        private final @NotNull Location initialLocation;
+        private final @NonNull Location initialLocation;
 
-        public TeleportRunnable(@NotNull TeleportWarmup warmup) {
+        public TeleportRunnable(@NonNull TeleportWarmup warmup) {
             this.warmup = warmup;
             this.remainingTime = warmup.duration;
             Location initial = warmup.player.getLocation();
@@ -146,7 +146,7 @@ public class TeleportWarmup {
             return !initialLocation.equals(playerLocation);
         }
 
-        private void sendMessage(@NotNull ComponentMessage message) {
+        private void sendMessage(@NonNull ComponentMessage message) {
             message.send(warmup.player);
         }
 

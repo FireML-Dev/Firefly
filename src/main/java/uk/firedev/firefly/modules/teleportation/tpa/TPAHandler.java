@@ -1,7 +1,7 @@
 package uk.firedev.firefly.modules.teleportation.tpa;
 
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
 
@@ -20,7 +20,7 @@ public class TPAHandler {
         return instance;
     }
 
-    public void sendRequest(@NotNull Player target, @NotNull Player sender, @NotNull TPARequest.TPADirection direction) {
+    public void sendRequest(@NonNull Player target, @NonNull Player sender, TPARequest.@NonNull TPADirection direction) {
         // Check if the target is the sender
         if (target.equals(sender)) {
             TeleportConfig.getInstance().getTpaCannotRequestSelfMessage().send(sender);
@@ -52,7 +52,7 @@ public class TPAHandler {
         }
     }
 
-    public void acceptRequest(@NotNull Player player) {
+    public void acceptRequest(@NonNull Player player) {
         TPARequest request = TPARequest.getRequest(player.getUniqueId());
         if (request == null) {
             return;
@@ -60,7 +60,7 @@ public class TPAHandler {
         request.accept();
     }
 
-    public void denyRequest(@NotNull Player player) {
+    public void denyRequest(@NonNull Player player) {
         TPARequest request = TPARequest.getRequest(player.getUniqueId());
         if (request == null) {
             return;

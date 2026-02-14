@@ -12,8 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.Firefly;
@@ -92,7 +92,7 @@ public class AmethystProtection implements SubModule, Listener, CommandHolder {
     }
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("amethystprotect")
             .requires(stack -> isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
@@ -116,21 +116,21 @@ public class AmethystProtection implements SubModule, Listener, CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return List.of();
     }
 
     @Override
-    public @NotNull String permission() {
+    public @NonNull String permission() {
         return "firefly.command.amethystprotect";
     }
 
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.amethystprotect";

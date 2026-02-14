@@ -1,6 +1,6 @@
 package uk.firedev.firefly.config;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
@@ -19,7 +19,7 @@ public class ModuleConfig extends ConfigBase {
         return instance;
     }
 
-    public boolean isModuleEnabled(@NotNull String module) {
+    public boolean isModuleEnabled(@NonNull String module) {
         return getConfig().getBoolean(module.toLowerCase());
     }
 

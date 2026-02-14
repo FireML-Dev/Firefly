@@ -11,8 +11,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -93,7 +93,7 @@ public class KitModule implements Module, Listener {
         return item.getItemMeta().getPersistentDataContainer().has(getKitKey());
     }
 
-    public @Nullable Kit getKit(@NotNull String name) {
+    public @Nullable Kit getKit(@NonNull String name) {
         if (!isConfigEnabled()) {
             return null;
         }

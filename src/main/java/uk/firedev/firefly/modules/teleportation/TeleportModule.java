@@ -6,8 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -100,7 +100,7 @@ public class TeleportModule implements Module {
         return firstSpawnLocation;
     }
 
-    public boolean sendToSpawn(boolean firstSpawn, @NotNull Player player, boolean sendMessage) {
+    public boolean sendToSpawn(boolean firstSpawn, @NonNull Player player, boolean sendMessage) {
         if (!isConfigEnabled()) {
             return false;
         }
@@ -120,7 +120,7 @@ public class TeleportModule implements Module {
         return true;
     }
 
-    public void sendToSpawn(boolean firstSpawn, @NotNull Player player, @Nullable CommandSender sender, boolean sendMessage) {
+    public void sendToSpawn(boolean firstSpawn, @NonNull Player player, @Nullable CommandSender sender, boolean sendMessage) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -131,7 +131,7 @@ public class TeleportModule implements Module {
 
     // /back
 
-    public void setLastLocation(@NotNull HumanEntity humanEntity, @Nullable Location location) {
+    public void setLastLocation(@NonNull HumanEntity humanEntity, @Nullable Location location) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -146,7 +146,7 @@ public class TeleportModule implements Module {
         }
     }
 
-    public @Nullable Location getLastLocation(@NotNull HumanEntity humanEntity) {
+    public @Nullable Location getLastLocation(@NonNull HumanEntity humanEntity) {
         if (!isConfigEnabled()) {
             return null;
         }

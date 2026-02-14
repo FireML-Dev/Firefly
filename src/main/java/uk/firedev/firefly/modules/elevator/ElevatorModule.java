@@ -11,8 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.builders.ItemBuilder;
 import uk.firedev.daisylib.recipe.AbstractRecipe;
@@ -92,7 +92,7 @@ public class ElevatorModule implements Module {
             }));
     }
 
-    public void teleportPlayer(@NotNull Player player, @Nullable Elevator elevator) {
+    public void teleportPlayer(@NonNull Player player, @Nullable Elevator elevator) {
         if (!isConfigEnabled() || elevator == null || !elevator.isElevator()) {
             return;
         }

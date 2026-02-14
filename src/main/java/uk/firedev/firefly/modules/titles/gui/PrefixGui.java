@@ -2,14 +2,14 @@ package uk.firedev.firefly.modules.titles.gui;
 
 import uk.firedev.daisylib.libs.triumphgui.guis.GuiItem;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.gui.PaginatedConfigGui;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 
 public class PrefixGui extends PaginatedConfigGui {
 
-    public PrefixGui(@NotNull Player player) {
+    public PrefixGui(@NonNull Player player) {
         super(
             TitleConfig.getInstance().getConfig().getConfigurationSection("gui.prefix"),
             player

@@ -1,6 +1,6 @@
 package uk.firedev.firefly.modules;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
@@ -46,7 +46,7 @@ public class ModuleManager {
         loaded = true;
     }
 
-    private void loadModule(@NotNull Module module) {
+    private void loadModule(@NonNull Module module) {
         module.load();
     }
 

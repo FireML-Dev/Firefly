@@ -7,7 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.libs.customblockdata.CustomBlockData;
 import uk.firedev.firefly.Firefly;
 
@@ -21,11 +21,11 @@ public class Elevator {
 
     private final Block block;
 
-    public Elevator(@NotNull Location location) {
+    public Elevator(@NonNull Location location) {
         this.block = location.getBlock();
     }
 
-    public Elevator(@NotNull Block block) {
+    public Elevator(@NonNull Block block) {
         this.block = block;
     }
 
@@ -70,7 +70,7 @@ public class Elevator {
      * @param block The block to check
      * @return Checks if the provided block is in the same stack as this elevator
      */
-    private boolean isInStack(@NotNull Block block) {
+    private boolean isInStack(@NonNull Block block) {
         return this.block.getX() == block.getX() && this.block.getZ() == block.getZ();
     }
 
@@ -78,7 +78,7 @@ public class Elevator {
      * Shows the elevator bossbar
      * @param player The player to show the bossbar to
      */
-    public void showBossBar(@NotNull Player player) {
+    public void showBossBar(@NonNull Player player) {
         BossBar bossBar = ElevatorConfig.getInstance().getBossBar(this);
         UUID uuid = player.getUniqueId();
         BossBar existing = bossBars.get(uuid);
@@ -94,7 +94,7 @@ public class Elevator {
      * Hides the elevator bossbar
      * @param player The player to hide the bossbar from
      */
-    public static void hideBossBar(@NotNull Player player) {
+    public static void hideBossBar(@NonNull Player player) {
         UUID uuid = player.getUniqueId();
         BossBar bossBar = bossBars.remove(uuid);
         if (bossBar == null) {
@@ -160,7 +160,7 @@ public class Elevator {
     /**
      * Shows or hides the bossbar for this elevator
      */
-    public void handleBossBar(@NotNull Player player) {
+    public void handleBossBar(@NonNull Player player) {
         if (isElevator()) {
             showBossBar(player);
         } else {

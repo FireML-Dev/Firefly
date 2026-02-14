@@ -9,8 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
@@ -21,7 +21,7 @@ import java.util.List;
 public class SetFirstSpawnCommand implements CommandHolder {
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("setfirstspawn")
             .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
@@ -38,7 +38,7 @@ public class SetFirstSpawnCommand implements CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return List.of();
@@ -47,7 +47,7 @@ public class SetFirstSpawnCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull
+    @NonNull
     @Override
     public String permission() {
         return "firefly.command.setfirstspawn";
@@ -56,7 +56,7 @@ public class SetFirstSpawnCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.setfirstspawn";
@@ -71,7 +71,7 @@ public class SetFirstSpawnCommand implements CommandHolder {
         return null;
     }
 
-    private static void setLocation(@NotNull CommandSender sender, @NotNull Location location) {
+    private static void setLocation(@NonNull CommandSender sender, @NonNull Location location) {
         TeleportConfig.getInstance().setSpawnLocation(true, location);
         TeleportConfig.getInstance().getSpawnSetFirstSpawnMessage().send(sender);
     }

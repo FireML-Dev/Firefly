@@ -3,7 +3,7 @@ package uk.firedev.firefly.modules.elevator;
 import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Boss;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.builders.BossBarBuilder;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.util.Utils;
@@ -49,7 +49,7 @@ public class ElevatorConfig extends ConfigBase {
         return getComponentMessage("messages.unsafe-location", "<red>The target elevator is unsafe!</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    public Component getBossBarTitle(@NotNull Elevator elevator) {
+    public Component getBossBarTitle(@NonNull Elevator elevator) {
         Replacer replacer = Replacer.replacer().addReplacements(Map.of(
                 "{current}", (elevator.getCurrentPosition() + 1),
                 "{all}", elevator.getStack().size(),
@@ -74,7 +74,7 @@ public class ElevatorConfig extends ConfigBase {
         );
     }
 
-    public BossBar getBossBar(@NotNull Elevator elevator) {
+    public BossBar getBossBar(@NonNull Elevator elevator) {
         float progress;
         if (elevator.getCurrentPosition() == -1 || elevator.getStack().isEmpty()) {
             progress = 1F;

@@ -1,6 +1,6 @@
 package uk.firedev.firefly.modules.playtime;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
@@ -41,12 +41,12 @@ public class PlaytimeDatabase implements FireflyDatabaseModule {
     public void save() {}
 
     @Override
-    public void load(@NotNull PlayerData data, @NotNull ResultSet set) throws SQLException {
+    public void load(@NonNull PlayerData data, @NonNull ResultSet set) throws SQLException {
         data.setPlaytime(set.getLong("playtime"));
     }
 
     @Override
-    public void save(@NotNull PlayerData data, @NotNull Connection connection) throws SQLException {
+    public void save(@NonNull PlayerData data, @NonNull Connection connection) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE firefly_players SET playtime = ? WHERE uuid = ?")) {
             ps.setLong(1, data.getPlaytime());
             ps.setString(2, data.getUuid().toString());

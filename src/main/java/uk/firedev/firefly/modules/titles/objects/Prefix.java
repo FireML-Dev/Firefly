@@ -3,7 +3,7 @@ package uk.firedev.firefly.modules.titles.objects;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.titles.TitleModule;
@@ -12,11 +12,11 @@ import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
 public class Prefix implements TitlePart {
 
-    private final @NotNull ConfigurationSection section;
-    private final @NotNull ComponentSingleMessage display;
-    private final @NotNull String permission;
+    private final @NonNull ConfigurationSection section;
+    private final @NonNull ComponentSingleMessage display;
+    private final @NonNull String permission;
 
-    public Prefix(@NotNull ConfigurationSection section) throws InvalidConfigurationException {
+    public Prefix(@NonNull ConfigurationSection section) throws InvalidConfigurationException {
         String displayString = section.getString("display");
         if (displayString == null) {
             throw new InvalidConfigurationException("No display name found for prefix " + section.getName());
@@ -35,22 +35,22 @@ public class Prefix implements TitlePart {
     }
 
     @Override
-    public void apply(@NotNull Player player) {
+    public void apply(@NonNull Player player) {
         TitleModule.getInstance().setPlayerPrefix(player, this);
     }
 
     @Override
-    public @NotNull ComponentSingleMessage getDisplay() {
+    public @NonNull ComponentSingleMessage getDisplay() {
         return display;
     }
 
     @Override
-    public @NotNull String getPermission() {
+    public @NonNull String getPermission() {
         return permission;
     }
 
     @Override
-    public @NotNull ConfigurationSection getSection() {
+    public @NonNull ConfigurationSection getSection() {
         return section;
     }
 

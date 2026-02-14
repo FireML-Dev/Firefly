@@ -5,7 +5,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class StringUtils {
 
@@ -32,7 +32,7 @@ public class StringUtils {
      * @param string The string to convert
      * @return A Component built from the String
      */
-    public static Component getColorOnlyComponent(@NotNull String string) {
+    public static Component getColorOnlyComponent(@NonNull String string) {
         if (miniMessage.stripTags(string).equals(string)) {
             return legacyComponentSerializer.deserialize(string);
         }

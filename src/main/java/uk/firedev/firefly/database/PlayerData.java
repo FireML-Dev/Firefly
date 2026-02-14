@@ -6,8 +6,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
@@ -32,7 +32,7 @@ public class PlayerData {
     private @Nullable ComponentSingleMessage suffix = null;
     private @Nullable Location lastTeleportLocation = null;
 
-    protected PlayerData(@NotNull UUID uuid) {
+    protected PlayerData(@NonNull UUID uuid) {
         this.uuid = uuid;
         markAccessed();
     }
@@ -49,7 +49,7 @@ public class PlayerData {
      * Gets the username of this PlayerData's owner
      * @return The PlayerData owner's username, or N/A if it cannot be found.
      */
-    public @NotNull String getUsername() {
+    public @NonNull String getUsername() {
         markAccessed();
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
         return Objects.requireNonNullElse(offlinePlayer.getName(), "N/A");
@@ -91,12 +91,12 @@ public class PlayerData {
 
     // Nickname Methods
 
-    public void setNickname(@NotNull Component nickname) {
+    public void setNickname(@NonNull Component nickname) {
         markAccessed();
         this.nickname = StringUtils.getColorOnlyMiniMessage().serialize(nickname);
     }
 
-    public void setRawNickname(@NotNull String nickname) {
+    public void setRawNickname(@NonNull String nickname) {
         markAccessed();
         this.nickname = nickname;
     }
@@ -106,7 +106,7 @@ public class PlayerData {
         this.nickname = null;
     }
 
-    public @NotNull Component getNickname() {
+    public @NonNull Component getNickname() {
         markAccessed();
         String finalName = this.nickname;
         String username = getUsername();
@@ -138,7 +138,7 @@ public class PlayerData {
         return this.prefix;
     }
 
-    public void setPrefix(@NotNull ComponentSingleMessage prefix) {
+    public void setPrefix(@NonNull ComponentSingleMessage prefix) {
         markAccessed();
         this.prefix = prefix;
     }
@@ -153,7 +153,7 @@ public class PlayerData {
         return this.suffix;
     }
 
-    public void setSuffix(@NotNull ComponentSingleMessage suffix) {
+    public void setSuffix(@NonNull ComponentSingleMessage suffix) {
         markAccessed();
         this.suffix = suffix;
     }
@@ -169,7 +169,7 @@ public class PlayerData {
         return lastTeleportLocation;
     }
 
-    public void setLastTeleportLocation(@NotNull Location lastTeleportLocation) {
+    public void setLastTeleportLocation(@NonNull Location lastTeleportLocation) {
         this.lastTeleportLocation = lastTeleportLocation;
     }
 

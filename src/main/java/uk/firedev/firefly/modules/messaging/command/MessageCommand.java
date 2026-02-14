@@ -6,8 +6,8 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
@@ -22,7 +22,7 @@ import java.util.List;
 public class MessageCommand implements CommandHolder {
 
     @Override
-    public @NotNull LiteralCommandNode<CommandSourceStack> get() {
+    public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal(MessagingConfig.getInstance().getMessageCommandName())
             .requires(stack -> MessagingModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .then(
@@ -47,7 +47,7 @@ public class MessageCommand implements CommandHolder {
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull
+    @NonNull
     @Override
     public List<String> aliases() {
         return MessagingConfig.getInstance().getMessageCommandAliases();
@@ -56,7 +56,7 @@ public class MessageCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull
+    @NonNull
     @Override
     public String permission() {
         return "firefly.command.message";
@@ -65,7 +65,7 @@ public class MessageCommand implements CommandHolder {
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull
+    @NonNull
     @Override
     public String targetPermission() {
         return "firefly.command.message";
@@ -80,7 +80,7 @@ public class MessageCommand implements CommandHolder {
         return null;
     }
 
-    private void sendMessage(@NotNull Player sender, @NotNull Player target, @NotNull String str) {
+    private void sendMessage(@NonNull Player sender, @NonNull Player target, @NonNull String str) {
         Component message = StringUtils.getColorOnlyComponent(str);
         ComponentMessage msg = MessagingConfig.getInstance().getMessageFormat()
             .replace("{sender}", getNickname(sender))
@@ -92,7 +92,7 @@ public class MessageCommand implements CommandHolder {
         MessagingModule.getInstance().setLastMessage(target.getUniqueId(), sender.getUniqueId());
     }
 
-    private @NotNull Component getNickname(@NotNull Player player) {
+    private @NonNull Component getNickname(@NonNull Player player) {
         if (NicknameModule.getInstance().isConfigEnabled()) {
             return NicknameModule.getInstance().getNickname(player);
         }

@@ -3,8 +3,8 @@ package uk.firedev.firefly;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -19,22 +19,22 @@ public interface CommandHolder {
     /**
      * @return The command.
      */
-    @NotNull LiteralCommandNode<CommandSourceStack> get();
+    @NonNull LiteralCommandNode<CommandSourceStack> get();
 
     /**
      * @return The list of aliases this command should have.
      */
-    @NotNull List<String> aliases();
+    @NonNull List<String> aliases();
 
     /**
      * @return The permission for executing this command on yourself.
      */
-    @NotNull String permission();
+    @NonNull String permission();
 
     /**
      * @return The permission for executing this command on another player.
      */
-    @NotNull String targetPermission();
+    @NonNull String targetPermission();
 
     /**
      * @return This command's description.

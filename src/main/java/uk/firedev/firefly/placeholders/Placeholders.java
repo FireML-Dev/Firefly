@@ -1,6 +1,6 @@
 package uk.firedev.firefly.placeholders;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.placeholder.PlaceholderProvider;
 import uk.firedev.firefly.Firefly;
 
@@ -26,7 +26,7 @@ public class Placeholders {
      * Allows registration of placeholders.
      * This will not do anything after the plugin/module's first load.
      */
-    public static void manageProvider(@NotNull Consumer<PlaceholderProvider> consumer) {
+    public static void manageProvider(@NonNull Consumer<PlaceholderProvider> consumer) {
         if (provider == null) {
             return;
         }

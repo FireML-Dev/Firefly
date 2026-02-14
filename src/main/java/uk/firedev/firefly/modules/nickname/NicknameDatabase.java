@@ -1,6 +1,6 @@
 package uk.firedev.firefly.modules.nickname;
 
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
@@ -36,7 +36,7 @@ public class NicknameDatabase implements FireflyDatabaseModule {
     public void save() {}
 
     @Override
-    public void load(@NotNull PlayerData data, @NotNull ResultSet set) throws SQLException {
+    public void load(@NonNull PlayerData data, @NonNull ResultSet set) throws SQLException {
         String nickname = set.getString("nickname");
         if (nickname != null) {
             data.setRawNickname(nickname);
@@ -44,7 +44,7 @@ public class NicknameDatabase implements FireflyDatabaseModule {
     }
 
     @Override
-    public void save(@NotNull PlayerData data, @NotNull Connection connection) throws SQLException {
+    public void save(@NonNull PlayerData data, @NonNull Connection connection) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("UPDATE firefly_players SET nickname = ? WHERE uuid = ?")) {
             ps.setString(1, data.getRawNickname());
             ps.setString(2, data.getUuid().toString());

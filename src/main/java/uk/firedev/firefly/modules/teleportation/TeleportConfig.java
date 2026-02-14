@@ -2,7 +2,7 @@ package uk.firedev.firefly.modules.teleportation;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.util.Utils;
@@ -37,7 +37,7 @@ public class TeleportConfig extends ConfigBase {
 
     // Spawn command related things
 
-    public void setSpawnLocation(boolean firstSpawn, @NotNull Location location) {
+    public void setSpawnLocation(boolean firstSpawn, @NonNull Location location) {
         String spawnLocKey = firstSpawn ? "spawn.first-spawn-location" : "spawn.spawn-location";
         Utils.addLocationToConfig(getConfig(), spawnLocKey, location);
         save();
@@ -60,7 +60,7 @@ public class TeleportConfig extends ConfigBase {
         return getConfig().getBoolean("spawn.spawn-on-join");
     }
 
-    public ComponentMessage getSpawnSentPlayerToSpawnMessage(@NotNull Player targetPlayer) {
+    public ComponentMessage getSpawnSentPlayerToSpawnMessage(@NonNull Player targetPlayer) {
         return getComponentMessage("messages.command.spawn.sent-player-to-spawn", "<color:#F0E68C>Sent {target} to spawn.")
             .replace(MessageConfig.getInstance().getPrefixReplacer())
             .replace("{target}", targetPlayer.getName());
@@ -96,25 +96,25 @@ public class TeleportConfig extends ConfigBase {
         return getComponentMessage("messages.command.tpa.target-flying", "<red>Cannot teleport because the target is flying!").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    public ComponentMessage getTpaToRequestSenderMessage(@NotNull Player target) {
+    public ComponentMessage getTpaToRequestSenderMessage(@NonNull Player target) {
         return getComponentMessage("messages.command.tpa.to.request-sender", "<color:#F0E68C>Requested to teleport to {target}")
             .replace(MessageConfig.getInstance().getPrefixReplacer())
             .replace("{target}", target.getName());
     }
 
-    public ComponentMessage getTpaToRequestTargetMessage(@NotNull Player sender) {
+    public ComponentMessage getTpaToRequestTargetMessage(@NonNull Player sender) {
         return getComponentMessage("messages.command.tpa.to.request-target", "<color:#F0E68C>{player} wants to teleport to you! {accept} {deny}")
             .replace(MessageConfig.getInstance().getPrefixReplacer())
             .replace("{player}", sender.getName());
     }
 
-    public ComponentMessage getTpaHereRequestSenderMessage(@NotNull Player target) {
+    public ComponentMessage getTpaHereRequestSenderMessage(@NonNull Player target) {
         return getComponentMessage("messages.command.tpa.here.request-sender", "<color:#F0E68C>Invited {target} to teleport to you")
             .replace(MessageConfig.getInstance().getPrefixReplacer())
             .replace("{target}", target.getName());
     }
 
-    public ComponentMessage getTpaHereRequestTargetMessage(@NotNull Player sender) {
+    public ComponentMessage getTpaHereRequestTargetMessage(@NonNull Player sender) {
         return getComponentMessage("messages.command.tpa.here.request-target", "<color:#F0E68C>{player} wants you to teleport to them! {accept} {deny}")
             .replace(MessageConfig.getInstance().getPrefixReplacer())
             .replace("{player}", sender.getName());
@@ -128,7 +128,7 @@ public class TeleportConfig extends ConfigBase {
         return getComponentMessage("messages.command.tpa.accepted-teleporter", "<color:#F0E68C>Teleport request accepted! Teleporting...").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    public ComponentMessage getTpaRequestDeniedSenderMessage(@NotNull Player target) {
+    public ComponentMessage getTpaRequestDeniedSenderMessage(@NonNull Player target) {
         return getComponentMessage("messages.command.tpa.request-denied-sender", "<color:#F0E68C>{target} has denied your teleport request!")
             .replace(MessageConfig.getInstance().getPrefixReplacer())
             .replace("{target}", target.getName());
@@ -138,12 +138,12 @@ public class TeleportConfig extends ConfigBase {
         return getComponentMessage("messages.command.tpa.request-denied-target", "<color:#F0E68C>Denied the teleport request!").replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
-    public ComponentMessage getTpaAcceptClickMessage(@NotNull Player sender) {
+    public ComponentMessage getTpaAcceptClickMessage(@NonNull Player sender) {
         String message = getConfig().getString("messages.command.tpa.accept-click", "<green><click:run_command:'/tpaccept {sender}'>[Accept]").replace("{sender}", sender.getName());
         return ComponentMessage.componentMessage(message);
     }
 
-    public ComponentMessage getTpaDenyClickMessage(@NotNull Player sender) {
+    public ComponentMessage getTpaDenyClickMessage(@NonNull Player sender) {
         String message = getConfig().getString("messages.command.tpa.deny-click", "<red><click:run_command:'/tpdeny {sender}'>[Deny]").replace("{sender}", sender.getName());
         return ComponentMessage.componentMessage(message);
     }

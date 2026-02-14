@@ -1,7 +1,7 @@
 package uk.firedev.firefly.modules.teleportation;
 
 import org.bukkit.Location;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.util.JsonStorage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
@@ -38,7 +38,7 @@ public class TeleportDatabase implements FireflyDatabaseModule {
     public void save() {}
 
     @Override
-    public void load(@NotNull PlayerData data, @NotNull ResultSet set) throws SQLException {
+    public void load(@NonNull PlayerData data, @NonNull ResultSet set) throws SQLException {
         String locationStr = set.getString("lastTeleportLocation");
         if (locationStr == null) {
             return;
@@ -51,7 +51,7 @@ public class TeleportDatabase implements FireflyDatabaseModule {
     }
 
     @Override
-    public void save(@NotNull PlayerData data, @NotNull Connection connection) throws SQLException {
+    public void save(@NonNull PlayerData data, @NonNull Connection connection) throws SQLException {
         Location location = data.getLastTeleportLocation();
         if (location == null) {
             return;

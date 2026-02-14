@@ -1,15 +1,13 @@
 package uk.firedev.firefly.database;
 
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.database.DatabaseModule;
 import uk.firedev.daisylib.database.SQLiteDatabase;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
 import uk.firedev.daisylib.util.PlayerHelper;
-import uk.firedev.daisylib.util.Utils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 
@@ -23,7 +21,7 @@ public class Database extends SQLiteDatabase {
     private final Map<String, String> columns = new HashMap<>();
     private final Map<UUID, PlayerData> playerDataCache = new HashMap<>();
 
-    public Database(@NotNull Firefly firefly) {
+    public Database(@NonNull Firefly firefly) {
         super(firefly);
         columns.put("uuid", "VARCHAR(36) NOT NULL PRIMARY KEY");
     }
@@ -46,14 +44,14 @@ public class Database extends SQLiteDatabase {
         unload.forEach(this::unloadPlayerData);
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getTable() {
         return "firefly_players";
     }
 
     @Override
-    public @NotNull Map<String, String> getColumns() {
+    public @NonNull Map<String, String> getColumns() {
         return columns;
     }
 
@@ -62,7 +60,7 @@ public class Database extends SQLiteDatabase {
         return MainConfig.getInstance().getDatabaseSaveInterval();
     }
 
-    public void loadPlayerData(@NotNull UUID uuid) {
+    public void loadPlayerData(@NonNull UUID uuid) {
         createPlayerDataIfMissing(uuid);
         try (PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM firefly_players WHERE uuid = ?")) {
             ps.setString(1, uuid.toString());
@@ -82,7 +80,7 @@ public class Database extends SQLiteDatabase {
         }
     }
 
-    public void unloadPlayerData(@NotNull UUID uuid) {
+    public void unloadPlayerData(@NonNull UUID uuid) {
         PlayerData cachedData = playerDataCache.remove(uuid);
         if (cachedData == null) {
             return;
@@ -91,7 +89,7 @@ public class Database extends SQLiteDatabase {
         Loggers.info(Firefly.getInstance().getComponentLogger(), "Unloaded PlayerData for " + uuid);
     }
 
-    public @Nullable PlayerData getPlayerData(@NotNull UUID uuid) {
+    public @Nullable PlayerData getPlayerData(@NonNull UUID uuid) {
         // Player has never joined the server
         if (PlayerHelper.getOfflinePlayer(uuid) == null) {
             return null;
@@ -104,11 +102,11 @@ public class Database extends SQLiteDatabase {
         return data;
     }
 
-    public @NotNull PlayerData getPlayerDataOrThrow(@NotNull UUID uuid) {
+    public @NonNull PlayerData getPlayerDataOrThrow(@NonNull UUID uuid) {
         return getPlayerDataOrThrow(uuid, "Could not find player data for " + uuid);
     }
 
-    public @NotNull PlayerData getPlayerDataOrThrow(@NotNull UUID uuid, @NotNull String throwMessage) {
+    public @NonNull PlayerData getPlayerDataOrThrow(@NonNull UUID uuid, @NonNull String throwMessage) {
         PlayerData data = getPlayerData(uuid);
         if (data == null) {
             throw new RuntimeException(throwMessage);
@@ -116,7 +114,7 @@ public class Database extends SQLiteDatabase {
         return data;
     }
 
-    private void createPlayerDataIfMissing(@NotNull UUID uuid) {
+    private void createPlayerDataIfMissing(@NonNull UUID uuid) {
         try (PreparedStatement ps = getConnection().prepareStatement("INSERT OR IGNORE INTO firefly_players (uuid) VALUES (?)")) {
             ps.setString(1, uuid.toString());
             ps.executeUpdate();

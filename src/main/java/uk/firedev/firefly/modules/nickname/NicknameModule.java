@@ -4,7 +4,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
@@ -76,7 +76,7 @@ public class NicknameModule implements Module {
 
     // Nickname Management
 
-    public Component getNickname(@NotNull OfflinePlayer player) {
+    public Component getNickname(@NonNull OfflinePlayer player) {
         PlayerData data = Firefly.getInstance().getDatabase().getPlayerData(player.getUniqueId());
         if (!isConfigEnabled() || data == null) {
             String name = player.getName();
@@ -85,7 +85,7 @@ public class NicknameModule implements Module {
         return data.getNickname();
     }
 
-    public void setNickname(@NotNull OfflinePlayer player, @NotNull Component nickname) {
+    public void setNickname(@NonNull OfflinePlayer player, @NonNull Component nickname) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -96,7 +96,7 @@ public class NicknameModule implements Module {
         data.setNickname(nickname);
     }
 
-    public void setNickname(@NotNull OfflinePlayer player, @NotNull String nickname) {
+    public void setNickname(@NonNull OfflinePlayer player, @NonNull String nickname) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -107,7 +107,7 @@ public class NicknameModule implements Module {
         data.setRawNickname(nickname);
     }
 
-    public void removeNickname(@NotNull OfflinePlayer player) {
+    public void removeNickname(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return;
         }
