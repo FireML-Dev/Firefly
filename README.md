@@ -40,18 +40,6 @@ Optionally, you can require players to have specific permissions to open a kit, 
 This module uses DaisyLib's Reward system, meaning third party plugins can register their own rewards if they choose to.
 To see all usable reward types, you can use `/daisylib rewardTypes`.
 
-* ### Essentials-style Commands
-Firefly offers modern alternatives to various Essentials commands. 
-These commands exist in the "commands" module, and every configuration they need is in one place.
-
-These configurations include:
-- Enabled/Disabled Status
-- Permission
-- All Messages
-- Command Name
-- Command Aliases
-- Any command-specific configuration, like the entity blacklist for the ride command.
-
 ---
 
 ## Download
