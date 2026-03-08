@@ -1,20 +1,18 @@
 # Firefly
 
 > [!WARNING]  
-> This plugin is nowhere near stable, and things may change at any time.
+> This plugin is not stable, and things may change at any time.
 
 A collection of helpful features for Paper servers.
-
-[![CodeFactor](https://www.codefactor.io/repository/github/fireml-dev/firefly/badge)](https://www.codefactor.io/repository/github/fireml-dev/firefly)
 
 ---
 
 ## Requirements
 
-- Paper 1.21.7
+- Paper 1.21.11
 - Java 21
 - [DaisyLib](https://github.com/FireML-Dev/DaisyLib)
-- [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) (Optional)
+- [PlaceholderAPI](https://modrinth.com/plugin/placeholderapi) (Optional)
 - [MiniPlaceholders](https://modrinth.com/plugin/miniplaceholders) (Optional)
 
 ---
