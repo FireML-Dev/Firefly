@@ -92,11 +92,12 @@ public class ElevatorListener implements Listener {
             return;
         }
         event.setDropItems(false);
+        elevator.setElevator(false);
+
         // Drop the item if the player is not in creative mode.
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
             location.getWorld().dropItem(location, ElevatorModule.getInstance().getElevatorBlock());
         }
-        elevator.setElevator(false);
     }
 
     // BLOCK HANDLING
