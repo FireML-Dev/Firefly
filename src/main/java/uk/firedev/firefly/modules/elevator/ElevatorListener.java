@@ -2,7 +2,9 @@ package uk.firedev.firefly.modules.elevator;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -83,12 +85,17 @@ public class ElevatorListener implements Listener {
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        Elevator elevator = new Elevator(event.getBlock().getLocation());
+        Block block = event.getBlock();
+        Location location = block.getLocation();
+        Elevator elevator = new Elevator(location);
         if (!elevator.isElevator()) {
             return;
         }
         event.setDropItems(false);
-        event.getBlock().getWorld().dropItem(event.getBlock().getLocation(), ElevatorModule.getInstance().getElevatorBlock());
+        // Drop the item if the player is not in creative mode.
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE) {
+            location.getWorld().dropItem(location, ElevatorModule.getInstance().getElevatorBlock());
+        }
         elevator.setElevator(false);
     }
 
