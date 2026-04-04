@@ -27,13 +27,13 @@ dependencies {
 group = "uk.firedev"
 version = properties["project-version"] as String
 description = "A collection of helpful server features."
-java.sourceCompatibility = JavaVersion.VERSION_21
+java.sourceCompatibility = JavaVersion.VERSION_25
 
 paper {
     name = project.name
     version = project.version.toString()
     main = "uk.firedev.firefly.Firefly"
-    apiVersion = "1.21.10"
+    apiVersion = "26.1"
     author = "FireML"
     description = project.description.toString()
 
@@ -98,14 +98,9 @@ tasks {
         dependsOn(shadowJar)
     }
     shadowJar {
-
         archiveBaseName.set(project.name)
         archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
-        
-        //manifest {
-        //    attributes["paperweight-mappings-namespace"] = "spigot"
-        //}
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"
