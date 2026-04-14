@@ -82,11 +82,12 @@ public class EconomyDatabase implements FireflyDatabaseModule {
         return CompletableFuture.supplyAsync(() -> {
             List<BaltopEntry> list = new ArrayList<>();
             try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    BaltopEntry entry = parseBaltop(rs);
-                    if (entry != null) {
-                        list.add(entry);
+                try (ResultSet rs = ps.executeQuery()) {
+                    while (rs.next()) {
+                        BaltopEntry entry = parseBaltop(rs);
+                        if (entry != null) {
+                            list.add(entry);
+                        }
                     }
                 }
             } catch (SQLException exception) {
