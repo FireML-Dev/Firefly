@@ -12,7 +12,7 @@ public class BaltopEntry {
 
     private final @NonNull UUID uuid;
     private final double balance;
-    private final OfflinePlayer player;
+    private OfflinePlayer player;
 
     public BaltopEntry(@NonNull UUID uuid, double balance) {
         this.uuid = uuid;
@@ -28,6 +28,13 @@ public class BaltopEntry {
         return this.balance;
     }
 
+    private void initPlayer() {
+        if (!Bukkit.isPrimaryThread()) {
+            throw new UnsupportedOperationException("BaltopEntry#initPlayer may not be run async.");
+        }
+        this.player = Bukkit.getOfflinePlayer(uuid);
+    }
+
     /**
      * Gets the OfflinePlayer linked to this entry.
      * <p>
@@ -41,6 +48,7 @@ public class BaltopEntry {
     }
 
     public boolean valid() {
+        initPlayer();
         return PlayerHelper.hasPlayerBeenOnServer(player);
     }
 
