@@ -77,9 +77,11 @@ public class EconomyDatabase implements FireflyDatabaseModule {
         Comparator<BaltopEntry> comparator = Comparator.comparingDouble(BaltopEntry::balance).reversed();
         Database db = Firefly.getInstance().getDatabase();
 
+        String sql = "SELECT * FROM firefly_players ORDER BY (balance + 0) DESC LIMIT " + EconomyConfig.getInstance().getBaltopEntries();
+
         return CompletableFuture.supplyAsync(() -> {
             List<BaltopEntry> list = new ArrayList<>();
-            try (PreparedStatement ps = db.getConnection().prepareStatement("SELECT * FROM firefly_players")) {
+            try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     BaltopEntry entry = parseBaltop(rs);
