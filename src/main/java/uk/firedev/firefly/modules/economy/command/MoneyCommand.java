@@ -7,12 +7,9 @@ import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.economy.EconomyConfig;
@@ -82,10 +79,7 @@ public class MoneyCommand implements CommandHolder {
                         PlayerData data = PlayerData.playerData(player.getUniqueId());
                         data.setBalance(amount);
 
-                        ComponentMessage.componentMessage("Set {player}'s balance to {amount}.")
-                            .replace("{player}", data.getNickname())
-                            .replace("{amount}", EconomyConfig.getInstance().format(amount))
-                            .send(ctx.getSource().getSender());
+                        EconomyConfig.getInstance().getMoneySetSuccessMessage(data, amount).send(ctx.getSource().getSender());
                         return 1;
                     })
             );
@@ -111,10 +105,7 @@ public class MoneyCommand implements CommandHolder {
                         PlayerData data = PlayerData.playerData(player.getUniqueId());
                         data.incrementBalance(amount);
 
-                        ComponentMessage.componentMessage("Added {amount} to {player}'s balance.")
-                            .replace("{player}", data.getNickname())
-                            .replace("{amount}", EconomyConfig.getInstance().format(amount))
-                            .send(ctx.getSource().getSender());
+                        EconomyConfig.getInstance().getMoneyAddSuccessMessage(data, amount).send(ctx.getSource().getSender());
                         return 1;
                     })
             );
@@ -129,12 +120,12 @@ public class MoneyCommand implements CommandHolder {
                         double amount = ctx.getArgument("amount", double.class);
 
                         PlayerData data = PlayerData.playerData(player.getUniqueId());
+                        if (data.getBalance() < amount) {
+                            EconomyConfig.getInstance().getTargetNotEnoughMoneyMessage(data, amount).send(ctx.getSource().getSender());
+                            return 1;
+                        }
                         data.decrementBalance(amount);
-
-                        ComponentMessage.componentMessage("Taken {amount} from {player}'s balance.")
-                            .replace("{player}", data.getNickname())
-                            .replace("{amount}", EconomyConfig.getInstance().format(amount))
-                            .send(ctx.getSource().getSender());
+                        EconomyConfig.getInstance().getMoneyTakeSuccessMessage(data, amount).send(ctx.getSource().getSender());
                         return 1;
                     })
             );
@@ -147,6 +138,7 @@ public class MoneyCommand implements CommandHolder {
                     .then(
                         Commands.argument("target", OfflinePlayerArgument.create())
                             .executes(ctx -> {
+                                CommandSender sender = ctx.getSource().getSender();
                                 OfflinePlayer player = ctx.getArgument("player", OfflinePlayer.class);
                                 OfflinePlayer target = ctx.getArgument("target", OfflinePlayer.class);
                                 double amount = ctx.getArgument("amount", double.class);
@@ -155,19 +147,22 @@ public class MoneyCommand implements CommandHolder {
                                 PlayerData targetData = PlayerData.playerData(target.getUniqueId());
 
                                 if (playerData.getBalance() < amount) {
-                                    ComponentMessage.componentMessage("{player} does not have {amount} to transfer.")
-                                        .replace("{player}", playerData.getNickname())
-                                        .replace("{amount}", EconomyConfig.getInstance().format(amount))
-                                        .send(ctx.getSource().getSender());
+                                    EconomyConfig.getInstance().getTargetNotEnoughMoneyMessage(playerData, amount).send(sender);
                                     return 1;
                                 }
                                 playerData.decrementBalance(amount);
                                 targetData.incrementBalance(amount);
-                                ComponentMessage.componentMessage("Transferred {amount} from {player} to {target}.")
-                                    .replace("{player}", playerData.getNickname())
-                                    .replace("{target}", targetData.getNickname())
-                                    .replace("{amount}", EconomyConfig.getInstance().format(amount))
-                                    .send(ctx.getSource().getSender());
+
+                                // Notify player
+                                if (!sender.equals(player)) {
+                                    EconomyConfig.getInstance().getPaySendMessage(targetData, amount).send(player.getPlayer());
+                                }
+                                // Notify target
+                                if (!sender.equals(target)) {
+                                    EconomyConfig.getInstance().getPayReceiveMessage(playerData, amount).send(target.getPlayer());
+                                }
+                                // Notify admin
+                                EconomyConfig.getInstance().getMoneyTransferSuccessMessage(playerData, targetData, amount).send(sender);
                                 return 1;
                             })
                     )

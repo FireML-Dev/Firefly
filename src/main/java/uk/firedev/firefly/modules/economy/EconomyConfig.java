@@ -62,6 +62,12 @@ public class EconomyConfig extends ConfigBase {
             .replace("{amount}", format(amount));
     }
 
+    public ComponentMessage getTargetNotEnoughMoneyMessage(@NonNull PlayerData playerData, double amount) {
+        return getComponentMessage("messages.target-not-enough-money", "{prefix}<red>{player} does not have {amount}.")
+            .replace("{player}", playerData.getNickname())
+            .replace("{amount}", format(amount));
+    }
+
     // /pay
 
     public ComponentMessage getPaySendMessage(@NonNull PlayerData targetData, double amount) {
@@ -74,6 +80,33 @@ public class EconomyConfig extends ConfigBase {
         return getComponentMessage("messages.pay.receive", "{prefix}<#F0E68C>You have been sent {amount} from {player}.")
             .replace("{amount}", format(amount))
             .replace("{player}", senderData.getNickname());
+    }
+
+    // /money
+
+    public ComponentMessage getMoneySetSuccessMessage(@NonNull PlayerData playerData, double amount) {
+        return getComponentMessage("messages.money.set.success", "{prefix}<#F0E68C>Set {player}'s balance to {amount}.")
+            .replace("{player}", playerData.getNickname())
+            .replace("{amount}", format(amount));
+    }
+
+    public ComponentMessage getMoneyAddSuccessMessage(@NonNull PlayerData playerData, double amount) {
+        return getComponentMessage("messages.money.add.success", "{prefix}<#F0E68C>Added {amount} to {player}'s balance.")
+            .replace("{amount}", format(amount))
+            .replace("{player}", playerData.getNickname());
+    }
+
+    public ComponentMessage getMoneyTakeSuccessMessage(@NonNull PlayerData playerData, double amount) {
+        return getComponentMessage("messages.money.take.success", "{prefix}<#F0E68C>Taken {amount} from {player}'s balance.")
+            .replace("{amount}", format(amount))
+            .replace("{player}", playerData.getNickname());
+    }
+
+    public ComponentMessage getMoneyTransferSuccessMessage(@NonNull PlayerData playerData, @NonNull PlayerData targetData, double amount) {
+        return getComponentMessage("messages.money.transfer.success", "{prefix}<#F0E68C>Transferred {amount} from {player} to {target}.")
+            .replace("{player}", playerData.getNickname())
+            .replace("{target}", targetData.getNickname())
+            .replace("{amount}", format(amount));
     }
 
     @Override

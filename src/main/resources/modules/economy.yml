@@ -7,6 +7,16 @@ format: $#,##0.0
 messages:
   balance: "{prefix}<#F0E68C>{player}'s Balance: {balance}"
   not-enough-money: "{prefix}<red>You do not have {amount}!"
+  target-not-enough-money: "{prefix}<red>{player} does not have {amount}."
   pay:
     send: "{prefix}<#F0E68C>You have sent {amount} to {target}."
     receive: "{prefix}<#F0E68C>You have been sent {amount} from {player}."
+  money:
+    set:
+      success: "{prefix}<#F0E68C>Set {player}'s balance to {amount}."
+    add:
+      success: "{prefix}<#F0E68C>Added {amount} to {player}'s balance."
+    take:
+      success: "{prefix}<#F0E68C>Taken {amount} from {player}'s balance."
+    transfer:
+      success: "{prefix}<#F0E68C>Transferred {amount} from {player} to {target}."
