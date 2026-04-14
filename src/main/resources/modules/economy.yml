@@ -7,6 +7,9 @@ name:
 # Uses Java's DecimalFormat pattern: https://www.baeldung.com/java-decimalformat
 format: $#,##0.0
 
+# How many entries to show in baltop.
+baltop-entries: 20
+
 # Economy Messages
 messages:
   balance: "{prefix}<#F0E68C>{player}'s Balance: {balance}"
@@ -24,3 +27,7 @@ messages:
       success: "{prefix}<#F0E68C>Taken {amount} from {player}'s balance."
     transfer:
       success: "{prefix}<#F0E68C>Transferred {amount} from {player} to {target}."
+  baltop:
+    opening: "{prefix}<#F0E68C>Opening /baltop..."
+    title: "<#F0E68C>Player Balance Leaderboard"
+    entry: "{sprite} <#F0E68C>{player}: <white>{amount}"

@@ -17,6 +17,7 @@ import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.economy.command.BalanceCommand;
+import uk.firedev.firefly.modules.economy.command.BaltopCommand;
 import uk.firedev.firefly.modules.economy.command.MoneyCommand;
 import uk.firedev.firefly.modules.economy.command.PayCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
@@ -68,6 +69,7 @@ public class EconomyModule implements Module {
         new BalanceCommand().initCommand();
         new MoneyCommand().initCommand();
         new PayCommand().initCommand();
+        new BaltopCommand().initCommand();
     }
 
     @Override

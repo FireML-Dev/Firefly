@@ -1,5 +1,7 @@
 package uk.firedev.firefly.modules.economy;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.object.ObjectContents;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.ConfigBase;
@@ -8,6 +10,7 @@ import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.PlayerData;
+import uk.firedev.firefly.modules.economy.baltop.BaltopEntry;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -48,6 +51,10 @@ public class EconomyConfig extends ConfigBase {
 
     public String getNamePlural() {
         return getConfig().getString("name.plural", "Dollars");
+    }
+
+    public int getBaltopEntries() {
+        return getConfig().getInt("baltop-entries", 20);
     }
 
     public ComponentMessage getBalanceMessage(@NonNull OfflinePlayer player) {
@@ -107,6 +114,23 @@ public class EconomyConfig extends ConfigBase {
             .replace("{player}", playerData.getNickname())
             .replace("{target}", targetData.getNickname())
             .replace("{amount}", format(amount));
+    }
+
+    // /baltop
+
+    public ComponentMessage getBaltopOpeningMessage() {
+        return getComponentMessage("messages.baltop.opening", "{prefix}<#F0E68C>Opening /baltop...");
+    }
+
+    public ComponentMessage getBaltopTitleMessage() {
+        return getComponentMessage("messages.baltop.title", "<#F0E68C>Player Balance Leaderboard");
+    }
+
+    public ComponentMessage getBaltopEntryMessage(@NonNull BaltopEntry entry) {
+        return getComponentMessage("messages.baltop.entry", "<#F0E68C>{sprite} {player}: <white>{amount}")
+            .replace("{sprite}", Component.object(ObjectContents.playerHead(entry.uuid())))
+            .replace("{player}", Optional.ofNullable(entry.player().getName()).orElse("N/A"))
+            .replace("{amount}", format(entry.balance()));
     }
 
     @Override
