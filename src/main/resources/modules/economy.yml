@@ -6,3 +6,7 @@ format: $#,##0.0
 
 messages:
   balance: "{prefix}<#F0E68C>{player}'s Balance: {balance}"
+  not-enough-money: "{prefix}<red>You do not have {amount}!"
+  pay:
+    send: "{prefix}<#F0E68C>You have sent {amount} to {target}."
+    receive: "{prefix}<#F0E68C>You have been sent {amount} from {player}."

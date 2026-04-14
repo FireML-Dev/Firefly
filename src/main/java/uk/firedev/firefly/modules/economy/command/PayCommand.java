@@ -39,13 +39,10 @@ public class PayCommand implements CommandHolder {
                                 }
 
                                 double amount = ctx.getArgument("amount", double.class);
-                                String amountFormatted = EconomyConfig.getInstance().format(amount);
 
                                 PlayerData playerData = PlayerData.playerData(player.getUniqueId());
                                 if (playerData.getBalance() < amount) {
-                                    ComponentMessage.componentMessage("You do not have {amount} to send!")
-                                        .replace("{amount}", amountFormatted)
-                                        .send(player);
+                                    EconomyConfig.getInstance().getNotEnoughMoneyMessage(amount).send(player);
                                     return 1;
                                 }
                                 PlayerData targetData = PlayerData.playerData(target.getUniqueId());
@@ -53,16 +50,9 @@ public class PayCommand implements CommandHolder {
                                 targetData.incrementBalance(amount);
 
                                 // Notify player
-                                ComponentMessage.componentMessage("You have sent {amount} to {target}.")
-                                    .replace("{amount}", amountFormatted)
-                                    .replace("{target}", targetData.getNickname())
-                                    .send(player);
-
+                                EconomyConfig.getInstance().getPaySendMessage(targetData, amount).send(player);
                                 // Notify target
-                                ComponentMessage.componentMessage("You have been sent {amount} from {player}.")
-                                    .replace("{amount}", amountFormatted)
-                                    .replace("{player}", playerData.getNickname())
-                                    .send(target.getPlayer());
+                                EconomyConfig.getInstance().getPayReceiveMessage(playerData, amount).send(target.getPlayer());
                                 return 1;
                             })
                     )

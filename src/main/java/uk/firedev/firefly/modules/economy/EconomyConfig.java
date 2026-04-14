@@ -52,9 +52,33 @@ public class EconomyConfig extends ConfigBase {
 
     public ComponentMessage getBalanceMessage(@NonNull OfflinePlayer player) {
         PlayerData data = PlayerData.playerData(player.getUniqueId());
-        return getComponentMessage("messages.balance", "<#F0E68C>{player}'s Balance: {balance}")
+        return getComponentMessage("messages.balance", "{prefix}<#F0E68C>{player}'s Balance: {balance}")
             .replace("{player}", data.getNickname())
             .replace("{balance}", format(data.getBalance()));
+    }
+
+    public ComponentMessage getNotEnoughMoneyMessage(double amount) {
+        return getComponentMessage("messages.not-enough-money", "{prefix}<red>You do not have {amount}!")
+            .replace("{amount}", format(amount));
+    }
+
+    // /pay
+
+    public ComponentMessage getPaySendMessage(@NonNull PlayerData targetData, double amount) {
+        return getComponentMessage("messages.pay.send", "{prefix}<#F0E68C>You have sent {amount} to {target}.")
+            .replace("{amount}", format(amount))
+            .replace("{target}", targetData.getNickname());
+    }
+
+    public ComponentMessage getPayReceiveMessage(@NonNull PlayerData senderData, double amount) {
+        return getComponentMessage("messages.pay.receive", "{prefix}<#F0E68C>You have been sent {amount} from {player}.")
+            .replace("{amount}", format(amount))
+            .replace("{player}", senderData.getNickname());
+    }
+
+    @Override
+    public ComponentMessage getComponentMessage(@NonNull String path, @NonNull Object def) {
+        return super.getComponentMessage(path, def).replace(MessageConfig.getInstance().getPrefixReplacer());
     }
 
 }
