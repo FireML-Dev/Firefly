@@ -18,6 +18,7 @@ import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.economy.command.BalanceCommand;
 import uk.firedev.firefly.modules.economy.command.MoneyCommand;
+import uk.firedev.firefly.modules.economy.command.PayCommand;
 import uk.firedev.firefly.placeholders.Placeholders;
 
 import javax.xml.crypto.Data;
@@ -29,6 +30,7 @@ public class EconomyModule implements Module {
     public static final String BALANCE_PERMISSION = "firefly.command.balance";
     public static final String BALTOP_PERMISSION = "firefly.command.baltop";
     public static final String MONEY_PERMISSION = "firefly.command.money";
+    public static final String PAY_PERMISSION = "firefly.command.pay";
 
     private EconomyModule() {}
 
@@ -65,6 +67,7 @@ public class EconomyModule implements Module {
 
         new BalanceCommand().initCommand();
         new MoneyCommand().initCommand();
+        new PayCommand().initCommand();
     }
 
     @Override
