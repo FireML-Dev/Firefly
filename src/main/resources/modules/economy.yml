@@ -1,9 +1,13 @@
+# The name of the currency
 name:
   singular: Dollar
   plural: Dollars
 
+# How should the currency be formatted?
+# Uses Java's DecimalFormat pattern: https://www.baeldung.com/java-decimalformat
 format: $#,##0.0
 
+# Economy Messages
 messages:
   balance: "{prefix}<#F0E68C>{player}'s Balance: {balance}"
   not-enough-money: "{prefix}<red>You do not have {amount}!"
