@@ -2,8 +2,7 @@ name:
   singular: Dollar
   plural: Dollars
 
-decimal-places: 2
-format: ${amount}
+format: $#,##0.0
 
 messages:
-  balance: "<#F0E68C>{player}'s Balance: {balance}"
+  balance: "{prefix}<#F0E68C>{player}'s Balance: {balance}"

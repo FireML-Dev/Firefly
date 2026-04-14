@@ -28,7 +28,7 @@ public class FireflyEconomy implements Economy {
 
     @Override
     public int fractionalDigits() {
-        return EconomyConfig.getInstance().getDecimalPlaces();
+        return -1;
     }
 
     @Override

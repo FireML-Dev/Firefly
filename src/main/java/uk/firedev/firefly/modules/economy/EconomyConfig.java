@@ -4,6 +4,7 @@ import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.PlayerData;
@@ -29,23 +30,16 @@ public class EconomyConfig extends ConfigBase {
         return instance;
     }
 
-    public int getDecimalPlaces() {
-        return getConfig().getInt("decimal-places", 2);
-    }
-
-    public double formatDouble(double value) {
-        int places = getDecimalPlaces();
-        if (places < 0) {
-            return value;
-        }
-        return new BigDecimal(value)
-            .setScale(getDecimalPlaces(), RoundingMode.HALF_UP)
-            .doubleValue();
-    }
-
     public String format(double value) {
-        return getConfig().getString("format", "${amount}")
-            .replace("{amount}", String.valueOf(formatDouble(value)));
+        String format = getConfig().getString("format", "$#,##0.0");
+        try {
+            DecimalFormat df = new DecimalFormat(format);
+            return df.format(value);
+        } catch (IllegalArgumentException exception) {
+            Loggers.warn(Firefly.getInstance().getLogger(), "Economy format is invalid: " + format + ". Using the default.");
+            DecimalFormat df = new DecimalFormat("$#,##0.0");
+            return df.format(value);
+        }
     }
 
     public String getNameSingular() {
