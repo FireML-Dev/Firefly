@@ -16,9 +16,11 @@ import uk.firedev.firefly.utils.StringUtils;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
 import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 public class PlayerData {
@@ -31,10 +33,15 @@ public class PlayerData {
     private @Nullable ComponentSingleMessage prefix = null;
     private @Nullable ComponentSingleMessage suffix = null;
     private @Nullable Location lastTeleportLocation = null;
+    private double balance = 0.0D;
 
     protected PlayerData(@NonNull UUID uuid) {
         this.uuid = uuid;
         markAccessed();
+    }
+
+    public static @NonNull PlayerData playerData(@NonNull UUID uuid) throws RuntimeException {
+        return Firefly.getInstance().getDatabase().getPlayerDataOrThrow(uuid);
     }
 
     public void markAccessed() {
@@ -51,8 +58,9 @@ public class PlayerData {
      */
     public @NonNull String getUsername() {
         markAccessed();
-        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
-        return Objects.requireNonNullElse(offlinePlayer.getName(), "N/A");
+        return Optional.of(Bukkit.getOfflinePlayer(uuid))
+            .map(OfflinePlayer::getName)
+            .orElse("N/A");
     }
 
     // Database Methods
@@ -175,6 +183,32 @@ public class PlayerData {
 
     public void removeLastTeleportLocation() {
         this.lastTeleportLocation = null;
+    }
+
+    // Economy Methods
+
+    public double getBalance() {
+        return this.balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public double incrementBalance(double increment) {
+        if (increment < 0) {
+            throw new IllegalArgumentException("Negative values can not be passed to #incrementBalance.");
+        }
+        this.balance += increment;
+        return this.balance;
+    }
+
+    public double decrementBalance(double decrement) {
+        if (decrement < 0) {
+            throw new IllegalArgumentException("Negative values can not be passed to #decrementBalance.");
+        }
+        this.balance -= decrement;
+        return this.balance;
     }
 
 }

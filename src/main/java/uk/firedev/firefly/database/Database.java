@@ -102,11 +102,11 @@ public class Database extends SQLiteDatabase {
         return data;
     }
 
-    public @NonNull PlayerData getPlayerDataOrThrow(@NonNull UUID uuid) {
+    public @NonNull PlayerData getPlayerDataOrThrow(@NonNull UUID uuid) throws RuntimeException {
         return getPlayerDataOrThrow(uuid, "Could not find player data for " + uuid);
     }
 
-    public @NonNull PlayerData getPlayerDataOrThrow(@NonNull UUID uuid, @NonNull String throwMessage) {
+    public @NonNull PlayerData getPlayerDataOrThrow(@NonNull UUID uuid, @NonNull String throwMessage) throws RuntimeException {
         PlayerData data = getPlayerData(uuid);
         if (data == null) {
             throw new RuntimeException(throwMessage);

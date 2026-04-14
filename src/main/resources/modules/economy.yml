@@ -1,0 +1,9 @@
+name:
+  singular: Dollar
+  plural: Dollars
+
+decimal-places: 2
+format: ${amount}
+
+messages:
+  balance: "<#F0E68C>{player}'s Balance: {balance}"
