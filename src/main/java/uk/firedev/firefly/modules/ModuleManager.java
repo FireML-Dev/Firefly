@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules;
 
 import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.Module;
+import uk.firedev.firefly.modules.economy.EconomyModule;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 import uk.firedev.firefly.modules.kit.KitModule;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
@@ -26,7 +27,8 @@ public class ModuleManager {
         NicknameModule.getInstance(),
         PlaytimeModule.getInstance(),
         TeleportModule.getInstance(),
-        MessagingModule.getInstance()
+        MessagingModule.getInstance(),
+        EconomyModule.getInstance()
     );
 
     private ModuleManager() {}

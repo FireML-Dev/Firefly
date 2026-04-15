@@ -16,6 +16,8 @@ playtime: true
 teleportation: true
 # Message-related commands (/msg, /r, etc)
 messaging: true
+# Economy and its commands
+economy: true
 
 # DO NOT TOUCH THIS VALUE!!!
 config-version: 6
