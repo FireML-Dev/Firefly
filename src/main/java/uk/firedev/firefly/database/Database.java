@@ -34,14 +34,15 @@ public class Database extends SQLiteDatabase {
 
     @Override
     public void save() {
-        List<UUID> unload = new ArrayList<>();
-        playerDataCache.forEach((uuid, playerData) -> {
-            playerData.save();
-            if (playerData.canUnload()) {
-                unload.add(uuid);
+        Iterator<PlayerData> iterator = playerDataCache.values().iterator();
+        while (iterator.hasNext()) {
+            PlayerData data = iterator.next();
+            data.save();
+            if (data.canUnload()) {
+                iterator.remove();
+                Loggers.info(Firefly.getInstance().getComponentLogger(), "Unloaded PlayerData for " + data.getUuid());
             }
-        });
-        unload.forEach(this::unloadPlayerData);
+        }
     }
 
     @NonNull
