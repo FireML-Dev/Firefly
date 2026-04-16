@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.nickname;
 
 import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
@@ -58,7 +59,9 @@ public class NicknameModule implements Module {
     }
 
     @Override
-    public void unload() {}
+    public void unload() {
+        Bukkit.getOnlinePlayers().forEach(player -> player.displayName(null));
+    }
 
     @Override
     public void registerPlaceholders() {

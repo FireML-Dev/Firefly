@@ -63,6 +63,20 @@ public class PlayerData {
             .orElse("N/A");
     }
 
+    /**
+     * @return The {@link Player} linked to this data, or null if the player is offline.
+     */
+    public @Nullable Player getPlayer() {
+        return getOfflinePlayer().getPlayer();
+    }
+
+    /**
+     * @return The {@link OfflinePlayer} linked to this data.
+     */
+    public @NonNull OfflinePlayer getOfflinePlayer() {
+        return Bukkit.getOfflinePlayer(uuid);
+    }
+
     // Database Methods
 
     public boolean canUnload() {

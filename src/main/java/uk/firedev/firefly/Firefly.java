@@ -10,6 +10,7 @@ import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.firefly.placeholders.Placeholders;
+import uk.firedev.firefly.utils.ChatListener;
 
 public final class Firefly extends JavaPlugin {
 
@@ -34,6 +35,8 @@ public final class Firefly extends JavaPlugin {
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
             commands.registrar().register(new FireflyCommand().get());
         });
+
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
 
         // Handle module loading and their placeholders
         Placeholders.init();
