@@ -1,9 +1,9 @@
 package uk.firedev.firefly.modules.titles.gui;
 
-import uk.firedev.daisylib.libs.triumphgui.guis.GuiItem;
+import dev.triumphteam.gui.guis.GuiItem;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.gui.PaginatedConfigGui;
+import uk.firedev.firefly.gui.PaginatedConfigGui;
 import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 

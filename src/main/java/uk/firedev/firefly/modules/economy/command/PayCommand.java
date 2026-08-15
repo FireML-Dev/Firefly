@@ -4,13 +4,14 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.PlayerProfileListResolver;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.economy.EconomyConfig;
@@ -27,12 +28,15 @@ public class PayCommand implements CommandHolder {
     public @NonNull LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("pay")
             .then(
-                Commands.argument("target", OfflinePlayerArgument.create())
+                Commands.argument("target", ArgumentTypes.playerProfiles())
                     .then(
                         Commands.argument("amount", DoubleArgumentType.doubleArg(0))
                             .executes(ctx -> {
                                 Player player = CommandUtils.requirePlayer(ctx);
-                                OfflinePlayer target = ctx.getArgument("target", OfflinePlayer.class);
+                                OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                                    ctx.getSource(),
+                                    ctx.getArgument("target", PlayerProfileListResolver.class)
+                                );
                                 if (player.equals(target)) {
                                     ComponentMessage.componentMessage("You cannot send money to yourself!").send(player);
                                     return 1;

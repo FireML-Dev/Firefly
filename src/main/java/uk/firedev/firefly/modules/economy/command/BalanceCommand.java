@@ -3,13 +3,14 @@ package uk.firedev.firefly.modules.economy.command;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.PlayerProfileListResolver;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.economy.EconomyConfig;
 import uk.firedev.firefly.modules.economy.EconomyModule;
@@ -28,10 +29,13 @@ public class BalanceCommand implements CommandHolder {
                 return 1;
             })
             .then(
-                Commands.argument("target", OfflinePlayerArgument.create())
+                Commands.argument("target", ArgumentTypes.playerProfiles())
                     .requires(stack -> stack.getSender().hasPermission(targetPermission()))
                     .executes(ctx -> {
-                        OfflinePlayer target = ctx.getArgument("target", OfflinePlayer.class);
+                        OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                            ctx.getSource(),
+                            ctx.getArgument("target", PlayerProfileListResolver.class)
+                        );
                         checkBalance(ctx.getSource().getSender(), target);
                         return 1;
                     })

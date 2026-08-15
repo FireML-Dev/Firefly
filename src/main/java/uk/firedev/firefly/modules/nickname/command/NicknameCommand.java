@@ -5,6 +5,8 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.PlayerProfileListResolver;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -12,13 +14,11 @@ import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
-import uk.firedev.daisylib.util.PlayerHelper;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.List;
 import java.util.Objects;
@@ -31,9 +31,6 @@ public class NicknameCommand implements CommandHolder {
             .requires(stack -> NicknameModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 checkNickname(player, player);
                 return 1;
             })
@@ -84,16 +81,16 @@ public class NicknameCommand implements CommandHolder {
         return Commands.literal("check")
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 checkNickname(player, player);
                 return 1;
             })
             .then(
-                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                Commands.argument("target", ArgumentTypes.playerProfiles())
                     .executes(context -> {
-                        OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
+                        OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                            context.getSource(),
+                            context.getArgument("target", PlayerProfileListResolver.class)
+                        );
                         checkNickname(context.getSource().getSender(), target);
                         return 1;
                     })
@@ -104,18 +101,18 @@ public class NicknameCommand implements CommandHolder {
         return Commands.literal("remove")
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 NicknameModule.getInstance().removeNickname(player);
                 NicknameConfig.getInstance().getCommandRemovedNicknameMessage().send(player);
                 return 1;
             })
             .then(
-                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                Commands.argument("target", ArgumentTypes.playerProfiles())
                     .requires(stack -> stack.getSender().hasPermission(NicknameModule.COMMAND_PERMISSION_ADMIN))
                     .executes(context -> {
-                        OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
+                        OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                            context.getSource(),
+                            context.getArgument("target", PlayerProfileListResolver.class)
+                        );
 
                         // Remove nickname
                         NicknameModule.getInstance().removeNickname(target);
@@ -142,9 +139,6 @@ public class NicknameCommand implements CommandHolder {
                 Commands.argument("nickname", StringArgumentType.greedyString())
                     .executes(context -> {
                         Player player = CommandUtils.requirePlayer(context.getSource());
-                        if (player == null) {
-                            return 1;
-                        }
                         String nickname = context.getArgument("nickname", String.class).split(" ")[0]; // Only use the name before the first space
                         Component componentNickname = StringUtils.getColorOnlyComponent(nickname);
                         if (!validateNickname(player, componentNickname)) {
@@ -163,11 +157,14 @@ public class NicknameCommand implements CommandHolder {
         return Commands.literal("setOther")
             .requires(stack -> stack.getSender().hasPermission(NicknameModule.COMMAND_PERMISSION_ADMIN))
             .then(
-                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                Commands.argument("target", ArgumentTypes.playerProfiles())
                     .then(
                         Commands.argument("nickname", StringArgumentType.greedyString())
                             .executes(context -> {
-                                OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
+                                OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                                    context.getSource(),
+                                    context.getArgument("target", PlayerProfileListResolver.class)
+                                );
                                 String nickname = context.getArgument("nickname", String.class).split(" ")[0]; // Only use the name before the first space
                                 Component componentNickname = StringUtils.getColorOnlyComponent(nickname);
                                 NicknameModule.getInstance().setNickname(target, nickname);
@@ -204,7 +201,7 @@ public class NicknameCommand implements CommandHolder {
     }
 
     private boolean validateNickname(@NonNull Player player, @NonNull Component nickname) {
-        String cleanString = ComponentMessage.componentMessage(nickname).getAsPlainText();
+        String cleanString = ComponentMessage.componentMessage(nickname).getPlainText();
 
         // Check if the player has admin perms
         if (player.hasPermission(NicknameModule.COMMAND_PERMISSION_ADMIN)) {

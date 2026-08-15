@@ -14,8 +14,8 @@ import uk.firedev.firefly.modules.titles.TitleConfig;
 import uk.firedev.firefly.modules.titles.TitleModule;
 import uk.firedev.firefly.modules.titles.gui.PrefixGui;
 import uk.firedev.firefly.modules.titles.gui.SuffixGui;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 import java.util.List;
 

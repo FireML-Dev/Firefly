@@ -3,11 +3,12 @@ package uk.firedev.firefly.modules.teleportation.commands.tpa;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 import uk.firedev.firefly.modules.teleportation.tpa.TPAHandler;
@@ -22,18 +23,17 @@ public class TPACommand implements CommandHolder {
         return Commands.literal("tpa")
             .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .then(
-                Commands.argument("target", PlayerArgument.create())
+                Commands.argument("target", ArgumentTypes.player())
                     .executes(context -> {
                         Player player = CommandUtils.requirePlayer(context.getSource());
-                        if (player == null) {
-                            return 1;
-                        }
-                        Player target = context.getArgument("target", Player.class);
+                        Player target = CommandUtils.parsePlayerArgument(
+                            context.getSource(),
+                            context.getArgument("target", PlayerSelectorArgumentResolver.class)
+                        );
                         TPAHandler.getInstance().sendRequest(target, player, TPARequest.TPADirection.SENDER_TO_TARGET);
                         return 1;
                     })
-            )
-            .build();
+            ).build();
     }
 
     /**

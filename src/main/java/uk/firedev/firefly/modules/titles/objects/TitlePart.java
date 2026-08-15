@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.util.Utils;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.utils.CommonUtils;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 public interface TitlePart {
 
@@ -22,7 +22,7 @@ public interface TitlePart {
 
     @SuppressWarnings("UnstableApiUsage")
     default ItemStack generateIcon() {
-        ItemType itemType = Utils.getItemType(getSection().getString("icon.material"), ItemType.NAME_TAG);
+        ItemType itemType = CommonUtils.getItemType(getSection().getString("icon.material"), ItemType.NAME_TAG);
         ItemStack item = itemType.createItemStack();
         item.editMeta(meta -> {
             Component display = getDisplay().get();

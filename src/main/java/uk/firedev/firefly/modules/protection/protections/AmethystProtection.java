@@ -6,6 +6,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,12 +15,14 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.cache.PlayerPdcCache;
 import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.protection.ProtectionConfig;
-import uk.firedev.firefly.placeholders.Placeholders;
+import uk.firedev.firefly.modules.protection.placeholders.AmethystProtectedPlaceholder;
+import uk.firedev.firefly.placeholders.FireflyPlaceholders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,9 @@ public class AmethystProtection implements SubModule, Listener, CommandHolder {
     }
 
     @Override
-    public void init() {}
+    public void init() {
+        registerPlaceholders();
+    }
 
     @Override
     public void reload() {}
@@ -53,15 +58,8 @@ public class AmethystProtection implements SubModule, Listener, CommandHolder {
     @Override
     public void unload() {}
 
-    @Override
-    public void registerPlaceholders() {
-        Placeholders.manageProvider(provider ->
-            provider.addAudiencePlaceholder("amethyst_protected", audience -> {
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return Component.text(!isDisabled(player));
-            }));
+    private void registerPlaceholders() {
+        FireflyPlaceholders.get().add(new AmethystProtectedPlaceholder(this));
     }
 
     private NamespacedKey getAmethystProtectKey() {
@@ -87,8 +85,12 @@ public class AmethystProtection implements SubModule, Listener, CommandHolder {
         }
     }
 
-    public boolean isDisabled(Player player) {
-        return player.getPersistentDataContainer().getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
+    public boolean isDisabled(@NonNull OfflinePlayer player) {
+        return PlayerPdcCache.playerPdcCache(player).getOrDefault(getAmethystProtectKey(), PersistentDataType.BOOLEAN, false);
+    }
+
+    public boolean isEnabled(@NonNull OfflinePlayer player) {
+        return !isDisabled(player);
     }
 
     @Override

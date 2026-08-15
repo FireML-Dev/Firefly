@@ -25,14 +25,11 @@ public interface SubModule {
         if (this instanceof CommandHolder commandHolder) {
             commandHolder.initCommand();
         }
-        registerPlaceholders();
     }
 
     void reload();
 
     void unload();
-
-    default void registerPlaceholders() {}
 
     /**
      * Checks if the submodule is enabled and sends a message if not.

@@ -4,11 +4,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.util.Loggers;
+
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.modules.titles.TitleModule;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 public class Prefix implements TitlePart {
 
@@ -24,9 +24,7 @@ public class Prefix implements TitlePart {
         String permission = section.getString("permission");
         if (permission == null) {
             String defaultPermission = "firefly.prefix." + section.getName();
-            Loggers.warn(Firefly.getInstance().getComponentLogger(),
-                    "No permission found for prefix " + section.getName() + ". Defaulting to " + defaultPermission
-            );
+            Firefly.getInstance().getLogging().warn("No permission found for prefix " + section.getName() + ". Defaulting to " + defaultPermission);
             permission = defaultPermission;
         }
         this.section = section;

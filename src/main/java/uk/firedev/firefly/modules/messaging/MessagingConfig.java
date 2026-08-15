@@ -1,22 +1,23 @@
 package uk.firedev.firefly.modules.messaging;
 
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.config.BasicConfig;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.List;
 
-public class MessagingConfig extends ConfigBase {
+public class MessagingConfig extends BasicConfig {
 
     private static MessagingConfig instance;
 
-    private @NonNull String messageCommandName = "message";
-    private @NonNull List<String> messageCommandAliases = List.of();
+    private final @NonNull String messageCommandName;
+    private final @NonNull List<String> messageCommandAliases;
 
-    private @NonNull String replyCommandName = "reply";
-    private @NonNull List<String> replyCommandAliases = List.of();
+    private final @NonNull String replyCommandName;
+    private final @NonNull List<String> replyCommandAliases;
 
     private MessagingConfig() {
         super("modules/messaging.yml", "modules/messaging.yml", Firefly.getInstance());
@@ -55,18 +56,23 @@ public class MessagingConfig extends ConfigBase {
 
     // Messages
 
-    public ComponentMessage getMessageFormat() {
+    public ComponentMessage<?, ?> getMessageFormat() {
         return getComponentMessage(
             "messages.format",
             "<gray>[<white>{sender}</white> -> <white>{receiver}</white>]</gray> <white>{message}"
-        ).replace(MessageConfig.getInstance().getPrefixReplacer());
+        );
     }
 
-    public ComponentMessage getCannotReplyMessage() {
+    public ComponentMessage<?, ?> getCannotReplyMessage() {
         return getComponentMessage(
             "messages.cannot-reply",
             "<red>There is nobody to reply to!</red>"
-        ).replace(MessageConfig.getInstance().getPrefixReplacer());
+        );
+    }
+
+    @Override
+    public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
+        return super.getComponentMessage(path, def).replace("{prefix}", MessageConfig.getInstance().getPrefix());
     }
 
 }

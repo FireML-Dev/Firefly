@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,7 +146,7 @@ public class TeleportWarmup {
             return !initialLocation.equals(playerLocation);
         }
 
-        private void sendMessage(@NonNull ComponentMessage message) {
+        private void sendMessage(@NonNull ComponentMessage<?, ?>  message) {
             message.send(warmup.player);
         }
 

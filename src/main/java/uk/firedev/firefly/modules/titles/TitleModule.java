@@ -2,6 +2,7 @@ package uk.firedev.firefly.modules.titles;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
@@ -14,9 +15,11 @@ import uk.firedev.firefly.modules.titles.command.PrefixCommand;
 import uk.firedev.firefly.modules.titles.command.SuffixCommand;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
-import uk.firedev.firefly.placeholders.Placeholders;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
+import uk.firedev.firefly.modules.titles.placeholders.PlayerPrefixPlaceholder;
+import uk.firedev.firefly.modules.titles.placeholders.PlayerSuffixPlaceholder;
+import uk.firedev.firefly.placeholders.FireflyPlaceholders;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +59,8 @@ public class TitleModule implements Module {
 
         this.suffixes = TitleConfig.getInstance().getSuffixesFromFile();
         new SuffixCommand().initCommand();
+
+        registerPlaceholders();
     }
 
     @Override
@@ -71,39 +76,20 @@ public class TitleModule implements Module {
         this.suffixes = new ArrayList<>();
     }
 
-    @Override
-    public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
-            provider.addAudiencePlaceholder("player_prefix", audience -> {
-                if (!isConfigEnabled()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return getPlayerPrefix(player);
-            });
-            provider.addAudiencePlaceholder("player_suffix", audience -> {
-                if (!isConfigEnabled()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return TitleModule.getInstance().getPlayerSuffix(player);
-            });
-        });
+    private void registerPlaceholders() {
+        FireflyPlaceholders.get().add(new PlayerPrefixPlaceholder(this));
+        FireflyPlaceholders.get().add(new PlayerSuffixPlaceholder(this));
     }
 
-    public void setPlayerPrefix(@NonNull Player player, @NonNull String prefix) {
+    public void setPlayerPrefix(@NonNull OfflinePlayer player, @NonNull String prefix) {
         setPlayerPrefix(player, ComponentMessage.componentMessage(prefix));
     }
 
-    public void setPlayerPrefix(@NonNull Player player, @NonNull Prefix prefix) {
+    public void setPlayerPrefix(@NonNull OfflinePlayer player, @NonNull Prefix prefix) {
         setPlayerPrefix(player, prefix.getDisplay());
     }
 
-    public void setPlayerPrefix(@NonNull Player player, @NonNull ComponentSingleMessage prefix) {
+    public void setPlayerPrefix(@NonNull OfflinePlayer player, @NonNull ComponentSingleMessage prefix) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -112,12 +98,16 @@ public class TitleModule implements Module {
             return;
         }
         data.setPrefix(prefix);
-        TitleConfig.getInstance().getPrefixSetMessage()
-            .replace("{new-prefix}", prefix.get())
-            .send(player);
+
+        Player online = player.getPlayer();
+        if (online != null) {
+            TitleConfig.getInstance().getPrefixSetMessage()
+                .replace("{new-prefix}", prefix.get())
+                .send(online);
+        }
     }
 
-    public void removePlayerPrefix(@NonNull Player player) {
+    public void removePlayerPrefix(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -126,10 +116,14 @@ public class TitleModule implements Module {
             return;
         }
         data.removePrefix();
-        TitleConfig.getInstance().getPrefixRemovedMessage().send(player);
+
+        Player online = player.getPlayer();
+        if (online != null) {
+            TitleConfig.getInstance().getPrefixRemovedMessage().send(online);
+        }
     }
 
-    public @Nullable Component getPlayerPrefix(@NonNull Player player) {
+    public @Nullable Component getPlayerPrefix(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return null;
         }
@@ -140,7 +134,7 @@ public class TitleModule implements Module {
         return data.getPrefix().get();
     }
 
-    public @Nullable String getPlayerPrefixLegacy(@NonNull Player player) {
+    public @Nullable String getPlayerPrefixLegacy(@NonNull OfflinePlayer player) {
         Component prefix = getPlayerPrefix(player);
         if (prefix == null) {
             return null;
@@ -148,15 +142,15 @@ public class TitleModule implements Module {
         return LegacyComponentSerializer.legacySection().serialize(prefix);
     }
 
-    public void setPlayerSuffix(@NonNull Player player, @NonNull String suffix) {
+    public void setPlayerSuffix(@NonNull OfflinePlayer player, @NonNull String suffix) {
         setPlayerSuffix(player, ComponentMessage.componentMessage(suffix));
     }
 
-    public void setPlayerSuffix(@NonNull Player player, @NonNull Suffix suffix) {
+    public void setPlayerSuffix(@NonNull OfflinePlayer player, @NonNull Suffix suffix) {
         setPlayerSuffix(player, suffix.getDisplay());
     }
 
-    public void setPlayerSuffix(@NonNull Player player, @NonNull ComponentSingleMessage suffix) {
+    public void setPlayerSuffix(@NonNull OfflinePlayer player, @NonNull ComponentSingleMessage suffix) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -165,12 +159,16 @@ public class TitleModule implements Module {
             return;
         }
         data.setSuffix(suffix);
-        TitleConfig.getInstance().getSuffixSetMessage()
-            .replace("{new-suffix}", suffix.get())
-            .send(player);
+
+        Player online = player.getPlayer();
+        if (online != null) {
+            TitleConfig.getInstance().getSuffixSetMessage()
+                .replace("{new-suffix}", suffix.get())
+                .send(online);
+        }
     }
 
-    public void removePlayerSuffix(@NonNull Player player) {
+    public void removePlayerSuffix(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return;
         }
@@ -179,10 +177,14 @@ public class TitleModule implements Module {
             return;
         }
         data.removeSuffix();
-        TitleConfig.getInstance().getSuffixRemovedMessage().send(player);
+
+        Player online = player.getPlayer();
+        if (online != null) {
+            TitleConfig.getInstance().getSuffixRemovedMessage().send(online);
+        }
     }
 
-    public @Nullable Component getPlayerSuffix(@NonNull Player player) {
+    public @Nullable Component getPlayerSuffix(@NonNull OfflinePlayer player) {
         if (!isConfigEnabled()) {
             return null;
         }
@@ -193,7 +195,7 @@ public class TitleModule implements Module {
         return data.getSuffix().get();
     }
 
-    public @Nullable String getPlayerSuffixLegacy(@NonNull Player player) {
+    public @Nullable String getPlayerSuffixLegacy(@NonNull OfflinePlayer player) {
         Component suffix = getPlayerSuffix(player);
         if (suffix == null) {
             return null;

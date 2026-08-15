@@ -1,31 +1,39 @@
 package uk.firedev.firefly.modules.kit.command;
 
+import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.MessageComponentSerializer;
+import io.papermc.paper.command.brigadier.argument.CustomArgumentType;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.command.argument.ArgumentBase;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitModule;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.BiPredicate;
 
-public class KitArgument implements ArgumentBase<Kit, String> {
+public class KitArgument implements CustomArgumentType.Converted<Kit, String> {
 
     private static final DynamicCommandExceptionType UNKNOWN_KIT = new DynamicCommandExceptionType(name ->
         MessageComponentSerializer.message().serialize(Component.text("Unknown Kit: " + name))
     );
     private static final DynamicCommandExceptionType CANNOT_USE = new DynamicCommandExceptionType(name ->
         MessageComponentSerializer.message().serialize(Component.text("Cannot Use Kit: " + name))
+    );
+    private static final DynamicCommandExceptionType INVALID_EXECUTOR = new DynamicCommandExceptionType(_ ->
+        new LiteralMessage("Invalid executor.")
     );
 
     private final BiPredicate<Player, Kit> predicate;
@@ -35,16 +43,18 @@ public class KitArgument implements ArgumentBase<Kit, String> {
     }
 
     public static KitArgument create() {
-        return new KitArgument((player, kit) -> true);
+        return new KitArgument((_, _) -> true);
     }
 
     public static KitArgument create(@NonNull BiPredicate<Player, Kit> predicate) {
         return new KitArgument(predicate);
     }
 
-    @Override
-    public List<String> getSuggestions(@NonNull CommandContext<CommandSourceStack> commandContext) {
-        CommandSender sender = commandContext.getSource().getSender();
+    private List<String> getSuggestions(@NonNull CommandContext<?> commandContext) {
+        if (!(commandContext.getSource() instanceof CommandSourceStack stack)) {
+            return List.of();
+        }
+        CommandSender sender = stack.getSender();
         return KitModule.getInstance().getKits().values().stream()
             .filter(kit -> {
                 if (!(sender instanceof Player player)) {
@@ -57,9 +67,17 @@ public class KitArgument implements ArgumentBase<Kit, String> {
     }
 
     @Override
-    public <S> Kit convert(final String nativeType, final S source) throws CommandSyntaxException {
+    public <S> @NonNull CompletableFuture<Suggestions> listSuggestions(final @NonNull CommandContext<S> context, final @NonNull SuggestionsBuilder builder) {
+        getSuggestions(context).stream()
+            .filter(name -> name.toLowerCase().startsWith(builder.getRemainingLowerCase()))
+            .forEach(builder::suggest);
+        return builder.buildFuture();
+    }
+
+    @Override
+    public <S> @NonNull Kit convert(final @NonNull String nativeType, final @NonNull S source) throws CommandSyntaxException {
         if (!(source instanceof CommandSourceStack stack)) {
-            throw new IllegalArgumentException("Provided source is not instance of CommandSourceStack!");
+            throw INVALID_EXECUTOR.create(null);
         }
         CommandSender sender = stack.getSender();
         Kit kit = KitModule.getInstance().getKit(nativeType);
@@ -86,7 +104,7 @@ public class KitArgument implements ArgumentBase<Kit, String> {
 
     // Overridden stuff we don't need.
     @Override
-    public Kit convert(String nativeType) {
+    public @NonNull Kit convert(@NonNull String nativeType) {
         return null;
     }
 

@@ -4,22 +4,20 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.util.Utils;
-import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
-import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.elevator.Elevator;
 import uk.firedev.firefly.modules.elevator.ElevatorConfig;
 import uk.firedev.firefly.modules.elevator.ElevatorModule;
 
 import java.util.List;
-import java.util.Objects;
 
 public class ElevatorCommand implements CommandHolder {
 
@@ -81,11 +79,14 @@ public class ElevatorCommand implements CommandHolder {
                 return 1;
             })
             .then(
-                Commands.argument("target", PlayerArgument.create())
+                Commands.argument("target", ArgumentTypes.player())
                     .executes(context -> {
-                        Player player = context.getArgument("target", Player.class);
-                        player.give(ElevatorModule.getInstance().getElevatorBlock());
-                        ElevatorConfig.getInstance().getCommandGivenMessage().send(player);
+                        Player target = CommandUtils.parsePlayerArgument(
+                            context.getSource(),
+                            context.getArgument("target", PlayerSelectorArgumentResolver.class)
+                        );
+                        target.give(ElevatorModule.getInstance().getElevatorBlock());
+                        ElevatorConfig.getInstance().getCommandGivenMessage().send(target);
                         return 1;
                     })
             );

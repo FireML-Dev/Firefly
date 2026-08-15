@@ -5,11 +5,13 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.PlayerProfileListResolver;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
+import uk.firedev.daisylib.command.CommandUtils;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.economy.EconomyConfig;
@@ -27,7 +29,7 @@ public class MoneyCommand implements CommandHolder {
         return Commands.literal("money")
             .requires(stack -> stack.getSender().hasPermission(permission()))
             .then(
-                Commands.argument("player", OfflinePlayerArgument.create())
+                Commands.argument("player", ArgumentTypes.playerProfiles())
                     .then(set())
                     .then(check())
                     .then(add())
@@ -73,7 +75,10 @@ public class MoneyCommand implements CommandHolder {
             .then(
                 Commands.argument("amount", DoubleArgumentType.doubleArg(0))
                     .executes(ctx -> {
-                        OfflinePlayer player = ctx.getArgument("player", OfflinePlayer.class);
+                        OfflinePlayer player = CommandUtils.parsePlayerProfileArgument(
+                            ctx.getSource(),
+                            ctx.getArgument("player", PlayerProfileListResolver.class)
+                        );
                         double amount = ctx.getArgument("amount", double.class);
 
                         PlayerData data = PlayerData.playerData(player.getUniqueId());
@@ -88,7 +93,10 @@ public class MoneyCommand implements CommandHolder {
     private ArgumentBuilder<CommandSourceStack, ?> check() {
         return Commands.literal("check")
             .executes(ctx -> {
-                OfflinePlayer player = ctx.getArgument("player", OfflinePlayer.class);
+                OfflinePlayer player = CommandUtils.parsePlayerProfileArgument(
+                    ctx.getSource(),
+                    ctx.getArgument("player", PlayerProfileListResolver.class)
+                );
                 BalanceCommand.checkBalance(ctx.getSource().getSender(), player);
                 return 1;
             });
@@ -99,7 +107,10 @@ public class MoneyCommand implements CommandHolder {
             .then(
                 Commands.argument("amount", DoubleArgumentType.doubleArg(0))
                     .executes(ctx -> {
-                        OfflinePlayer player = ctx.getArgument("player", OfflinePlayer.class);
+                        OfflinePlayer player = CommandUtils.parsePlayerProfileArgument(
+                            ctx.getSource(),
+                            ctx.getArgument("player", PlayerProfileListResolver.class)
+                        );
                         double amount = ctx.getArgument("amount", double.class);
 
                         PlayerData data = PlayerData.playerData(player.getUniqueId());
@@ -116,7 +127,10 @@ public class MoneyCommand implements CommandHolder {
             .then(
                 Commands.argument("amount", DoubleArgumentType.doubleArg(0))
                     .executes(ctx -> {
-                        OfflinePlayer player = ctx.getArgument("player", OfflinePlayer.class);
+                        OfflinePlayer player = CommandUtils.parsePlayerProfileArgument(
+                            ctx.getSource(),
+                            ctx.getArgument("player", PlayerProfileListResolver.class)
+                        );
                         double amount = ctx.getArgument("amount", double.class);
 
                         PlayerData data = PlayerData.playerData(player.getUniqueId());
@@ -136,11 +150,17 @@ public class MoneyCommand implements CommandHolder {
             .then(
                 Commands.argument("amount", DoubleArgumentType.doubleArg(0))
                     .then(
-                        Commands.argument("target", OfflinePlayerArgument.create())
+                        Commands.argument("target",  ArgumentTypes.playerProfiles())
                             .executes(ctx -> {
                                 CommandSender sender = ctx.getSource().getSender();
-                                OfflinePlayer player = ctx.getArgument("player", OfflinePlayer.class);
-                                OfflinePlayer target = ctx.getArgument("target", OfflinePlayer.class);
+                                OfflinePlayer player = CommandUtils.parsePlayerProfileArgument(
+                                    ctx.getSource(),
+                                    ctx.getArgument("player", PlayerProfileListResolver.class)
+                                );
+                                OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                                    ctx.getSource(),
+                                    ctx.getArgument("target", PlayerProfileListResolver.class)
+                                );
                                 double amount = ctx.getArgument("amount", double.class);
 
                                 PlayerData playerData = PlayerData.playerData(player.getUniqueId());

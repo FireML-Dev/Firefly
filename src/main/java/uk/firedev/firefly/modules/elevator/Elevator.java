@@ -1,38 +1,33 @@
 package uk.firedev.firefly.modules.elevator;
 
+import com.jeff_media.customblockdata.CustomBlockData;
 import net.kyori.adventure.bossbar.BossBar;
-import uk.firedev.daisylib.util.Utils;
+import org.jspecify.annotations.Nullable;
+import uk.firedev.daisylib.utils.CommonUtils;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.libs.customblockdata.CustomBlockData;
 import uk.firedev.firefly.Firefly;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
-public class Elevator {
+public record Elevator(@NonNull Block block) {
 
     private static final Map<UUID, BossBar> bossBars = new HashMap<>();
     private static final NamespacedKey elevatorKey = new NamespacedKey(Firefly.getInstance(), "elevator");
 
-    private final Block block;
-
     public Elevator(@NonNull Location location) {
-        this.block = location.getBlock();
-    }
-
-    public Elevator(@NonNull Block block) {
-        this.block = block;
+        this(location.getBlock());
     }
 
     /**
      * @return The block of this elevator
      */
-    public Block getBlock() {
+    @Override
+    public Block block() {
         return block;
     }
 
@@ -52,17 +47,18 @@ public class Elevator {
 
     /**
      * Gets this elevator's stack
+     *
      * @return This elevator's stack, or an empty list if this is not an elevator.
      */
     public List<Elevator> getStack() {
         if (!isElevator()) {
             return List.of();
         }
-        return CustomBlockData.getBlocksWithCustomData(Firefly.getInstance(), getBlock().getChunk()).stream()
+        return CustomBlockData.getBlocksWithCustomData(Firefly.getInstance(), block().getChunk()).stream()
             .filter(this::isInStack)
             .map(Elevator::new)
             .filter(Elevator::isElevator)
-            .sorted(Comparator.comparing(elevator -> elevator.getBlock().getY()))
+            .sorted(Comparator.comparing(elevator -> elevator.block().getY()))
             .toList();
     }
 
@@ -76,6 +72,7 @@ public class Elevator {
 
     /**
      * Shows the elevator bossbar
+     *
      * @param player The player to show the bossbar to
      */
     public void showBossBar(@NonNull Player player) {
@@ -92,6 +89,7 @@ public class Elevator {
 
     /**
      * Hides the elevator bossbar
+     *
      * @param player The player to hide the bossbar from
      */
     public static void hideBossBar(@NonNull Player player) {
@@ -145,7 +143,7 @@ public class Elevator {
     @Nullable
     public Elevator getNext() {
         int index = getCurrentPosition() + 1;
-        return Utils.getOrDefault(getStack(), index, null);
+        return CommonUtils.getOrDefault(getStack(), index, null);
     }
 
     /**
@@ -154,7 +152,7 @@ public class Elevator {
     @Nullable
     public Elevator getPrevious() {
         int index = getCurrentPosition() - 1;
-        return Utils.getOrDefault(getStack(), index, null);
+        return CommonUtils.getOrDefault(getStack(), index, null);
     }
 
     /**
@@ -166,11 +164,6 @@ public class Elevator {
         } else {
             hideBossBar(player);
         }
-    }
-
-    @Override
-    public int hashCode() {
-        return block.hashCode();
     }
 
     @Override

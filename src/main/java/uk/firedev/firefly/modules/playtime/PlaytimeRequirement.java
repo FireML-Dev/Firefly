@@ -5,7 +5,7 @@ import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.addons.requirement.RequirementAddon;
 import uk.firedev.daisylib.addons.requirement.RequirementData;
-import uk.firedev.daisylib.util.Utils;
+import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.firefly.Firefly;
 
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.List;
 public class PlaytimeRequirement extends RequirementAddon {
 
     @Override
-    public boolean checkRequirement(@NonNull RequirementData data, @NonNull List<String> values) {
-        Player player = data.getPlayer();
+    public boolean check(@NonNull RequirementData data, @NonNull List<String> values) {
+        Player player = data.player();
         if (player == null) {
             return false;
         }
         for (String value : values) {
-            if (!Utils.isLong(value)) {
+            if (!CommonUtils.isLong(value)) {
                 return false;
             }
             long playtimeNeeded = Long.parseLong(value);

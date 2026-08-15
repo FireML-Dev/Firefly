@@ -8,13 +8,14 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.util.Loggers;
+
+import uk.firedev.daisylib.logging.Logging;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
@@ -92,7 +93,7 @@ public class PlayerData {
                 try {
                     fireflyModule.save(this, database.getConnection());
                 } catch (SQLException exception) {
-                    Loggers.error(fireflyModule.getClass(), "Failed to save data", exception);
+                    Logging.logging(fireflyModule.getClass()).error("Failed to save data", exception);
                 }
             }
         });
@@ -137,7 +138,7 @@ public class PlayerData {
         }
         Component component = StringUtils.getColorOnlyComponent(finalName);
         ComponentSingleMessage componentMessage = ComponentMessage.componentMessage(component);
-        if (!componentMessage.matchesString(username)) {
+        if (!componentMessage.matches(username)) {
             component = component.hoverEvent(
                 HoverEvent.hoverEvent(
                     HoverEvent.Action.SHOW_TEXT,

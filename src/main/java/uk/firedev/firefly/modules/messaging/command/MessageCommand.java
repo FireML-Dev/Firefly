@@ -4,18 +4,19 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.messaging.MessagingConfig;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.List;
 
@@ -26,15 +27,15 @@ public class MessageCommand implements CommandHolder {
         return Commands.literal(MessagingConfig.getInstance().getMessageCommandName())
             .requires(stack -> MessagingModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .then(
-                Commands.argument("target", PlayerArgument.create())
+                Commands.argument("target", ArgumentTypes.player())
                     .then(
                         Commands.argument("message", StringArgumentType.greedyString())
                             .executes(context -> {
                                 Player player = CommandUtils.requirePlayer(context.getSource());
-                                if (player == null) {
-                                    return 1;
-                                }
-                                Player target = context.getArgument("target", Player.class);
+                                Player target = CommandUtils.parsePlayerArgument(
+                                    context.getSource(),
+                                    context.getArgument("target", PlayerSelectorArgumentResolver.class)
+                                );
                                 String string = context.getArgument("message", String.class);
                                 sendMessage(player, target, string);
                                 return 1;
@@ -82,7 +83,7 @@ public class MessageCommand implements CommandHolder {
 
     private void sendMessage(@NonNull Player sender, @NonNull Player target, @NonNull String str) {
         Component message = StringUtils.getColorOnlyComponent(str);
-        ComponentMessage msg = MessagingConfig.getInstance().getMessageFormat()
+        ComponentMessage<?, ?>  msg = MessagingConfig.getInstance().getMessageFormat()
             .replace("{sender}", getNickname(sender))
             .replace("{receiver}", getNickname(target))
             .replace("{message}", message);

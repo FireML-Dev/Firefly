@@ -18,10 +18,13 @@ repositories {
 
 dependencies {
     compileOnly(libs.paper.api)
-    compileOnly(libs.daisylib)
     compileOnly(libs.vault)
+    compileOnly(libs.luckperms)
     compileOnly(libs.placeholderapi)
-    compileOnly(libs.miniplaceholders)
+
+    implementation(libs.daisylib)
+    implementation(libs.triumphgui)
+    implementation(libs.customblockdata)
 }
 
 group = "uk.firedev"
@@ -33,35 +36,23 @@ paper {
     name = project.name
     version = project.version.toString()
     main = "uk.firedev.firefly.Firefly"
-    apiVersion = "26.1"
+    apiVersion = "26.2"
     author = "FireML"
     description = project.description.toString()
 
     serverDependencies {
-        register("Vault") {
-            required = false
+        register("LuckPerms") {
+            required = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
-        register("DaisyLib") {
-            required = true
+        register("Vault") {
+            required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
         register("PlaceholderAPI") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
-        register("MiniPlaceholders") {
-            required = false
-            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
-        }
-    }
-
-    permissions {
-        register("firefly.admin")
-        register("firefly.command.nickname.bypass.blacklist")
-        register("firefly.command.nickname.bypass.length")
-        register("firefly.command.nickname.colors")
-        register("firefly.command.nickname.unique")
     }
 
 }
@@ -101,6 +92,9 @@ tasks {
         archiveBaseName.set(project.name)
         archiveVersion.set(project.version.toString())
         archiveClassifier.set("")
+
+        relocate("uk.firedev.daisylib", "uk.firedev.firefly.libs.daisylib")
+        relocate("com.jeff_media.customblockdata", "uk.firedev.firefly.libs.customblockdata")
     }
     withType<JavaCompile> {
         options.encoding = "UTF-8"

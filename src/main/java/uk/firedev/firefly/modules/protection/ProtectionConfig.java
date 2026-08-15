@@ -1,13 +1,15 @@
 package uk.firedev.firefly.modules.protection;
 
+import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.config.BasicConfig;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.List;
 
-public class ProtectionConfig extends ConfigBase {
+public class ProtectionConfig extends BasicConfig {
 
     private static ProtectionConfig instance;
 
@@ -34,15 +36,15 @@ public class ProtectionConfig extends ConfigBase {
 
     // AMETHYST PROTECTION
 
-    public ComponentMessage getAmethystProtectEnabledMessage() {
-        return getComponentMessage("amethyst-protection.messages.enabled", "<color:#F0E68C>Enabled Amethyst Protection</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getAmethystProtectEnabledMessage() {
+        return getComponentMessage("amethyst-protection.messages.enabled", "<color:#F0E68C>Enabled Amethyst Protection</color>");
     }
 
-    public ComponentMessage getAmethystProtectDisabledMessage() {
-        return getComponentMessage("amethyst-protection.messages.disabled", "<color:#F0E68C>Disabled Amethyst Protection</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getAmethystProtectDisabledMessage() {
+        return getComponentMessage("amethyst-protection.messages.disabled", "<color:#F0E68C>Disabled Amethyst Protection</color>");
     }
 
-    public ComponentMessage getAmethystProtectProtectedMessage() {
+    public ComponentMessage<?, ?>  getAmethystProtectProtectedMessage() {
         return getComponentMessage(
             "amethyst-protection.messages.protected",
             List.of(
@@ -52,7 +54,12 @@ public class ProtectionConfig extends ConfigBase {
                 "<red>You can disable this with <click:run_command:'/amethystprotect'><u>/amethystprotect</u></click></red>",
                 ""
             )
-        ).replace(MessageConfig.getInstance().getPrefixReplacer());
+        );
+    }
+
+    @Override
+    public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
+        return super.getComponentMessage(path, def).replace("{prefix}", MessageConfig.getInstance().getPrefix());
     }
 
 }

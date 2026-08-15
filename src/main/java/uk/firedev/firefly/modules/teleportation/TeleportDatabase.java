@@ -2,7 +2,7 @@ package uk.firedev.firefly.modules.teleportation;
 
 import org.bukkit.Location;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.util.JsonStorage;
+import uk.firedev.daisylib.utils.JsonStorage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;

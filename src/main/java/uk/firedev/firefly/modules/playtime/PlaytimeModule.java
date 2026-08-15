@@ -6,15 +6,17 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.util.Loggers;
-import uk.firedev.daisylib.util.DurationFormatter;
+import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
-import uk.firedev.firefly.placeholders.Placeholders;
+import uk.firedev.firefly.modules.playtime.placeholders.PlaytimePlaceholder;
+import uk.firedev.firefly.modules.playtime.placeholders.PlaytimeRawPlaceholder;
+import uk.firedev.firefly.placeholders.FireflyPlaceholder;
+import uk.firedev.firefly.placeholders.FireflyPlaceholders;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,6 +59,7 @@ public class PlaytimeModule implements Module {
         new PlaytimeRequirement().register();
         startScheduler();
         new PlaytimeCommand().initCommand();
+        registerPlaceholders();
     }
 
     @Override
@@ -71,28 +74,9 @@ public class PlaytimeModule implements Module {
         stopScheduler();
     }
 
-    @Override
-    public void registerPlaceholders() {
-        Placeholders.manageProvider(provider -> {
-            provider.addAudiencePlaceholder("playtime", audience -> {
-                if (!isConfigEnabled()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return getTimeFormatted(player);
-            });
-            provider.addAudiencePlaceholder("playtime_raw", audience -> {
-                if (!isConfigEnabled()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return Component.text(getTime(player));
-            });
-        });
+    private void registerPlaceholders() {
+        FireflyPlaceholders.get().add(new PlaytimePlaceholder(this));
+        FireflyPlaceholders.get().add(new PlaytimeRawPlaceholder(this));
     }
 
     // Playtime Management
@@ -154,7 +138,7 @@ public class PlaytimeModule implements Module {
         return data.getPlaytime();
     }
 
-    public Component getTimeFormatted(@NonNull OfflinePlayer player) {
+    public String getTimeFormatted(@NonNull OfflinePlayer player) {
         return new DurationFormatter(TimeUnit.SECONDS).format(getTime(player));
     }
 
@@ -176,7 +160,7 @@ public class PlaytimeModule implements Module {
                 resultSet.close();
                 return top;
             } catch (SQLException exception) {
-                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to fetch top playtime data", exception);
+                Firefly.getInstance().getLogging().error("Failed to fetch top playtime data", exception);
                 return new TreeMap<>();
             }
         });

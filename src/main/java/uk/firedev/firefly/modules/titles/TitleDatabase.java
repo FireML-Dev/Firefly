@@ -5,8 +5,8 @@ import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -62,7 +62,7 @@ public class TitleDatabase implements FireflyDatabaseModule {
             ComponentSingleMessage prefix = data.getPrefix();
             String prefixStr = null;
             if (prefix != null) {
-                prefixStr = prefix.getAsMiniMessage();
+                prefixStr = prefix.getMiniMessage();
             }
             ps.setString(1, prefixStr);
 
@@ -70,7 +70,7 @@ public class TitleDatabase implements FireflyDatabaseModule {
             ComponentSingleMessage suffix = data.getSuffix();
             String suffixStr = null;
             if (suffix != null) {
-                suffixStr = suffix.getAsMiniMessage();
+                suffixStr = suffix.getMiniMessage();
             }
             ps.setString(2, suffixStr);
 

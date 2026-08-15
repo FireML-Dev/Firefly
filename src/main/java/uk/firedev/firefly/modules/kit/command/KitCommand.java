@@ -4,11 +4,12 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitGui;
@@ -24,9 +25,6 @@ public class KitCommand implements CommandHolder {
             .requires(stack -> KitModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 new KitGui(player).open();
                 return 1;
             })
@@ -74,12 +72,9 @@ public class KitCommand implements CommandHolder {
     private ArgumentBuilder<CommandSourceStack, ?> getArg() {
         return Commands.literal("get")
             .then(
-                Commands.argument("kit", KitArgument.create((player, kit) -> kit.isPlayerVisible()))
+                Commands.argument("kit", KitArgument.create((_, kit) -> kit.isPlayerVisible()))
                     .executes(context -> {
                         Player player = CommandUtils.requirePlayer(context.getSource());
-                        if (player == null) {
-                            return 1;
-                        }
                         Kit kit = context.getArgument("kit", Kit.class);
                         kit.giveToPlayerWithCooldown(player, null);
                         return 1;
@@ -93,10 +88,13 @@ public class KitCommand implements CommandHolder {
             .then(
                 Commands.argument("kit", KitArgument.create())
                     .then(
-                        Commands.argument("player", PlayerArgument.create())
+                        Commands.argument("player", ArgumentTypes.player())
                             .executes(context -> {
                                 Kit kit = context.getArgument("kit", Kit.class);
-                                Player target = context.getArgument("player", Player.class);
+                                Player target = CommandUtils.parsePlayerArgument(
+                                    context.getSource(),
+                                    context.getArgument("player", PlayerSelectorArgumentResolver.class)
+                                );
                                 kit.giveToPlayer(target, context.getSource().getSender());
                                 return 1;
                             })

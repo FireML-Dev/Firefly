@@ -13,27 +13,24 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.util.Loggers;
-import uk.firedev.daisylib.builders.ItemBuilder;
-import uk.firedev.daisylib.recipe.AbstractRecipe;
+
+import uk.firedev.daisylib.recipe.AbstractConfigRecipe;
 import uk.firedev.daisylib.recipe.RecipeUtil;
-import uk.firedev.daisylib.util.PlayerHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.elevator.command.ElevatorCommand;
+import uk.firedev.firefly.modules.elevator.placeholders.ElevatorLevelPlaceholder;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
-import uk.firedev.firefly.placeholders.Placeholders;
-
-import java.util.ArrayList;
-import java.util.List;
+import uk.firedev.firefly.placeholders.FireflyPlaceholders;
+import uk.firedev.firefly.utils.ItemBuilder;
 
 public class ElevatorModule implements Module {
 
     private static ElevatorModule instance;
     private final Firefly plugin;
-    private AbstractRecipe<?> recipe = null;
+    private AbstractConfigRecipe<?> recipe = null;
 
     private ElevatorModule() {
         plugin = Firefly.getInstance();
@@ -62,6 +59,7 @@ public class ElevatorModule implements Module {
         pm.registerEvents(new ElevatorListener(), this.plugin);
         registerRecipe();
         new ElevatorCommand().initCommand();
+        registerPlaceholders();
     }
 
     @Override
@@ -73,23 +71,8 @@ public class ElevatorModule implements Module {
     @Override
     public void unload() {}
 
-    @Override
-    public void registerPlaceholders() {
-        Placeholders.manageProvider(provider ->
-            provider.addAudiencePlaceholder("elevator_level", audience -> {
-                if (!isConfigEnabled()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                Block block = PlayerHelper.getPlayerStandingOn(player);
-                Elevator elevator = new Elevator(block);
-                if (!elevator.isElevator()) {
-                    return Component.text("N/A");
-                }
-                return Component.text(elevator.getCurrentPosition());
-            }));
+    private void registerPlaceholders() {
+        FireflyPlaceholders.get().add(new ElevatorLevelPlaceholder(this));
     }
 
     public void teleportPlayer(@NonNull Player player, @Nullable Elevator elevator) {
@@ -154,17 +137,17 @@ public class ElevatorModule implements Module {
         }
         ConfigurationSection section = ElevatorConfig.getInstance().getConfig().getConfigurationSection("item.recipe");
         if (section == null) {
-            Loggers.info(Firefly.getInstance().getComponentLogger(), "Elevator recipe not configured.");
+            Firefly.getInstance().getLogging().info("Elevator recipe not configured.");
             return;
         }
-        AbstractRecipe<?> recipe = RecipeUtil.getRecipe(section, getItemKey(), getElevatorBlock());
+        AbstractConfigRecipe<?> recipe = RecipeUtil.getRecipe(section, getItemKey(), getElevatorBlock());
         if (recipe == null) {
-            Loggers.info(Firefly.getInstance().getComponentLogger(), "Elevator recipe invalid.");
+            Firefly.getInstance().getLogging().info("Elevator recipe invalid.");
             return;
         }
         recipe.register();
         this.recipe = recipe;
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Registered Elevator Recipe");
+        Firefly.getInstance().getLogging().info("Registered Elevator Recipe");
     }
 
 }

@@ -3,11 +3,9 @@ package uk.firedev.firefly.database;
 import org.bukkit.Bukkit;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.util.Loggers;
 import uk.firedev.daisylib.database.DatabaseModule;
 import uk.firedev.daisylib.database.SQLiteDatabase;
 import uk.firedev.daisylib.database.exceptions.DatabaseLoadException;
-import uk.firedev.daisylib.util.PlayerHelper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 
@@ -40,7 +38,7 @@ public class Database extends SQLiteDatabase {
             data.save();
             if (data.canUnload()) {
                 iterator.remove();
-                Loggers.info(Firefly.getInstance().getComponentLogger(), "Unloaded PlayerData for " + data.getUuid());
+                Firefly.getInstance().getLogging().info("Unloaded PlayerData for " + data.getUuid());
             }
         }
     }
@@ -57,8 +55,8 @@ public class Database extends SQLiteDatabase {
     }
 
     @Override
-    public long getAutoSaveSeconds() {
-        return MainConfig.getInstance().getDatabaseSaveInterval();
+    public Optional<Long> getAutoSaveSeconds() {
+        return Optional.of(MainConfig.getInstance().getDatabaseSaveInterval());
     }
 
     public void loadPlayerData(@NonNull UUID uuid) {
@@ -75,9 +73,9 @@ public class Database extends SQLiteDatabase {
             }
             set.close();
             playerDataCache.put(uuid, data);
-            Loggers.info(Firefly.getInstance().getComponentLogger(), "Loaded PlayerData for " + uuid);
+            Firefly.getInstance().getLogging().info("Loaded PlayerData for " + uuid);
         } catch (SQLException exception) {
-            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to load player data for " + uuid, exception);
+            Firefly.getInstance().getLogging().error("Failed to load player data for " + uuid, exception);
         }
     }
 
@@ -87,12 +85,12 @@ public class Database extends SQLiteDatabase {
             return;
         }
         cachedData.save();
-        Loggers.info(Firefly.getInstance().getComponentLogger(), "Unloaded PlayerData for " + uuid);
+        Firefly.getInstance().getLogging().info("Unloaded PlayerData for " + uuid);
     }
 
     public @Nullable PlayerData getPlayerData(@NonNull UUID uuid) {
         // Player has never joined the server
-        if (PlayerHelper.getOfflinePlayer(uuid) == null) {
+        if (Bukkit.getOfflinePlayer(uuid).getFirstPlayed() == 0) {
             return null;
         }
         PlayerData data = playerDataCache.get(uuid);
@@ -120,7 +118,7 @@ public class Database extends SQLiteDatabase {
             ps.setString(1, uuid.toString());
             ps.executeUpdate();
         } catch (SQLException exception) {
-            Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to create player data for " + uuid, exception);
+            Firefly.getInstance().getLogging().error("Failed to create player data for " + uuid, exception);
         }
     }
 

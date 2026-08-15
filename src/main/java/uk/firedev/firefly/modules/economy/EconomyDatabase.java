@@ -2,10 +2,8 @@ package uk.firedev.firefly.modules.economy;
 
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.database.DatabaseModule;
-import uk.firedev.daisylib.util.Loggers;
-import uk.firedev.daisylib.util.ReadOnlyPair;
-import uk.firedev.daisylib.util.Utils;
+
+import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
@@ -18,11 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
@@ -58,7 +52,7 @@ public class EconomyDatabase implements FireflyDatabaseModule {
         if (balance == null) {
             return;
         }
-        Double value = Utils.getDouble(balance);
+        Double value = CommonUtils.getDouble(balance);
         if (value != null) {
             data.setBalance(value);
         }
@@ -91,7 +85,7 @@ public class EconomyDatabase implements FireflyDatabaseModule {
                     }
                 }
             } catch (SQLException exception) {
-                Loggers.error(Firefly.getInstance().getComponentLogger(), "Failed to fetch baltop.", exception);
+                Firefly.getInstance().getLogging().error("Failed to fetch baltop.", exception);
                 return Stream.of();
             }
             return list.stream().sorted(comparator);

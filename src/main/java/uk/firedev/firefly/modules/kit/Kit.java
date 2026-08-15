@@ -1,22 +1,23 @@
 package uk.firedev.firefly.modules.kit;
 
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.user.User;
+import net.luckperms.api.util.Tristate;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ItemType;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.addons.reward.RewardAddon;
+import uk.firedev.daisylib.addons.reward.Reward;
 import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
-import uk.firedev.daisylib.builders.ItemBuilder;
-import uk.firedev.daisylib.util.CooldownHelper;
-import uk.firedev.daisylib.util.Utils;
-import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
-import uk.firedev.daisylib.util.VaultManager;
+import uk.firedev.daisylib.messages.replacer.Replacer;
+import uk.firedev.daisylib.utils.CooldownHelper;
+import uk.firedev.firefly.utils.ItemBuilder;
 
 import java.time.Duration;
 import java.util.List;
@@ -72,15 +73,13 @@ public class Kit {
 
     public boolean isPlayerVisible() { return playerVisible; }
 
-    public boolean hasPermission(@NonNull Player player) {
+    public boolean hasPermission(@NonNull OfflinePlayer player) {
         if (this.permission.isEmpty()) {
             return true;
         }
-        if (VaultManager.getInstance().getPermissions() == null) {
-            return player.hasPermission(this.permission);
-        } else {
-            return VaultManager.getInstance().getPermissions().has(player, this.permission);
-        }
+        UUID uuid = player.getUniqueId();
+        User user = LuckPermsProvider.get().getUserManager().loadUser(uuid).join(); // Potentially icky but we need the data synchronously so no choice.
+        return user.getCachedData().getPermissionData().checkPermission(permission) == Tristate.TRUE;
     }
 
     public ItemStack buildItem() {
@@ -100,10 +99,14 @@ public class Kit {
         if (singleRandomReward()) {
             int index = random.nextInt(rewardList.size());
             String random = rewardList.get(index);
-            RewardAddonRegistry.get().processString(random, player);
+            giveReward(random, player);
         } else {
-            rewardList.forEach(reward -> RewardAddonRegistry.get().processString(reward, player));
+            rewardList.forEach(reward -> giveReward(reward, player));
         }
+    }
+
+    private void giveReward(@NonNull String identifier, @NonNull Player player) {
+        new Reward(identifier).give(player, player.getLocation());
     }
 
     public boolean isOnCooldown(@NonNull UUID uuid) {

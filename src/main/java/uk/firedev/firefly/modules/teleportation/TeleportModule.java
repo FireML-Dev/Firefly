@@ -8,7 +8,7 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.util.Loggers;
+
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.ModuleConfig;
@@ -110,7 +110,7 @@ public class TeleportModule implements Module {
             if (sendMessage) {
                 TeleportConfig.getInstance().getLocationInvalidMessage().send(player);
             }
-            Loggers.warn(Firefly.getInstance().getComponentLogger(), invalid);
+            Firefly.getInstance().getLogging().warn(invalid);
             return false;
         }
         int warmup = firstSpawn ? 0 : TeleportConfig.getInstance().getSpawnWarmupSeconds();

@@ -1,13 +1,12 @@
 package uk.firedev.firefly.config;
 
-import uk.firedev.daisylib.config.ConfigBase;
+import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.config.BasicConfig;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
-import static uk.firedev.daisylib.libs.messagelib.message.ComponentMessage.componentMessage;
-
-public class MessageConfig extends ConfigBase {
+public class MessageConfig extends BasicConfig {
 
     private static MessageConfig instance = null;
 
@@ -22,50 +21,51 @@ public class MessageConfig extends ConfigBase {
         return instance;
     }
 
-    public Replacer getPrefixReplacer() {
-        return Replacer.replacer().addReplacement("{prefix}", getPrefix());
-    }
-
     // General Messages
 
-    public ComponentMessage getPrefix() {
-        return getComponentMessage("prefix", "<gray>[Firefly]</gray> ");
+    public ComponentSingleMessage getPrefix() {
+        return super.getComponentMessage("prefix", "<gray>[Firefly]</gray> ").toSingleMessage();
     }
 
-    public ComponentMessage getPlayerNotFoundMessage() {
-        return getComponentMessage("player-not-found", "<red>Player not found.").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getPlayerNotFoundMessage() {
+        return getComponentMessage("player-not-found", "<red>Player not found.");
     }
 
-    public ComponentMessage getErrorOccurredMessage() {
-        return getComponentMessage("error-occurred", "<red>An error has occurred. Please try again.").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getErrorOccurredMessage() {
+        return getComponentMessage("error-occurred", "<red>An error has occurred. Please try again.");
     }
 
-    public ComponentMessage getFeatureDisabledMessage() {
-        return getComponentMessage("feature-disabled", "{prefix}<red>This feature is disabled.").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getFeatureDisabledMessage() {
+        return getComponentMessage("feature-disabled", "{prefix}<red>This feature is disabled.");
     }
 
     // Main Command Messages
 
-    public ComponentMessage getMainCommandReloadedMessage() {
-        return getComponentMessage("main-command.reloaded", "{prefix}<color:#F0E68C>Successfully reloaded the plugin").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getMainCommandReloadedMessage() {
+        return getComponentMessage("main-command.reloaded", "{prefix}<color:#F0E68C>Successfully reloaded the plugin");
     }
 
     // Teleport Warmup Messages
 
-    public ComponentMessage getTeleportWarmupCompleteMessage() {
-        return getComponentMessage("teleport-warmup.complete", "{prefix}<#F0E68C>Successfully teleported!").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getTeleportWarmupCompleteMessage() {
+        return getComponentMessage("teleport-warmup.complete", "{prefix}<#F0E68C>Successfully teleported!");
     }
 
-    public ComponentMessage getTeleportWarmupMessage() {
-        return getComponentMessage("teleport-warmup.warmup", "{prefix}<#F0E68C>Teleporting in {time} seconds.").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getTeleportWarmupMessage() {
+        return getComponentMessage("teleport-warmup.warmup", "{prefix}<#F0E68C>Teleporting in {time} seconds.");
     }
 
-    public ComponentMessage getTeleportWarmupCancelledMessage() {
-        return getComponentMessage("teleport-warmup.cancelled", "{prefix}<red>Teleportation cancelled.").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getTeleportWarmupCancelledMessage() {
+        return getComponentMessage("teleport-warmup.cancelled", "{prefix}<red>Teleportation cancelled.");
     }
 
-    public ComponentMessage getTeleportWarmupAlreadyTeleportingMessage() {
-        return getComponentMessage("teleport-warmup.already-teleporting", "{prefix}<red>You are already teleporting somewhere!").replace(getPrefixReplacer());
+    public ComponentMessage<?, ?>  getTeleportWarmupAlreadyTeleportingMessage() {
+        return getComponentMessage("teleport-warmup.already-teleporting", "{prefix}<red>You are already teleporting somewhere!");
+    }
+
+    @Override
+    public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
+        return super.getComponentMessage(path, def).replace("{prefix}", getPrefix());
     }
 
 }

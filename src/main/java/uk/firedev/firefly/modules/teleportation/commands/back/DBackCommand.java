@@ -3,13 +3,14 @@ package uk.firedev.firefly.modules.teleportation.commands.back;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.selector.PlayerSelectorArgumentResolver;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.PlayerArgument;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
@@ -25,17 +26,17 @@ public class DBackCommand implements CommandHolder {
             .requires(stack -> TeleportModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 teleportPlayer(player, player);
                 return 1;
             })
             .then(
-                Commands.argument("target", PlayerArgument.create())
+                Commands.argument("target", ArgumentTypes.player())
                     .requires(stack -> stack.getSender().hasPermission(targetPermission()))
                     .executes(context -> {
-                        Player target = context.getArgument("target", Player.class);
+                        Player target = CommandUtils.parsePlayerArgument(
+                            context.getSource(),
+                            context.getArgument("target", PlayerSelectorArgumentResolver.class)
+                        );
                         teleportPlayer(context.getSource().getSender(), target);
                         return 1;
                     })

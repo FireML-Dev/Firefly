@@ -7,17 +7,17 @@ import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.JoinConfiguration;
 import net.kyori.adventure.text.format.NamedTextColor;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.ModuleManager;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentSingleMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FireflyCommand {
 
-    public LiteralCommandNode<CommandSourceStack> get() {
+    public static LiteralCommandNode<CommandSourceStack> get() {
         return Commands.literal("firefly")
             .requires(stack -> stack.getSender().hasPermission("firefly.command.main"))
             .then(reload())

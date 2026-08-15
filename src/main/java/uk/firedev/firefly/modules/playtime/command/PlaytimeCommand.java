@@ -5,6 +5,8 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import io.papermc.paper.command.brigadier.argument.resolvers.PlayerProfileListResolver;
 import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -12,12 +14,10 @@ import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
-import uk.firedev.daisylib.command.argument.OfflinePlayerArgument;
-import uk.firedev.daisylib.util.PlayerHelper;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.playtime.PlaytimeConfig;
 import uk.firedev.firefly.modules.playtime.PlaytimeModule;
-import uk.firedev.daisylib.libs.messagelib.replacer.Replacer;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 
 import java.util.List;
 import java.util.Map;
@@ -31,9 +31,6 @@ public class PlaytimeCommand implements CommandHolder {
             .requires(stack -> PlaytimeModule.getInstance().isConfigEnabled() && stack.getSender().hasPermission(permission()))
             .executes(context -> {
                 Player player = CommandUtils.requirePlayer(context.getSource());
-                if (player == null) {
-                    return 1;
-                }
                 sendPlaytime(player, player);
                 return 1;
             })
@@ -86,11 +83,14 @@ public class PlaytimeCommand implements CommandHolder {
         return Commands.literal("set")
             .requires(stack -> stack.getSender().hasPermission(setPermission()))
             .then(
-                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                Commands.argument("target", ArgumentTypes.playerProfiles())
                     .then(
                         Commands.argument("playtime", LongArgumentType.longArg(0))
                             .executes(context -> {
-                                OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
+                                OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                                    context.getSource(),
+                                    context.getArgument("target", PlayerProfileListResolver.class)
+                                );
                                 long newPlaytime = context.getArgument("playtime", long.class);
                                 PlaytimeModule.getInstance().setTime(target, newPlaytime);
                                 sendSetPlaytimeMessage(context.getSource().getSender(), target);
@@ -103,9 +103,12 @@ public class PlaytimeCommand implements CommandHolder {
     private ArgumentBuilder<CommandSourceStack, ?> check() {
         return Commands.literal("check")
             .then(
-                Commands.argument("target", OfflinePlayerArgument.create(PlayerHelper::hasPlayerBeenOnServer))
+                Commands.argument("target", ArgumentTypes.playerProfiles())
                     .executes(context -> {
-                        OfflinePlayer target = context.getArgument("target", OfflinePlayer.class);
+                        OfflinePlayer target = CommandUtils.parsePlayerProfileArgument(
+                            context.getSource(),
+                            context.getArgument("target", PlayerProfileListResolver.class)
+                        );
                         sendPlaytime(context.getSource().getSender(), target);
                         return 1;
                     })
@@ -124,7 +127,7 @@ public class PlaytimeCommand implements CommandHolder {
 
     private void sendSetPlaytimeMessage(@NonNull CommandSender admin, @NonNull OfflinePlayer target) {
         Player player = target.getPlayer();
-        Component formattedTime = PlaytimeModule.getInstance().getTimeFormatted(target);
+        String formattedTime = PlaytimeModule.getInstance().getTimeFormatted(target);
         if (player != null) {
             PlaytimeConfig.getInstance().getAdminSetPlaytimeMessage()
                 .replace("{playtime}", formattedTime)

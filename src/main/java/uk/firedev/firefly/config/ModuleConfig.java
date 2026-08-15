@@ -1,10 +1,11 @@
 package uk.firedev.firefly.config;
 
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.config.BasicConfig;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
-public class ModuleConfig extends ConfigBase {
+public class ModuleConfig extends BasicConfig {
 
     private static ModuleConfig instance = null;
 

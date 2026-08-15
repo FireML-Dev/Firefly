@@ -2,19 +2,21 @@ package uk.firedev.firefly.modules.titles;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-import uk.firedev.daisylib.util.Loggers;
+
+import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.config.BasicConfig;
 import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TitleConfig extends ConfigBase {
+public class TitleConfig extends BasicConfig {
 
     private static TitleConfig instance;
 
@@ -39,7 +41,7 @@ public class TitleConfig extends ConfigBase {
             try {
                 prefixes.add(new Prefix(prefixSection));
             } catch (InvalidConfigurationException ex) {
-                Loggers.logException(Firefly.getInstance().getComponentLogger(), ex);
+                Firefly.getInstance().getLogging().exception(ex);
             }
         });
         return prefixes;
@@ -55,7 +57,7 @@ public class TitleConfig extends ConfigBase {
             try {
                 suffixes.add(new Suffix(prefixSection));
             } catch (InvalidConfigurationException ex) {
-                Loggers.logException(Firefly.getInstance().getComponentLogger(), ex);
+                Firefly.getInstance().getLogging().exception(ex);
             }
         });
         return suffixes;
@@ -63,28 +65,33 @@ public class TitleConfig extends ConfigBase {
 
     // TITLE MESSAGES
 
-    public ComponentMessage getPrefixSetMessage() {
-        return getComponentMessage("messages.prefix-set", "<color:#F0E68C>Applied Prefix {prefix}.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getPrefixSetMessage() {
+        return getComponentMessage("messages.prefix-set", "<color:#F0E68C>Applied Prefix {prefix}.</color>");
     }
 
-    public ComponentMessage getPrefixRemovedMessage() {
-        return getComponentMessage("messages.prefix-removed", "<red>Removed Current Prefix.</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getPrefixRemovedMessage() {
+        return getComponentMessage("messages.prefix-removed", "<red>Removed Current Prefix.</red>");
     }
 
-    public ComponentMessage getPrefixDisplayMessage() {
-        return getComponentMessage("messages.prefix-display", "<color:#F0E68C>Current Prefix: <white>{prefix}").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getPrefixDisplayMessage() {
+        return getComponentMessage("messages.prefix-display", "<color:#F0E68C>Current Prefix: <white>{prefix}");
     }
 
-    public ComponentMessage getSuffixSetMessage() {
-        return getComponentMessage("messages.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getSuffixSetMessage() {
+        return getComponentMessage("messages.suffix-set", "<color:#F0E68C>Applied Suffix {suffix}.</color>");
     }
 
-    public ComponentMessage getSuffixRemovedMessage() {
-        return getComponentMessage("messages.suffix-removed", "<red>Removed Current Suffix.</red>").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getSuffixRemovedMessage() {
+        return getComponentMessage("messages.suffix-removed", "<red>Removed Current Suffix.</red>");
     }
 
-    public ComponentMessage getSuffixDisplayMessage() {
-        return getComponentMessage("messages.suffix-display", "<color:#F0E68C>Current Suffix: <white>{suffix}").replace(MessageConfig.getInstance().getPrefixReplacer());
+    public ComponentMessage<?, ?>  getSuffixDisplayMessage() {
+        return getComponentMessage("messages.suffix-display", "<color:#F0E68C>Current Suffix: <white>{suffix}");
+    }
+    
+    @Override
+    public ComponentMessage<?, ?> getComponentMessage(@NonNull String path, @NonNull Object def) {
+        return super.getComponentMessage(path, def).replace("{prefix}", MessageConfig.getInstance().getPrefix());
     }
 
 }

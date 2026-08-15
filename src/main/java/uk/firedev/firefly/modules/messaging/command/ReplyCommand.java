@@ -14,7 +14,7 @@ import uk.firedev.firefly.modules.messaging.MessagingConfig;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.daisylib.libs.messagelib.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class ReplyCommand implements CommandHolder {
         }
 
         Component message = StringUtils.getColorOnlyComponent(str);
-        ComponentMessage msg = MessagingConfig.getInstance().getMessageFormat()
+        ComponentMessage<?, ?>  msg = MessagingConfig.getInstance().getMessageFormat()
             .replace("{sender}", getNickname(sender))
             .replace("{receiver}", getNickname(target))
             .replace("{message}", message);

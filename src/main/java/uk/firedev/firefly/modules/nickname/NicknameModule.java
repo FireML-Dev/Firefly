@@ -1,21 +1,19 @@
 package uk.firedev.firefly.modules.nickname;
 
-import io.papermc.paper.command.brigadier.Commands;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.util.Loggers;
+
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;
-import uk.firedev.firefly.placeholders.Placeholders;
-
-import java.util.Objects;
+import uk.firedev.firefly.modules.nickname.placeholders.PlayerNicknamePlaceholder;
+import uk.firedev.firefly.placeholders.FireflyPlaceholders;
 
 public class NicknameModule implements Module {
 
@@ -51,6 +49,7 @@ public class NicknameModule implements Module {
     public void init() {
         NicknameDatabase.getInstance().register(Firefly.getInstance().getDatabase());
         new NicknameCommand().initCommand();
+        registerPlaceholders();
     }
 
     @Override
@@ -63,18 +62,8 @@ public class NicknameModule implements Module {
         Bukkit.getOnlinePlayers().forEach(player -> player.displayName(null));
     }
 
-    @Override
-    public void registerPlaceholders() {
-        Placeholders.manageProvider(provider ->
-            provider.addAudiencePlaceholder("player_nickname", audience -> {
-                if (!isConfigEnabled()) {
-                    return MessageConfig.getInstance().getFeatureDisabledMessage().toSingleMessage().get();
-                }
-                if (!(audience instanceof Player player)) {
-                    return Component.text("Player is not available.");
-                }
-                return getNickname(player);
-            }));
+    private void registerPlaceholders() {
+        FireflyPlaceholders.get().add(new PlayerNicknamePlaceholder(this));
     }
 
     // Nickname Management
