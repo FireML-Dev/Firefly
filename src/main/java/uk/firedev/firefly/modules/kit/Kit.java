@@ -83,7 +83,7 @@ public class Kit {
 
     public ItemStack buildItem() {
         ConfigurationSection itemSection = config.getConfigurationSection("item");
-        return ItemBuilder.fromConfigWithBaseItem(ItemStack.of(Material.SHULKER_BOX), itemSection, null, null)
+        return ItemBuilder.fromConfig(itemSection, null, null)
             .editItem(item -> {
                 item.editPersistentDataContainer(pdc ->
                     pdc.set(KitModule.getInstance().getKitKey(), PersistentDataType.STRING, getName())
@@ -131,10 +131,10 @@ public class Kit {
 
     public void giveToPlayer(@NonNull Player player, @Nullable CommandSender sender) {
         player.give(buildItem());
-        Replacer replacer = Replacer.replacer().addReplacement("kit", getName());
+        Replacer replacer = Replacer.replacer().addReplacement("{kit}", getName());
         KitConfig.getInstance().getAwardedReceiverMessage().replace(replacer).send(player);
         if (sender != null && sender != player) {
-            replacer = replacer.addReplacement("player", player.getName());
+            replacer = replacer.addReplacement("{player}", player.getName());
             KitConfig.getInstance().getAwardedCommandMessage().replace(replacer).send(sender);
         }
     }
