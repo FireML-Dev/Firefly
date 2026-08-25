@@ -12,8 +12,10 @@ repositories {
     gradlePluginPortal()
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.codemc.io/repository/FireML/")
-    maven("https://jitpack.io")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.codemc.io/repository/EvenMoreFish/")
+
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -21,6 +23,7 @@ dependencies {
     compileOnly(libs.vault)
     compileOnly(libs.luckperms)
     compileOnly(libs.placeholderapi)
+    compileOnly(libs.evenmorefish)
 
     implementation(libs.daisylib)
     implementation(libs.triumphgui)
@@ -41,6 +44,10 @@ paper {
     description = project.description.toString()
 
     serverDependencies {
+        register("EvenMoreFish") {
+            required = true
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
         register("LuckPerms") {
             required = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE

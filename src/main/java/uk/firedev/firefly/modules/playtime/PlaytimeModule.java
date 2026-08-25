@@ -1,21 +1,17 @@
 package uk.firedev.firefly.modules.playtime;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.utils.DurationFormatter;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.playtime.command.PlaytimeCommand;
 import uk.firedev.firefly.modules.playtime.placeholders.PlaytimePlaceholder;
 import uk.firedev.firefly.modules.playtime.placeholders.PlaytimeRawPlaceholder;
-import uk.firedev.firefly.placeholders.FireflyPlaceholder;
 import uk.firedev.firefly.placeholders.FireflyPlaceholders;
 
 import java.sql.PreparedStatement;

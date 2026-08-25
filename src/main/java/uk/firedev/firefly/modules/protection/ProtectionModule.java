@@ -1,11 +1,8 @@
 package uk.firedev.firefly.modules.protection;
 
-import io.papermc.paper.command.brigadier.Commands;
-import org.jspecify.annotations.NonNull;
 import uk.firedev.firefly.Module;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.config.ModuleConfig;
-import uk.firedev.firefly.modules.ModuleManager;
 import uk.firedev.firefly.modules.protection.protections.AmethystProtection;
 import uk.firedev.firefly.modules.protection.protections.LootChestProtection;
 

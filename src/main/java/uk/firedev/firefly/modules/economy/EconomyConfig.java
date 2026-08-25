@@ -5,18 +5,13 @@ import net.kyori.adventure.text.object.ObjectContents;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.BasicConfig;
-import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
-
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.economy.baltop.BaltopEntry;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Optional;
 
 public class EconomyConfig extends BasicConfig {

@@ -1,6 +1,7 @@
 package uk.firedev.firefly.utils;
 
 import com.destroystokyo.paper.profile.ProfileProperty;
+import com.oheers.fish.api.config.serializer.ItemSerializer;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import io.papermc.paper.datacomponent.item.ItemEnchantments;
 import io.papermc.paper.datacomponent.item.ItemLore;
@@ -18,7 +19,6 @@ import org.bukkit.inventory.ItemType;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.config.serializer.ItemSerializer;
 import uk.firedev.daisylib.messages.message.ComponentListMessage;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
@@ -282,7 +282,7 @@ public class ItemBuilder {
         }
         String itemStr = section.getString("material", section.getString("item-type"));
         ItemStack item = ItemSerializer.get().deserialize(itemStr);
-        if (item == null) {
+        if (item == null || item.isEmpty()) {
             return new ItemBuilder(ItemType.AIR);
         }
         return fromConfigWithBaseItem(item, section, displayReplacer, loreReplacer);

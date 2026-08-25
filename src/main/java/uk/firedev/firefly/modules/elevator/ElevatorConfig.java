@@ -4,11 +4,11 @@ import net.kyori.adventure.bossbar.BossBar;
 import net.kyori.adventure.text.Component;
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.BasicConfig;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
-import uk.firedev.daisylib.messages.replacer.Replacer;
 
 import java.util.Map;
 

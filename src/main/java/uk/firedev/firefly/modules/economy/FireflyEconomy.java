@@ -1,8 +1,6 @@
 package uk.firedev.firefly.modules.economy;
 
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import uk.firedev.daisylib.external.vault.SimpleEconomy;
 import uk.firedev.firefly.database.PlayerData;

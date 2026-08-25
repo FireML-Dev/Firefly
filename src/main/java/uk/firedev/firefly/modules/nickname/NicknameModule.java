@@ -3,12 +3,9 @@ package uk.firedev.firefly.modules.nickname;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.database.PlayerData;
 import uk.firedev.firefly.modules.nickname.command.NicknameCommand;

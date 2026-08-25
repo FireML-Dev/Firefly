@@ -1,6 +1,5 @@
 package uk.firedev.firefly.modules.titles.placeholders;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;

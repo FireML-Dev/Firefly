@@ -1,7 +1,6 @@
 package uk.firedev.firefly.config;
 
 import uk.firedev.daisylib.config.BasicConfig;
-import uk.firedev.daisylib.config.ConfigBase;
 import uk.firedev.firefly.Firefly;
 
 import java.time.Duration;

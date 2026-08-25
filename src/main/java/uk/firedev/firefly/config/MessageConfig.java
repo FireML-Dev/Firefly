@@ -2,9 +2,9 @@ package uk.firedev.firefly.config;
 
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.BasicConfig;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 import uk.firedev.firefly.Firefly;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 public class MessageConfig extends BasicConfig {
 

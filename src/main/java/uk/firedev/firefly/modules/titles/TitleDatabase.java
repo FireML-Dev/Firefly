@@ -1,12 +1,12 @@
 package uk.firedev.firefly.modules.titles;
 
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.database.Database;
 import uk.firedev.firefly.database.FireflyDatabaseModule;
 import uk.firedev.firefly.database.PlayerData;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
-import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -13,7 +13,6 @@ import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.teleportation.TeleportModule;
 
 import java.util.List;
-import java.util.Objects;
 
 public class SpawnCommand implements CommandHolder {
 

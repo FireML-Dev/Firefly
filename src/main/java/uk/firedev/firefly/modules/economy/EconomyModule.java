@@ -1,9 +1,6 @@
 package uk.firedev.firefly.modules.economy;
 
-import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
-
 import uk.firedev.daisylib.external.vault.VaultWrapper;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;

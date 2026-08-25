@@ -2,15 +2,13 @@ package uk.firedev.firefly.modules.titles;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
-
 import org.jspecify.annotations.NonNull;
 import uk.firedev.daisylib.config.BasicConfig;
-import uk.firedev.daisylib.config.ConfigBase;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.modules.titles.objects.Prefix;
 import uk.firedev.firefly.modules.titles.objects.Suffix;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.ArrayList;
 import java.util.List;

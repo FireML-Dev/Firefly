@@ -12,7 +12,11 @@ import uk.firedev.firefly.config.MainConfig;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 public class Database extends SQLiteDatabase {
 

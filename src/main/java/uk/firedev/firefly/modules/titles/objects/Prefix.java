@@ -4,11 +4,10 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-
-import uk.firedev.firefly.Firefly;
-import uk.firedev.firefly.modules.titles.TitleModule;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
+import uk.firedev.firefly.Firefly;
+import uk.firedev.firefly.modules.titles.TitleModule;
 
 public class Prefix implements TitlePart {
 

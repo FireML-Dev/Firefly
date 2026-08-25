@@ -1,10 +1,8 @@
 package uk.firedev.firefly.modules.elevator;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +11,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.PluginManager;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-
 import uk.firedev.daisylib.recipe.AbstractConfigRecipe;
 import uk.firedev.daisylib.recipe.RecipeUtil;
 import uk.firedev.firefly.Firefly;

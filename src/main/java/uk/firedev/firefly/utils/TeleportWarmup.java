@@ -4,9 +4,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jspecify.annotations.NonNull;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.ArrayList;
 import java.util.List;

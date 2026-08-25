@@ -1,6 +1,5 @@
 package uk.firedev.firefly.modules.kit;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
@@ -12,14 +11,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.Module;
-import uk.firedev.firefly.config.MessageConfig;
 import uk.firedev.firefly.config.ModuleConfig;
 import uk.firedev.firefly.modules.kit.command.KitCommand;
 import uk.firedev.firefly.modules.kit.placeholders.KitAvailablePlaceholder;
-import uk.firedev.firefly.placeholders.FireflyPlaceholder;
 import uk.firedev.firefly.placeholders.FireflyPlaceholders;
 
 import java.util.Map;

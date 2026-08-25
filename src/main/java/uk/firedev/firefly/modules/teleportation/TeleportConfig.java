@@ -3,13 +3,11 @@ package uk.firedev.firefly.modules.teleportation;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-
 import uk.firedev.daisylib.config.BasicConfig;
-import uk.firedev.daisylib.config.ConfigBase;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MessageConfig;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 public class TeleportConfig extends BasicConfig {
 

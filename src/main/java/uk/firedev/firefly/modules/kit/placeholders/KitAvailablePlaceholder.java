@@ -1,11 +1,9 @@
 package uk.firedev.firefly.modules.kit.placeholders;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.OfflinePlayer;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.placeholders.IPlaceholder;
-import uk.firedev.firefly.Module;
 import uk.firedev.firefly.modules.kit.Kit;
 import uk.firedev.firefly.modules.kit.KitModule;
 

@@ -14,11 +14,11 @@ import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.List;
 import java.util.Objects;

@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ItemType;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
+import uk.firedev.daisylib.utils.CommonUtils;
 
 public interface TitlePart {
 

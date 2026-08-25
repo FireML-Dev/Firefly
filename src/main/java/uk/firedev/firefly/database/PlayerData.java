@@ -8,19 +8,16 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-
 import uk.firedev.daisylib.logging.Logging;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
+import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.config.MainConfig;
 import uk.firedev.firefly.modules.nickname.NicknameConfig;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
-import uk.firedev.daisylib.messages.message.ComponentSingleMessage;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.time.Instant;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 

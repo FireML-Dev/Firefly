@@ -1,5 +1,6 @@
 package uk.firedev.firefly.modules.kit;
 
+import com.oheers.fish.api.reward.Reward;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.util.Tristate;
@@ -13,8 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
-import uk.firedev.daisylib.addons.reward.Reward;
-import uk.firedev.daisylib.addons.reward.RewardAddonRegistry;
 import uk.firedev.daisylib.messages.replacer.Replacer;
 import uk.firedev.daisylib.utils.CooldownHelper;
 import uk.firedev.firefly.utils.ItemBuilder;

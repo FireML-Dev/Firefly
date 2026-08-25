@@ -2,8 +2,8 @@ package uk.firedev.firefly.modules.teleportation.tpa;
 
 import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 import uk.firedev.daisylib.messages.replacer.Replacer;
+import uk.firedev.firefly.modules.teleportation.TeleportConfig;
 
 import java.util.Map;
 

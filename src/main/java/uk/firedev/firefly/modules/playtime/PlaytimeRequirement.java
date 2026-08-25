@@ -1,29 +1,29 @@
 package uk.firedev.firefly.modules.playtime;
 
+import com.oheers.fish.api.requirement.RequirementContext;
+import com.oheers.fish.api.requirement.RequirementType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
-import uk.firedev.daisylib.addons.requirement.RequirementAddon;
-import uk.firedev.daisylib.addons.requirement.RequirementData;
 import uk.firedev.daisylib.utils.CommonUtils;
 import uk.firedev.firefly.Firefly;
 
 import java.util.List;
 
-public class PlaytimeRequirement extends RequirementAddon {
+public class PlaytimeRequirement extends RequirementType {
 
     @Override
-    public boolean check(@NonNull RequirementData data, @NonNull List<String> values) {
-        Player player = data.player();
+    public boolean checkRequirement(@NonNull RequirementContext context, @NonNull List<String> values) {
+        Player player = context.getPlayer();
         if (player == null) {
             return false;
         }
         for (String value : values) {
-            if (!CommonUtils.isLong(value)) {
+            Long parsed = CommonUtils.getLong(value);
+            if (parsed == null) {
                 return false;
             }
-            long playtimeNeeded = Long.parseLong(value);
-            if (PlaytimeModule.getInstance().getTime(player) >= playtimeNeeded) {
+            if (PlaytimeModule.getInstance().getTime(player) >= parsed) {
                 return true;
             }
         }
@@ -31,7 +31,7 @@ public class PlaytimeRequirement extends RequirementAddon {
     }
 
     @Override
-    public @NonNull String getKey() {
+    public @NonNull String getIdentifier() {
         return "Playtime";
     }
 

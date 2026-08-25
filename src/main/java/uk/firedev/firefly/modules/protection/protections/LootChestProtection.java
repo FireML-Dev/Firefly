@@ -1,20 +1,16 @@
 package uk.firedev.firefly.modules.protection.protections;
 
-import io.papermc.paper.command.brigadier.Commands;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.loot.Lootable;
-import org.jspecify.annotations.NonNull;
-import uk.firedev.firefly.Firefly;
 import uk.firedev.firefly.SubModule;
 import uk.firedev.firefly.modules.protection.ProtectionConfig;
 

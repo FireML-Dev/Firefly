@@ -9,12 +9,12 @@ import org.bukkit.entity.Player;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 import uk.firedev.daisylib.command.CommandUtils;
+import uk.firedev.daisylib.messages.message.ComponentMessage;
 import uk.firedev.firefly.CommandHolder;
 import uk.firedev.firefly.modules.messaging.MessagingConfig;
 import uk.firedev.firefly.modules.messaging.MessagingModule;
 import uk.firedev.firefly.modules.nickname.NicknameModule;
 import uk.firedev.firefly.utils.StringUtils;
-import uk.firedev.daisylib.messages.message.ComponentMessage;
 
 import java.util.List;
 
