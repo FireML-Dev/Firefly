@@ -214,6 +214,20 @@ public class ItemBuilder {
         return this;
     }
 
+    // Glowing
+
+    public ItemBuilder setItemModel(@Nullable String itemModel) {
+        if (itemModel == null) {
+            return this;
+        }
+        NamespacedKey key = NamespacedKey.fromString(itemModel);
+        if (key == null) {
+            return this;
+        }
+        this.item.setData(DataComponentTypes.ITEM_MODEL, key);
+        return this;
+    }
+
     // Amount
 
     public ItemBuilder withAmount(int amount) {
@@ -283,6 +297,7 @@ public class ItemBuilder {
         String itemStr = section.getString("material", section.getString("item-type"));
         ItemStack item = ItemSerializer.get().deserialize(itemStr);
         if (item == null || item.isEmpty()) {
+            Firefly.getInstance().getLogging().warn("Invalid item type: " + itemStr);
             return new ItemBuilder(ItemType.AIR);
         }
         return fromConfigWithBaseItem(item, section, displayReplacer, loreReplacer);
@@ -314,7 +329,8 @@ public class ItemBuilder {
             .setEnchantments(enchants)
             .setUnbreakable(section.getBoolean("unbreakable"))
             .withAmount(section.getInt("amount", 1))
-            .setGlowing(section.getBoolean("glowing"));
+            .setGlowing(section.getBoolean("glowing"))
+            .setItemModel(section.getString("item-model"));
     }
 
     private static ReadOnlyPair<Enchantment, Integer> parseEnchantment(@NonNull String enchantStr) {
