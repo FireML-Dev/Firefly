@@ -52,11 +52,11 @@ paper {
             required = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
-        register("Vault") {
-            required = false
+        register("PlaceholderAPI") {
+            required = true
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
-        register("PlaceholderAPI") {
+        register("Vault") {
             required = false
             load = PaperPluginDescription.RelativeLoadOrder.BEFORE
         }
